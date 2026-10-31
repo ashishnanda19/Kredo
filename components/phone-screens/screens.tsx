@@ -149,7 +149,7 @@ export function DuesListScreen() {
                   <span className="flex items-center gap-[5px]"><Dot c={d.right} /> {d.amt}</span>
                 </p>
               </div>
-              <span className="rounded-full px-[8px] py-[3px] text-[11px] font-bold" style={{ color: d.chipC, background: `${d.chipC}1f` }}>{d.chip}</span>
+              <span className="rounded-full px-[8px] py-[3px] text-[11px] font-bold" style={{ color: d.chipC === A ? "#9a4505" : "#15803d", background: `${d.chipC}1f` }}>{d.chip}</span>
             </li>
           ))}
         </ul>

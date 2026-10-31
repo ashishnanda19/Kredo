@@ -42,13 +42,19 @@ export function FeedCard({ item, dark, lit = true, className }: { item: Item; da
   return (
     <div
       className={cn(
-        "flex w-[248px] items-center gap-3 rounded-[18px] p-3 transition-[opacity,transform,background-color,box-shadow] duration-500 ease-[cubic-bezier(.16,1,.3,1)]",
-        dark ? "bg-white/[.08] text-white ring-1 ring-white/10" : "bg-elevated text-ink shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] ring-1 ring-hairline",
-        lit ? "scale-100 opacity-100" : "scale-[.96] opacity-30",
+        "flex w-[248px] items-center gap-3 rounded-[18px] p-3 transition-[transform,background-color,box-shadow,color] duration-500 ease-[cubic-bezier(.16,1,.3,1)]",
+        // unlit cards are dimmed through surface and colour, not opacity, so their text still meets contrast
+        dark
+          ? lit
+            ? "scale-100 bg-white/[.1] text-white ring-1 ring-white/15"
+            : "scale-[.96] bg-white/[.03] text-white/60 ring-1 ring-white/[.06]"
+          : lit
+            ? "scale-100 bg-elevated text-ink shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] ring-1 ring-hairline"
+            : "scale-[.96] bg-soft text-ink-2 ring-1 ring-hairline",
         className,
       )}
     >
-      <span className="grid size-9 shrink-0 place-items-center rounded-[10px]" style={{ background: `${c}1f`, color: c }}>
+      <span className={cn("grid size-9 shrink-0 place-items-center rounded-[10px] transition-opacity duration-500", !lit && "opacity-35 grayscale")} style={{ background: `${c}1f`, color: c }}>
         <Icon className="size-[18px]" strokeWidth={2.2} aria-hidden />
       </span>
       <span className="min-w-0 flex-1">

@@ -43,7 +43,7 @@ export function CurtainFooter() {
         <nav aria-label="Footer" className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-3 lg:grid-cols-5">
           {t.columns.map((c) => (
             <div key={c.title}>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/45">{c.title}</p>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/60">{c.title}</p>
               <ul className="mt-3 space-y-0.5">
                 {c.links.map((l) => {
                   const href = HREF[l];
@@ -54,7 +54,7 @@ export function CurtainFooter() {
                           {l}
                         </Link>
                       ) : (
-                        <span className="inline-flex min-h-8 items-center text-[14.5px] text-white/40">{l}</span>
+                        <span className="inline-flex min-h-8 items-center text-[14.5px] text-white/55">{l}</span>
                       )}
                     </li>
                   );
@@ -65,7 +65,7 @@ export function CurtainFooter() {
         </nav>
 
         <div className="mt-8">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/45">{t.locationsLabel}</p>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/60">{t.locationsLabel}</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {t.locations.map((l) => (
               <li key={l} className="rounded-full border border-white/15 px-3 py-1 text-[13px] text-white/75">{l}</li>
@@ -91,7 +91,7 @@ export function CurtainFooter() {
               </a>
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <DemoTag />
+              <DemoTag className="border-[#fbbf24]/40 bg-[#fbbf24]/10 text-[#fbbf24]" />
               <span>{COPY.legal.footer}</span>
             </div>
           </div>

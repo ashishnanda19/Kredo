@@ -83,7 +83,7 @@ export function VerifyPanel() {
                   <div><dt className="text-ink-2">Valid till</dt><dd className="font-semibold text-ink">Jun 2028</dd></div>
                 </dl>
               </div>
-              <span className="absolute bottom-2 right-3 text-[9px] font-semibold uppercase tracking-wider text-ink-3">Sample ID</span>
+              <span className="absolute bottom-2 right-3 text-[9px] font-semibold uppercase tracking-wider text-ink-2">Sample ID</span>
             </div>
             <Callout data-c1 tone="ok" className="-right-2 top-[30%] sm:-right-10">{t.callouts.matched}</Callout>
             <Callout data-c2 tone="ok" className="-right-2 top-[48%] sm:-right-6">MATCHED · Name</Callout>
