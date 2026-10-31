@@ -1,0 +1,438 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Light-first system (Flighty-led, Ramp-informed). Dark is used for scenes and as a polished
+ * alternative theme. ONE accent: signal yellow, used as a fill only (never as text on white).
+ * Values mirror lib/theme.ts.
+ *
+ * Legacy token names from the previous build (neon-*, accent-text, glow…) are aliased to the
+ * new semantic values so every screen stays coherent while they are being restyled.
+ */
+:root {
+  --bar-h: 28px; /* announcement bar height (0 when dismissed) */
+
+  /* surfaces */
+  --page: #ffffff;
+  --soft: #f6f5f3;
+  --card: #f3f2f0;
+  --elevated: #ffffff;
+  --hairline: rgba(0, 0, 0, 0.08);
+  --hairline-strong: rgba(0, 0, 0, 0.14);
+  /* ink */
+  --ink: #0b0b0c;
+  --ink-2: #6b6b70; /* secondary text, AA on white */
+  --ink-3: #a1a1a8; /* muted: decorative / non-essential only */
+  /* accent */
+  --accent: #f5d832;
+  --accent-ink: #111111;
+  /* status: *-fill for dots/icons, *-text for readable text */
+  --ok-fill: #22c55e;
+  --bad-fill: #ef4444;
+  --warn-fill: #f59e0b;
+  --info-fill: #2f7df6;
+  --ok-text: #15803d;
+  --bad-text: #dc2626;
+  --warn-text: #b45309;
+  --info-text: #1f5fcc;
+  /* pills */
+  --pill-bg: #0b0b0c;
+  --pill-fg: #ffffff;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lift: 0 10px 40px -8px rgba(0, 0, 0, 0.14);
+  --focus: #2f7df6;
+
+  /* legacy aliases */
+  --background: var(--page);
+  --foreground: var(--ink);
+  --surface: var(--elevated);
+  --surface-2: var(--card);
+  --line: var(--hairline);
+  --muted: var(--ink-2);
+  --accent-fg: var(--accent-ink);
+  --accent-text: var(--ink);
+  --success: var(--ok-text);
+  --warning: var(--warn-text);
+  --danger: var(--bad-text);
+  --neon-violet: var(--ink);
+  --neon-magenta: var(--ink-2);
+  --neon-blue: var(--info-text);
+  --glow: rgba(0, 0, 0, 0.08);
+  --glow-magenta: rgba(0, 0, 0, 0.06);
+
+  --cat-1: #2a78d6;
+  --cat-2: #eb6834;
+  --cat-3: #1baf7a;
+  --cat-4: #eda100;
+  --cat-5: #e87ba4;
+}
+
+.dark {
+  --page: #06060a;
+  --soft: #0b0b12;
+  --card: #101018;
+  --elevated: #14141d;
+  --hairline: rgba(255, 255, 255, 0.1);
+  --hairline-strong: rgba(255, 255, 255, 0.18);
+  --ink: #f5f5f7;
+  --ink-2: #a1a1aa;
+  --ink-3: #6b6b75;
+  --ok-text: #4ade80;
+  --bad-text: #f87171;
+  --warn-text: #fbbf24;
+  --info-text: #7fb0ff;
+  --pill-bg: #ffffff;
+  --pill-fg: #0b0b0c;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lift: 0 10px 40px -8px rgba(0, 0, 0, 0.7);
+  --glow: rgba(255, 255, 255, 0.08);
+  --glow-magenta: rgba(255, 255, 255, 0.06);
+
+  --cat-1: #3987e5;
+  --cat-2: #d95926;
+  --cat-3: #199e70;
+  --cat-4: #c98500;
+  --cat-5: #d55181;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-soft: var(--soft);
+  --color-card: var(--card);
+  --color-elevated: var(--elevated);
+  --color-hairline: var(--hairline);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-ok: var(--ok-fill);
+  --color-bad: var(--bad-fill);
+  --color-warn: var(--warn-fill);
+  --color-info: var(--info-fill);
+  --color-ok-text: var(--ok-text);
+  --color-bad-text: var(--bad-text);
+  --color-warn-text: var(--warn-text);
+  --color-info-text: var(--info-text);
+  --color-pill: var(--pill-bg);
+  --color-pill-fg: var(--pill-fg);
+
+  /* legacy names (kept so existing screens keep working) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-text: var(--accent-text);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-neon-violet: var(--neon-violet);
+  --color-neon-magenta: var(--neon-magenta);
+  --color-neon-blue: var(--neon-blue);
+  --color-accent-soft: color-mix(in oklab, var(--accent) 28%, transparent);
+  --color-success-soft: color-mix(in oklab, var(--ok-fill) 14%, transparent);
+  --color-warning-soft: color-mix(in oklab, var(--warn-fill) 16%, transparent);
+  --color-danger-soft: color-mix(in oklab, var(--bad-fill) 12%, transparent);
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 0.875rem; /* 14 */
+  --radius-bento: 1rem; /* 16 */
+  --radius-tall: 1.5rem; /* 24 */
+  --radius-hero: 1.5rem;
+
+  --shadow-soft: var(--shadow);
+  --shadow-lift: var(--shadow-lift);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-scan: scan 2.4s ease-in-out infinite;
+}
+
+@keyframes ghost-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -28px, 0); }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes scan {
+  0%,
+  100% {
+    top: 4%;
+  }
+  50% {
+    top: 94%;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes line-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes acc-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes acc-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@keyframes sweep {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--hairline);
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 6rem;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  html[data-bar="closed"] {
+    --bar-h: 0px;
+  }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    padding-top: var(--bar-h);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  button,
+  [role="button"],
+  a {
+    touch-action: manipulation;
+  }
+}
+
+@layer utilities {
+  /* legacy: primary fill now = black pill (light) / white pill (dark) */
+  .gradient-neon {
+    background: var(--pill-bg);
+    color: var(--pill-fg);
+  }
+  /* legacy: "gradient" headline word now = grey second clause (Ramp two-tone) */
+  .gradient-text {
+    color: var(--ink-2);
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  /* CSS-only entrance (paints without JS) */
+  .anim-rise {
+    animation: rise 0.7s var(--ease-out) both;
+    animation-delay: var(--d, 0s);
+  }
+  .anim-line {
+    animation: line-up 0.8s var(--ease-out) both;
+    animation-delay: var(--d, 0s);
+  }
+  /* Ramp-style faint dotted grid */
+  .dot-grid {
+    background-image: radial-gradient(color-mix(in oklab, var(--ink) 10%, transparent) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .edge-fade-x {
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+}
+
+/* Surfaces. Named "glass" for API compatibility; now light cards with hairlines and soft shadows. */
+@layer components {
+  .glass {
+    position: relative;
+    background: var(--elevated);
+    border: 1px solid var(--hairline);
+    box-shadow: var(--shadow);
+  }
+  .glass-soft {
+    background: var(--card);
+    box-shadow: none;
+  }
+  .glass-strong {
+    background: var(--elevated);
+    box-shadow: var(--shadow-lift);
+  }
+  .glass-glow-violet,
+  .glass-glow-magenta {
+    box-shadow: var(--shadow-lift);
+  }
+  .glass-hover {
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  }
+  @media (hover: hover) {
+    .glass-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lift);
+    }
+  }
+  /* frosted floating surfaces (nav pill, sheets) */
+  .frost {
+    background: color-mix(in oklab, var(--page) 78%, transparent);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--hairline);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .frost {
+      background: var(--page);
+    }
+  }
+  /* hover light sweep on buttons */
+  .sweep {
+    overflow: hidden;
+  }
+  .sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: translateX(-120%) skewX(-18deg);
+    pointer-events: none;
+  }
+  @media (hover: hover) {
+    .sweep:hover::after {
+      animation: sweep 0.7s var(--ease-out);
+    }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .frost {
+    background: var(--page);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    padding-top: 0 !important;
+  }
+  .glass,
+  .glass *,
+  .frost {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+  .text-muted {
+    color: #444 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
