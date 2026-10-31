@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import type { Tier } from "@/lib/theme";
 import { ScoreGauge3D } from "./score-gauge-3d";
 
@@ -29,11 +28,6 @@ export default function GaugeCanvas({ value, tier, active, onFirstFrame }: { val
     >
       <ScoreGauge3D value={value} />
       <FirstFrame onFirstFrame={onFirstFrame} />
-      {tier === "high" && (
-        <EffectComposer multisampling={0}>
-          <Bloom intensity={0.8} luminanceThreshold={0.85} luminanceSmoothing={0.2} mipmapBlur radius={0.6} />
-        </EffectComposer>
-      )}
     </Canvas>
   );
 }

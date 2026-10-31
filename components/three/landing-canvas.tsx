@@ -3,8 +3,7 @@
 import { useRef, useState, useSyncExternalStore } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { PerformanceMonitor } from "@react-three/drei";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { damp } from "maath/easing";
+import { damp } from "./damp";
 import * as THREE from "three";
 import { cardRig, gaugeValue } from "@/components/landing/scenes/card-rig";
 import { student } from "@/lib/mock-data";
@@ -86,8 +85,7 @@ interface LandingCanvasProps {
  * Performance guard: PerformanceMonitor drops bloom first, then lowers the pixel ratio.
  */
 export default function LandingCanvas({ tier, active, onFirstFrame }: LandingCanvasProps) {
-  const [level, setLevel] = useState(0); // 0 = full, 1 = no bloom, 2 = no bloom + dpr 1
-  const bloom = tier === "high" && level === 0;
+  const [level, setLevel] = useState(0); // 2 = dpr capped at 1
   const dprMax = level >= 2 ? 1 : tier === "high" ? 2 : 1.5;
 
   return (
@@ -108,11 +106,6 @@ export default function LandingCanvas({ tier, active, onFirstFrame }: LandingCan
         <NeonEnv tier={tier} />
         <RigCard tier={tier} onFirstFrame={onFirstFrame} />
         <LandingGauge />
-        {bloom && (
-          <EffectComposer multisampling={0}>
-            <Bloom intensity={0.75} luminanceThreshold={0.9} luminanceSmoothing={0.2} mipmapBlur radius={0.6} />
-          </EffectComposer>
-        )}
       </Canvas>
     </div>
   );
