@@ -121,13 +121,26 @@ export const LANDING = {
     toast: { title: "Receipt added for ₹120 at Campus Cafe.", body: "Your payment is complete." },
   },
 
-  vendors: { titleA: "Your campus, already on it.", titleB: "Vendors near you that accept us (placeholders).", cta: "Become a partner", open: "Open", closed: "Closed" },
+  vendors: { titleA: "Your campus, already on it.", titleB: "Vendors near you that accept us (sample list).", cta: "Become a partner", open: "Open", closed: "Closed", sampleTime: "Open or closed at 7:30 pm, sample data." },
 
   passport: { titleA: "Look back on how you built your score.", titleB: "Every on-time repayment, on one page.", disclaimer: "Internal score, not a credit bureau score. It does not replace your CIBIL or other bureau score." },
 
-  voices: { titleA: "Voices from campus.", titleB: "Sample, replace with real survey quotes.", label: "Sample, replace with real survey quotes" },
+  voices: {
+    titleA: "Voices from campus.",
+    titleB: "Sample quotes, to be replaced with real survey answers.",
+    label: "Sample, replace with real survey quotes",
+    tag: "Sample",
+    quotes: [
+      { q: "Last week of the month and the mess bill is due. This is the bit I need help with.", who: "2nd-year, engineering" },
+      { q: "I want to see the total I owe before I tap anything. No surprises.", who: "1st-year, commerce" },
+      { q: "Reminders the day before would honestly save me.", who: "3rd-year, design" },
+      { q: "Xerox before every exam adds up. Small amounts, but every week.", who: "2nd-year, law" },
+      { q: "If my limit grows when I repay on time, I'd actually care about repaying on time.", who: "Final year, science" },
+      { q: "Tell me who the lender is. I want to know who I'm dealing with.", who: "1st-year, arts" },
+    ],
+  },
 
-  ending: { title: "Have a nice semester!", cta: "Get early access", sub: "Works in your browser on phone, laptop and tablet. No app to install." },
+  ending: { flatAlt: "Several phones on a desk showing the app's screens", title: "Have a nice semester!", cta: "Get early access", sub: "Works in your browser on phone, laptop and tablet. No app to install." },
 
   footer: {
     curtainTitle: "Pay at campus. Settle later.",
@@ -140,5 +153,7 @@ export const LANDING = {
     ],
     locations: ["Pune", "Bengaluru", "Delhi", "Mumbai", "Hyderabad", "Chennai", "Kolkata"],
     waitlist: "Joining the waitlist does not guarantee access.",
+    locationsLabel: "Campus cities on our list (placeholder)",
+    placeholder: "placeholder",
   },
 } as const;

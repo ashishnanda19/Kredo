@@ -424,6 +424,14 @@
   }
 }
 
+/* curtain footer: only where the whole footer fits in the viewport */
+@media (min-width: 768px) and (min-height: 780px) {
+  .curtain {
+    position: sticky;
+    bottom: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
