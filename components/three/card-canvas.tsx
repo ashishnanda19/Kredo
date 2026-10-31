@@ -2,7 +2,7 @@
 
 import { useRef, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { damp } from "maath/easing";
+import { damp } from "./damp";
 import type { Tier } from "@/lib/theme";
 import { CARD_W } from "./card-textures";
 import { CreditCardMesh, type CardMeshHandle } from "./credit-card-mesh";
