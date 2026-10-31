@@ -71,7 +71,7 @@ export const LANDING = {
 
   access: { title: "Get early access", sub: "Tell us your college email. We'll let you know when we reach your campus.", placeholder: "Your college email", button: "Join early access", consent: "We only use your email to tell you about early access. No spam. Joining the waitlist does not guarantee access.", done: "You're on the list. W.", doneSub: "(Preview only, nothing was sent.)" },
 
-  partners: { eyebrow: "Campus partners", title: "Coming to colleges and the vendors students already use.", tile: "Placeholder", note: "Placeholder tiles. Real partners only with their permission." },
+  partners: { eyebrow: "Campus vendors", title: "Built for the chai stalls, canteens and xerox shops students already use.", tag: "Illustrative", note: "Illustrative only: vendor names are fictional and none of these businesses is a partner. Photos of real Indian vendors from Wikimedia Commons.", credits: "Photo credits", resized: "resized" },
 
   dark: {
     title: "Everything you need to know about your limit — and more.",
