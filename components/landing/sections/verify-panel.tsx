@@ -8,7 +8,7 @@ import { COPY } from "@/lib/copy";
 import { formatINR } from "@/lib/format";
 import { student } from "@/lib/mock-data";
 import { gsap } from "@/lib/scroll";
-import { useGsapScene } from "../scenes/use-gsap-scene";
+import { useGsapScene } from "./use-gsap-scene";
 import { TwoTone } from "./two-tone";
 
 function Callout({ tone, children, className, ...rest }: { tone: "ok" | "warn" | "ink"; children: React.ReactNode; className?: string } & React.HTMLAttributes<HTMLSpanElement>) {

@@ -22,7 +22,7 @@ export const CATEGORY_COLOR: Record<Category, string> = {
 export function CategoryIcon({ category, className }: { category: Category; className?: string }) {
   const Icon = CATEGORY_ICON[category];
   return (
-    <span aria-hidden className={cn("grid size-11 shrink-0 place-items-center rounded-2xl bg-surface-2 text-accent-text", className)}>
+    <span aria-hidden className={cn("grid size-11 shrink-0 place-items-center rounded-2xl bg-card text-ink", className)}>
       <Icon className="size-5" />
     </span>
   );

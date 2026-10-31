@@ -51,7 +51,7 @@ export function DataRights() {
       <div className="space-y-4">
         <GlassCard radius="lg" className="p-5" role="region" aria-label={T.notices}>
           <h2 className="text-base font-bold">{T.notices}</h2>
-          <ul className="mt-2 space-y-1 text-sm font-bold text-neon-blue">
+          <ul className="mt-2 space-y-1 text-sm font-bold text-info-text">
             <li>
               <Link href="/legal/privacy">Privacy notice, version {VERSIONS.privacy}</Link>
             </li>
@@ -66,7 +66,7 @@ export function DataRights() {
 
         <GlassCard radius="lg" className="p-5" role="region" aria-label={T.consents}>
           <h2 className="text-base font-bold">{T.consents}</h2>
-          <p className="text-sm text-muted">Change your mind any time. We will explain what changes before you confirm.</p>
+          <p className="text-sm text-ink-2">Change your mind any time. We will explain what changes before you confirm.</p>
           <ConsentToggles />
         </GlassCard>
 
@@ -111,14 +111,14 @@ export function DataRights() {
           ) : requests.length === 0 ? (
             <EmptyState title="Nothing here yet" body={T.noRequests} />
           ) : (
-            <ul className="divide-y divide-foreground/10">
+            <ul className="divide-y divide-ink/10">
               {requests.map((r) => (
                 <li key={r.ref} className="flex items-center justify-between gap-3 py-3 text-sm">
                   <div className="min-w-0">
                     <p className="flex items-center gap-2 font-bold">
-                      <FileSearch className="size-4 text-neon-violet" aria-hidden /> <span className="font-mono">{r.ref}</span>
+                      <FileSearch className="size-4 text-ink" aria-hidden /> <span className="font-mono">{r.ref}</span>
                     </p>
-                    <p className="truncate text-xs text-muted">
+                    <p className="truncate text-xs text-ink-2">
                       {r.type.replace("_", " ")} · {formatDate(r.at)}
                     </p>
                   </div>

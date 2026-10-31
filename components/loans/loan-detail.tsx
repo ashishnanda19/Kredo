@@ -39,11 +39,11 @@ export function LoanDetail({ id }: { id: string }) {
     <div className="mx-auto max-w-3xl">
       <PageHeader title={loan.product} subtitle={`${loan.id} · ${loan.lender}`} />
       <div className="space-y-5">
-        <GlassCard radius="xl" strength="strong" glow="violet" className="flex flex-wrap items-center justify-between gap-3 p-5">
+        <GlassCard radius="xl" strength="strong" className="flex flex-wrap items-center justify-between gap-3 p-5">
           <div>
-            <p className="text-sm text-muted">Borrowed</p>
+            <p className="text-sm text-ink-2">Borrowed</p>
             <p className="text-2xl font-extrabold tabular-nums">{formatINR(loan.principal)}</p>
-            <p className="text-xs text-muted">
+            <p className="text-xs text-ink-2">
               {loan.tenure} monthly instalments · started {formatDate(loan.disbursedOn)}
             </p>
           </div>
@@ -59,10 +59,10 @@ export function LoanDetail({ id }: { id: string }) {
 
         <GlassCard radius="lg" className="p-5" role="region" aria-label={T.acceptance}>
           <h2 className="mb-2 text-base font-bold">{T.acceptance}</h2>
-          <dl className="divide-y divide-foreground/10 text-sm">
-            <div className="flex justify-between gap-3 py-2.5"><dt className="text-muted">Accepted on</dt><dd className="font-semibold">{formatDate(loan.acceptance.at)}</dd></div>
-            <div className="flex justify-between gap-3 py-2.5"><dt className="text-muted">Offer version</dt><dd className="font-mono font-semibold">{loan.acceptance.offerVersion}</dd></div>
-            <div className="flex justify-between gap-3 py-2.5"><dt className="text-muted">Terms version</dt><dd className="font-mono font-semibold">{loan.acceptance.termsVersion}</dd></div>
+          <dl className="divide-y divide-ink/10 text-sm">
+            <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">Accepted on</dt><dd className="font-semibold">{formatDate(loan.acceptance.at)}</dd></div>
+            <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">Offer version</dt><dd className="font-mono font-semibold">{loan.acceptance.offerVersion}</dd></div>
+            <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">Terms version</dt><dd className="font-mono font-semibold">{loan.acceptance.termsVersion}</dd></div>
           </dl>
         </GlassCard>
 

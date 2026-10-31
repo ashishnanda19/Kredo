@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useInView } from "framer-motion";
 import { CircleCheck, CircleMinus, CircleX, Info, Loader2, ShieldAlert } from "lucide-react";
 import { Field } from "@/components/forms/field";
 import { GlassSelect, GlassTextarea } from "@/components/forms/select";
@@ -14,31 +12,16 @@ import { GlassButton, GlassCard } from "@/components/glass";
 import { ReferenceNumber } from "@/components/portal/mask";
 import { StatusPill } from "@/components/portal/status-chip";
 import { ScoreGauge } from "@/components/shared/score-gauge";
-import { ScoreRingOverlay } from "@/components/shared/score-ring-overlay";
 import { EmptyState } from "@/components/shared/states";
 import { COPY } from "@/lib/copy";
 import { formatDate } from "@/lib/format";
 import { CREDIT_PROFILE } from "@/lib/mock-data";
-import { useGlTier } from "@/lib/quality";
 import { useStore } from "@/lib/store/store";
 import { PageHeader } from "./header";
 
-const GaugeCanvas = dynamic(() => import("@/components/three/gauge-canvas"), { ssr: false });
 const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE === "true";
 const T = COPY.credit;
 
-let gl: boolean | null = null;
-const supportsGL = () => {
-  if (gl === null) {
-    try {
-      const c = document.createElement("canvas");
-      gl = !!(c.getContext("webgl2") || c.getContext("webgl"));
-    } catch {
-      gl = false;
-    }
-  }
-  return gl;
-};
 
 const schema = z.object({
   record: z.string().min(1, "Choose the record."),
@@ -47,25 +30,10 @@ const schema = z.object({
 type Values = z.infer<typeof schema>;
 
 function Gauge({ value }: { value: number }) {
-  const tier = useGlTier();
-  const t = tier === "pending" ? "low" : tier;
-  const stage = useRef<HTMLDivElement>(null);
-  const inView = useInView(stage, { margin: "120px" });
-  const [ready, setReady] = useState(false);
-  const useGl = tier !== "pending" && t !== "low" && typeof window !== "undefined" && supportsGL();
-  return (
-    <div ref={stage} className="relative mx-auto aspect-square w-full max-w-[260px]">
-      {useGl && ready ? <ScoreRingOverlay value={value} /> : <div className="grid size-full place-items-center"><ScoreGauge value={value} className="w-full" /></div>}
-      {useGl && (
-        <div aria-hidden className={ready ? "absolute inset-0" : "pointer-events-none absolute inset-0 opacity-0"}>
-          <GaugeCanvas value={value} tier={t} active={inView} onFirstFrame={() => setReady(true)} />
-        </div>
-      )}
-    </div>
-  );
+  return <ScoreGauge value={value} className="mx-auto w-full max-w-[260px]" />;
 }
 
-const EFFECT = { positive: { icon: CircleCheck, cls: "text-success", word: "Helping" }, neutral: { icon: CircleMinus, cls: "text-muted", word: "Neutral" }, negative: { icon: CircleX, cls: "text-warning", word: "Holding back" } } as const;
+const EFFECT = { positive: { icon: CircleCheck, cls: "text-ok-text", word: "Helping" }, neutral: { icon: CircleMinus, cls: "text-ink-2", word: "Neutral" }, negative: { icon: CircleX, cls: "text-warn-text", word: "Holding back" } } as const;
 
 export function CreditProfile() {
   const verified = useStore((s) => s.verification.status === "accepted");
@@ -95,14 +63,14 @@ export function CreditProfile() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-warning-soft px-3 py-1 text-xs font-bold text-warning" role="note">
+      <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-warning-soft px-3 py-1 text-xs font-bold text-warn-text" role="note">
         <span aria-hidden className="size-1.5 rounded-full bg-current" /> {T.ribbon}
       </div>
       <PageHeader title={T.title} />
 
       {/* permanent notice: the internal score is not a bureau score */}
-      <p role="note" className="mb-4 flex items-start gap-2 rounded-2xl border border-foreground/20 bg-foreground/[0.07] px-4 py-3 text-sm font-semibold">
-        <ShieldAlert className="mt-0.5 size-4 shrink-0 text-neon-blue" aria-hidden /> {T.notice}
+      <p role="note" className="mb-4 flex items-start gap-2 rounded-2xl border border-ink/20 bg-ink/[0.07] px-4 py-3 text-sm font-semibold">
+        <ShieldAlert className="mt-0.5 size-4 shrink-0 text-info-text" aria-hidden /> {T.notice}
       </p>
 
       {!available ? (
@@ -111,8 +79,8 @@ export function CreditProfile() {
         </GlassCard>
       ) : (
         <div className="space-y-5">
-          <GlassCard radius="xl" strength="strong" glow="violet" className="p-5 sm:p-6" role="region" aria-label={T.gaugeLabel}>
-            <h2 className="flex items-center gap-1.5 text-base font-bold"><Info className="size-4 text-neon-blue" aria-hidden /> {T.gaugeLabel}</h2>
+          <GlassCard radius="xl" strength="strong" className="p-5 sm:p-6" role="region" aria-label={T.gaugeLabel}>
+            <h2 className="flex items-center gap-1.5 text-base font-bold"><Info className="size-4 text-info-text" aria-hidden /> {T.gaugeLabel}</h2>
             <Gauge value={CREDIT_PROFILE.score} />
           </GlassCard>
 
@@ -123,10 +91,10 @@ export function CreditProfile() {
                 const e = EFFECT[f.effect];
                 return (
                   <li key={f.id} className="glass glass-soft flex items-start gap-3 rounded-2xl p-3">
-                    <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-foreground/10 text-xs font-extrabold">{i + 1}</span>
+                    <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-ink/10 text-xs font-extrabold">{i + 1}</span>
                     <div className="min-w-0">
                       <p className="flex flex-wrap items-center gap-2 text-sm font-bold">{f.title} <span className={`inline-flex items-center gap-1 text-xs ${e.cls}`}><e.icon className="size-3.5" aria-hidden />{e.word}</span></p>
-                      <p className="text-sm text-muted">{f.why}</p>
+                      <p className="text-sm text-ink-2">{f.why}</p>
                     </div>
                   </li>
                 );
@@ -136,12 +104,12 @@ export function CreditProfile() {
 
           <GlassCard radius="lg" className="p-5" role="region" aria-label={T.history}>
             <h2 className="mb-3 text-base font-bold">{T.history}</h2>
-            <ol className="space-y-3 border-l border-foreground/20 pl-4">
+            <ol className="space-y-3 border-l border-ink/20 pl-4">
               {CREDIT_PROFILE.history.map((h) => (
                 <li key={h.id} className="relative text-sm">
-                  <span aria-hidden className={`absolute -left-[1.4rem] top-1.5 size-2.5 rounded-full ${h.ok ? "bg-success" : "bg-warning"}`} />
+                  <span aria-hidden className={`absolute -left-[1.4rem] top-1.5 size-2.5 rounded-full ${h.ok ? "bg-ok" : "bg-warn"}`} />
                   <p className="font-semibold">{h.text}</p>
-                  <p className="text-xs text-muted">{formatDate(h.date)}</p>
+                  <p className="text-xs text-ink-2">{formatDate(h.date)}</p>
                 </li>
               ))}
             </ol>
@@ -165,7 +133,7 @@ export function CreditProfile() {
               {created && <div role="status" className="space-y-2 rounded-2xl bg-success-soft px-4 py-3 text-sm"><p>{T.sent(created)}</p><ReferenceNumber value={created} label="Request" /></div>}
             </form>
             {requests.length > 0 && (
-              <ul className="mt-4 divide-y divide-foreground/10">
+              <ul className="mt-4 divide-y divide-ink/10">
                 {requests.map((r) => (
                   <li key={r.ref} className="flex items-center justify-between gap-3 py-2.5 text-sm"><span className="font-mono font-bold">{r.ref}</span><StatusPill kind="request" value={r.status} /></li>
                 ))}

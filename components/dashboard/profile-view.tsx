@@ -43,7 +43,7 @@ function Panel({ title, children, id }: { title: string; children: React.ReactNo
 function ReadOnly({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2.5 text-sm">
-      <dt className="flex items-center gap-1.5 text-muted">
+      <dt className="flex items-center gap-1.5 text-ink-2">
         <LockKeyhole className="size-3.5" aria-hidden /> {label}
       </dt>
       <dd className="text-right font-semibold">{children}</dd>
@@ -56,7 +56,7 @@ function Toggle({ id, label, hint, checked, onChange }: { id: string; label: str
     <div className="flex min-h-14 items-center gap-3 py-2">
       <label htmlFor={id} className="min-w-0 flex-1 cursor-pointer">
         <span className="block text-[15px] font-bold">{label}</span>
-        <span className="block text-sm text-muted">{hint}</span>
+        <span className="block text-sm text-ink-2">{hint}</span>
       </label>
       <Switch id={id} checked={checked} onCheckedChange={onChange} />
     </div>
@@ -97,11 +97,11 @@ export function ProfileView() {
       <PageHeader title={t.title} />
 
       <div className="space-y-4">
-        <GlassCard radius="xl" strength="strong" glow="violet" className="flex items-center gap-4 p-5">
+        <GlassCard radius="xl" strength="strong" className="flex items-center gap-4 p-5">
           <Avatar size={64} />
           <div className="min-w-0">
             <h2 className="truncate text-xl font-extrabold tracking-tight">{profile.displayName}</h2>
-            <p className="truncate text-sm text-muted">{sum?.college ?? "College not added yet"}</p>
+            <p className="truncate text-sm text-ink-2">{sum?.college ?? "College not added yet"}</p>
             <div className="mt-2 flex flex-wrap gap-1.5">
               <StatusPill kind="verification" value={verification.status} />
               <StatusPill kind="kyc" value={kyc.status} />
@@ -110,14 +110,14 @@ export function ProfileView() {
         </GlassCard>
 
         <Panel title={t.personal}>
-          <dl className="divide-y divide-foreground/10">
+          <dl className="divide-y divide-ink/10">
             <ReadOnly label="Mobile">{mobile ? <MaskedValue value={mobile} label="Mobile number" /> : "Not set"}</ReadOnly>
-            <ReadOnly label="Full name">{sum?.fullName ?? <span className="text-muted">Added at verification</span>}</ReadOnly>
-            <ReadOnly label="College">{sum?.college ?? <span className="text-muted">Added at verification</span>}</ReadOnly>
-            <ReadOnly label="Course">{sum ? `${sum.course}, ${sum.year}` : <span className="text-muted">Added at verification</span>}</ReadOnly>
-            <ReadOnly label="College ID">{sum ? <MaskedValue value={sum.idMasked} label="College ID" /> : <span className="text-muted">Added at verification</span>}</ReadOnly>
+            <ReadOnly label="Full name">{sum?.fullName ?? <span className="text-ink-2">Added at verification</span>}</ReadOnly>
+            <ReadOnly label="College">{sum?.college ?? <span className="text-ink-2">Added at verification</span>}</ReadOnly>
+            <ReadOnly label="Course">{sum ? `${sum.course}, ${sum.year}` : <span className="text-ink-2">Added at verification</span>}</ReadOnly>
+            <ReadOnly label="College ID">{sum ? <MaskedValue value={sum.idMasked} label="College ID" /> : <span className="text-ink-2">Added at verification</span>}</ReadOnly>
           </dl>
-          <p className="mt-2 text-xs text-muted">{verified ? t.lockedWhy : "These fields are filled from your verification and become read-only once it is accepted."}</p>
+          <p className="mt-2 text-xs text-ink-2">{verified ? t.lockedWhy : "These fields are filled from your verification and become read-only once it is accepted."}</p>
           {verified && (
             <GlassButton asChild variant="soft" size="sm" className="mt-3">
               <Link href="/dashboard/profile/privacy#correction">Request a correction</Link>
@@ -139,7 +139,7 @@ export function ProfileView() {
             </Field>
             <fieldset>
               <legend className="mb-1 text-sm font-semibold">{t.notifications}</legend>
-              <div className="divide-y divide-foreground/10">
+              <div className="divide-y divide-ink/10">
                 <Toggle id="n-sms" label="SMS" hint="Reminders and codes" checked={notif.sms} onChange={(v) => setNotif({ ...notif, sms: v })} />
                 <Toggle id="n-email" label="Email" hint="Receipts and statements" checked={notif.email} onChange={(v) => setNotif({ ...notif, email: v })} />
                 <Toggle id="n-push" label="In-app" hint="Due date reminders" checked={notif.push} onChange={(v) => setNotif({ ...notif, push: v })} />
@@ -150,7 +150,7 @@ export function ProfileView() {
                 {isSubmitting ? "Saving…" : t.save}
               </GlassButton>
               {saved && (
-                <span role="status" className="text-sm font-semibold text-success">
+                <span role="status" className="text-sm font-semibold text-ok-text">
                   {t.saved}
                 </span>
               )}
@@ -159,14 +159,14 @@ export function ProfileView() {
         </Panel>
 
         <Panel title={t.consents}>
-          <p className="mb-2 text-sm text-muted">{t.consentsBody}</p>
-          <ul className="divide-y divide-foreground/10">
+          <p className="mb-2 text-sm text-ink-2">{t.consentsBody}</p>
+          <ul className="divide-y divide-ink/10">
             {CONSENT_PURPOSES.map((c) => {
               const r = consents[c.id];
               return (
                 <li key={c.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
                   <span className="font-semibold">{c.title}</span>
-                  <span className="text-right text-xs text-muted">{r ? `${r.granted ? "Given" : "Withdrawn"} ${formatDate(r.at)}, notice ${r.version}` : "Not given yet"}</span>
+                  <span className="text-right text-xs text-ink-2">{r ? `${r.granted ? "Given" : "Withdrawn"} ${formatDate(r.at)}, notice ${r.version}` : "Not given yet"}</span>
                 </li>
               );
             })}
@@ -185,21 +185,21 @@ export function ProfileView() {
             </ProgressRing>
             <dl className="flex-1 space-y-1.5 text-sm">
               <div className="flex justify-between">
-                <dt className="flex items-center gap-1 text-muted">
+                <dt className="flex items-center gap-1 text-ink-2">
                   Total limit <InfoTip text="The most you can have outstanding at once." />
                 </dt>
                 <dd className="font-bold tabular-nums">{formatINR(student.limit)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-muted">Used</dt>
+                <dt className="text-ink-2">Used</dt>
                 <dd className="font-bold tabular-nums">{formatINR(student.used)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-muted">Available</dt>
+                <dt className="text-ink-2">Available</dt>
                 <dd className="font-bold tabular-nums">{formatINR(available)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-muted">Next review</dt>
+                <dt className="text-ink-2">Next review</dt>
                 <dd className="font-bold">{formatDate(student.nextReview)}</dd>
               </div>
             </dl>
@@ -207,13 +207,13 @@ export function ProfileView() {
           <GlassButton variant="soft" className="mt-4 w-full" onClick={() => setIncreaseOpen(true)}>
             <TrendingUp className="size-4" aria-hidden /> {COPY.dashboard.quick.increase}
           </GlassButton>
-          <p className="mt-2 text-xs text-muted">Limits are decided by our lending partner and aren&rsquo;t guaranteed.</p>
+          <p className="mt-2 text-xs text-ink-2">Limits are decided by our lending partner and aren&rsquo;t guaranteed.</p>
         </Panel>
 
         <Panel title="Display and help">
-          <div className="divide-y divide-foreground/10">
+          <div className="divide-y divide-ink/10">
             <div className="flex min-h-14 items-center gap-3 py-2">
-              <Moon className="size-5 text-neon-violet" aria-hidden />
+              <Moon className="size-5 text-ink" aria-hidden />
               <label htmlFor="s-dark" className="flex-1 text-[15px] font-bold">
                 {t.dark.label}
               </label>
@@ -224,9 +224,9 @@ export function ProfileView() {
               { icon: ShieldAlert, label: t.grievance, href: `mailto:${GRIEVANCE.email}` },
             ].map((l) => (
               <Link key={l.label} href={l.href} className="flex min-h-14 items-center gap-3">
-                <l.icon className="size-5 text-neon-violet" aria-hidden />
+                <l.icon className="size-5 text-ink" aria-hidden />
                 <span className="flex-1 text-[15px] font-bold">{l.label}</span>
-                <ChevronRight className="size-5 text-muted" aria-hidden />
+                <ChevronRight className="size-5 text-ink-2" aria-hidden />
               </Link>
             ))}
           </div>
@@ -245,11 +245,11 @@ export function ProfileView() {
         </GlassButton>
         <div className="space-y-1 pb-2 text-center">
           <Disclosure className="justify-center" />
-          <p className="text-xs text-muted">
+          <p className="text-xs text-ink-2">
             {BRAND.name} is not a bank or lender. Member since {student.memberSince}. {COPY.legal.demoTag}.
           </p>
           {verified && (
-            <p className="flex items-center justify-center gap-1 text-xs text-success">
+            <p className="flex items-center justify-center gap-1 text-xs text-ok-text">
               <BadgeCheck className="size-3.5" aria-hidden /> Student status verified
             </p>
           )}

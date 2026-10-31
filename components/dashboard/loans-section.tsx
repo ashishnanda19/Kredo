@@ -32,17 +32,17 @@ export function LoansSection({ loans }: { loans: Loan[] }) {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <h3 className="font-bold">{l.title}</h3>
-                      <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted">
+                      <p className="mt-0.5 flex items-center gap-1.5 text-sm text-ink-2">
                         <CalendarClock className="size-4" aria-hidden /> Due {formatDate(l.dueDate)} · {left} days
                       </p>
                     </div>
                     <p className="text-right">
-                      <span className="block text-xs text-muted">Remaining</span>
+                      <span className="block text-xs text-ink-2">Remaining</span>
                       <span className="text-lg font-extrabold tabular-nums">{formatINR(remaining)}</span>
                     </p>
                   </div>
                   <Progress value={pct} label={`${l.title}: ${Math.round(pct)} percent repaid`} className="mt-4" />
-                  <div className="mt-2 flex justify-between text-xs text-muted">
+                  <div className="mt-2 flex justify-between text-xs text-ink-2">
                     <span>Repaid {formatINR(l.repaid)}</span>
                     <span>Total {formatINR(l.total)}</span>
                   </div>

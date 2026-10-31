@@ -17,10 +17,10 @@ const ICON = { upi: Smartphone, netbanking: Landmark, card: CreditCard } as cons
 type Phase = "choose" | "checkout" | "processing" | "result";
 
 const RESULT_ICON: Record<PayState, React.ReactNode> = {
-  successful: <CheckCircle2 className="mx-auto size-14 text-success" aria-hidden />,
-  pending: <Clock className="mx-auto size-14 text-warning" aria-hidden />,
-  failed: <AlertTriangle className="mx-auto size-14 text-danger" aria-hidden />,
-  reversed: <Undo2 className="mx-auto size-14 text-neon-blue" aria-hidden />,
+  successful: <CheckCircle2 className="mx-auto size-14 text-ok-text" aria-hidden />,
+  pending: <Clock className="mx-auto size-14 text-warn-text" aria-hidden />,
+  failed: <AlertTriangle className="mx-auto size-14 text-bad-text" aria-hidden />,
+  reversed: <Undo2 className="mx-auto size-14 text-info-text" aria-hidden />,
 };
 
 function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
@@ -31,7 +31,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
   const [method, setMethod] = useState<"upi" | "netbanking" | "card">("upi");
   const [result, setResult] = useState<PayState | null>(null);
 
-  if (!inst) return <p className="py-6 text-center text-muted">Nothing is due on this loan.</p>;
+  if (!inst) return <p className="py-6 text-center text-ink-2">Nothing is due on this loan.</p>;
   const amount = inst.amount;
   const label = T.methods.find((m) => m.id === method)!.label;
 
@@ -56,10 +56,10 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
       {phase === "choose" && (
         <>
           <GlassSheetTitle className="text-xl font-extrabold">{T.repayTitle}</GlassSheetTitle>
-          <GlassSheetDescription className="mt-1 text-sm text-muted">
+          <GlassSheetDescription className="mt-1 text-sm text-ink-2">
             {loan.product}, instalment {inst.n} of {loan.tenure}
           </GlassSheetDescription>
-          <dl className="mt-4 divide-y divide-foreground/10 rounded-[20px] bg-foreground/[0.06] px-4">
+          <dl className="mt-4 divide-y divide-ink/10 rounded-[20px] bg-ink/[0.06] px-4">
             <Row label="Due date" value={formatDate(inst.dueDate)} />
             <Row label="Principal" value={formatINR(inst.principal)} />
             <Row label="Interest and charges" value={formatINR(inst.charges)} />
@@ -71,11 +71,11 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
               {T.methods.map((m) => {
                 const Icon = ICON[m.id as keyof typeof ICON];
                 return (
-                  <button key={m.id} type="button" role="radio" aria-checked={method === m.id} onClick={() => setMethod(m.id as typeof method)} className={cn("flex min-h-14 w-full items-center gap-3 rounded-2xl border px-4 text-left transition-colors", method === m.id ? "border-neon-violet bg-accent-soft" : "border-foreground/15 hover:bg-foreground/10")}>
-                    <Icon className="size-5 text-neon-violet" aria-hidden />
+                  <button key={m.id} type="button" role="radio" aria-checked={method === m.id} onClick={() => setMethod(m.id as typeof method)} className={cn("flex min-h-14 w-full items-center gap-3 rounded-2xl border px-4 text-left transition-colors", method === m.id ? "border-ink bg-accent-soft" : "border-ink/15 hover:bg-ink/10")}>
+                    <Icon className="size-5 text-ink" aria-hidden />
                     <span>
                       <span className="block text-sm font-bold">{m.label}</span>
-                      <span className="block text-xs text-muted">{m.hint}</span>
+                      <span className="block text-xs text-ink-2">{m.hint}</span>
                     </span>
                   </button>
                 );
@@ -85,7 +85,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
           <GlassButton size="lg" className="mt-5 w-full" onClick={pay}>
             {T.pay(formatINR(amount))}
           </GlassButton>
-          <p className="mt-3 text-center text-xs text-muted">{COPY.legal.nudge}</p>
+          <p className="mt-3 text-center text-xs text-ink-2">{COPY.legal.nudge}</p>
           <Disclosure className="mt-2 justify-center" />
         </>
       )}
@@ -93,10 +93,10 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
       {phase === "checkout" && (
         <div>
           <GlassSheetTitle className="text-xl font-extrabold">Secure checkout (mock)</GlassSheetTitle>
-          <GlassSheetDescription className="mt-1 text-sm text-muted">{T.checkoutNote}</GlassSheetDescription>
-          <div className="mt-4 rounded-[20px] bg-foreground/[0.06] p-4 text-sm">
+          <GlassSheetDescription className="mt-1 text-sm text-ink-2">{T.checkoutNote}</GlassSheetDescription>
+          <div className="mt-4 rounded-[20px] bg-ink/[0.06] p-4 text-sm">
             <p className="font-bold">Mock Payments Ltd (placeholder)</p>
-            <p className="mt-1 text-muted">
+            <p className="mt-1 text-ink-2">
               Paying {formatINR(amount)} to {loan.lender}
             </p>
             <p className="mt-3 font-mono tracking-widest">•••• •••• •••• 0042</p>
@@ -109,7 +109,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
 
       {phase === "processing" && (
         <div className="flex flex-col items-center gap-3 py-10 text-center">
-          <Loader2 className="size-10 animate-spin text-neon-blue" aria-hidden />
+          <Loader2 className="size-10 animate-spin text-info-text" aria-hidden />
           <GlassSheetTitle className="text-lg font-bold">{T.paying}</GlassSheetTitle>
           <GlassSheetDescription className="sr-only">Processing your {label} payment</GlassSheetDescription>
         </div>
@@ -119,8 +119,8 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
         <div className="text-center">
           {RESULT_ICON[result]}
           <GlassSheetTitle className="mt-3 text-2xl font-extrabold">{result === "successful" ? "Repaid on time. That's a W." : PAY_STATE_INFO[result].label}</GlassSheetTitle>
-          <GlassSheetDescription className="mt-2 text-sm text-muted">{result === "successful" ? `${formatINR(amount)} paid. ${PAY_STATE_INFO.successful.why}` : PAY_STATE_INFO[result].why}</GlassSheetDescription>
-          <p className="mt-3 rounded-2xl bg-foreground/[0.07] px-4 py-3 text-sm">
+          <GlassSheetDescription className="mt-2 text-sm text-ink-2">{result === "successful" ? `${formatINR(amount)} paid. ${PAY_STATE_INFO.successful.why}` : PAY_STATE_INFO[result].why}</GlassSheetDescription>
+          <p className="mt-3 rounded-2xl bg-ink/[0.07] px-4 py-3 text-sm">
             <span className="font-bold">Next: </span>
             {PAY_STATE_INFO[result].next}
           </p>

@@ -40,7 +40,7 @@ function Form({ onClose, onCreated }: { onClose: () => void; onCreated: (id: str
     return (
       <div className="space-y-3 text-center">
         <GlassSheetTitle className="text-xl font-extrabold">Ticket raised</GlassSheetTitle>
-        <GlassSheetDescription className="text-sm text-muted">{T.created(done.ref)}</GlassSheetDescription>
+        <GlassSheetDescription className="text-sm text-ink-2">{T.created(done.ref)}</GlassSheetDescription>
         <ReferenceNumber value={done.ref} label="Complaint" />
         <GlassButton size="lg" className="w-full" onClick={() => { onCreated(done.id); onClose(); }}>
           Open ticket
@@ -51,7 +51,7 @@ function Form({ onClose, onCreated }: { onClose: () => void; onCreated: (id: str
   return (
     <form onSubmit={form.handleSubmit(submit)} noValidate className="space-y-4">
       <GlassSheetTitle className="text-xl font-extrabold">{T.newTicket}</GlassSheetTitle>
-      <GlassSheetDescription className="text-sm text-muted">Tell us what is wrong. For anything about money or identity, share facts only.</GlassSheetDescription>
+      <GlassSheetDescription className="text-sm text-ink-2">Tell us what is wrong. For anything about money or identity, share facts only.</GlassSheetDescription>
       <Field id="t-cat" label={T.category} error={errors.category?.message}>
         <GlassSelect id="t-cat" invalid={!!errors.category} aria-describedby="t-cat-err" disabled={isSubmitting} defaultValue="" {...form.register("category")}>
           <option value="">Choose</option>
@@ -68,7 +68,7 @@ function Form({ onClose, onCreated }: { onClose: () => void; onCreated: (id: str
       </Field>
       <div className="space-y-2">
         <p className="text-sm font-bold">{T.attach}</p>
-        <p className="text-xs text-muted">{T.attachHint}</p>
+        <p className="text-xs text-ink-2">{T.attachHint}</p>
         <FileDropZone id="att-1" label="Attachment 1" accept={["image/jpeg", "image/png", "application/pdf"]} copy={drop} onChange={() => {}} />
         <FileDropZone id="att-2" label="Attachment 2" accept={["image/jpeg", "image/png", "application/pdf"]} copy={drop} onChange={() => {}} />
       </div>

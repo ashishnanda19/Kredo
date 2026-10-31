@@ -22,12 +22,12 @@ export function LoanSummaryCard() {
     return (
       <GlassCard radius="lg" role="region" aria-label="Loans" className="flex flex-wrap items-center justify-between gap-4 p-5">
         <div className="flex items-center gap-3">
-          <span className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-neon-violet">
+          <span className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-ink">
             <Landmark className="size-6" aria-hidden />
           </span>
           <div>
             <h2 className="font-bold">Instalment loans</h2>
-            <p className="text-sm text-muted">{appStatus === "none" || appStatus === "draft" ? "Offered by our regulated lending partner. Borrow only what you can repay." : "Your application is in progress."}</p>
+            <p className="text-sm text-ink-2">{appStatus === "none" || appStatus === "draft" ? "Offered by our regulated lending partner. Borrow only what you can repay." : "Your application is in progress."}</p>
             {appStatus !== "none" && appStatus !== "draft" && <StatusPill kind="loanApp" value={appStatus} className="mt-1" />}
           </div>
         </div>
@@ -42,27 +42,27 @@ export function LoanSummaryCard() {
   const o = outstandingOf(loan);
   return (
     <section aria-label="Your loan" className="grid gap-4 md:grid-cols-2">
-      <GlassCard radius="lg" strength="strong" glow="violet" className="flex flex-col justify-between gap-4 p-5">
+      <GlassCard radius="lg" strength="strong" className="flex flex-col justify-between gap-4 p-5">
         <div className="flex items-start justify-between gap-3">
           <div>
             <h2 className="font-bold">{loan.product}</h2>
-            <p className="text-xs text-muted">{loan.id}</p>
+            <p className="text-xs text-ink-2">{loan.id}</p>
           </div>
           {next && <StatusPill kind="instalment" value={next.state} />}
         </div>
         <div>
           <p className="text-3xl font-extrabold tabular-nums">{formatINR(o.total)}</p>
-          <p className="text-xs text-muted">{T.total}</p>
+          <p className="text-xs text-ink-2">{T.total}</p>
         </div>
         {next && (
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-foreground/15 pt-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-ink/15 pt-3">
             <p className="text-sm">
               {T.nextDue}: <span className="font-bold">{formatINR(next.amount)}</span> by <span className="font-bold">{formatDate(next.dueDate)}</span>
             </p>
             <GlassButton onClick={() => setRepay(true)}>{T.repay}</GlassButton>
           </div>
         )}
-        <Link href="/dashboard/loans" className="inline-flex items-center gap-1 text-sm font-bold text-neon-blue">
+        <Link href="/dashboard/loans" className="inline-flex items-center gap-1 text-sm font-bold text-info-text">
           Schedule, payments and receipts <ArrowRight className="size-4" aria-hidden />
         </Link>
       </GlassCard>

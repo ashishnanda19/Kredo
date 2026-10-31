@@ -14,7 +14,7 @@ export function OutstandingCard({ loan }: { loan: Loan }) {
   return (
     <GlassCard radius="lg" className="px-5" role="region" aria-label={T.outstandingTitle}>
       <h3 className="pt-4 text-sm font-bold">{T.outstandingTitle}</h3>
-      <dl className="divide-y divide-foreground/10">
+      <dl className="divide-y divide-ink/10">
         <Row label={T.principal.label} tip={T.principal.tip} value={formatINR(o.principal)} />
         <Row label={T.interest.label} tip={T.interest.tip} value={formatINR(o.interest)} />
         <Row label={T.fees.label} tip={T.fees.tip} value={formatINR(o.fees)} />

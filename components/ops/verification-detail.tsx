@@ -30,7 +30,7 @@ const TEMPLATE = (name: string, code: string) =>
 function Evidence({ side }: { side: "Front" | "Back" }) {
   return (
     <figure className="m-0">
-      <div role="img" aria-label={`Placeholder ${side.toLowerCase()} of ID, watermarked Demo`} className="relative aspect-[1.586/1] overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#312e81,#6d28d9)]">
+      <div role="img" aria-label={`Placeholder ${side.toLowerCase()} of ID, watermarked Demo`} className="relative aspect-[1.586/1] overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#2a2a33,#121216)]">
         <div aria-hidden className="absolute inset-3 rounded-xl border border-white/20">
           <div className="m-3 h-6 w-16 rounded bg-white/25" />
           <div className="m-3 mt-5 space-y-2">
@@ -45,7 +45,7 @@ function Evidence({ side }: { side: "Front" | "Back" }) {
           ))}
         </div>
       </div>
-      <figcaption className="mt-1 text-xs text-muted">{side} (placeholder image, not a real document)</figcaption>
+      <figcaption className="mt-1 text-xs text-ink-2">{side} (placeholder image, not a real document)</figcaption>
     </figure>
   );
 }
@@ -65,7 +65,7 @@ export function VerificationDetail({ id }: { id: string }) {
   if (!item)
     return (
       <GlassCard radius="lg" className="p-6 text-center">
-        No application with that ID. <Link href="/ops/verifications" className="font-bold text-neon-blue">Back to the queue</Link>
+        No application with that ID. <Link href="/ops/verifications" className="font-bold text-info-text">Back to the queue</Link>
       </GlassCard>
     );
 
@@ -99,9 +99,9 @@ export function VerificationDetail({ id }: { id: string }) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <Link href="/ops/verifications" className="text-sm font-bold text-neon-blue">← Queue</Link>
+          <Link href="/ops/verifications" className="text-sm font-bold text-info-text">← Queue</Link>
           <h1 className="text-2xl font-extrabold tracking-tight"><span className="font-mono">{item.id}</span></h1>
-          <p className="text-sm text-muted">
+          <p className="text-sm text-ink-2">
             <MaskedValue value={item.mobile} label="Mobile" /> · <MaskedValue value={item.idMasked} label="College ID" /> · attempt {item.attempts} · submitted {fmtDT(item.submitted)}
           </p>
         </div>
@@ -112,17 +112,17 @@ export function VerificationDetail({ id }: { id: string }) {
         <GlassCard radius="lg" className="space-y-3 p-4" role="region" aria-label="Verification result summary">
           <h2 className="text-sm font-bold">Result summary</h2>
           <dl className="space-y-2 text-sm">
-            <div className="flex justify-between gap-3"><dt className="text-muted">Student verification</dt><dd><StatusPill kind="queue" value={status} /></dd></div>
-            <div className="flex justify-between gap-3"><dt className="text-muted">Reason</dt><dd className="text-right font-semibold">{item.reason ? REJECTION[item.reason].label : "None recorded"}</dd></div>
-            <div className="flex justify-between gap-3"><dt className="text-muted">Assignee</dt><dd className="font-semibold">{item.assignee ?? "Unassigned"}</dd></div>
+            <div className="flex justify-between gap-3"><dt className="text-ink-2">Student verification</dt><dd><StatusPill kind="queue" value={status} /></dd></div>
+            <div className="flex justify-between gap-3"><dt className="text-ink-2">Reason</dt><dd className="text-right font-semibold">{item.reason ? REJECTION[item.reason].label : "None recorded"}</dd></div>
+            <div className="flex justify-between gap-3"><dt className="text-ink-2">Assignee</dt><dd className="font-semibold">{item.assignee ?? "Unassigned"}</dd></div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-muted">KYC result (from provider)</dt>
+              <dt className="text-ink-2">KYC result (from provider)</dt>
               <dd className="flex items-center gap-2">
                 <StatusPill kind="kyc" value={item.kycStatus} />
                 {/* Authoritative KYC cannot be edited by ANY role, including Admin. */}
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span tabIndex={0} aria-label="KYC results come from the verification provider and cannot be edited here." className="inline-flex cursor-not-allowed items-center gap-1 rounded-full border border-foreground/20 px-3 py-1.5 text-xs font-bold opacity-60">
+                    <span tabIndex={0} aria-label="KYC results come from the verification provider and cannot be edited here." className="inline-flex cursor-not-allowed items-center gap-1 rounded-full border border-ink/20 px-3 py-1.5 text-xs font-bold opacity-60">
                       <Lock className="size-3" aria-hidden /> Edit KYC
                     </span>
                   </TooltipTrigger>
@@ -133,7 +133,7 @@ export function VerificationDetail({ id }: { id: string }) {
           </dl>
           {d && (
             <p className="rounded-2xl bg-success-soft px-3 py-2 text-sm">
-              <CheckCircle2 className="mr-1 inline size-4 text-success" aria-hidden />
+              <CheckCircle2 className="mr-1 inline size-4 text-ok-text" aria-hidden />
               <span className="font-bold">{LABEL[d.status]}</span> · code {d.code} · {d.by} · {fmtDT(d.at)}
             </p>
           )}
@@ -143,15 +143,15 @@ export function VerificationDetail({ id }: { id: string }) {
           <h2 className="mb-2 text-sm font-bold">Submitted vs ID data</h2>
           <table className="w-full text-left text-[13px]">
             <caption className="sr-only">Submitted details beside the data read from the ID</caption>
-            <thead className="text-[11px] uppercase tracking-wider text-muted"><tr><th scope="col" className="py-1.5">Field</th><th scope="col">Submitted</th><th scope="col">On ID</th></tr></thead>
-            <tbody className="divide-y divide-foreground/10">
+            <thead className="text-[11px] uppercase tracking-wider text-ink-2"><tr><th scope="col" className="py-1.5">Field</th><th scope="col">Submitted</th><th scope="col">On ID</th></tr></thead>
+            <tbody className="divide-y divide-ink/10">
               {rows.map(([k, a, b]) => {
                 const bad = a !== b;
                 return (
                   <tr key={k} className={cn(bad && "bg-danger-soft")}>
                     <th scope="row" className="py-2 pr-2 font-semibold">{k}</th>
                     <td className="pr-2">{a}</td>
-                    <td className="font-semibold">{b} {bad && <AlertTriangle className="ml-1 inline size-3.5 text-danger" aria-label="Does not match" />}</td>
+                    <td className="font-semibold">{b} {bad && <AlertTriangle className="ml-1 inline size-3.5 text-bad-text" aria-label="Does not match" />}</td>
                   </tr>
                 );
               })}
@@ -170,7 +170,7 @@ export function VerificationDetail({ id }: { id: string }) {
 
       <GlassCard radius="lg" className="p-4" role="region" aria-label="Review actions">
         <h2 className="mb-1 text-sm font-bold">Review actions</h2>
-        <p className="mb-3 text-xs text-muted">Each action needs a reason code and is recorded with a timestamp and your name. You are acting as {label}.</p>
+        <p className="mb-3 text-xs text-ink-2">Each action needs a reason code and is recorded with a timestamp and your name. You are acting as {label}.</p>
         <div className="flex flex-wrap gap-2">
           <Guarded allowed={allowed} why={why}><GlassButton variant="secondary" size="sm" onClick={() => open("info_requested")} disabled={!allowed}>{LABEL.info_requested}</GlassButton></Guarded>
           <Guarded allowed={allowed} why={why}><GlassButton variant="secondary" size="sm" onClick={() => open("escalated")} disabled={!allowed}>{LABEL.escalated}</GlassButton></Guarded>
@@ -184,7 +184,7 @@ export function VerificationDetail({ id }: { id: string }) {
           {action && (
             <div className="space-y-4">
               <GlassSheetTitle className="text-xl font-extrabold">{LABEL[action]}</GlassSheetTitle>
-              <GlassSheetDescription className="text-sm text-muted">{item.id}. This will be written to the audit log.</GlassSheetDescription>
+              <GlassSheetDescription className="text-sm text-ink-2">{item.id}. This will be written to the audit log.</GlassSheetDescription>
               <Field id="code" label="Reason code (required)" error={err}>
                 <GlassSelect id="code" value={code} onChange={(e) => { setCode(e.target.value); setErr(null); if (action === "info_requested") setMsg(TEMPLATE(item.entered.name.split(" ")[0], e.target.value)); }} invalid={!!err} aria-describedby="code-err">
                   <option value="">Choose a code</option>

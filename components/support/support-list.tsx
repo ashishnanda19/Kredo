@@ -34,14 +34,14 @@ export function SupportList() {
           ) : tickets.length === 0 ? (
             <EmptyState title={T.empty} body="Raise a ticket any time something looks off." action={<GlassButton onClick={() => setOpen(true)}>{T.newTicket}</GlassButton>} />
           ) : (
-            <ul className="divide-y divide-foreground/10">
+            <ul className="divide-y divide-ink/10">
               {tickets.map((t) => (
                 <li key={t.id}>
                   <Link href={`/dashboard/support/${t.id}`} className="flex min-h-16 items-center gap-3 py-3">
-                    <span aria-hidden className="grid size-10 shrink-0 place-items-center rounded-xl bg-foreground/[0.07] text-neon-violet"><LifeBuoy className="size-5" /></span>
+                    <span aria-hidden className="grid size-10 shrink-0 place-items-center rounded-xl bg-ink/[0.07] text-ink"><LifeBuoy className="size-5" /></span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-bold">{t.subject}</span>
-                      <span className="block truncate text-xs text-muted">
+                      <span className="block truncate text-xs text-ink-2">
                         <span className="font-mono">{t.ref}</span> · {t.category} · updated {formatDate(t.updatedAt)}
                       </span>
                     </span>
@@ -51,7 +51,7 @@ export function SupportList() {
               ))}
             </ul>
           )}
-          <p className="mt-3 text-xs text-muted">{RESPONSE_EXPECTATION}</p>
+          <p className="mt-3 text-xs text-ink-2">{RESPONSE_EXPECTATION}</p>
         </GlassCard>
         <GrievanceCard />
       </div>

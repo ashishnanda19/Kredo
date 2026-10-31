@@ -17,7 +17,7 @@ export function InfoTip({ text, label = "What does this mean?" }: { text: string
             e.preventDefault();
             setOpen((o) => !o);
           }}
-          className="relative inline-grid size-5 place-items-center rounded-full text-muted hover:text-foreground after:absolute after:-inset-3 after:content-['']"
+          className="relative inline-grid size-5 place-items-center rounded-full text-ink-2 hover:text-ink after:absolute after:-inset-3 after:content-['']"
         >
           <Info className="size-4" aria-hidden />
         </button>

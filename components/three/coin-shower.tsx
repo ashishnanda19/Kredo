@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sparkles } from "@react-three/drei";
 import * as THREE from "three";
-import { NeonEnv } from "./neon-env";
+import { StudioEnv } from "./studio-env";
 import type { Tier } from "@/lib/theme";
 
 function rng(seed: number) {
@@ -15,7 +15,7 @@ function rng(seed: number) {
   };
 }
 
-const PALETTE = ["#fbbf24", "#fbbf24", "#f59e0b", "#a78bfa", "#f0abfc"].map((c) => new THREE.Color(c));
+const PALETTE = ["#F5D832", "#F5D832", "#E8C21E", "#F2C94C"].map((c) => new THREE.Color(c));
 
 interface Coin {
   x: number;
@@ -116,9 +116,9 @@ function Coins({ count, onDone }: { count: number; onDone: () => void }) {
 export default function CoinShower({ tier, count, onDone }: { tier: Tier; count: number; onDone: () => void }) {
   return (
     <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 12], fov: 40 }} gl={{ alpha: true, antialias: true }} style={{ pointerEvents: "none" }}>
-      <NeonEnv tier="mid" />
+      <StudioEnv tier="mid" />
       <Coins count={count} onDone={onDone} />
-      {tier === "high" && <Sparkles count={70} scale={[14, 9, 1]} size={5} speed={0.6} color="#f0abfc" />}
+      {tier === "high" && <Sparkles count={70} scale={[14, 9, 1]} size={5} speed={0.6} color="#F5D832" />}
     </Canvas>
   );
 }

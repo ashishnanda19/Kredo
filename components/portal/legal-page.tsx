@@ -37,13 +37,13 @@ export function LegalPage({ doc }: { doc: keyof typeof DOCS }) {
   return (
     <PortalShell width="max-w-2xl" back={{ href: "/", label: "Home" }}>
       <h1 className="text-3xl font-extrabold tracking-tight">{d.title}</h1>
-      <p className="mt-1 text-xs text-muted">Version {d.version} · Placeholder text for a design preview, to be replaced with reviewed legal copy.</p>
+      <p className="mt-1 text-xs text-ink-2">Version {d.version} · Placeholder text for a design preview, to be replaced with reviewed legal copy.</p>
       <div className="mt-5 space-y-3 text-[15px] leading-relaxed">
         {d.body.map((p) => (
           <p key={p}>{p}</p>
         ))}
       </div>
-      <nav aria-label="Legal documents" className="mt-6 flex flex-wrap gap-3 text-sm font-bold text-neon-blue">
+      <nav aria-label="Legal documents" className="mt-6 flex flex-wrap gap-3 text-sm font-bold text-info-text">
         <Link href="/legal/privacy">Privacy</Link>
         <Link href="/legal/terms">Terms</Link>
         <Link href="/legal/key-facts">Key facts</Link>

@@ -108,7 +108,7 @@ export function AuthFlow({ mode }: { mode: Mode }) {
     return (
       <PortalShell>
         <h1 className="text-2xl font-extrabold">{COPY.session.lockedTitle}</h1>
-        <p className="mt-2 text-muted">{COPY.session.lockedBody}</p>
+        <p className="mt-2 text-ink-2">{COPY.session.lockedBody}</p>
         <p className="mt-3 text-sm">{COPY.session.lockedHow}</p>
         <div className="mt-5 space-y-2">
           <GlassButton size="lg" className="w-full" onClick={() => setEdge("none")}>
@@ -133,12 +133,12 @@ export function AuthFlow({ mode }: { mode: Mode }) {
               </p>
             )}
             <h1 className="text-3xl font-extrabold tracking-tight">{titles[0]}</h1>
-            <p className="mt-2 text-muted">{titles[1]}</p>
+            <p className="mt-2 text-ink-2">{titles[1]}</p>
             <form onSubmit={form.handleSubmit(sendCode)} noValidate className="mt-6 space-y-5">
               <Field id="mobile" label={t.mobile} hint={t.mobileHint} error={errors.mobile?.message}>
                 <div className="relative">
-                  <Smartphone className="pointer-events-none absolute left-4 top-1/2 z-10 size-5 -translate-y-1/2 text-muted" aria-hidden />
-                  <span className="pointer-events-none absolute left-12 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-muted">+91</span>
+                  <Smartphone className="pointer-events-none absolute left-4 top-1/2 z-10 size-5 -translate-y-1/2 text-ink-2" aria-hidden />
+                  <span className="pointer-events-none absolute left-12 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-ink-2">+91</span>
                   <GlassInput id="mobile" type="tel" inputMode="numeric" autoComplete="tel-national" maxLength={10} className="pl-[5.25rem]" invalid={!!errors.mobile} aria-describedby="mobile-msg mobile-err" disabled={busy} {...form.register("mobile")} />
                 </div>
               </Field>
@@ -161,22 +161,22 @@ export function AuthFlow({ mode }: { mode: Mode }) {
                 )}
               </GlassButton>
             </form>
-            <p className="mt-5 text-center text-sm text-muted">
+            <p className="mt-5 text-center text-sm text-ink-2">
               {mode === "login" ? (
                 <>
                   {t.notAccount}{" "}
-                  <Link href="/signup" className="font-bold text-neon-blue">
+                  <Link href="/signup" className="font-bold text-info-text">
                     Sign up
                   </Link>
                   <br />
-                  <Link href="/recover" className="font-bold text-neon-blue">
+                  <Link href="/recover" className="font-bold text-info-text">
                     {t.recoverLink}
                   </Link>
                 </>
               ) : (
                 <>
                   {t.haveAccount}{" "}
-                  <Link href="/login" className="font-bold text-neon-blue">
+                  <Link href="/login" className="font-bold text-info-text">
                     Log in
                   </Link>
                 </>
@@ -186,12 +186,12 @@ export function AuthFlow({ mode }: { mode: Mode }) {
         ) : (
           <motion.div key="o" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }}>
             <h1 className="text-3xl font-extrabold tracking-tight">{t.otpTitle}</h1>
-            <p className="mt-2 text-muted">{t.otpSub(mask(mobile))}</p>
+            <p className="mt-2 text-ink-2">{t.otpSub(mask(mobile))}</p>
             <form onSubmit={verify} noValidate className="mt-6 space-y-4">
               <OtpInput digits={digits} onChange={(d) => { setDigits(d); setOtpError(null); }} invalid={!!otpError} />
               <GlassFieldError id="otp-err">{otpError}</GlassFieldError>
-              {attempts > 0 && !otpError && <p className="text-xs text-muted">{t.attemptsLeft(OTP_ATTEMPT_LIMIT - attempts)}</p>}
-              <p className="text-xs text-muted">Demo tip: 000000 counts as a wrong code.</p>
+              {attempts > 0 && !otpError && <p className="text-xs text-ink-2">{t.attemptsLeft(OTP_ATTEMPT_LIMIT - attempts)}</p>}
+              <p className="text-xs text-ink-2">Demo tip: 000000 counts as a wrong code.</p>
               <GlassButton type="submit" size="lg" className="w-full" disabled={busy}>
                 {busy ? (
                   <>
@@ -202,10 +202,10 @@ export function AuthFlow({ mode }: { mode: Mode }) {
                 )}
               </GlassButton>
               <div className="flex items-center justify-between text-sm">
-                <button type="button" onClick={() => setPhase("mobile")} className="min-h-11 font-bold text-neon-blue">
+                <button type="button" onClick={() => setPhase("mobile")} className="min-h-11 font-bold text-info-text">
                   Change number
                 </button>
-                <button type="button" disabled={secs > 0} onClick={() => { setSecs(RESEND); setDigits(Array(6).fill("")); }} className="min-h-11 font-bold text-neon-blue disabled:text-muted">
+                <button type="button" disabled={secs > 0} onClick={() => { setSecs(RESEND); setDigits(Array(6).fill("")); }} className="min-h-11 font-bold text-info-text disabled:text-ink-2">
                   {secs > 0 ? t.resendIn(secs) : t.resend}
                 </button>
               </div>

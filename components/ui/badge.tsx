@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 const badgeVariants = cva("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold", {
   variants: {
     tone: {
-      neutral: "bg-surface-2 text-muted",
-      accent: "bg-accent-soft text-accent-text",
-      success: "bg-success-soft text-success",
-      warning: "bg-warning-soft text-warning",
-      danger: "bg-danger-soft text-danger",
+      neutral: "bg-card text-ink-2",
+      accent: "bg-accent-soft text-ink",
+      success: "bg-success-soft text-ok-text",
+      warning: "bg-warning-soft text-warn-text",
+      danger: "bg-danger-soft text-bad-text",
     },
   },
   defaultVariants: { tone: "neutral" },

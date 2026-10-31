@@ -8,14 +8,14 @@ export function SuccessCheck({ size = 88 }: { size?: number }) {
     <div className="relative grid place-items-center" style={{ width: size, height: size }} role="img" aria-label="Success">
       <motion.span
         aria-hidden
-        className="absolute inset-0 rounded-full bg-success/25"
+        className="absolute inset-0 rounded-full bg-ok/25"
         initial={{ scale: 0.6, opacity: 0.9 }}
         animate={{ scale: 1.5, opacity: 0 }}
         transition={{ duration: 1.2, ease: "easeOut", repeat: 2 }}
       />
       <motion.span
         aria-hidden
-        className="absolute inset-0 rounded-full bg-success"
+        className="absolute inset-0 rounded-full bg-ok"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 18 }}
@@ -24,7 +24,7 @@ export function SuccessCheck({ size = 88 }: { size?: number }) {
         <motion.path
           d="M14 27 l8 8 l16 -17"
           fill="none"
-          stroke="var(--background)"
+          stroke="var(--page)"
           strokeWidth="5"
           strokeLinecap="round"
           strokeLinejoin="round"

@@ -73,17 +73,17 @@ export function PayFlow() {
         </div>
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
           <h1 className="mt-6 text-3xl font-extrabold tracking-tight">{t.successTitle(formatINR(amount))}</h1>
-          <p className="mt-1 text-muted">to {vendor.name}</p>
+          <p className="mt-1 text-ink-2">to {vendor.name}</p>
 
-          <GlassCard radius="lg" strength="strong" glow="violet" className="mt-6 px-5 text-left">
-            <dl className="divide-y divide-foreground/10">
+          <GlassCard radius="lg" strength="strong" className="mt-6 px-5 text-left">
+            <dl className="divide-y divide-ink/10">
               <Row label={t.rows.amount} value={formatINR(amount)} />
               <Row label={t.rows.fee} value={formatINR(fee)} />
               <Row label={t.rows.total} value={formatINR(total)} strong />
               <Row label={t.rows.dueBy} value={formatDateLong(dueDate)} />
             </dl>
           </GlassCard>
-          <p className="mt-3 text-sm text-muted">{t.successBody}</p>
+          <p className="mt-3 text-sm text-ink-2">{t.successBody}</p>
 
           <div className="mt-6 flex flex-col gap-3">
             <GlassButton asChild size="lg">
@@ -119,20 +119,20 @@ export function PayFlow() {
                   onClick={() => setVendor(v)}
                   className={cn(
                     "glass glass-soft flex min-h-14 items-center gap-2 rounded-[18px] p-2 text-left transition-[box-shadow,transform] active:scale-[0.97]",
-                    on && "glass-glow-violet !shadow-[0_0_0_2px_var(--neon-violet),0_0_28px_-4px_var(--glow)]",
+                    on && " !shadow-[0_0_0_2px_var(--ink)]",
                   )}
                 >
                   <CategoryIcon category={v.category} className="size-9 rounded-xl" />
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-bold">{v.name}</span>
-                    <span className="block truncate text-xs text-muted">{CATEGORY_LABEL[v.category]}</span>
+                    <span className="block truncate text-xs text-ink-2">{CATEGORY_LABEL[v.category]}</span>
                   </span>
                 </button>
               );
             })}
           </div>
           {vendorError && (
-            <p role="alert" className="mt-1.5 text-sm font-medium text-danger">
+            <p role="alert" className="mt-1.5 text-sm font-medium text-bad-text">
               {vendorError}
             </p>
           )}
@@ -142,8 +142,8 @@ export function PayFlow() {
           <label htmlFor="amount" className="mb-2 block text-sm font-bold">
             {t.amount}
           </label>
-          <GlassCard radius="lg" className={cn("flex items-center gap-2 px-5 py-4 transition-shadow focus-within:shadow-[0_0_0_2px_var(--neon-violet),0_0_30px_-4px_var(--glow)]", amountError && "!shadow-[0_0_0_2px_var(--danger)]")}>
-            <span className="text-3xl font-extrabold text-muted">₹</span>
+          <GlassCard radius="lg" className={cn("flex items-center gap-2 px-5 py-4 transition-shadow focus-within:shadow-[0_0_0_2px_var(--ink)]", amountError && "!shadow-[0_0_0_2px_var(--bad-text)]")}>
+            <span className="text-3xl font-extrabold text-ink-2">₹</span>
             <input
               id="amount"
               inputMode="numeric"
@@ -153,11 +153,11 @@ export function PayFlow() {
               aria-invalid={!!amountError}
               aria-describedby="amount-help"
               onChange={(e) => setAmountText(e.target.value.replace(/\D/g, "").slice(0, 5))}
-              className="min-w-0 flex-1 bg-transparent text-4xl font-extrabold tabular-nums outline-none placeholder:text-muted/50 focus-visible:shadow-none"
+              className="min-w-0 flex-1 bg-transparent text-4xl font-extrabold tabular-nums outline-none placeholder:text-ink-2/50 focus-visible:shadow-none"
             />
           </GlassCard>
           <div id="amount-help" className="mt-2 text-sm">
-            <span className={amountError ? "font-medium text-danger" : "text-muted"} role={amountError ? "alert" : undefined}>
+            <span className={amountError ? "font-medium text-bad-text" : "text-ink-2"} role={amountError ? "alert" : undefined}>
               {amountError ?? `Available: ${formatINR(available)}`}
             </span>
           </div>
@@ -183,17 +183,17 @@ export function PayFlow() {
       <GlassSheet open={sheet} onOpenChange={(o) => phase !== "processing" && setSheet(o)}>
         <GlassSheetContent>
           <GlassSheetTitle className="text-xl font-extrabold">{t.sheetTitle}</GlassSheetTitle>
-          <GlassSheetDescription className="mt-1 text-sm text-muted">{t.sheetBody}</GlassSheetDescription>
+          <GlassSheetDescription className="mt-1 text-sm text-ink-2">{t.sheetBody}</GlassSheetDescription>
 
-          <div className="mt-4 flex items-center gap-3 rounded-2xl bg-foreground/[0.07] p-3">
+          <div className="mt-4 flex items-center gap-3 rounded-2xl bg-ink/[0.07] p-3">
             {vendor && <CategoryIcon category={vendor.category} />}
             <div>
               <p className="font-bold">{vendor?.name}</p>
-              <p className="text-sm text-muted">{vendor && CATEGORY_LABEL[vendor.category]}</p>
+              <p className="text-sm text-ink-2">{vendor && CATEGORY_LABEL[vendor.category]}</p>
             </div>
           </div>
 
-          <dl className="mt-3 divide-y divide-foreground/10 rounded-[20px] bg-foreground/[0.05] px-4">
+          <dl className="mt-3 divide-y divide-ink/10 rounded-[20px] bg-ink/[0.05] px-4">
             <Row label={t.rows.amount} value={formatINR(amount)} />
             <Row label={t.rows.fee} value={formatINR(fee)} tip={t.rows.feeTip} />
             <Row label={t.rows.total} value={formatINR(total)} strong tip={t.rows.totalTip} />
@@ -203,7 +203,7 @@ export function PayFlow() {
           <GlassButton size="lg" className="mt-5 w-full" onClick={confirm} disabled={phase === "processing"}>
             {phase === "processing" ? t.paying : t.confirm(formatINR(amount))}
           </GlassButton>
-          <p className="mt-3 text-center text-xs text-muted">{COPY.legal.nudge}</p>
+          <p className="mt-3 text-center text-xs text-ink-2">{COPY.legal.nudge}</p>
           <Disclosure className="mt-2 justify-center" />
         </GlassSheetContent>
       </GlassSheet>

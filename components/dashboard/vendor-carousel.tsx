@@ -25,13 +25,13 @@ export function VendorCarousel() {
           >
             <div className="flex items-start justify-between gap-2">
               <CategoryIcon category={v.category} />
-              <span className="inline-flex items-center gap-1 rounded-full bg-success-soft px-2 py-1 text-[11px] font-bold text-success">
+              <span className="inline-flex items-center gap-1 rounded-full bg-success-soft px-2 py-1 text-[11px] font-bold text-ok-text">
                 <BadgeCheck className="size-3.5" aria-hidden /> Accepts {BRAND.name}
               </span>
             </div>
             <h3 className="mt-3 truncate font-bold">{v.name}</h3>
-            <p className="text-sm text-muted">{CATEGORY_LABEL[v.category]}</p>
-            <p className="mt-2 flex items-center gap-1 text-xs text-muted">
+            <p className="text-sm text-ink-2">{CATEGORY_LABEL[v.category]}</p>
+            <p className="mt-2 flex items-center gap-1 text-xs text-ink-2">
               <MapPin className="size-3.5" aria-hidden /> {v.distance} · {v.hours}
             </p>
           </motion.li>

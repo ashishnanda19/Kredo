@@ -32,7 +32,7 @@ export function PortalRuntime() {
 function Group<T extends string>({ label, options, value, onPick }: { label: string; options: readonly { id: T; label: string }[]; value: T; onPick: (v: T) => void }) {
   return (
     <fieldset className="space-y-1.5">
-      <legend className="text-[11px] font-bold uppercase tracking-wider text-muted">{label}</legend>
+      <legend className="text-[11px] font-bold uppercase tracking-wider text-ink-2">{label}</legend>
       <div className="flex flex-wrap gap-1.5">
         {options.map((o) => (
           <button
@@ -40,7 +40,7 @@ function Group<T extends string>({ label, options, value, onPick }: { label: str
             type="button"
             aria-pressed={o.id === value}
             onClick={() => onPick(o.id)}
-            className={cn("min-h-9 rounded-full border px-3 text-xs font-semibold transition-colors", o.id === value ? "border-transparent bg-accent text-accent-fg" : "border-foreground/20 hover:bg-foreground/10")}
+            className={cn("min-h-9 rounded-full border px-3 text-xs font-semibold transition-colors", o.id === value ? "border-transparent bg-accent text-accent-ink" : "border-ink/20 hover:bg-ink/10")}
           >
             {o.label}
           </button>
@@ -103,7 +103,7 @@ export function DemoControls() {
         aria-controls="demo-panel"
         className="glass glass-strong print:hidden fixed bottom-24 right-3 z-[85] inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-xs font-bold lg:bottom-4"
       >
-        <FlaskConical className="size-4 text-neon-magenta" aria-hidden /> {d.open}
+        <FlaskConical className="size-4 text-ink-2" aria-hidden /> {d.open}
       </button>
 
       {s.demo.open && (
@@ -113,15 +113,15 @@ export function DemoControls() {
           aria-label={d.title}
           radius="lg"
           strength="strong"
-          glow="magenta"
+         
           className="fixed bottom-36 right-3 z-[85] max-h-[70dvh] w-[min(92vw,380px)] space-y-4 overflow-y-auto p-4 lg:bottom-16"
         >
           <div className="flex items-start justify-between gap-2">
             <div>
               <h2 className="text-base font-extrabold">{d.title}</h2>
-              <p className="text-xs text-muted">{d.note}</p>
+              <p className="text-xs text-ink-2">{d.note}</p>
             </div>
-            <button type="button" aria-label="Close demo controls" onClick={() => s.setDemoOpen(false)} className="grid size-9 place-items-center rounded-full hover:bg-foreground/10">
+            <button type="button" aria-label="Close demo controls" onClick={() => s.setDemoOpen(false)} className="grid size-9 place-items-center rounded-full hover:bg-ink/10">
               <X className="size-4" />
             </button>
           </div>

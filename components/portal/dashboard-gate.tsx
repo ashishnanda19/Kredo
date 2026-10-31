@@ -39,16 +39,16 @@ function GateLock({ status }: { status: string }) {
         <GlassCard radius="lg" className="h-40" />
       </div>
       <div className="absolute inset-0 grid place-items-start justify-items-center pt-10 sm:pt-16">
-        <GlassCard radius="xl" strength="strong" glow="violet" role="region" aria-label={t.lockedTitle} className="max-w-md p-7 text-center">
-          <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-accent-soft text-neon-violet">
+        <GlassCard radius="xl" strength="strong" role="region" aria-label={t.lockedTitle} className="max-w-md p-7 text-center">
+          <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-accent-soft text-ink">
             <LockKeyhole className="size-7" aria-hidden />
           </span>
           <h1 className="mt-4 text-2xl font-extrabold tracking-tight">{pending ? COPY.status.pendingTitle : t.lockedTitle}</h1>
-          <p className="mt-2 text-muted">{pending ? t.pendingBody : t.lockedBody}</p>
+          <p className="mt-2 text-ink-2">{pending ? t.pendingBody : t.lockedBody}</p>
           <GlassButton asChild size="lg" className="mt-6 w-full">
             <Link href={started ? "/verify/status" : "/verify"}>{started ? t.statusCta : t.lockedCta}</Link>
           </GlassButton>
-          <p className="mt-3 text-xs text-muted">{COPY.legal.disclosure}</p>
+          <p className="mt-3 text-xs text-ink-2">{COPY.legal.disclosure}</p>
         </GlassCard>
       </div>
     </div>

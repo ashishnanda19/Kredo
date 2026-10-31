@@ -31,7 +31,7 @@ export function ConsentToggles() {
 
   return (
     <>
-      <ul className="divide-y divide-foreground/10">
+      <ul className="divide-y divide-ink/10">
         {CONSENT_PURPOSES.map((c) => {
           const r = consents[c.id];
           const on = !!r?.granted;
@@ -39,11 +39,11 @@ export function ConsentToggles() {
             <li key={c.id} className="flex items-start gap-3 py-3">
               <div className="min-w-0 flex-1">
                 <label htmlFor={`consent-${c.id}`} className="block cursor-pointer text-[15px] font-bold">
-                  {c.title} {c.required && <span className="ml-1 text-xs font-semibold text-muted">(needed to continue)</span>}
+                  {c.title} {c.required && <span className="ml-1 text-xs font-semibold text-ink-2">(needed to continue)</span>}
                 </label>
-                <p className="mt-0.5 text-sm text-muted">{c.purpose}</p>
+                <p className="mt-0.5 text-sm text-ink-2">{c.purpose}</p>
                 {r && (
-                  <p className="mt-1 text-xs text-muted">
+                  <p className="mt-1 text-xs text-ink-2">
                     {r.granted ? "Given" : "Withdrawn"} on {formatDate(r.at)} · notice {r.version}
                   </p>
                 )}
@@ -57,7 +57,7 @@ export function ConsentToggles() {
       <GlassSheet open={!!pending} onOpenChange={(o) => !o && setPending(null)}>
         <GlassSheetContent>
           <GlassSheetTitle className="text-xl font-extrabold">Withdraw this consent?</GlassSheetTitle>
-          <GlassSheetDescription className="mt-2 text-sm text-muted">{pending && COPY.privacy.withdrawWarn[pending]}</GlassSheetDescription>
+          <GlassSheetDescription className="mt-2 text-sm text-ink-2">{pending && COPY.privacy.withdrawWarn[pending]}</GlassSheetDescription>
           <div className="mt-5 space-y-2">
             <GlassButton variant="warning" size="lg" className="w-full" onClick={confirmWithdraw}>
               {COPY.privacy.confirmWithdraw}

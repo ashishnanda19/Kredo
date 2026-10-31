@@ -16,7 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 function Tip({ active, payload, label, unit }: { active?: boolean; payload?: readonly { value?: unknown }[]; label?: unknown; unit: string }) {
   return active && payload?.length ? (
     <div className="glass glass-strong rounded-xl px-3 py-1.5 text-xs">
-      <span className="font-bold">{String(label)}</span> <span className="tabular-nums text-muted">{String(payload[0].value)} {unit}</span>
+      <span className="font-bold">{String(label)}</span> <span className="tabular-nums text-ink-2">{String(payload[0].value)} {unit}</span>
     </div>
   ) : null;
 }
@@ -121,15 +121,15 @@ export function OpsOverview() {
                   <AreaChart data={series} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="opsA" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" stopColor="#a855f7" stopOpacity={0.5} />
-                        <stop offset="1" stopColor="#a855f7" stopOpacity={0} />
+                        <stop offset="0" stopColor="var(--ink)" stopOpacity={0.14} />
+                        <stop offset="1" stopColor="var(--ink)" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid stroke="rgba(150,140,190,0.15)" vertical={false} />
-                    <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
-                    <YAxis tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
+                    <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-2)", fontSize: 11 }} />
+                    <YAxis tickLine={false} axisLine={false} tick={{ fill: "var(--ink-2)", fontSize: 11 }} />
                     <Tooltip content={(p) => <Tip active={p.active} payload={p.payload} label={p.label} unit="applications" />} />
-                    <Area type="monotone" dataKey="applications" stroke="#c084fc" strokeWidth={2.5} fill="url(#opsA)" dot={{ r: 3, fill: "#f0abfc" }} style={{ filter: "drop-shadow(0 0 5px rgba(168,85,247,0.6))" }} />
+                    <Area type="monotone" dataKey="applications" stroke="var(--ink)" strokeWidth={2} fill="url(#opsA)" dot={{ r: 3, fill: "var(--ink)" }} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -140,10 +140,10 @@ export function OpsOverview() {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={series} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
                     <CartesianGrid stroke="rgba(150,140,190,0.15)" vertical={false} />
-                    <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
-                    <YAxis tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
+                    <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-2)", fontSize: 11 }} />
+                    <YAxis tickLine={false} axisLine={false} tick={{ fill: "var(--ink-2)", fontSize: 11 }} />
                     <Tooltip content={(p) => <Tip active={p.active} payload={p.payload} label={p.label} unit="hours" />} />
-                    <Line type="monotone" dataKey="turnaround" stroke="#38bdf8" strokeWidth={2.5} dot={{ r: 3, fill: "#7dd3fc" }} style={{ filter: "drop-shadow(0 0 5px rgba(56,189,248,0.6))" }} />
+                    <Line type="monotone" dataKey="turnaround" stroke="var(--info-fill)" strokeWidth={2} dot={{ r: 3, fill: "var(--info-fill)" }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>

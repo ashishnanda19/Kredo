@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 export function Row({ label, value, strong, tip }: { label: string; value: React.ReactNode; strong?: boolean; tip?: string }) {
   return (
     <div className={cn("flex items-center justify-between gap-4 py-3", strong ? "text-base font-bold" : "text-sm")}>
-      <dt className={cn("flex items-center gap-1.5", !strong && "text-muted")}>
+      <dt className={cn("flex items-center gap-1.5", !strong && "text-ink-2")}>
         {label}
         {tip && <InfoTip text={tip} />}
       </dt>
@@ -58,7 +58,7 @@ export function RepaySheet({
           <div className="flex flex-col items-center py-4 text-center">
             <SuccessCheck />
             <GlassSheetTitle className="mt-5 text-2xl font-extrabold">{COPY.dashboard.repay.doneTitle}</GlassSheetTitle>
-            <GlassSheetDescription className="mt-1 text-sm text-muted">{formatINR(amount)} repaid. {COPY.dashboard.repay.doneBody}</GlassSheetDescription>
+            <GlassSheetDescription className="mt-1 text-sm text-ink-2">{formatINR(amount)} repaid. {COPY.dashboard.repay.doneBody}</GlassSheetDescription>
             <GlassButton className="mt-6 w-full" onClick={() => change(false)}>
               Done
             </GlassButton>
@@ -66,8 +66,8 @@ export function RepaySheet({
         ) : (
           <div>
             <GlassSheetTitle className="text-xl font-extrabold">Repay now</GlassSheetTitle>
-            <GlassSheetDescription className="mt-1 text-sm text-muted">{title}</GlassSheetDescription>
-            <dl className="mt-4 divide-y divide-line rounded-card border border-line px-4">
+            <GlassSheetDescription className="mt-1 text-sm text-ink-2">{title}</GlassSheetDescription>
+            <dl className="mt-4 divide-y divide-hairline rounded-card border border-hairline px-4">
               <Row label="Amount due" value={formatINR(amount)} tip="What you owe for these spends." />
               <Row label="Due date" value={`${formatDateLong(dueDate)} (${left} days left)`} tip="Pay by this date to stay on track." />
               <Row label="Total to repay" value={formatINR(amount)} strong />
@@ -101,7 +101,7 @@ export function LimitIncreaseSheet({ open, onOpenChange }: { open: boolean; onOp
           <div className="flex flex-col items-center py-4 text-center">
             <SuccessCheck />
             <GlassSheetTitle className="mt-5 text-2xl font-extrabold">Request received</GlassSheetTitle>
-            <GlassSheetDescription className="mt-1 text-sm text-muted">Our lending partner will review it. Increases aren’t guaranteed. (Demo only.)</GlassSheetDescription>
+            <GlassSheetDescription className="mt-1 text-sm text-ink-2">Our lending partner will review it. Increases aren’t guaranteed. (Demo only.)</GlassSheetDescription>
             <GlassButton className="mt-6 w-full" onClick={() => change(false)}>
               Got it
             </GlassButton>
@@ -109,7 +109,7 @@ export function LimitIncreaseSheet({ open, onOpenChange }: { open: boolean; onOp
         ) : (
           <div>
             <GlassSheetTitle className="text-xl font-extrabold">Request a higher limit</GlassSheetTitle>
-            <GlassSheetDescription className="mt-1 text-sm text-muted">
+            <GlassSheetDescription className="mt-1 text-sm text-ink-2">
               Your score is {score.current}. Pick what you’d like. The lending partner decides, and it’s not guaranteed.
             </GlassSheetDescription>
             <div role="radiogroup" aria-label="Requested limit" className="mt-4 grid grid-cols-3 gap-2">
@@ -122,14 +122,14 @@ export function LimitIncreaseSheet({ open, onOpenChange }: { open: boolean; onOp
                   onClick={() => setPick(o)}
                   className={cn(
                     "min-h-12 rounded-2xl border text-sm font-bold transition-colors",
-                    pick === o ? "border-accent-text bg-accent-soft text-accent-text" : "border-line bg-foreground/[0.07]",
+                    pick === o ? "border-ink bg-accent-soft text-ink" : "border-hairline bg-ink/[0.07]",
                   )}
                 >
                   {formatINR(o)}
                 </button>
               ))}
             </div>
-            <p className="mt-3 text-xs text-muted">{COPY.legal.nudge} A bigger limit means more to repay.</p>
+            <p className="mt-3 text-xs text-ink-2">{COPY.legal.nudge} A bigger limit means more to repay.</p>
             <GlassButton size="lg" className="mt-5 w-full" onClick={() => setDone(true)}>
               Send request
             </GlassButton>
@@ -149,14 +149,14 @@ export function NotificationsSheet({ open, onOpenChange }: { open: boolean; onOp
         <GlassSheetDescription className="sr-only">Recent updates for {student.firstName}</GlassSheetDescription>
         <ul className="mt-4 space-y-2">
           {notifications.map((n, i) => (
-            <li key={n.id} className="flex gap-3 rounded-2xl bg-foreground/[0.07] p-4">
-              <span className={cn("mt-0.5 grid size-9 shrink-0 place-items-center rounded-full", i === 0 ? "bg-warning-soft text-warning" : "bg-accent-soft text-accent-text")}>
+            <li key={n.id} className="flex gap-3 rounded-2xl bg-ink/[0.07] p-4">
+              <span className={cn("mt-0.5 grid size-9 shrink-0 place-items-center rounded-full", i === 0 ? "bg-warning-soft text-warn-text" : "bg-accent-soft text-ink")}>
                 {i === 0 ? <CalendarClock className="size-4" aria-hidden /> : <BellRing className="size-4" aria-hidden />}
               </span>
               <div className="min-w-0">
                 <p className="text-sm font-bold">{n.title}</p>
-                <p className="text-sm text-muted">{n.body}</p>
-                <p className="mt-1 text-xs text-muted">{n.time}</p>
+                <p className="text-sm text-ink-2">{n.body}</p>
+                <p className="mt-1 text-xs text-ink-2">{n.time}</p>
               </div>
             </li>
           ))}

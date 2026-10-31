@@ -65,7 +65,7 @@ export function GlassSheetContent({ className, children, ...props }: React.Compo
           <DialogPrimitive.Close
             ref={closeRef}
             aria-label="Close"
-            className="absolute right-3 top-3 z-10 grid size-11 place-items-center rounded-full text-muted transition-colors hover:bg-foreground/10 hover:text-foreground"
+            className="absolute right-3 top-3 z-10 grid size-11 place-items-center rounded-full text-ink-2 transition-colors hover:bg-ink/10 hover:text-ink"
           >
             <X className="size-5" />
           </DialogPrimitive.Close>

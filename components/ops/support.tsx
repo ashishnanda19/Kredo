@@ -18,12 +18,12 @@ const merge = (t: OpsTicket, o?: Ov) => ({ ...t, status: o?.status ?? t.status, 
 
 /** Countdown chip: overdue is highlighted. */
 function Deadline({ hours, status }: { hours: number; status: string }) {
-  if (status === "resolved") return <span className="text-xs text-muted">Resolved</span>;
+  if (status === "resolved") return <span className="text-xs text-ink-2">Resolved</span>;
   const over = hours < 0;
   const h = Math.abs(hours);
   const text = h >= 24 ? `${Math.floor(h / 24)}d ${h % 24}h` : `${h}h`;
   return (
-    <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-bold tabular-nums", over ? "bg-danger-soft text-danger" : hours <= 4 ? "bg-warning-soft text-warning" : "bg-foreground/10")}>
+    <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-bold tabular-nums", over ? "bg-danger-soft text-bad-text" : hours <= 4 ? "bg-warning-soft text-warn-text" : "bg-ink/10")}>
       {over ? `Overdue ${text}` : `Due in ${text}`}
     </span>
   );
@@ -69,7 +69,7 @@ export function OpsSupportQueue() {
     },
     { key: "d", header: "Response deadline", cell: (t) => <Deadline hours={t.dueInHours} status={t.status} /> },
     { key: "st", header: "Status", cell: (t) => <StatusPill kind="ticket" value={t.status} /> },
-    { key: "e", header: "Escalation", cell: (t) => (t.status === "escalated" ? <span className="font-bold text-danger">Escalated</span> : <span className="text-muted">None</span>) },
+    { key: "e", header: "Escalation", cell: (t) => (t.status === "escalated" ? <span className="font-bold text-bad-text">Escalated</span> : <span className="text-ink-2">None</span>) },
   ];
 
   const sel = "!min-h-10 !rounded-xl text-sm";
@@ -96,7 +96,7 @@ export function OpsTicketDetail({ id }: { id: string }) {
   const [cust, setCust] = useState("");
   const [intern, setIntern] = useState("");
 
-  if (!base) return <GlassCard radius="lg" className="p-6 text-center">No such ticket. <Link href="/ops/support" className="font-bold text-neon-blue">Back</Link></GlassCard>;
+  if (!base) return <GlassCard radius="lg" className="p-6 text-center">No such ticket. <Link href="/ops/support" className="font-bold text-info-text">Back</Link></GlassCard>;
   const t = merge(base, ov);
   const edit = can("supportEdit");
   const sens = can("seeSensitive");
@@ -112,9 +112,9 @@ export function OpsTicketDetail({ id }: { id: string }) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <Link href="/ops/support" className="text-sm font-bold text-neon-blue">← Queue</Link>
+          <Link href="/ops/support" className="text-sm font-bold text-info-text">← Queue</Link>
           <h1 className="text-2xl font-extrabold tracking-tight">{t.subject}</h1>
-          <p className="text-sm text-muted"><span className="font-mono">{t.ref}</span> · {t.category} · {t.student}</p>
+          <p className="text-sm text-ink-2"><span className="font-mono">{t.ref}</span> · {t.category} · {t.student}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2"><StatusPill kind="priority" value={t.priority} /><StatusPill kind="ticket" value={t.status} /><Deadline hours={t.dueInHours} status={t.status} /></div>
       </div>
@@ -132,19 +132,19 @@ export function OpsTicketDetail({ id }: { id: string }) {
         ) : (
           <>
             <p aria-hidden className="select-none text-sm blur-sm">{t.sensitive}</p>
-            <p className="mt-1 flex items-center gap-1 text-xs text-muted"><Lock className="size-3.5" aria-hidden /> Hidden for your role. Only Support agents and Admins can see these details.</p>
+            <p className="mt-1 flex items-center gap-1 text-xs text-ink-2"><Lock className="size-3.5" aria-hidden /> Hidden for your role. Only Support agents and Admins can see these details.</p>
           </>
         )}
       </GlassCard>
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* CUSTOMER-VISIBLE: solid blue edge, labelled */}
-        <section aria-label="Customer conversation" className="rounded-[24px] border-2 border-neon-blue/60 bg-neon-blue/[0.07] p-4">
-          <h2 className="flex items-center gap-2 text-sm font-extrabold text-neon-blue"><MessageSquare className="size-4" aria-hidden /> Customer conversation <span className="rounded-full bg-neon-blue/20 px-2 py-0.5 text-[11px]">Visible to the student</span></h2>
+        <section aria-label="Customer conversation" className="rounded-[24px] border-2 border-info-text/60 bg-info-text/[0.07] p-4">
+          <h2 className="flex items-center gap-2 text-sm font-extrabold text-info-text"><MessageSquare className="size-4" aria-hidden /> Customer conversation <span className="rounded-full bg-info-text/20 px-2 py-0.5 text-[11px]">Visible to the student</span></h2>
           <ol className="mt-3 space-y-2">
             {t.messages.map((m) => (
-              <li key={m.id} className={cn("max-w-[90%] rounded-2xl px-3 py-2 text-sm", m.who === "student" ? "bg-foreground/10" : "ml-auto bg-neon-blue/25")}>
-                <p className="text-[11px] font-bold text-muted">{m.who === "student" ? "Student" : "Agent"} · {fmtDT(m.at)}</p>
+              <li key={m.id} className={cn("max-w-[90%] rounded-2xl px-3 py-2 text-sm", m.who === "student" ? "bg-ink/10" : "ml-auto bg-info-text/25")}>
+                <p className="text-[11px] font-bold text-ink-2">{m.who === "student" ? "Student" : "Agent"} · {fmtDT(m.at)}</p>
                 {m.text}
               </li>
             ))}
@@ -156,12 +156,12 @@ export function OpsTicketDetail({ id }: { id: string }) {
         </section>
 
         {/* INTERNAL: dashed amber edge, striped, labelled */}
-        <section aria-label="Internal notes" className="rounded-[24px] border-2 border-dashed border-warning/70 bg-[repeating-linear-gradient(135deg,color-mix(in_oklab,var(--warning)_9%,transparent)_0_10px,transparent_10px_20px)] p-4">
-          <h2 className="flex items-center gap-2 text-sm font-extrabold text-warning"><NotebookPen className="size-4" aria-hidden /> Internal notes <span className="rounded-full bg-warning/20 px-2 py-0.5 text-[11px]">Internal only. Never shown to the student</span></h2>
+        <section aria-label="Internal notes" className="rounded-[24px] border-2 border-dashed border-warn/70 bg-[repeating-linear-gradient(135deg,color-mix(in_oklab,var(--warn-text)_9%,transparent)_0_10px,transparent_10px_20px)] p-4">
+          <h2 className="flex items-center gap-2 text-sm font-extrabold text-warn-text"><NotebookPen className="size-4" aria-hidden /> Internal notes <span className="rounded-full bg-warn/20 px-2 py-0.5 text-[11px]">Internal only. Never shown to the student</span></h2>
           <ol className="mt-3 space-y-2">
-            {t.internal.length === 0 && <li className="text-sm text-muted">No internal notes yet.</li>}
+            {t.internal.length === 0 && <li className="text-sm text-ink-2">No internal notes yet.</li>}
             {t.internal.map((n) => (
-              <li key={n.id} className="rounded-xl bg-warning/10 px-3 py-2 text-sm"><p className="text-[11px] font-bold text-muted">{n.by} · {fmtDT(n.at)}</p>{n.text}</li>
+              <li key={n.id} className="rounded-xl bg-warn/10 px-3 py-2 text-sm"><p className="text-[11px] font-bold text-ink-2">{n.by} · {fmtDT(n.at)}</p>{n.text}</li>
             ))}
           </ol>
           <div className="mt-3 space-y-2">
@@ -173,9 +173,9 @@ export function OpsTicketDetail({ id }: { id: string }) {
 
       <GlassCard radius="lg" className="p-4" role="region" aria-label="Auditable history">
         <h2 className="mb-3 text-sm font-bold">Auditable history</h2>
-        <ol className="space-y-2 border-l border-foreground/20 pl-4">
+        <ol className="space-y-2 border-l border-ink/20 pl-4">
           {history.map((h) => (
-            <li key={h.id} className="relative text-sm"><span aria-hidden className="absolute -left-[1.4rem] top-1.5 size-2.5 rounded-full bg-neon-violet" />{h.text} <span className="text-xs text-muted">· {h.by}{h.at ? ` · ${fmtDT(h.at)}` : ""}</span></li>
+            <li key={h.id} className="relative text-sm"><span aria-hidden className="absolute -left-[1.4rem] top-1.5 size-2.5 rounded-full bg-accent" />{h.text} <span className="text-xs text-ink-2">· {h.by}{h.at ? ` · ${fmtDT(h.at)}` : ""}</span></li>
           ))}
         </ol>
       </GlassCard>

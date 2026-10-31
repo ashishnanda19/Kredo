@@ -107,25 +107,25 @@ function WizardBody({ initialStep }: { initialStep: number }) {
   }
 
   const back_ = step > 1 ? (
-    <button type="button" onClick={() => setStep(step - 1)} className="mb-3 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-muted hover:text-foreground">
+    <button type="button" onClick={() => setStep(step - 1)} className="mb-3 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-ink-2 hover:text-ink">
       <ArrowLeft className="size-4" aria-hidden /> Back
     </button>
   ) : null;
 
   return (
     <PortalShell width="max-w-xl" back={{ href: "/dashboard", label: "Exit" }}>
-      <div className="flex items-center justify-between text-xs font-bold text-muted">
+      <div className="flex items-center justify-between text-xs font-bold text-ink-2">
         <span>
           Step {step} of {steps.length}
         </span>
         <span>{steps[step - 1]}</span>
       </div>
-      <div role="progressbar" aria-label="Verification progress" aria-valuemin={1} aria-valuemax={steps.length} aria-valuenow={step} className="mt-2 h-3 overflow-hidden rounded-full bg-foreground/10 p-[3px]">
-        <motion.div className="gradient-neon h-full rounded-full shadow-[0_0_14px_2px_rgba(192,38,211,0.7)]" initial={false} animate={{ width: `${(step / steps.length) * 100}%` }} transition={spring.soft} />
+      <div role="progressbar" aria-label="Verification progress" aria-valuemin={1} aria-valuemax={steps.length} aria-valuenow={step} className="mt-2 h-3 overflow-hidden rounded-full bg-ink/10 p-[3px]">
+        <motion.div className="bg-pill text-pill-fg h-full rounded-full" initial={false} animate={{ width: `${(step / steps.length) * 100}%` }} transition={spring.soft} />
       </div>
 
-      <p className="mt-4 flex items-start gap-2 rounded-2xl bg-foreground/[0.07] px-4 py-3 text-xs leading-relaxed">
-        <Lock className="mt-0.5 size-3.5 shrink-0 text-neon-blue" aria-hidden /> {T.privacyNote}
+      <p className="mt-4 flex items-start gap-2 rounded-2xl bg-ink/[0.07] px-4 py-3 text-xs leading-relaxed">
+        <Lock className="mt-0.5 size-3.5 shrink-0 text-info-text" aria-hidden /> {T.privacyNote}
       </p>
 
       <h1 className="mt-5 text-2xl font-extrabold tracking-tight sm:text-3xl">{T.titles[step - 1]}</h1>
@@ -154,13 +154,13 @@ function WizardBody({ initialStep }: { initialStep: number }) {
               />
             </Field>
           ) : (
-            <div className="space-y-3 rounded-[20px] bg-foreground/[0.06] p-4">
+            <div className="space-y-3 rounded-[20px] bg-ink/[0.06] p-4">
               <h2 className="font-bold">{T.college.noneTitle}</h2>
-              <p className="text-sm text-muted">{T.college.noneBody}</p>
+              <p className="text-sm text-ink-2">{T.college.noneBody}</p>
               <Field id="requested" label={T.college.requested} error={collegeErr}>
                 <GlassInput id="requested" value={draft.requestedCollege} onChange={(e) => setDraft({ requestedCollege: e.target.value })} invalid={!!collegeErr} aria-describedby="requested-err" />
               </Field>
-              <button type="button" onClick={() => setDraft({ collegeNotListed: false, requestedCollege: "" })} className="min-h-11 text-sm font-bold text-neon-blue">
+              <button type="button" onClick={() => setDraft({ collegeNotListed: false, requestedCollege: "" })} className="min-h-11 text-sm font-bold text-info-text">
                 Back to the list
               </button>
             </div>
@@ -221,7 +221,7 @@ function WizardBody({ initialStep }: { initialStep: number }) {
 
         {/* Step 4: consent and review */}
         <section hidden={step !== 4} aria-label={T.titles[3]} className="space-y-4">
-          <dl className="divide-y divide-foreground/10 rounded-[20px] bg-foreground/[0.06] px-4 text-sm">
+          <dl className="divide-y divide-ink/10 rounded-[20px] bg-ink/[0.06] px-4 text-sm">
             {[
               ["College", notListed ? `${draft.requestedCollege} (not listed, requested)` : draft.college],
               ["Full name", draft.fullName],
@@ -232,17 +232,17 @@ function WizardBody({ initialStep }: { initialStep: number }) {
               ["ID photos", front && back ? "Front and back selected (kept in this tab only)" : "Missing"],
             ].map(([k, v]) => (
               <div key={k} className="flex justify-between gap-3 py-2.5">
-                <dt className="text-muted">{k}</dt>
+                <dt className="text-ink-2">{k}</dt>
                 <dd className="text-right font-semibold">{v}</dd>
               </div>
             ))}
           </dl>
-          <div className="rounded-[20px] border border-foreground/15 p-4 text-sm">
+          <div className="rounded-[20px] border border-ink/15 p-4 text-sm">
             <h2 className="flex items-center gap-2 font-bold">
-              <ShieldCheck className="size-4 text-neon-blue" aria-hidden /> {T.review.noticeTitle}
+              <ShieldCheck className="size-4 text-info-text" aria-hidden /> {T.review.noticeTitle}
             </h2>
-            <p className="mt-1.5 text-muted">{T.review.notice}</p>
-            <Link href="/legal/privacy" target="_blank" className="mt-2 inline-block text-sm font-bold text-neon-blue">
+            <p className="mt-1.5 text-ink-2">{T.review.notice}</p>
+            <Link href="/legal/privacy" target="_blank" className="mt-2 inline-block text-sm font-bold text-info-text">
               {T.review.read}
             </Link>
           </div>
@@ -285,7 +285,7 @@ export function VerifyWizard() {
   if (!hydrated || !loggedIn || status === "accepted" || status === "pending")
     return (
       <PortalShell width="max-w-xl">
-        <div role="status" className="py-16 text-center text-muted">
+        <div role="status" className="py-16 text-center text-ink-2">
           {COPY.gate.loading}
         </div>
       </PortalShell>

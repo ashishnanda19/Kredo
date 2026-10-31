@@ -21,7 +21,7 @@ export function SpendingCard({ empty }: { empty?: boolean }) {
   return (
     <section aria-labelledby="spend-h" className="glass rounded-[24px] h-full  p-5">
       <h2 id="spend-h" className="mb-4 flex items-center gap-2 text-base font-bold">
-        <PieIcon className="size-4 text-neon-violet" aria-hidden /> {COPY.dashboard.spend.title}
+        <PieIcon className="size-4 text-ink" aria-hidden /> {COPY.dashboard.spend.title}
       </h2>
       {empty ? <EmptyState title={COPY.dashboard.spend.emptyTitle} body={COPY.dashboard.spend.emptyBody} /> : <SpendChart />}
     </section>

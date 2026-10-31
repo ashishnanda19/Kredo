@@ -20,8 +20,8 @@ export default function ScoreTrend() {
     const isLast = index === last;
     return (
       <g key={index}>
-        {isLast && <circle cx={cx} cy={cy} r={9} fill="#e11d8f" opacity={0.3} />}
-        <circle cx={cx} cy={cy} r={isLast ? 5 : 3} fill={isLast ? "#fff" : "#c4b5fd"} stroke="#e11d8f" strokeWidth={isLast ? 2 : 0} style={isLast ? { filter: "drop-shadow(0 0 6px #e11d8f)" } : undefined} />
+        {isLast && <circle cx={cx} cy={cy} r={9} fill="var(--accent)" opacity={0.45} />}
+        <circle cx={cx} cy={cy} r={isLast ? 5 : 3} fill={isLast ? "var(--accent)" : "var(--ink)"} stroke="var(--page)" strokeWidth={isLast ? 2 : 0} />
       </g>
     );
   };
@@ -32,16 +32,15 @@ export default function ScoreTrend() {
         <AreaChart data={score.history} margin={{ top: 12, right: 12, left: 12, bottom: 0 }}>
           <defs>
             <linearGradient id={`${id}-s`} x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="#8b5cf6" />
-              <stop offset="0.6" stopColor="#e11d8f" />
-              <stop offset="1" stopColor="#38bdf8" />
+              <stop offset="0" stopColor="var(--ink)" />
+              <stop offset="1" stopColor="var(--ink)" />
             </linearGradient>
             <linearGradient id={`${id}-f`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#a855f7" stopOpacity={0.4} />
-              <stop offset="1" stopColor="#a855f7" stopOpacity={0} />
+              <stop offset="0" stopColor="var(--ink)" stopOpacity={0.12} />
+              <stop offset="1" stopColor="var(--ink)" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} interval={0} />
+          <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-2)", fontSize: 11 }} interval={0} />
           <YAxis hide domain={["dataMin - 6", "dataMax + 4"]} />
           <Tooltip
             cursor={{ stroke: "rgba(196,181,253,0.4)", strokeDasharray: "3 3" }}
@@ -50,7 +49,7 @@ export default function ScoreTrend() {
               if (!p) return null;
               return (
                 <div className="glass glass-strong rounded-xl px-3 py-1.5 text-xs">
-                  <span className="font-bold">{p.month}</span> <span className="tabular-nums text-muted">score {p.score}</span>
+                  <span className="font-bold">{p.month}</span> <span className="tabular-nums text-ink-2">score {p.score}</span>
                 </div>
               );
             }}
@@ -63,8 +62,7 @@ export default function ScoreTrend() {
             fill={`url(#${id}-f)`}
             isAnimationActive={!reduce}
             dot={renderDot}
-            activeDot={{ r: 6, fill: "#fff", stroke: "#e11d8f", strokeWidth: 2 }}
-            style={{ filter: "drop-shadow(0 0 6px rgba(168,85,247,0.7))" }}
+            activeDot={{ r: 6, fill: "var(--accent)", stroke: "var(--ink)", strokeWidth: 2 }}
           />
         </AreaChart>
       </ResponsiveContainer>

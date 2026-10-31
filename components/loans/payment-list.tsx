@@ -15,7 +15,7 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
   const [dispute, setDispute] = useState<string | null>(null);
   return (
     <>
-      <ul className="divide-y divide-foreground/10">
+      <ul className="divide-y divide-ink/10">
         {payments.map((p) => {
           const info = PAY_STATE_INFO[p.state];
           return (
@@ -23,7 +23,7 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="font-bold tabular-nums">{formatINR(p.amount)}</p>
-                  <p className="truncate text-xs text-muted">
+                  <p className="truncate text-xs text-ink-2">
                     {formatDate(p.date)} · {p.method} · <span className="font-mono">{p.ref}</span>
                     {p.instalment ? ` · instalment ${p.instalment}` : ""}
                     {p.note ? ` · ${p.note}` : ""}
@@ -33,23 +33,23 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
               </div>
 
               {p.state !== "successful" && (
-                <p className="rounded-2xl bg-foreground/[0.06] px-3 py-2 text-xs">
+                <p className="rounded-2xl bg-ink/[0.06] px-3 py-2 text-xs">
                   {info.why} <span className="font-semibold">{info.next}</span>
                 </p>
               )}
 
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
                 {p.state === "successful" && p.reconciled ? (
-                  <span className="inline-flex items-center gap-1 font-semibold text-success">
+                  <span className="inline-flex items-center gap-1 font-semibold text-ok-text">
                     <CheckCheck className="size-3.5" aria-hidden /> {COPY.loans.matched}
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 text-muted">
+                  <span className="inline-flex items-center gap-1 text-ink-2">
                     <ClockAlert className="size-3.5" aria-hidden /> {COPY.loans.pendingRecon}
                   </span>
                 )}
                 {p.state === "successful" && (
-                  <Link href={`/dashboard/receipts/${p.id}`} className="inline-flex min-h-9 items-center gap-1 font-bold text-neon-blue">
+                  <Link href={`/dashboard/receipts/${p.id}`} className="inline-flex min-h-9 items-center gap-1 font-bold text-info-text">
                     <FileText className="size-3.5" aria-hidden /> {COPY.loans.receipt}
                   </Link>
                 )}
@@ -58,7 +58,7 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
                     {COPY.loans.again}
                   </GlassButton>
                 )}
-                <button type="button" onClick={() => setDispute(p.id)} className="inline-flex min-h-9 items-center gap-1 font-bold text-neon-blue">
+                <button type="button" onClick={() => setDispute(p.id)} className="inline-flex min-h-9 items-center gap-1 font-bold text-info-text">
                   <Flag className="size-3.5" aria-hidden /> {COPY.loans.wrong}
                 </button>
               </div>

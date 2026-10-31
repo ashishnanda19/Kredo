@@ -6,7 +6,7 @@ import { COPY } from "@/lib/copy";
 import { usePrefersReducedMotion } from "@/lib/quality";
 import { gsap } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
-import { useGsapScene } from "../scenes/use-gsap-scene";
+import { useGsapScene } from "./use-gsap-scene";
 
 /** Where each fragment sits in the mess: [left %, top %, rotate deg, style]. */
 const SPOTS: [number, number, number, "bubble" | "bubbleMe" | "note" | "badge" | "slip"][] = [

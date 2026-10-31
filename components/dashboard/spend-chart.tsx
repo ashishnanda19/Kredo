@@ -32,7 +32,7 @@ export default function SpendChart() {
               innerRadius="68%"
               outerRadius="100%"
               paddingAngle={2}
-              stroke="var(--surface)"
+              stroke="var(--elevated)"
               strokeWidth={2}
               cornerRadius={6}
               isAnimationActive={!reduce}
@@ -49,9 +49,9 @@ export default function SpendChart() {
                 const p = payload?.[0]?.payload as Datum | undefined;
                 if (!p) return null;
                 return (
-                  <div className="rounded-xl border border-line bg-foreground/[0.07] px-3 py-2 text-xs shadow-lg">
+                  <div className="rounded-xl border border-hairline bg-ink/[0.07] px-3 py-2 text-xs shadow-lg">
                     <p className="font-semibold">{p.name}</p>
-                    <p className="tabular-nums text-muted">
+                    <p className="tabular-nums text-ink-2">
                       {formatINR(p.value)} · {Math.round((p.value / total) * 100)}%
                     </p>
                   </div>
@@ -62,7 +62,7 @@ export default function SpendChart() {
         </ResponsiveContainer>
         <div className="pointer-events-none absolute inset-0 grid place-items-center text-center">
           <div>
-            <p className="text-xs text-muted">{focus ? focus.name : "Total spent"}</p>
+            <p className="text-xs text-ink-2">{focus ? focus.name : "Total spent"}</p>
             <p className="text-xl font-extrabold tabular-nums">{formatINR(focus ? focus.value : total)}</p>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function SpendChart() {
             <span aria-hidden className="size-3 shrink-0 rounded-[4px]" style={{ background: CATEGORY_COLOR[d.category] }} />
             <CategoryIcon category={d.category} className="size-7 rounded-lg [&_svg]:size-3.5" />
             <span className="flex-1">{d.name}</span>
-            <span className="tabular-nums text-muted">{Math.round((d.value / total) * 100)}%</span>
+            <span className="tabular-nums text-ink-2">{Math.round((d.value / total) * 100)}%</span>
             <span className="w-16 text-right font-semibold tabular-nums">{formatINR(d.value)}</span>
           </li>
         ))}

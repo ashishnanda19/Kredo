@@ -24,10 +24,10 @@ export function CardFaces({ name, number, back, frontExtra, frontHidden, backHid
       <div
         aria-hidden={frontHidden}
         inert={frontHidden}
-        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] border border-white/25 bg-[linear-gradient(135deg,#7c3aed_0%,#a21caf_55%,#e11d8f_100%)] p-[5%] text-white shadow-[0_30px_70px_-20px_rgba(168,85,247,0.7)]"
+        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] border border-white/10 bg-[linear-gradient(135deg,#1c1c22_0%,#0b0b0c_100%)] p-[5%] text-white"
       >
         <span aria-hidden className="absolute -right-10 -top-14 size-56 rounded-full bg-white/15 blur-sm" />
-        <span aria-hidden className="absolute -bottom-20 -left-10 size-56 rounded-full bg-[#38bdf8]/25 blur-2xl" />
+        <span aria-hidden className="absolute -right-12 -top-16 size-56 rounded-full bg-[radial-gradient(closest-side,rgba(245,216,50,0.22),transparent)]" />
         <span aria-hidden className="absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.22)_45%,transparent_60%)]" />
         <div className="relative flex h-full flex-col justify-between">
           <div className="flex items-start justify-between">
@@ -38,7 +38,7 @@ export function CardFaces({ name, number, back, frontExtra, frontHidden, backHid
             <Wifi aria-hidden className="size-6 rotate-90 text-white/85" />
           </div>
           <div>
-            <span aria-hidden className="mb-3 block h-7 w-10 rounded-md bg-[linear-gradient(135deg,#fde68a,#f59e0b)] opacity-90" />
+            <span aria-hidden className="mb-3 block h-7 w-10 rounded-md bg-[linear-gradient(135deg,#f8e57a,#e8c21e)] opacity-90" />
             <p className="font-mono text-base tracking-[0.14em] sm:text-lg" aria-label={`Card number ${number}`}>
               {number}
             </p>
@@ -56,14 +56,14 @@ export function CardFaces({ name, number, back, frontExtra, frontHidden, backHid
       <div
         aria-hidden={backHidden}
         inert={backHidden}
-        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] border border-white/20 bg-[linear-gradient(135deg,#1b1038,#2a1252)] text-white shadow-[0_30px_70px_-20px_rgba(168,85,247,0.55)] [transform:rotateY(180deg)]"
+        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] border border-white/20 bg-[linear-gradient(135deg,#1c1c22,#0b0b0c)] text-white [transform:rotateY(180deg)]"
       >
         {back ?? (
           <>
             <div aria-hidden className="mt-[7%] h-[18%] bg-black/80" />
             <div className="px-[5%] pt-[4%]">
               <p className="text-sm font-semibold text-white/90">Works only inside this app</p>
-              <div aria-hidden className="mt-3 h-8 rounded-md bg-[repeating-linear-gradient(90deg,#e9d5ff_0_6px,#c4b5fd_6px_12px)] opacity-70" />
+              <div aria-hidden className="mt-3 h-8 rounded-md bg-[repeating-linear-gradient(90deg,#e7e7ea_0_6px,#c9c9cf_6px_12px)] opacity-70" />
             </div>
           </>
         )}

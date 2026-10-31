@@ -27,7 +27,7 @@ export function PartnerForm() {
       <div className="flex flex-col items-center py-6 text-center">
         <SuccessCheck />
         <GlassSheetTitle className="mt-5 text-xl font-bold">{f.doneTitle}</GlassSheetTitle>
-        <GlassSheetDescription className="mt-1 text-sm text-muted">{f.doneBody}</GlassSheetDescription>
+        <GlassSheetDescription className="mt-1 text-sm text-ink-2">{f.doneBody}</GlassSheetDescription>
       </div>
     );
   }
@@ -36,7 +36,7 @@ export function PartnerForm() {
     <form onSubmit={submit} noValidate className="space-y-4">
       <div>
         <GlassSheetTitle className="text-xl font-bold">{f.title}</GlassSheetTitle>
-        <GlassSheetDescription className="mt-1 text-sm text-muted">{f.intro}</GlassSheetDescription>
+        <GlassSheetDescription className="mt-1 text-sm text-ink-2">{f.intro}</GlassSheetDescription>
       </div>
       <div>
         <Label htmlFor="shop">{f.shop}</Label>

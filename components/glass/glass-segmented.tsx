@@ -22,7 +22,7 @@ interface GlassSegmentedProps<T extends string> {
 export function GlassSegmented<T extends string>({ options, value, onChange, label, className }: GlassSegmentedProps<T>) {
   const id = useId();
   return (
-    <div role="radiogroup" aria-label={label} className={cn("inline-flex rounded-full bg-[#111113] p-1 dark:bg-[#1c1c24]", className)}>
+    <div role="radiogroup" aria-label={label} className={cn("scrollbar-none inline-flex max-w-full overflow-x-auto rounded-full bg-[#111113] p-1 dark:bg-[#1c1c24]", className)}>
       {options.map((o) => {
         const on = o.value === value;
         return (
@@ -33,7 +33,7 @@ export function GlassSegmented<T extends string>({ options, value, onChange, lab
             aria-checked={on}
             onClick={() => onChange(o.value)}
             className={cn(
-              "relative min-h-11 min-w-20 flex-1 rounded-full px-5 text-sm font-semibold transition-colors",
+              "relative min-h-11 min-w-20 flex-1 shrink-0 whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-colors sm:px-5",
               on ? "text-accent-ink" : "text-white/70 hover:text-white",
             )}
           >

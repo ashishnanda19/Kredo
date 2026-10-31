@@ -7,9 +7,8 @@ import * as THREE from "three";
 import type { Tier } from "@/lib/theme";
 
 /**
- * Club lighting. No HDRI file: the environment map is generated from coloured Lightformers
- * (tiny 64px cube), and three neon point lights slowly sweep across the scene so reflections
- * slide over the card like stage lights.
+ * Studio lighting for the gold coins. No HDRI file: the environment map is generated from warm
+ * white Lightformers (tiny 64px cube), and three soft point lights sweep slowly so highlights move.
  */
 function Sweepers() {
   const a = useRef<THREE.PointLight>(null);
@@ -25,9 +24,9 @@ function Sweepers() {
 
   return (
     <>
-      <pointLight ref={a} color="#a855f7" intensity={34} distance={14} decay={2} />
-      <pointLight ref={b} color="#e11d8f" intensity={30} distance={14} decay={2} />
-      <pointLight ref={c} color="#38bdf8" intensity={22} distance={14} decay={2} />
+      <pointLight ref={a} color="#FFF4D6" intensity={34} distance={14} decay={2} />
+      <pointLight ref={b} color="#FFFFFF" intensity={30} distance={14} decay={2} />
+      <pointLight ref={c} color="#F5D832" intensity={22} distance={14} decay={2} />
     </>
   );
 }
@@ -39,15 +38,15 @@ function SweepingStrips({ animate }: { animate: boolean }) {
   });
   return (
     <group ref={g}>
-      <Lightformer form="rect" color="#a855f7" intensity={5} position={[-6, 1.5, -2]} rotation-y={Math.PI / 2} scale={[8, 2.2, 1]} />
-      <Lightformer form="rect" color="#e11d8f" intensity={5} position={[6, -0.5, -1]} rotation-y={-Math.PI / 2} scale={[8, 2.2, 1]} />
-      <Lightformer form="rect" color="#38bdf8" intensity={3.5} position={[0, 4, -3]} rotation-x={Math.PI / 2} scale={[9, 2, 1]} />
+      <Lightformer form="rect" color="#FFF4D6" intensity={5} position={[-6, 1.5, -2]} rotation-y={Math.PI / 2} scale={[8, 2.2, 1]} />
+      <Lightformer form="rect" color="#FFFFFF" intensity={5} position={[6, -0.5, -1]} rotation-y={-Math.PI / 2} scale={[8, 2.2, 1]} />
+      <Lightformer form="rect" color="#F5D832" intensity={3.5} position={[0, 4, -3]} rotation-x={Math.PI / 2} scale={[9, 2, 1]} />
       <Lightformer form="ring" color="#ffffff" intensity={2.2} position={[0, 0, 6]} scale={3} />
     </group>
   );
 }
 
-export function NeonEnv({ tier }: { tier: Tier }) {
+export function StudioEnv({ tier }: { tier: Tier }) {
   const high = tier === "high";
   return (
     <>
@@ -56,7 +55,7 @@ export function NeonEnv({ tier }: { tier: Tier }) {
       <Sweepers />
       {/* high tier re-renders the tiny cube each frame so the strips sweep; others bake it once */}
       <Environment resolution={64} frames={high ? Infinity : 1} environmentIntensity={0.9}>
-        <color attach="background" args={["#07050f"]} />
+        <color attach="background" args={["#111113"]} />
         <SweepingStrips animate={high} />
       </Environment>
     </>

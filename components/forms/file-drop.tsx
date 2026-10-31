@@ -158,9 +158,9 @@ export function FileDropZone({ id, label, accept, maxMB = 5, allowCamera, checkB
           void accepted(e.dataTransfer.files?.[0]);
         }}
         className={cn(
-          "relative overflow-hidden rounded-[22px] border-2 border-dashed bg-foreground/[0.05] p-3 text-center backdrop-blur-xl transition-[border-color,box-shadow,background-color]",
-          drag ? "border-neon-violet bg-accent-soft shadow-[0_0_36px_-6px_var(--glow)]" : "border-foreground/25",
-          (error || invalid) && "border-danger",
+          "relative overflow-hidden rounded-[22px] border-2 border-dashed bg-ink/[0.05] p-3 text-center backdrop-blur-xl transition-[border-color,box-shadow,background-color]",
+          drag ? "border-ink bg-accent-soft" : "border-ink/25",
+          (error || invalid) && "border-bad",
         )}
       >
         {url ? (
@@ -170,15 +170,15 @@ export function FileDropZone({ id, label, accept, maxMB = 5, allowCamera, checkB
                 // eslint-disable-next-line @next/next/no-img-element -- local blob preview
                 <img src={url} alt={copy.preview} className="mx-auto max-h-48 w-full object-cover" />
               ) : (
-                <div className="grid h-40 place-items-center text-muted">
+                <div className="grid h-40 place-items-center text-ink-2">
                   {kind === "pdf" ? <FileText className="size-10" aria-hidden /> : <ImageIcon className="size-10" aria-hidden />}
                   <span className="px-3 text-xs">{kind === "heic" ? "HEIC selected (preview not available in this browser)" : "PDF selected"}</span>
                 </div>
               )}
-              <span aria-hidden className="absolute inset-x-0 h-0.5 animate-scan bg-neon-blue shadow-[0_0_18px_6px_rgba(56,189,248,0.7)] motion-reduce:hidden" />
+              <span aria-hidden className="absolute inset-x-0 h-0.5 animate-scan bg-info-text shadow-[0_0_18px_6px_rgba(47,125,246,0.35)] motion-reduce:hidden" />
               {scanning && <span className="absolute inset-x-0 bottom-0 bg-black/60 py-1 text-xs font-bold text-white">{copy.scanning}</span>}
             </div>
-            <p className="mt-2 truncate text-xs text-muted">{name}</p>
+            <p className="mt-2 truncate text-xs text-ink-2">{name}</p>
             <div className="mt-1 flex justify-center gap-1">
               <GlassButton type="button" variant="ghost" size="sm" onClick={() => pick.current?.click()}>
                 <RefreshCw className="size-4" aria-hidden /> {copy.retake}
@@ -190,11 +190,11 @@ export function FileDropZone({ id, label, accept, maxMB = 5, allowCamera, checkB
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2 py-5">
-            <span className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-neon-violet">
+            <span className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-ink">
               <UploadCloud className="size-6" aria-hidden />
             </span>
             <p className="text-sm font-bold">{copy.drop}</p>
-            <p className="text-xs text-muted">{copy.hint}</p>
+            <p className="text-xs text-ink-2">{copy.hint}</p>
             <div className="flex flex-wrap justify-center gap-2">
               <GlassButton type="button" variant="secondary" size="sm" onClick={() => pick.current?.click()}>
                 {copy.choose}
@@ -211,17 +211,17 @@ export function FileDropZone({ id, label, accept, maxMB = 5, allowCamera, checkB
         {allowCamera && input(cam, `Use camera for ${label}`, true)}
       </div>
       {warn && (
-        <p role="status" className="mt-2 text-sm font-medium text-warning">
+        <p role="status" className="mt-2 text-sm font-medium text-warn-text">
           {copy.blur}
         </p>
       )}
       {error && (
-        <p role="alert" className="mt-2 text-sm font-medium text-danger">
+        <p role="alert" className="mt-2 text-sm font-medium text-bad-text">
           {error}
         </p>
       )}
       {tips && !url && (
-        <ul className="mt-2 space-y-0.5 text-xs text-muted">
+        <ul className="mt-2 space-y-0.5 text-xs text-ink-2">
           {tips.map((t) => (
             <li key={t}>· {t}</li>
           ))}

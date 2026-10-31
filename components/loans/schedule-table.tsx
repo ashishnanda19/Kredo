@@ -5,10 +5,10 @@ import type { Instalment } from "@/lib/mock-portal";
 /** Repayment schedule as a real table (works with screen readers), scrollable on small screens. */
 export function ScheduleTable({ schedule, caption = "Repayment schedule" }: { schedule: Instalment[]; caption?: string }) {
   return (
-    <div className="overflow-x-auto rounded-[20px] bg-foreground/[0.05]">
+    <div className="overflow-x-auto rounded-[20px] bg-ink/[0.05]">
       <table className="w-full min-w-[420px] text-left text-sm">
         <caption className="sr-only">{caption}</caption>
-        <thead className="text-xs uppercase tracking-wider text-muted">
+        <thead className="text-xs uppercase tracking-wider text-ink-2">
           <tr>
             <th scope="col" className="px-4 py-3">#</th>
             <th scope="col" className="px-2 py-3">Due date</th>
@@ -18,7 +18,7 @@ export function ScheduleTable({ schedule, caption = "Repayment schedule" }: { sc
             <th scope="col" className="px-4 py-3">Status</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-foreground/10">
+        <tbody className="divide-y divide-ink/10">
           {schedule.map((i) => (
             <tr key={i.n}>
               <td className="px-4 py-3 font-bold">{i.n}</td>

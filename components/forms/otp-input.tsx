@@ -53,7 +53,7 @@ export function OtpInput({ digits, onChange, invalid, label = "6-digit code" }: 
               if (e.key === "ArrowRight" && i < len - 1) refs.current[i + 1]?.focus();
             }}
             onFocus={(e) => e.target.select()}
-            className="h-14 w-full min-w-0 rounded-2xl border border-foreground/20 bg-foreground/[0.07] text-center text-2xl font-bold tabular-nums backdrop-blur-xl transition-[border-color,box-shadow] focus-visible:border-neon-violet focus-visible:shadow-[0_0_0_4px_color-mix(in_oklab,var(--neon-violet)_30%,transparent),0_0_24px_-4px_var(--glow)] focus-visible:outline-none aria-[invalid=true]:border-danger"
+            className="h-14 w-full min-w-0 rounded-2xl border border-ink/20 bg-ink/[0.07] text-center text-2xl font-bold tabular-nums backdrop-blur-xl transition-[border-color,box-shadow] focus-visible:border-ink focus-visible:shadow-[0_0_0_4px_color-mix(in_oklab,var(--ink)_30%,transparent)] focus-visible:outline-none aria-[invalid=true]:border-bad"
           />
         ))}
       </div>

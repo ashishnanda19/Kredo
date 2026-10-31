@@ -53,13 +53,13 @@ export function SideRail() {
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "relative flex min-h-12 items-center gap-3 rounded-2xl px-4 text-[15px] font-bold transition-colors",
-                        active ? "text-white" : "text-muted hover:bg-foreground/10 hover:text-foreground",
+                        active ? "text-pill-fg" : "text-ink-2 hover:bg-ink/10 hover:text-ink",
                       )}
                     >
                       {active && (
                         <motion.span
                           layoutId="rail-active"
-                          className="gradient-neon absolute inset-0 rounded-2xl shadow-[0_0_26px_-6px_rgba(168,85,247,0.8)]"
+                          className="bg-pill text-pill-fg absolute inset-0 rounded-2xl"
                           transition={spring.soft}
                         />
                       )}
@@ -72,17 +72,17 @@ export function SideRail() {
             </ul>
           </nav>
 
-          <div className="mt-8 rounded-[20px] bg-foreground/[0.07] p-4">
-            <p className="text-xs text-muted">Available to spend</p>
+          <div className="mt-8 rounded-[20px] bg-ink/[0.07] p-4">
+            <p className="text-xs text-ink-2">Available to spend</p>
             <p className="mt-0.5 text-2xl font-extrabold tracking-tight tabular-nums">{formatINR(available)}</p>
-            <p className="mt-1 text-xs text-muted">of {formatINR(student.limit)} limit</p>
+            <p className="mt-1 text-xs text-ink-2">of {formatINR(student.limit)} limit</p>
           </div>
         </div>
 
         <div className="space-y-3">
           <Disclosure />
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted">Theme</span>
+            <span className="text-xs text-ink-2">Theme</span>
             <ThemeToggle />
           </div>
         </div>
@@ -107,13 +107,13 @@ export function BottomTabs() {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] font-bold transition-colors",
-                    active ? "text-white" : "text-muted",
+                    active ? "text-pill-fg" : "text-ink-2",
                   )}
                 >
                   {active && (
                     <motion.span
                       layoutId="tab-active"
-                      className="gradient-neon absolute inset-0 rounded-full shadow-[0_0_22px_-4px_rgba(168,85,247,0.8)]"
+                      className="bg-pill text-pill-fg absolute inset-0 rounded-full"
                       transition={spring.soft}
                     />
                   )}

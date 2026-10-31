@@ -24,11 +24,11 @@ export function LimitHeroCard({ used = student.used, pulseKey = 0, onReplay }: L
   const pct = used / limit;
 
   return (
-    <GlassCard role="region" aria-label="Credit limit" radius="xl" strength="strong" glow="violet" className="relative flex h-full flex-col justify-between gap-5 overflow-hidden p-5 sm:p-6">
-      <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-neon-violet/30 blur-3xl" />
+    <GlassCard role="region" aria-label="Credit limit" radius="xl" strength="strong" className="relative flex h-full flex-col justify-between gap-5 overflow-hidden p-5 sm:p-6">
+      <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-accent/30 blur-3xl" />
       <div className="relative flex items-center justify-between gap-4">
         <div className="min-w-0">
-          <p className="flex items-center gap-1.5 text-sm font-semibold text-muted">
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-ink-2">
             {d.available}
             <InfoTip text={d.availableTip} label="What is available limit?" />
           </p>
@@ -37,11 +37,11 @@ export function LimitHeroCard({ used = student.used, pulseKey = 0, onReplay }: L
             animate={pulseKey ? { scale: [1, 1.12, 0.98, 1] } : undefined}
             transition={{ duration: 0.55, ease: "easeOut" }}
             style={{ transformOrigin: "left center" }}
-            className="mt-1 whitespace-nowrap text-[2.1rem] font-extrabold leading-none tracking-tight tabular-nums drop-shadow-[0_0_22px_var(--glow)] min-[400px]:text-[2.6rem] sm:text-5xl"
+            className="mt-1 whitespace-nowrap text-[2.1rem] font-extrabold leading-none tracking-tight tabular-nums min-[400px]:text-[2.6rem] sm:text-5xl"
           >
             <CountUp value={avail} format={formatINR} />
           </motion.p>
-          <p className="mt-3 flex items-center gap-1.5 text-sm text-muted">
+          <p className="mt-3 flex items-center gap-1.5 text-sm text-ink-2">
             of {formatINR(limit)} {d.totalLimit}
             <InfoTip text={d.totalLimitTip} label="What is a total limit?" />
           </p>
@@ -49,18 +49,18 @@ export function LimitHeroCard({ used = student.used, pulseKey = 0, onReplay }: L
         <ProgressRing value={pct} size={96} stroke={10} label={`${Math.round(pct * 100)} percent of your limit used`}>
           <div>
             <p className="text-xl font-extrabold tabular-nums">{Math.round(pct * 100)}%</p>
-            <p className="text-[11px] text-muted">used</p>
+            <p className="text-[11px] text-ink-2">used</p>
           </div>
         </ProgressRing>
       </div>
-      <div className="relative flex flex-col gap-3 border-t border-foreground/15 pt-4 text-sm min-[430px]:flex-row min-[430px]:items-end min-[430px]:justify-between">
+      <div className="relative flex flex-col gap-3 border-t border-ink/15 pt-4 text-sm min-[430px]:flex-row min-[430px]:items-end min-[430px]:justify-between">
         <dl className="grid grid-cols-2 gap-6">
           <div>
-            <dt className="text-muted">{d.used}</dt>
+            <dt className="text-ink-2">{d.used}</dt>
             <dd className="font-bold tabular-nums">{formatINR(used)}</dd>
           </div>
           <div>
-            <dt className="text-muted">Total limit</dt>
+            <dt className="text-ink-2">Total limit</dt>
             <dd className="font-bold tabular-nums">{formatINR(limit)}</dd>
           </div>
         </dl>

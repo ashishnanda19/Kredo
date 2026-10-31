@@ -1,6 +1,5 @@
 "use client";
 
-import { useId } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { getBand } from "@/lib/score";
@@ -12,48 +11,51 @@ interface ScoreGaugeProps {
   className?: string;
 }
 
-/** Semicircle gauge. The arc animates whenever `value` changes (used by the slider on the landing page). */
+const R = 84;
+const C = 2 * Math.PI * R;
+const SWEEP = 0.75; // 270° ring, open at the bottom
+
+/** Score ring: a 270° hairline track with an ink arc and a yellow end marker. The number sits in the middle. */
 export function ScoreGauge({ value, className }: ScoreGaugeProps) {
-  const id = useId();
   const band = getBand(value);
   const v = Math.max(0, Math.min(100, value)) / 100;
+  // end-marker position: the ring starts at 135° (bottom-left) and runs clockwise
+  const a = ((135 + 270 * v) * Math.PI) / 180;
+  const mx = 100 + R * Math.cos(a);
+  const my = 100 + R * Math.sin(a);
 
   return (
     <div className={className}>
-      <div role="img" aria-label={`Score ${value} out of 100, band: ${band.label}`} className="relative mx-auto w-full max-w-[280px]">
-        <svg viewBox="0 0 200 112" className="w-full" aria-hidden>
-          <defs>
-            <linearGradient id={id} x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="#8b5cf6" />
-              <stop offset="0.55" stopColor="#e11d8f" />
-              <stop offset="1" stopColor="#38bdf8" />
-            </linearGradient>
-          </defs>
-          <path d="M 14 100 A 86 86 0 0 1 186 100" fill="none" stroke="color-mix(in oklab, var(--foreground) 10%, transparent)" strokeWidth="14" strokeLinecap="round" />
-          <motion.path
-            d="M 14 100 A 86 86 0 0 1 186 100"
+      <div role="img" aria-label={`Score ${value} out of 100, band: ${band.label}`} className="relative mx-auto aspect-square w-full max-w-[260px]">
+        <svg viewBox="0 0 200 200" className="size-full" aria-hidden>
+          <circle cx="100" cy="100" r={R} fill="none" strokeWidth="12" strokeLinecap="round" className="stroke-hairline" strokeDasharray={`${C * SWEEP} ${C}`} transform="rotate(135 100 100)" />
+          <motion.circle
+            cx="100"
+            cy="100"
+            r={R}
             fill="none"
-            stroke={`url(#${id})`}
-            strokeWidth="14"
+            strokeWidth="12"
             strokeLinecap="round"
-            style={{ filter: "drop-shadow(0 0 7px rgba(192,38,211,0.75))" }}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: v }}
+            className="stroke-ink"
+            transform="rotate(135 100 100)"
+            initial={{ strokeDasharray: `0 ${C}` }}
+            animate={{ strokeDasharray: `${C * SWEEP * v} ${C}` }}
             transition={{ type: "spring", stiffness: 70, damping: 18 }}
           />
+          <motion.circle r="9" className="fill-accent stroke-page" strokeWidth="4" initial={false} animate={{ cx: mx, cy: my }} transition={{ type: "spring", stiffness: 70, damping: 18 }} />
         </svg>
-        <div className="absolute inset-x-0 bottom-0 text-center">
-          <div className="text-5xl font-extrabold leading-none tracking-tight tabular-nums">
-            <CountUp value={value} immediate />
-          </div>
-          <div className="mt-2 flex justify-center">
-            <Badge tone={band.tone}>{band.label}</Badge>
+        <div className="absolute inset-0 grid place-items-center text-center">
+          <div>
+            <div className="text-5xl font-semibold leading-none tracking-[-0.04em] text-ink tabular-nums">
+              <CountUp value={value} immediate />
+            </div>
+            <div className="mt-2 flex justify-center">
+              <Badge tone={band.tone}>{band.label}</Badge>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="mx-auto mt-2 flex max-w-[280px] justify-between px-1 text-xs text-muted" aria-hidden>
-        <span>0</span>
-        <span>100</span>
+        <span aria-hidden className="absolute bottom-[8%] left-[22%] text-xs text-ink-2">0</span>
+        <span aria-hidden className="absolute bottom-[8%] right-[19%] text-xs text-ink-2">100</span>
       </div>
     </div>
   );

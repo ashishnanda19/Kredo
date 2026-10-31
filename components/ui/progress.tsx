@@ -20,10 +20,10 @@ export function Progress({ value, label, className, barClassName }: ProgressProp
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(v)}
-      className={cn("h-2.5 w-full overflow-hidden rounded-full bg-foreground/10", className)}
+      className={cn("h-2.5 w-full overflow-hidden rounded-full bg-ink/10", className)}
     >
       <motion.div
-        className={cn("gradient-neon h-full rounded-full shadow-[0_0_14px_1px_rgba(192,38,211,0.7)]", barClassName)}
+        className={cn("bg-pill text-pill-fg h-full rounded-full", barClassName)}
         initial={{ width: 0 }}
         whileInView={{ width: `${v}%` }}
         viewport={{ once: true }}

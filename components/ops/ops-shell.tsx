@@ -34,13 +34,13 @@ export function OpsShell({ children }: { children: React.ReactNode }) {
         <GlassCard radius="xl" strength="strong" className="flex h-full flex-col justify-between p-4">
           <div>
             <Logo href="/ops" />
-            <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-warning">Internal tools</p>
+            <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-warn-text">Internal tools</p>
             <nav aria-label="Operations" className="mt-5">
               <ul className="space-y-1">
                 {NAV.map((n) => (
                   <li key={n.href}>
-                    <Link href={n.href} aria-current={active(n.href) ? "page" : undefined} className={cn("relative flex min-h-11 items-center gap-2.5 rounded-2xl px-3 text-sm font-bold", active(n.href) ? "text-white" : "text-muted hover:bg-foreground/10 hover:text-foreground")}>
-                      {active(n.href) && <motion.span layoutId="ops-active" transition={spring.soft} className="gradient-neon absolute inset-0 rounded-2xl" />}
+                    <Link href={n.href} aria-current={active(n.href) ? "page" : undefined} className={cn("relative flex min-h-11 items-center gap-2.5 rounded-2xl px-3 text-sm font-bold", active(n.href) ? "text-pill-fg" : "text-ink-2 hover:bg-ink/10 hover:text-ink")}>
+                      {active(n.href) && <motion.span layoutId="ops-active" transition={spring.soft} className="bg-pill text-pill-fg absolute inset-0 rounded-2xl" />}
                       <n.icon className="relative size-4" aria-hidden />
                       <span className="relative">{n.label}</span>
                     </Link>
@@ -49,8 +49,8 @@ export function OpsShell({ children }: { children: React.ReactNode }) {
               </ul>
             </nav>
           </div>
-          <p className="text-xs text-muted">
-            Role: <span className="font-bold text-foreground">{label}</span>
+          <p className="text-xs text-ink-2">
+            Role: <span className="font-bold text-ink">{label}</span>
             <br />
             Change it in Demo Controls.
           </p>
@@ -58,14 +58,14 @@ export function OpsShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="min-w-0 flex-1">
-        <div role="note" className="mb-3 flex items-center gap-2 rounded-2xl border border-warning/50 bg-warning-soft px-4 py-2 text-sm font-bold text-warning">
+        <div role="note" className="mb-3 flex items-center gap-2 rounded-2xl border border-warn/50 bg-warning-soft px-4 py-2 text-sm font-bold text-warn-text">
           <AlertOctagon className="size-4 shrink-0" aria-hidden /> Internal, demo only. Not the student app. All data is fictional and masked.
         </div>
 
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <nav aria-label="Operations (mobile)" className="flex w-full gap-1 overflow-x-auto lg:hidden">
             {NAV.map((n) => (
-              <Link key={n.href} href={n.href} aria-current={active(n.href) ? "page" : undefined} className={cn("inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-bold", active(n.href) ? "gradient-neon text-white" : "glass glass-soft")}>
+              <Link key={n.href} href={n.href} aria-current={active(n.href) ? "page" : undefined} className={cn("inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-bold", active(n.href) ? "bg-pill text-pill-fg" : "glass glass-soft")}>
                 <n.icon className="size-4" aria-hidden /> {n.label}
               </Link>
             ))}
@@ -78,8 +78,8 @@ export function OpsShell({ children }: { children: React.ReactNode }) {
             }}
             className="relative min-w-[200px] flex-1"
           >
-            <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-muted" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search by application ID or masked identifier" placeholder="Search application ID or masked identifier" className="glass glass-soft min-h-11 w-full rounded-full pl-10 pr-4 text-sm placeholder:text-muted/80 focus-visible:outline-none" />
+            <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-ink-2" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search by application ID or masked identifier" placeholder="Search application ID or masked identifier" className="glass glass-soft min-h-11 w-full rounded-full pl-10 pr-4 text-sm placeholder:text-ink-2/80 focus-visible:outline-none" />
           </form>
           <AuditDrawer />
           <ThemeToggle />

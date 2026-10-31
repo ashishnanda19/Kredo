@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-const COLORS = ["#a855f7", "#c4b5fd", "#e11d8f", "#f0abfc", "#38bdf8", "#fbbf24", "#4ade80"];
+const COLORS = ["#F5D832", "#F5D832", "#0B0B0C", "#2F7DF6", "#22C55E", "#FFFFFF"];
 
 /** Small deterministic PRNG so pieces are stable between renders (and pure). */
 function rng(seed: number) {

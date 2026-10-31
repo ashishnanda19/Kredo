@@ -16,7 +16,7 @@ export function RecentActivity({ items }: { items: Transaction[] }) {
         <h2 id="recent-h" className="text-base font-bold">
           Recent activity
         </h2>
-        <Link href="/dashboard/activity" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-accent-text">
+        <Link href="/dashboard/activity" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-ink">
           See all <ArrowRight className="size-4" aria-hidden />
         </Link>
       </div>
@@ -34,7 +34,7 @@ export function RecentActivity({ items }: { items: Transaction[] }) {
           }
         />
       ) : (
-        <Stagger inView={false} className="mt-1 divide-y divide-line" role="list">
+        <Stagger inView={false} className="mt-1 divide-y divide-hairline" role="list">
           {items.map((tx) => (
             <StaggerItem key={tx.id} role="listitem">
               <TransactionRow tx={tx} />

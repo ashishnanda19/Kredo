@@ -15,7 +15,7 @@ export function TooltipContent({ className, sideOffset = 8, ...props }: React.Co
         sideOffset={sideOffset}
         collisionPadding={12}
         className={cn(
-          "glass glass-strong z-[95] max-w-[260px] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed text-foreground",
+          "glass glass-strong z-[95] max-w-[260px] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed text-ink",
           className,
         )}
         {...props}

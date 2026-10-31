@@ -30,11 +30,11 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
     <div className="space-y-4">
       <div>
         <h2 className="text-2xl font-extrabold tracking-tight">{T.offerTitle}</h2>
-        <p className="mt-1 text-sm text-muted">{T.offerSub}</p>
+        <p className="mt-1 text-sm text-ink-2">{T.offerSub}</p>
       </div>
 
-      <GlassCard radius="lg" strength="strong" glow="violet" className="px-5">
-        <dl className="divide-y divide-foreground/10">
+      <GlassCard radius="lg" strength="strong" className="px-5">
+        <dl className="divide-y divide-ink/10">
           <Row label={T.rows.lender} value={<span className="text-right">{offer.lender}</span>} />
           <Row label="Product" value={offer.productName} />
           <Row label={T.rows.amount} value={formatINR(offer.amount)} />
@@ -56,11 +56,11 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
           <input type="checkbox" checked={terms} onChange={(e) => { setTerms(e.target.checked); setErr(null); }} aria-describedby="terms-err" disabled={busy} className="mt-0.5 size-5 shrink-0 accent-[var(--accent)]" />
           <span>
             {T.termsCheck}{" "}
-            <Link href="/legal/terms" target="_blank" className="font-bold text-neon-blue">
+            <Link href="/legal/terms" target="_blank" className="font-bold text-info-text">
               {T.terms} ({VERSIONS.terms})
             </Link>{" "}
             ·{" "}
-            <Link href="/legal/key-facts" target="_blank" className="font-bold text-neon-blue">
+            <Link href="/legal/key-facts" target="_blank" className="font-bold text-info-text">
               {T.keyFacts}
             </Link>
           </span>
@@ -82,7 +82,7 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
           {T.decline}
         </GlassButton>
       </div>
-      <p className="text-xs text-muted">{COPY.legal.nudge} {COPY.legal.disclosure}</p>
+      <p className="text-xs text-ink-2">{COPY.legal.nudge} {COPY.legal.disclosure}</p>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function Field({ id, label, why, hint, error, children, className }: Fiel
       </Label>
       {children}
       {(why || hint) && (
-        <p id={`${id}-msg`} className="flex items-start gap-1.5 text-xs text-muted">
+        <p id={`${id}-msg`} className="flex items-start gap-1.5 text-xs text-ink-2">
           <Info className="mt-0.5 size-3.5 shrink-0" aria-hidden />
           <span>
             {why}

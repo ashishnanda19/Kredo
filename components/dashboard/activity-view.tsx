@@ -41,17 +41,17 @@ export function ActivityView() {
 
       <div className="space-y-3">
         <div className="relative">
-          <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-5 -translate-y-1/2 text-muted" />
+          <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-5 -translate-y-1/2 text-ink-2" />
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={t.search}
             aria-label="Search transactions"
-            className="glass glass-soft min-h-12 w-full rounded-full pl-12 pr-12 text-base placeholder:text-muted/80 focus-visible:shadow-[0_0_0_2px_var(--neon-violet),0_0_28px_-4px_var(--glow)] focus-visible:outline-none [&::-webkit-search-cancel-button]:hidden"
+            className="glass glass-soft min-h-12 w-full rounded-full pl-12 pr-12 text-base placeholder:text-ink-2/80 focus-visible:shadow-[0_0_0_2px_var(--ink)] focus-visible:outline-none [&::-webkit-search-cancel-button]:hidden"
           />
           {q && (
-            <button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-1 top-1/2 z-10 grid size-11 -translate-y-1/2 place-items-center rounded-full text-muted hover:text-foreground">
+            <button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-1 top-1/2 z-10 grid size-11 -translate-y-1/2 place-items-center rounded-full text-ink-2 hover:text-ink">
               <X className="size-5" />
             </button>
           )}
@@ -90,7 +90,7 @@ export function ActivityView() {
               />
             </GlassCard>
           ) : (
-            <Stagger key={`${filter}-${q}`} inView={false} className="glass divide-y divide-foreground/10 rounded-[24px] px-5 py-2" role="list">
+            <Stagger key={`${filter}-${q}`} inView={false} className="glass divide-y divide-ink/10 rounded-[24px] px-5 py-2" role="list">
               {rows.map((x) => (
                 <StaggerItem key={x.id} role="listitem">
                   <TransactionRow tx={x} onDispute={setDispute} />

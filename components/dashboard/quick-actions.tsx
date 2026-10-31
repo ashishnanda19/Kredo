@@ -29,7 +29,7 @@ export function QuickActions({ onRepay, onIncrease }: { onRepay: () => void; onI
             <span
               className={cn(
                 "grid size-14 place-items-center rounded-2xl transition-transform group-hover:-translate-y-0.5 group-active:scale-95",
-                a.primary ? "gradient-neon text-white shadow-[0_8px_20px_-8px_var(--glow)]" : "bg-foreground/[0.07] text-accent-text",
+                a.primary ? "bg-pill text-pill-fg" : "bg-ink/[0.07] text-ink",
               )}
             >
               <a.icon className="size-6" aria-hidden />

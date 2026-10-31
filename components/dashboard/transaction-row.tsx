@@ -10,7 +10,7 @@ export function TransactionRow({ tx, onDispute }: { tx: Transaction; onDispute?:
       <CategoryIcon category={tx.category} />
       <div className="min-w-0 flex-1">
         <p className="truncate font-semibold">{tx.vendor}</p>
-        <p className="truncate text-sm text-muted">
+        <p className="truncate text-sm text-ink-2">
           {CATEGORY_LABEL[tx.category]} · {relativeDay(tx.date)}
         </p>
       </div>
@@ -20,7 +20,7 @@ export function TransactionRow({ tx, onDispute }: { tx: Transaction; onDispute?:
       </div>
     </div>
     {onDispute && (
-      <button type="button" onClick={() => onDispute(tx.id)} className="mb-2 ml-14 inline-flex min-h-9 items-center text-xs font-bold text-neon-blue">
+      <button type="button" onClick={() => onDispute(tx.id)} className="-mt-1 mb-1 ml-[52px] inline-flex min-h-9 items-center text-[12px] font-medium text-ink-2 underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink">
         Something looks wrong?
       </button>
     )}

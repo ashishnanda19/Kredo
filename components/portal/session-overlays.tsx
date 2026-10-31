@@ -15,9 +15,9 @@ export function SessionExpiredScreen() {
   const router = useRouter();
   return (
     <GlassCard radius="xl" strength="strong" className="mx-auto mt-10 max-w-md p-7 text-center">
-      <TimerReset className="mx-auto size-10 text-neon-blue" aria-hidden />
+      <TimerReset className="mx-auto size-10 text-info-text" aria-hidden />
       <h1 className="mt-4 text-2xl font-extrabold">{t.expiredTitle}</h1>
-      <p className="mt-2 text-muted">{t.expiredBody}</p>
+      <p className="mt-2 text-ink-2">{t.expiredBody}</p>
       <GlassButton
         size="lg"
         className="mt-6 w-full"
@@ -36,10 +36,10 @@ export function SessionExpiredScreen() {
 export function LockedAccountScreen() {
   const t = COPY.session;
   return (
-    <GlassCard radius="xl" strength="strong" glow="magenta" className="mx-auto mt-10 max-w-md p-7 text-center" role="alert">
-      <LockKeyhole className="mx-auto size-10 text-neon-magenta" aria-hidden />
+    <GlassCard radius="xl" strength="strong" className="mx-auto mt-10 max-w-md p-7 text-center" role="alert">
+      <LockKeyhole className="mx-auto size-10 text-ink-2" aria-hidden />
       <h1 className="mt-4 text-2xl font-extrabold">{t.lockedTitle}</h1>
-      <p className="mt-2 text-muted">{t.lockedBody}</p>
+      <p className="mt-2 text-ink-2">{t.lockedBody}</p>
       <p className="mt-3 text-sm">{t.lockedHow}</p>
       <div className="mt-6 flex flex-col gap-2">
         <GlassButton asChild size="lg">
@@ -64,9 +64,9 @@ export function NewDeviceAlert() {
     <GlassSheet open onOpenChange={() => {}}>
       <GlassSheetContent onEscapeKeyDown={(e) => e.preventDefault()} onInteractOutside={(e) => e.preventDefault()}>
         <div className="text-center">
-          <ShieldAlert className="mx-auto size-10 text-warning" aria-hidden />
+          <ShieldAlert className="mx-auto size-10 text-warn-text" aria-hidden />
           <GlassSheetTitle className="mt-3 text-xl font-extrabold">{t.newDeviceTitle}</GlassSheetTitle>
-          <GlassSheetDescription className="mt-2 text-sm text-muted">{secured ? t.secured : t.newDeviceBody}</GlassSheetDescription>
+          <GlassSheetDescription className="mt-2 text-sm text-ink-2">{secured ? t.secured : t.newDeviceBody}</GlassSheetDescription>
           {!secured ? (
             <div className="mt-5 space-y-2">
               <GlassButton size="lg" className="w-full" onClick={() => setEdge("none")}>
@@ -143,7 +143,7 @@ export function IdleTimeout() {
     <GlassSheet open={warn} onOpenChange={(o) => !o && stay()}>
       <GlassSheetContent>
         <GlassSheetTitle className="text-xl font-extrabold">{t.warnTitle}</GlassSheetTitle>
-        <GlassSheetDescription className="mt-2 text-sm text-muted" aria-live="polite">
+        <GlassSheetDescription className="mt-2 text-sm text-ink-2" aria-live="polite">
           {t.warnBody(Math.max(0, secs))}
         </GlassSheetDescription>
         <div className="mt-5 space-y-2">

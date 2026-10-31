@@ -22,17 +22,17 @@ export function AuditDrawer() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <Dialog.Title className="text-lg font-extrabold">Audit log</Dialog.Title>
-              <Dialog.Description className="text-xs text-muted">Mock entries. Every action here records who, what, when and why.</Dialog.Description>
+              <Dialog.Description className="text-xs text-ink-2">Mock entries. Every action here records who, what, when and why.</Dialog.Description>
             </div>
-            <Dialog.Close aria-label="Close audit log" className="grid size-10 place-items-center rounded-full hover:bg-foreground/10">
+            <Dialog.Close aria-label="Close audit log" className="grid size-10 place-items-center rounded-full hover:bg-ink/10">
               <X className="size-5" />
             </Dialog.Close>
           </div>
           <ol className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1">
             {audit.map((a) => (
-              <li key={a.id} className="rounded-2xl bg-foreground/[0.06] p-3 text-sm">
+              <li key={a.id} className="rounded-2xl bg-ink/[0.06] p-3 text-sm">
                 <p className="font-bold">{a.what}</p>
-                <p className="mt-0.5 text-xs text-muted">
+                <p className="mt-0.5 text-xs text-ink-2">
                   {a.who} · {fmtDT(a.at)}
                 </p>
                 <p className="mt-1 text-xs">

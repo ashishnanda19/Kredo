@@ -65,10 +65,10 @@ export function TicketDetail({ id }: { id: string }) {
                   const Icon = ICON[e.who];
                   return (
                     <li key={e.id} className="flex gap-3">
-                      <span aria-hidden className="grid size-9 shrink-0 place-items-center rounded-full bg-foreground/[0.08] text-neon-violet"><Icon className="size-4" /></span>
+                      <span aria-hidden className="grid size-9 shrink-0 place-items-center rounded-full bg-ink/[0.08] text-ink"><Icon className="size-4" /></span>
                       <div className="min-w-0">
-                        <p className="text-xs text-muted"><span className="font-bold text-foreground">{WHO[e.who]}</span> · {formatDate(e.at)}</p>
-                        <p className={e.who === "system" ? "text-sm text-muted" : "text-sm"}>{e.text}</p>
+                        <p className="text-xs text-ink-2"><span className="font-bold text-ink">{WHO[e.who]}</span> · {formatDate(e.at)}</p>
+                        <p className={e.who === "system" ? "text-sm text-ink-2" : "text-sm"}>{e.text}</p>
                       </div>
                     </li>
                   );
@@ -89,7 +89,7 @@ export function TicketDetail({ id }: { id: string }) {
         <div className="space-y-5">
           <GlassCard radius="lg" className="p-5" role="region" aria-label={T.expectation}>
             <h2 className="text-base font-bold">{T.expectation}</h2>
-            <p className="mt-1 text-sm text-muted">{RESPONSE_EXPECTATION}</p>
+            <p className="mt-1 text-sm text-ink-2">{RESPONSE_EXPECTATION}</p>
           </GlassCard>
           <GrievanceCard />
         </div>

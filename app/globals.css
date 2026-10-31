@@ -352,10 +352,6 @@
     background: var(--elevated);
     box-shadow: var(--shadow-lift);
   }
-  .glass-glow-violet,
-  .glass-glow-magenta {
-    box-shadow: var(--shadow-lift);
-  }
   .glass-hover {
     transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
   }

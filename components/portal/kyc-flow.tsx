@@ -65,18 +65,18 @@ function ProviderBody({ onClose }: { onClose: () => void }) {
   return (
     <>
         <GlassSheetTitle className="text-xl font-extrabold">{T.modalTitle}</GlassSheetTitle>
-        <GlassSheetDescription className="mt-1 text-sm text-muted">{T.modalIntro}</GlassSheetDescription>
+        <GlassSheetDescription className="mt-1 text-sm text-ink-2">{T.modalIntro}</GlassSheetDescription>
 
         <ol className="mt-4 flex gap-1.5" aria-label="Provider steps">
           {(["redirect", "id", "selfie", "result"] as Phase[]).map((p, i) => (
-            <li key={p} aria-current={p === phase ? "step" : undefined} className={`h-1.5 flex-1 rounded-full ${i <= (["redirect", "id", "selfie", "result"] as Phase[]).indexOf(phase) ? "gradient-neon" : "bg-foreground/15"}`} />
+            <li key={p} aria-current={p === phase ? "step" : undefined} className={`h-1.5 flex-1 rounded-full ${i <= (["redirect", "id", "selfie", "result"] as Phase[]).indexOf(phase) ? "bg-pill text-pill-fg" : "bg-ink/15"}`} />
           ))}
         </ol>
 
         <div className="mt-5" aria-live="polite">
           {phase === "redirect" && (
             <div className="flex items-center gap-3 py-6">
-              <Loader2 className="size-6 animate-spin text-neon-blue" aria-hidden />
+              <Loader2 className="size-6 animate-spin text-info-text" aria-hidden />
               <p className="font-semibold">{T.redirecting}</p>
             </div>
           )}
@@ -92,11 +92,11 @@ function ProviderBody({ onClose }: { onClose: () => void }) {
           )}
           {phase === "selfie" && (
             <div className="space-y-4 text-center">
-              <span className="mx-auto grid size-20 place-items-center rounded-full bg-accent-soft text-neon-violet">
+              <span className="mx-auto grid size-20 place-items-center rounded-full bg-accent-soft text-ink">
                 <ScanFace className="size-10" aria-hidden />
               </span>
               <h3 className="font-bold">{T.selfieStep}</h3>
-              <p className="text-sm text-muted">{T.selfieBody}</p>
+              <p className="text-sm text-ink-2">{T.selfieBody}</p>
               {DEMO_ENABLED && (
                 <label className="flex items-center justify-center gap-2 text-xs font-semibold">
                   <input type="checkbox" className="size-4" checked={fail} onChange={(e) => setFail(e.target.checked)} /> Demo: make this attempt fail
@@ -115,7 +115,7 @@ function ProviderBody({ onClose }: { onClose: () => void }) {
           )}
           {phase === "result" && (
             <div className="space-y-3 text-center">
-              {ok ? <BadgeCheck className="mx-auto size-14 text-success" aria-hidden /> : <AlertTriangle className="mx-auto size-14 text-danger" aria-hidden />}
+              {ok ? <BadgeCheck className="mx-auto size-14 text-ok-text" aria-hidden /> : <AlertTriangle className="mx-auto size-14 text-bad-text" aria-hidden />}
               <h3 className="text-lg font-bold">{ok ? T.verifiedTitle : T.providerError}</h3>
               <GlassButton size="lg" className="w-full" onClick={onClose}>
                 Close
@@ -149,7 +149,7 @@ export function KycFlow() {
     if (hydrated && !loggedIn) router.replace("/login?next=/verify/kyc");
   }, [hydrated, loggedIn, router]);
 
-  if (!hydrated || !loggedIn) return <PortalShell width="max-w-xl"><div role="status" className="py-16 text-center text-muted">{COPY.gate.loading}</div></PortalShell>;
+  if (!hydrated || !loggedIn) return <PortalShell width="max-w-xl"><div role="status" className="py-16 text-center text-ink-2">{COPY.gate.loading}</div></PortalShell>;
 
   const left = Math.max(0, KYC_RETRY_LIMIT - kyc.retries);
   const stepsDone = kyc.status === "verified" ? 4 : kyc.status === "in_progress" ? 1 : identity?.granted ? 1 : 0;
@@ -168,11 +168,11 @@ export function KycFlow() {
   return (
     <PortalShell width="max-w-xl" back={{ href: "/dashboard", label: "Dashboard" }}>
       <h1 className="text-3xl font-extrabold tracking-tight">{T.title}</h1>
-      <p className="mt-2 text-muted">{T.sub}</p>
+      <p className="mt-2 text-ink-2">{T.sub}</p>
       {!verified && (
-        <p className="mt-3 rounded-2xl bg-foreground/[0.07] px-4 py-3 text-sm">
+        <p className="mt-3 rounded-2xl bg-ink/[0.07] px-4 py-3 text-sm">
           Student verification is the first step. You can do both in parallel.{" "}
-          <Link href="/verify/status" className="font-bold text-neon-blue">
+          <Link href="/verify/status" className="font-bold text-info-text">
             See status
           </Link>
         </p>
@@ -180,14 +180,14 @@ export function KycFlow() {
 
       <section aria-label={T.consentTitle} className="mt-6">
         <h2 className="text-base font-bold">{T.consentTitle}</h2>
-        <p className="mb-1 text-sm text-muted">{T.consentSub}</p>
+        <p className="mb-1 text-sm text-ink-2">{T.consentSub}</p>
         <ConsentToggles />
-        <div className="mt-3 rounded-[20px] border border-foreground/15 p-4 text-sm">
+        <div className="mt-3 rounded-[20px] border border-ink/15 p-4 text-sm">
           <h3 className="flex items-center gap-2 font-bold">
-            <ShieldCheck className="size-4 text-neon-blue" aria-hidden /> {T.noticeTitle}
+            <ShieldCheck className="size-4 text-info-text" aria-hidden /> {T.noticeTitle}
           </h3>
-          <p className="mt-1 text-muted">{COPY.verify.review.notice}</p>
-          <Link href="/legal/privacy" target="_blank" className="mt-2 inline-block font-bold text-neon-blue">
+          <p className="mt-1 text-ink-2">{COPY.verify.review.notice}</p>
+          <Link href="/legal/privacy" target="_blank" className="mt-2 inline-block font-bold text-info-text">
             Read the notice (version {VERSIONS.privacy})
           </Link>
         </div>
@@ -202,8 +202,8 @@ export function KycFlow() {
         <ol className="mt-4 space-y-2 text-sm" aria-label={T.outstanding}>
           {T.steps.map((s, i) => (
             <li key={s} className="flex items-center gap-2">
-              {i < stepsDone ? <CheckCircle2 className="size-4 text-success" aria-hidden /> : <Circle className="size-4 text-muted" aria-hidden />}
-              <span className={i < stepsDone ? "" : "text-muted"}>{s}</span>
+              {i < stepsDone ? <CheckCircle2 className="size-4 text-ok-text" aria-hidden /> : <Circle className="size-4 text-ink-2" aria-hidden />}
+              <span className={i < stepsDone ? "" : "text-ink-2"}>{s}</span>
             </li>
           ))}
         </ol>
@@ -217,7 +217,7 @@ export function KycFlow() {
           {kyc.status === "provider_error" && (
             <div role="alert" className="space-y-3">
               <p className="rounded-2xl bg-danger-soft px-4 py-3 text-sm">{T.providerError}</p>
-              <p className="text-xs font-semibold text-muted">{T.retriesLeft(left)}</p>
+              <p className="text-xs font-semibold text-ink-2">{T.retriesLeft(left)}</p>
               <GlassButton size="lg" className="w-full" onClick={start}>
                 {T.retry}
               </GlassButton>
@@ -239,7 +239,7 @@ export function KycFlow() {
                 {kyc.status === "in_progress" ? T.resume : T.start}
               </GlassButton>
               {needConsent && (
-                <p role="alert" className="text-sm font-medium text-danger">
+                <p role="alert" className="text-sm font-medium text-bad-text">
                   {T.needConsent}
                 </p>
               )}
@@ -249,7 +249,7 @@ export function KycFlow() {
       </GlassCard>
 
       <p className="mt-5 text-center text-sm">
-        <Link href="/dashboard/profile/privacy" className="font-bold text-neon-blue">
+        <Link href="/dashboard/profile/privacy" className="font-bold text-info-text">
           {COPY.privacy.title}
         </Link>
       </p>

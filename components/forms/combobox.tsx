@@ -42,7 +42,7 @@ export function Combobox({ id, options, value, onSelect, onNotListed, notListedL
 
   return (
     <div className="relative">
-      <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-5 -translate-y-1/2 text-muted" />
+      <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-5 -translate-y-1/2 text-ink-2" />
       <GlassInput
         ref={ref}
         id={id}
@@ -81,7 +81,7 @@ export function Combobox({ id, options, value, onSelect, onNotListed, notListedL
       />
       {open && (
         <ul id={list} role="listbox" className="glass glass-strong absolute z-30 mt-2 max-h-72 w-full overflow-auto rounded-[20px] p-1.5">
-          {matches.length === 0 && <li className="px-3 py-3 text-sm text-muted">{noResults}</li>}
+          {matches.length === 0 && <li className="px-3 py-3 text-sm text-ink-2">{noResults}</li>}
           {matches.map((o, i) => (
             <li
               key={o}
@@ -93,10 +93,10 @@ export function Combobox({ id, options, value, onSelect, onNotListed, notListedL
                 choose(i);
               }}
               onMouseEnter={() => setActive(i)}
-              className={cn("flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-xl px-3 text-sm", i === active && "bg-foreground/10")}
+              className={cn("flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-xl px-3 text-sm", i === active && "bg-ink/10")}
             >
               {o}
-              {o === value && <Check className="size-4 text-success" aria-hidden />}
+              {o === value && <Check className="size-4 text-ok-text" aria-hidden />}
             </li>
           ))}
           {onNotListed && (
@@ -109,7 +109,7 @@ export function Combobox({ id, options, value, onSelect, onNotListed, notListedL
                 choose(matches.length);
               }}
               onMouseEnter={() => setActive(matches.length)}
-              className={cn("min-h-11 cursor-pointer rounded-xl px-3 py-3 text-sm font-bold text-neon-blue", active === matches.length && "bg-foreground/10")}
+              className={cn("min-h-11 cursor-pointer rounded-xl px-3 py-3 text-sm font-bold text-info-text", active === matches.length && "bg-ink/10")}
             >
               {notListedLabel}
             </li>
