@@ -1,19 +1,11 @@
-import { COPY } from "@/lib/copy";
+import Image from "next/image";
 import { Reveal } from "@/components/shared/reveal";
-
-/** Abstract placeholder marks (no real logos): simple geometry, one per tile. */
-const MARKS = [
-  <circle key="a" cx="20" cy="20" r="11" />,
-  <rect key="b" x="9" y="9" width="22" height="22" rx="5" />,
-  <path key="c" d="M20 7 33 31H7Z" />,
-  <path key="d" d="M9 20a11 11 0 0 1 22 0Z M9 24h22v6H9Z" />,
-  <path key="e" d="M8 12h24v5H8Zm0 8h24v5H8Zm0 8h16v5H8Z" />,
-  <path key="f" d="M20 7l4 9 9 4-9 4-4 9-4-9-9-4 9-4Z" />,
-];
+import { COPY } from "@/lib/copy";
+import { CAMPUS_VENDOR_TILES, licenseUrl } from "@/lib/partners";
 
 /**
- * F10 partners wall: a grid of dark tiles standing in for college and vendor marks. Every tile is a visibly
- * labelled placeholder; real partners appear only with their permission.
+ * F10 vendor wall: photo tiles of the kinds of vendors found on Indian campuses. Names are fictional and the
+ * wall is labelled illustrative (no implied partnership); photos are openly licensed and credited below.
  */
 export function PartnersWall() {
   const t = COPY.landing.partners;
@@ -26,22 +18,45 @@ export function PartnersWall() {
             {t.title}
           </h2>
         </Reveal>
-        <ul className="mt-12 grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-3 lg:grid-cols-6">
-          {Array.from({ length: 12 }, (_, i) => (
-            <li
-              key={i}
-              className="group relative flex aspect-[5/4] flex-col items-center justify-center gap-2 rounded-[16px] bg-[#0f0f12] text-white transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-1 dark:bg-[#15151c]"
-            >
-              <svg viewBox="0 0 40 40" className="size-9 fill-white/85 sm:size-10" aria-hidden>
-                {MARKS[i % MARKS.length]}
-              </svg>
-              <span className="text-[10.5px] font-medium tracking-wide text-white/55">
-                {t.tile} {String(i + 1).padStart(2, "0")}
-              </span>
+        <ul className="mt-12 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-6">
+          {CAMPUS_VENDOR_TILES.map((v) => (
+            <li key={v.slug} className="group relative aspect-[4/5] overflow-hidden rounded-[16px] bg-[#0f0f12]">
+              <Image
+                src={`/partners/${v.slug}.jpg`}
+                alt=""
+                fill
+                sizes="(min-width: 1280px) 190px, (min-width: 1024px) 280px, (min-width: 640px) 33vw, 50vw"
+                className="object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.04]"
+                style={{ objectPosition: v.focus }}
+              />
+              <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_45%,rgba(0,0,0,0.78)_100%)]" />
+              <span className="absolute left-2.5 top-2.5 rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-white/90">{t.tag}</span>
+              <div className="absolute inset-x-0 bottom-0 p-3 text-white">
+                <p className="text-[14px] font-semibold leading-tight">{v.name}</p>
+                <p className="pt-0.5 text-[12px] text-white/70">{v.kind}</p>
+              </div>
             </li>
           ))}
         </ul>
-        <p className="mt-5 text-center text-[12px] text-ink-2">{t.note}</p>
+        <p className="mx-auto mt-5 max-w-2xl text-center text-[12px] text-ink-2">{t.note}</p>
+        <details className="mx-auto mt-2 max-w-3xl text-center text-[11.5px] text-ink-2">
+          <summary className="inline-flex min-h-11 cursor-pointer items-center underline underline-offset-2">{t.credits}</summary>
+          <ul className="mt-1 space-y-1 text-left sm:columns-2 sm:gap-8">
+            {CAMPUS_VENDOR_TILES.map((v) => (
+              <li key={v.slug} className="break-inside-avoid">
+                {v.kind}:{" "}
+                <a href={v.photo.source} className="underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                  photo
+                </a>{" "}
+                by {v.photo.author},{" "}
+                <a href={licenseUrl(v.photo.license)} className="underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                  {v.photo.license}
+                </a>
+                , {t.resized}
+              </li>
+            ))}
+          </ul>
+        </details>
       </div>
     </section>
   );
