@@ -101,9 +101,11 @@ export function DemoControls() {
         onClick={() => s.setDemoOpen(!s.demo.open)}
         aria-expanded={s.demo.open}
         aria-controls="demo-panel"
-        className="glass glass-strong print:hidden fixed bottom-24 right-3 z-[85] inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-xs font-bold lg:bottom-4"
+        aria-label={d.open}
+        // phones: a round icon at the right edge, clear of the hero phone, the stage switcher and the dashboard tabs
+        className="glass glass-strong print:hidden fixed bottom-[92px] right-3 z-[85] inline-flex size-11 items-center justify-center gap-2 rounded-full text-xs font-bold sm:size-auto sm:min-h-11 sm:bottom-24 sm:px-4 lg:bottom-4"
       >
-        <FlaskConical className="size-4 text-ink-2" aria-hidden /> {d.open}
+        <FlaskConical className="size-4 text-ink-2" aria-hidden /> <span className="max-sm:hidden">{d.open}</span>
       </button>
 
       {s.demo.open && (
@@ -114,7 +116,7 @@ export function DemoControls() {
           radius="lg"
           strength="strong"
          
-          className="fixed bottom-36 right-3 z-[85] max-h-[70dvh] w-[min(92vw,380px)] space-y-4 overflow-y-auto p-4 lg:bottom-16"
+          className="fixed bottom-[148px] right-3 z-[85] max-h-[70dvh] w-[min(92vw,380px)] space-y-4 overflow-y-auto p-4 lg:bottom-16"
         >
           <div className="flex items-start justify-between gap-2">
             <div>

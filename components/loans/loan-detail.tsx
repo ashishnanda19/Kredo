@@ -42,7 +42,7 @@ export function LoanDetail({ id }: { id: string }) {
         <GlassCard radius="xl" strength="strong" className="flex flex-wrap items-center justify-between gap-3 p-5">
           <div>
             <p className="text-sm text-ink-2">Borrowed</p>
-            <p className="text-2xl font-extrabold tabular-nums">{formatINR(loan.principal)}</p>
+            <p className="text-2xl font-semibold tracking-[-0.035em] tabular-nums">{formatINR(loan.principal)}</p>
             <p className="text-xs text-ink-2">
               {loan.tenure} monthly instalments · started {formatDate(loan.disbursedOn)}
             </p>
@@ -53,12 +53,12 @@ export function LoanDetail({ id }: { id: string }) {
         <OutstandingCard loan={loan} />
 
         <section aria-label={T.schedule}>
-          <h2 className="mb-2 text-base font-bold">{T.schedule}</h2>
+          <h2 className="mb-2 text-[16px] font-semibold tracking-[-0.015em]">{T.schedule}</h2>
           <ScheduleTable schedule={loan.schedule} />
         </section>
 
         <GlassCard radius="lg" className="p-5" role="region" aria-label={T.acceptance}>
-          <h2 className="mb-2 text-base font-bold">{T.acceptance}</h2>
+          <h2 className="mb-2 text-[16px] font-semibold tracking-[-0.015em]">{T.acceptance}</h2>
           <dl className="divide-y divide-ink/10 text-sm">
             <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">Accepted on</dt><dd className="font-semibold">{formatDate(loan.acceptance.at)}</dd></div>
             <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">Offer version</dt><dd className="font-mono font-semibold">{loan.acceptance.offerVersion}</dd></div>
@@ -68,7 +68,7 @@ export function LoanDetail({ id }: { id: string }) {
 
         <GlassCard radius="lg" className="p-5" role="region" aria-label="Payments">
           <div className="mb-1 flex items-center justify-between gap-3">
-            <h2 className="text-base font-bold">Payments</h2>
+            <h2 className="text-[16px] font-semibold tracking-[-0.015em]">Payments</h2>
             <GlassButton asChild variant="soft" size="sm">
               <Link href={`/dashboard/loans/${loan.id}/statement`}>
                 <FileText className="size-4" aria-hidden /> {T.statement}

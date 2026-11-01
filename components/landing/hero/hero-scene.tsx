@@ -423,11 +423,13 @@ export function HeroScene() {
     if (!el) return;
     const ro = new ResizeObserver(([e]) => {
       const { width, height } = e.contentRect;
-      // let the phone run a little past the fold (Flighty-style); the floating control overlaps the hand, not the UI
-      // (the art box has empty space above the phone, so it is pulled up by 9% of its width)
+      // the floating stage control overlaps the hand, never the screen: the screen's bottom edge sits at 0.896 of
+      // the art width below the area top (the box is pulled up by 9% of its width and the glass ends at 98.6%), so
+      // leave room for the control (its offset + height + a gap) under it
+      const reserve = width < 640 ? 78 : 90;
       const pw = Math.max(
-        320,
-        Math.min((height + 8) / 0.89, width * 1.3, width >= 1024 ? 760 : 620),
+        220,
+        Math.min((height - reserve) / 0.896, width * 1.3, width >= 1024 ? 760 : 620),
       );
       el.style.setProperty("--pw", `${Math.round(pw)}px`);
     });
@@ -649,7 +651,7 @@ export function HeroScene() {
             </div>
 
             {/* phones and tablets: the latest card gets its own row, so nothing sits over the phone screen */}
-            <div data-intro-fade className="w-full lg:hidden">
+            <div data-intro-fade className="w-full max-sm:hidden lg:hidden">
               <FeedBanner
                 stage={feed}
                 lit={reduce ? 6 : state.lit}
@@ -720,17 +722,10 @@ export function HeroScene() {
               </div>
               <p
                 data-intro-fade
-                className="pointer-events-none absolute inset-x-0 bottom-[72px] z-10 flex justify-center sm:inset-x-auto sm:bottom-[84px] sm:left-6 sm:block"
+                className="pointer-events-none absolute bottom-[96px] left-3 z-10 w-[calc(50%-var(--pw)*0.2-16px)] sm:bottom-[104px] sm:left-6 sm:w-auto"
               >
-                {/* a backed pill on phones, where the label sits over the phone and hand */}
-                <span
-                  className={cn(
-                    "rounded-full px-2.5 py-1 text-[11px] leading-snug max-sm:shadow-sm max-sm:backdrop-blur-md sm:px-0 sm:py-0",
-                    dark
-                      ? "text-white/75 max-sm:bg-black/60"
-                      : "text-ink-2 max-sm:bg-page/90 max-sm:ring-1 max-sm:ring-hairline",
-                  )}
-                >
+                {/* in the free space left of the phone, so it never covers the screen */}
+                <span className={cn("block text-[11px] leading-snug", dark ? "text-white/70" : "text-ink-2")}>
                   {t.hero.sample}
                 </span>
               </p>

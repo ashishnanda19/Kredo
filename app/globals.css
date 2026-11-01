@@ -490,9 +490,21 @@
 .sc-float { animation: sc-float 9s ease-in-out infinite; }
 @keyframes ink-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 .ink-draw { stroke-dasharray: 1; animation: ink-draw 0.9s cubic-bezier(0.65, 0, 0.35, 1) both; }
-/* the demo chip moves past the dashboard side rail (w-72) so it never covers it */
-@media (min-width: 1024px) {
-  body:has([data-side-rail]) [data-demo-chip] { left: calc(18rem + 0.75rem); }
+/*
+ * Dashboard surfaces follow the landing page: flat cards in the card tone, no border or drop shadow. Anything that
+ * used the card tone as its own fill (inputs, secondary buttons, icon tiles) steps up to the page tone inside a card,
+ * so it still reads. Sheets render outside .dash and keep their lifted look.
+ */
+.dash .glass {
+  background: var(--card);
+  border-color: transparent;
+  box-shadow: none;
+}
+.dash .glass.glass-hover:hover {
+  box-shadow: none;
+}
+.dash .glass .bg-card {
+  background: var(--page);
 }
 /* fine film grain for the splash panel (adds depth without a pattern) */
 .grain {

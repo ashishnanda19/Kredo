@@ -22,7 +22,7 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
             <li key={p.id} className="space-y-2 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="font-bold tabular-nums">{formatINR(p.amount)}</p>
+                  <p className="font-semibold tabular-nums">{formatINR(p.amount)}</p>
                   <p className="truncate text-xs text-ink-2">
                     {formatDate(p.date)} · {p.method} · <span className="font-mono">{p.ref}</span>
                     {p.instalment ? ` · instalment ${p.instalment}` : ""}
@@ -49,7 +49,7 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
                   </span>
                 )}
                 {p.state === "successful" && (
-                  <Link href={`/dashboard/receipts/${p.id}`} className="inline-flex min-h-9 items-center gap-1 font-bold text-info-text">
+                  <Link href={`/dashboard/receipts/${p.id}`} className="inline-flex min-h-9 items-center gap-1 font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
                     <FileText className="size-3.5" aria-hidden /> {COPY.loans.receipt}
                   </Link>
                 )}
@@ -58,7 +58,7 @@ export function PaymentList({ payments, onRetry }: { payments: PaymentRecord[]; 
                     {COPY.loans.again}
                   </GlassButton>
                 )}
-                <button type="button" onClick={() => setDispute(p.id)} className="inline-flex min-h-9 items-center gap-1 font-bold text-info-text">
+                <button type="button" onClick={() => setDispute(p.id)} className="inline-flex min-h-9 items-center gap-1 font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
                   <Flag className="size-3.5" aria-hidden /> {COPY.loans.wrong}
                 </button>
               </div>

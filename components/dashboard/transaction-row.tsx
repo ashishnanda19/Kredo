@@ -15,7 +15,7 @@ export function TransactionRow({ tx, onDispute }: { tx: Transaction; onDispute?:
         </p>
       </div>
       <div className="flex shrink-0 flex-col items-end gap-1">
-        <p className="font-bold tabular-nums">{formatINR(tx.amount)}</p>
+        <p className="font-semibold tabular-nums">{formatINR(tx.amount)}</p>
         <StatusChip status={tx.status} />
       </div>
     </div>

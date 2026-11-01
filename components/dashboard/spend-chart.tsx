@@ -63,7 +63,7 @@ export default function SpendChart() {
         <div className="pointer-events-none absolute inset-0 grid place-items-center text-center">
           <div>
             <p className="text-xs text-ink-2">{focus ? focus.name : "Total spent"}</p>
-            <p className="text-xl font-extrabold tabular-nums">{formatINR(focus ? focus.value : total)}</p>
+            <p className="text-xl font-semibold tracking-[-0.035em] tabular-nums">{formatINR(focus ? focus.value : total)}</p>
           </div>
         </div>
       </div>

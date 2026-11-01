@@ -265,6 +265,8 @@ const BASE = {
 
   dashboard: {
     hey: "Hey there",
+    greeting: (name: string) => `Hey ${name}.`,
+    greetingSub: "Here's your campus money.",
     available: "Available to spend",
     availableTip: "Your limit minus what you've already used. It goes back up when you repay.",
     totalLimit: "total limit",
@@ -274,6 +276,8 @@ const BASE = {
     pay: "Pay at a vendor",
     flip: { front: "Show card front", back: "Show card back", show: "Show details", hide: "Hide details" },
     quick: { scan: "Scan and pay", repay: "Repay now", increase: "Request limit increase", history: "History" },
+    quickSub: { scan: "At partner campus vendors", repay: "Before the due date", increase: "Reviewed by our lending partner", history: "Every payment and receipt" },
+    usedPct: (pct: number) => `${pct}% used`,
     due: {
       title: "Next due",
       tip: "The date by which this amount should be repaid.",

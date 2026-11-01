@@ -20,7 +20,7 @@ export function ScoreCard() {
 
   return (
     <GlassCard role="region" radius="lg" className="h-full p-5" aria-label={d.title}>
-      <h2 className="flex items-center gap-1.5 text-base font-bold">
+      <h2 className="flex items-center gap-1.5 text-[16px] font-semibold tracking-[-0.015em]">
         {d.title}
         <InfoTip text={d.tip} label="What is the score?" />
       </h2>
@@ -29,7 +29,7 @@ export function ScoreCard() {
 
       <div className="mt-2 flex items-center justify-between gap-3 rounded-2xl bg-ink/[0.07] px-4 py-3">
         <div>
-          <p className="text-sm font-bold">{band.blurb}</p>
+          <p className="text-sm font-semibold">{band.blurb}</p>
           <p className="flex items-center gap-1 text-xs font-semibold text-ok-text">
             <ArrowUpRight className="size-3.5" aria-hidden /> Up {delta} since last month
           </p>
@@ -38,14 +38,14 @@ export function ScoreCard() {
 
       <ScoreTrend />
 
-      <h3 className="mt-5 flex items-center gap-2 text-sm font-bold">
+      <h3 className="mt-5 flex items-center gap-2 text-sm font-semibold">
         <Lightbulb className="size-4 text-warn-text" aria-hidden /> {d.levelUp}
       </h3>
       <ul className="mt-2 space-y-2">
         {COPY.score.tips.map((t) => (
           <li key={t.title} className="flex items-center justify-between gap-3 text-sm">
             <span>{t.title}</span>
-            <span className="shrink-0 rounded-full bg-success-soft px-2 py-0.5 text-xs font-bold text-ok-text">{t.gain}</span>
+            <span className="shrink-0 rounded-full bg-success-soft px-2 py-0.5 text-xs font-semibold text-ok-text">{t.gain}</span>
           </li>
         ))}
       </ul>

@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { DemoChip } from "@/components/shared/demo-chip";
 import { DemoControls, PortalRuntime } from "@/components/portal/demo-controls";
 import { Providers } from "@/components/shared/providers";
 import { BRAND } from "@/lib/config";
@@ -42,7 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Providers>
-          <DemoChip />
           <PortalRuntime />
           <DemoControls />
           {children}

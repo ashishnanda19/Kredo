@@ -59,19 +59,23 @@ export default function DashboardPage() {
                 <LoanSummaryCard />
               </div>
 
-              <Reveal>
-                <NextDueCard amount={nextDue.amount} dueDate={nextDue.dueDate} clear={empty} onRepay={() => setRepayOpen(true)} />
-              </Reveal>
-              <Reveal delay={0.05}>
-                <ScoreCard />
-              </Reveal>
-
-              <Reveal>
-                <RecentActivity items={recent} />
-              </Reveal>
-              <Reveal delay={0.05}>
-                <SpendingCard empty={empty} />
-              </Reveal>
+              {/* two columns that balance: what you owe and where it went, beside how you are doing */}
+              <div className="space-y-5">
+                <Reveal>
+                  <NextDueCard amount={nextDue.amount} dueDate={nextDue.dueDate} clear={empty} onRepay={() => setRepayOpen(true)} />
+                </Reveal>
+                <Reveal>
+                  <SpendingCard empty={empty} />
+                </Reveal>
+              </div>
+              <div className="space-y-5">
+                <Reveal delay={0.05}>
+                  <ScoreCard />
+                </Reveal>
+                <Reveal delay={0.05}>
+                  <RecentActivity items={recent} />
+                </Reveal>
+              </div>
 
               <div className="md:col-span-2">
                 <LoansSection loans={empty ? [] : loans} />

@@ -21,11 +21,11 @@ export function ScheduleTable({ schedule, caption = "Repayment schedule" }: { sc
         <tbody className="divide-y divide-ink/10">
           {schedule.map((i) => (
             <tr key={i.n}>
-              <td className="px-4 py-3 font-bold">{i.n}</td>
+              <td className="px-4 py-3 font-semibold">{i.n}</td>
               <td className="px-2 py-3">{formatDate(i.dueDate)}</td>
               <td className="px-2 py-3 text-right tabular-nums">{formatINR(i.principal)}</td>
               <td className="px-2 py-3 text-right tabular-nums">{formatINR(i.charges)}</td>
-              <td className="px-2 py-3 text-right font-bold tabular-nums">{formatINR(i.amount)}</td>
+              <td className="px-2 py-3 text-right font-semibold tabular-nums">{formatINR(i.amount)}</td>
               <td className="px-4 py-3">
                 <StatusPill kind="instalment" value={i.state} />
               </td>

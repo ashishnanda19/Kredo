@@ -63,7 +63,7 @@ export function CreditProfile() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-warning-soft px-3 py-1 text-xs font-bold text-warn-text" role="note">
+      <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-warning-soft px-3 py-1 text-xs font-semibold text-warn-text" role="note">
         <span aria-hidden className="size-1.5 rounded-full bg-current" /> {T.ribbon}
       </div>
       <PageHeader title={T.title} />
@@ -80,20 +80,20 @@ export function CreditProfile() {
       ) : (
         <div className="space-y-5">
           <GlassCard radius="xl" strength="strong" className="p-5 sm:p-6" role="region" aria-label={T.gaugeLabel}>
-            <h2 className="flex items-center gap-1.5 text-base font-bold"><Info className="size-4 text-info-text" aria-hidden /> {T.gaugeLabel}</h2>
+            <h2 className="flex items-center gap-1.5 text-[16px] font-semibold tracking-[-0.015em]"><Info className="size-4 text-info-text" aria-hidden /> {T.gaugeLabel}</h2>
             <Gauge value={CREDIT_PROFILE.score} />
           </GlassCard>
 
           <GlassCard radius="lg" className="p-5" role="region" aria-label={T.factors}>
-            <h2 className="mb-3 text-base font-bold">{T.factors}</h2>
+            <h2 className="mb-3 text-[16px] font-semibold tracking-[-0.015em]">{T.factors}</h2>
             <ol className="space-y-2">
               {CREDIT_PROFILE.factors.map((f, i) => {
                 const e = EFFECT[f.effect];
                 return (
                   <li key={f.id} className="glass glass-soft flex items-start gap-3 rounded-2xl p-3">
-                    <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-ink/10 text-xs font-extrabold">{i + 1}</span>
+                    <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-ink/10 text-xs font-semibold tracking-[-0.035em]">{i + 1}</span>
                     <div className="min-w-0">
-                      <p className="flex flex-wrap items-center gap-2 text-sm font-bold">{f.title} <span className={`inline-flex items-center gap-1 text-xs ${e.cls}`}><e.icon className="size-3.5" aria-hidden />{e.word}</span></p>
+                      <p className="flex flex-wrap items-center gap-2 text-sm font-semibold">{f.title} <span className={`inline-flex items-center gap-1 text-xs ${e.cls}`}><e.icon className="size-3.5" aria-hidden />{e.word}</span></p>
                       <p className="text-sm text-ink-2">{f.why}</p>
                     </div>
                   </li>
@@ -103,7 +103,7 @@ export function CreditProfile() {
           </GlassCard>
 
           <GlassCard radius="lg" className="p-5" role="region" aria-label={T.history}>
-            <h2 className="mb-3 text-base font-bold">{T.history}</h2>
+            <h2 className="mb-3 text-[16px] font-semibold tracking-[-0.015em]">{T.history}</h2>
             <ol className="space-y-3 border-l border-ink/20 pl-4">
               {CREDIT_PROFILE.history.map((h) => (
                 <li key={h.id} className="relative text-sm">
@@ -113,11 +113,11 @@ export function CreditProfile() {
                 </li>
               ))}
             </ol>
-            <p className="mt-4 text-sm"><span className="font-bold">{T.reporting}: </span>{CREDIT_PROFILE.reporting}</p>
+            <p className="mt-4 text-sm"><span className="font-semibold">{T.reporting}: </span>{CREDIT_PROFILE.reporting}</p>
           </GlassCard>
 
           <GlassCard radius="lg" className="p-5" role="region" aria-label={T.correctionTitle}>
-            <h2 className="text-base font-bold">{T.correction}</h2>
+            <h2 className="text-[16px] font-semibold tracking-[-0.015em]">{T.correction}</h2>
             <form onSubmit={form.handleSubmit(submit)} noValidate className="mt-3 space-y-4">
               <Field id="record" label="Which record?" error={errors.record?.message}>
                 <GlassSelect id="record" invalid={!!errors.record} aria-describedby="record-err" disabled={isSubmitting} {...form.register("record")}>
@@ -135,7 +135,7 @@ export function CreditProfile() {
             {requests.length > 0 && (
               <ul className="mt-4 divide-y divide-ink/10">
                 {requests.map((r) => (
-                  <li key={r.ref} className="flex items-center justify-between gap-3 py-2.5 text-sm"><span className="font-mono font-bold">{r.ref}</span><StatusPill kind="request" value={r.status} /></li>
+                  <li key={r.ref} className="flex items-center justify-between gap-3 py-2.5 text-sm"><span className="font-mono font-semibold">{r.ref}</span><StatusPill kind="request" value={r.status} /></li>
                 ))}
               </ul>
             )}

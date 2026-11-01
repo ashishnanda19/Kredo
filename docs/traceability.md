@@ -24,7 +24,7 @@ Evidence from step 7 (production build):
 
 | Item | What the brief asks | Route | Component | Status | Notes |
 |---|---|---|---|---|---|
-| F1 | Indigo announcement bar with link and close X | all pages | `components/shared/demo-chip.tsx`, `app/layout.tsx` | Removed at the owner's request | The top strip is gone. A small "Demo · no real money" chip stays at the bottom-left of every page so the demo notice is never hidden. `--bar-h` is 0 and the layouts still offset by it. |
+| F1 | Indigo announcement bar with link and close X | all pages | `app/layout.tsx` | Removed at the owner's request | The top strip and the bottom-left "Demo · no real money" chip are both gone. Demo Controls stay, and the footer and auth pages keep their demo tags. `--bar-h` is 0 and the layouts still offset by it. |
 | F2 | Nav morphs from flat to floating pill, and inverts on dark sections | `/` | `components/landing/sections/morph-nav.tsx` | Built | The morph runs over the first 80px of scroll using a CSS variable, so it causes no React re-renders. Dark-section detection samples the element under the nav each frame instead of using an IntersectionObserver; the visible result is the same. |
 | F3 | Big tight headline, grey paragraph, two badges | `/` | `components/landing/hero/hero-scene.tsx`, `lib/copy-landing.ts` | Built | The headline is "Pay at campus. Settle later." The badges have no laurels, because the brief rules out awards. |
 | F4 | Photographic hand holding the phone, fingers over the bezel | `/` | `components/landing/hero/hand-phone.tsx`, `lib/hero-config.ts` | Approximate | A temporary SVG hand is used because `public/hero/hand-phone.png` hasn't been supplied. `PHONE_SCREEN` and the `?debug=1` overlay are ready, and swapping in the photo needs only `HERO_HAND_IMAGE` and calibration. |
@@ -43,7 +43,7 @@ Evidence from step 7 (production build):
 
 | Item | What the brief asks | Route | Component | Status | Notes |
 |---|---|---|---|---|---|
-| R1 | Black announcement bar | all pages | `demo-chip.tsx` | Removed at the owner's request | Was merged into the single F1 bar; see F1. |
+| R1 | Black announcement bar | all pages | none | Removed at the owner's request | Was merged into the single F1 bar; see F1. |
 | R2 | Nav with dropdowns, Sign in, two buttons, blur | `/` | `morph-nav.tsx` | Approximate | Frosted pill with one accent CTA. There are no dropdowns, and "Log in" appears only in the mobile menu. |
 | R3 | Faint dotted grid hero with an email-capture pill | `/` | `components/landing/sections/email-pill.tsx` | Approximate | The pill and its consent line appear in hero stage 4, the ending and the mobile nav menu. There's no dotted grid behind the hero, and no pill under the verify panel. |
 | R4 | Animated document panel, selection frames, callouts, scripted cursor | `/` | `components/landing/sections/verify-panel.tsx` | Approximate | A GSAP-timeline cursor boxes a sample ID. Callouts appear: MATCHED · College ID, MATCHED · Name, then NEEDS REVIEW resolving to MATCHED, then LIMIT SET. The cursor doesn't drag front and back files in, and the frame has no corner dots. NEEDS REVIEW is amber, not red, because status colours carry meaning. |
@@ -135,4 +135,4 @@ App mock data:
 - Ops staff (Asha, Ravi and Meera, each marked placeholder), the "Call student" template, and "Not reported to bureaus".
 - Every figure in `lib/mock-*.ts`.
 
-Demo scaffolding to remove for production: the demo chip, the `DemoTag`, Demo Controls (`NEXT_PUBLIC_DEMO_CONTROLS`), and the "Internal, demo only" ops banner.
+Demo scaffolding to remove for production: the `DemoTag`, Demo Controls (`NEXT_PUBLIC_DEMO_CONTROLS`), and the "Internal, demo only" ops banner.

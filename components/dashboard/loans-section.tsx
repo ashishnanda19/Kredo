@@ -12,7 +12,7 @@ import { COPY } from "@/lib/copy";
 export function LoansSection({ loans }: { loans: Loan[] }) {
   return (
     <section aria-labelledby="loans-h">
-      <h2 id="loans-h" className="mb-3 flex items-center gap-1.5 text-base font-bold">
+      <h2 id="loans-h" className="mb-3 flex items-center gap-1.5 text-[16px] font-semibold tracking-[-0.015em]">
         {COPY.dashboard.loans.title}
         <InfoTip text="Your spends are grouped into loans. Each one has its own due date." label="What are active loans?" />
       </h2>
@@ -31,14 +31,14 @@ export function LoansSection({ loans }: { loans: Loan[] }) {
                 <article className="glass rounded-[24px]  p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="font-bold">{l.title}</h3>
+                      <h3 className="font-semibold">{l.title}</h3>
                       <p className="mt-0.5 flex items-center gap-1.5 text-sm text-ink-2">
                         <CalendarClock className="size-4" aria-hidden /> Due {formatDate(l.dueDate)} · {left} days
                       </p>
                     </div>
                     <p className="text-right">
                       <span className="block text-xs text-ink-2">Remaining</span>
-                      <span className="text-lg font-extrabold tabular-nums">{formatINR(remaining)}</span>
+                      <span className="text-lg font-semibold tracking-[-0.035em] tabular-nums">{formatINR(remaining)}</span>
                     </p>
                   </div>
                   <Progress value={pct} label={`${l.title}: ${Math.round(pct)} percent repaid`} className="mt-4" />

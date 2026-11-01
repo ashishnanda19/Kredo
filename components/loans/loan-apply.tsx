@@ -43,12 +43,12 @@ function Tracker({ status }: { status: AppStatus }) {
   return (
     <GlassCard radius="lg" className="p-4" role="region" aria-label={T.statusTitle}>
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-sm font-bold">{T.statusTitle}</h2>
+        <h2 className="text-sm font-semibold">{T.statusTitle}</h2>
         <StatusPill kind="loanApp" value={status} />
       </div>
       <ol className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs">
         {stages.map((s, i) => (
-          <li key={s} aria-current={s === status ? "step" : undefined} className={cn("flex items-center gap-1.5", i <= idx ? "font-bold" : "text-ink-2")}>
+          <li key={s} aria-current={s === status ? "step" : undefined} className={cn("flex items-center gap-1.5", i <= idx ? "font-semibold" : "text-ink-2")}>
             {i < idx ? <CheckCircle2 className="size-4 text-ok-text" aria-hidden /> : s === status ? (status === "declined" ? <XCircle className="size-4 text-bad-text" aria-hidden /> : <Hourglass className="size-4 text-ink" aria-hidden />) : <CircleDashed className="size-4" aria-hidden />}
             {T.statuses[s as keyof typeof T.statuses].t}
           </li>
@@ -152,7 +152,7 @@ export function LoanApply() {
 
         {(status === "none" || status === "draft") && (
           <GlassCard radius="xl" strength="strong" className="space-y-5 p-5 sm:p-6">
-            <div className="flex items-center justify-between text-xs font-bold text-ink-2">
+            <div className="flex items-center justify-between text-xs font-semibold text-ink-2">
               <span>Step {step} of 4</span>
               <span>{["Product", "Amount", "About you", "Review"][step - 1]}</span>
             </div>
@@ -160,7 +160,7 @@ export function LoanApply() {
 
             {step === 1 && (
               <section aria-label={T.productsTitle} className="space-y-3">
-                <h2 className="text-xl font-extrabold">{T.productsTitle}</h2>
+                <h2 className="text-xl font-semibold tracking-[-0.035em]">{T.productsTitle}</h2>
                 {LOAN_PRODUCTS.map((p) => {
                   const unmet = unmetConditions(p, ctx);
                   const ok = unmet.length === 0;
@@ -168,13 +168,13 @@ export function LoanApply() {
                     <div key={p.id} className={cn("rounded-[22px] border p-4", ok ? "border-ink/50 bg-ink/[0.06]" : "border-ink/15 bg-ink/[0.03]")}>
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <h3 className="font-bold">{p.name}</h3>
+                          <h3 className="font-semibold">{p.name}</h3>
                           <p className="text-sm text-ink-2">{p.tagline}</p>
                           <p className="mt-1 text-sm font-semibold tabular-nums">
                             {formatINR(p.min)} to {formatINR(p.max)} · {p.tenures.join(" / ")} months
                           </p>
                         </div>
-                        <span className={cn("shrink-0 rounded-full px-2.5 py-1 text-xs font-bold", ok ? "bg-success-soft text-ok-text" : "bg-ink/10 text-ink-2")}>{ok ? T.eligible : T.notEligible}</span>
+                        <span className={cn("shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold", ok ? "bg-success-soft text-ok-text" : "bg-ink/10 text-ink-2")}>{ok ? T.eligible : T.notEligible}</span>
                       </div>
                       <ul className="mt-3 space-y-1 text-xs">
                         {p.conditions.map((c) => (
@@ -195,11 +195,11 @@ export function LoanApply() {
 
             {step === 2 && product && (
               <section aria-label={T.amountTitle} className="space-y-5">
-                <h2 className="text-xl font-extrabold">{T.amountTitle}</h2>
+                <h2 className="text-xl font-semibold tracking-[-0.035em]">{T.amountTitle}</h2>
                 <Field id="amount" label={T.amountLabel} hint={T.amountNote} error={amountErr}>
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl font-extrabold text-ink-2">₹</span>
-                    <GlassInput id="amount" type="number" inputMode="numeric" min={min} max={max} step={500} value={amountText} onChange={(e) => { setAmountText(e.target.value); setAmountErr(null); }} invalid={!!amountErr} aria-describedby="amount-msg amount-err" className="text-xl font-bold tabular-nums" />
+                    <span className="text-2xl font-semibold tracking-[-0.035em] text-ink-2">₹</span>
+                    <GlassInput id="amount" type="number" inputMode="numeric" min={min} max={max} step={500} value={amountText} onChange={(e) => { setAmountText(e.target.value); setAmountErr(null); }} invalid={!!amountErr} aria-describedby="amount-msg amount-err" className="text-xl font-semibold tabular-nums" />
                   </div>
                 </Field>
                 <Slider min={min} max={max} step={500} value={[Math.min(max, Math.max(min, Number(amountText) || min))]} onValueChange={(v) => setAmount(v[0])} aria-label="Loan amount" />
@@ -208,10 +208,10 @@ export function LoanApply() {
                   <span>{formatINR(max)}</span>
                 </div>
                 <fieldset>
-                  <legend className="mb-2 text-sm font-bold">{T.tenureTitle}</legend>
+                  <legend className="mb-2 text-sm font-semibold">{T.tenureTitle}</legend>
                   <div role="radiogroup" className="flex flex-wrap gap-2">
                     {product.tenures.map((n) => (
-                      <button key={n} type="button" role="radio" aria-checked={loanApp.tenure === n} onClick={() => setDraft({ tenure: n })} className={cn("min-h-11 rounded-full border px-4 text-sm font-bold", loanApp.tenure === n ? "border-transparent bg-accent text-accent-ink" : "border-ink/20 hover:bg-ink/10")}>
+                      <button key={n} type="button" role="radio" aria-checked={loanApp.tenure === n} onClick={() => setDraft({ tenure: n })} className={cn("min-h-11 rounded-full border px-4 text-sm font-semibold", loanApp.tenure === n ? "border-transparent bg-accent text-accent-ink" : "border-ink/20 hover:bg-ink/10")}>
                         {T.tenureLabel(n)}
                       </button>
                     ))}
@@ -227,7 +227,7 @@ export function LoanApply() {
             {step === 3 && (
               <form onSubmit={form.handleSubmit(infoNext)} noValidate aria-label={T.infoTitle} className="space-y-4">
                 <div>
-                  <h2 className="text-xl font-extrabold">{T.infoTitle}</h2>
+                  <h2 className="text-xl font-semibold tracking-[-0.035em]">{T.infoTitle}</h2>
                   <p className="text-sm text-ink-2">{T.infoSub}</p>
                 </div>
                 <Field id="range" label={T.range.label} why={T.range.why} error={errors.range?.message}>
@@ -257,7 +257,7 @@ export function LoanApply() {
                 <Field id="reference" label={T.reference.label} why={T.reference.why} error={errors.reference?.message}>
                   <GlassInput id="reference" invalid={!!errors.reference} aria-describedby="reference-msg reference-err" {...form.register("reference")} />
                 </Field>
-                <Link href="/legal/privacy" target="_blank" className="inline-block text-sm font-bold text-info-text">
+                <Link href="/legal/privacy" target="_blank" className="inline-block text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
                   {T.privacyLink}
                 </Link>
                 <GlassButton type="submit" size="lg" className="w-full">
@@ -268,7 +268,7 @@ export function LoanApply() {
 
             {step === 4 && product && (
               <section aria-label="Review" className="space-y-4">
-                <h2 className="text-xl font-extrabold">Review your request</h2>
+                <h2 className="text-xl font-semibold tracking-[-0.035em]">Review your request</h2>
                 <dl className="divide-y divide-ink/10 rounded-[20px] bg-ink/[0.06] px-4 text-sm">
                   {[
                     ["Product", product.name],
@@ -309,16 +309,16 @@ export function LoanApply() {
         {(status === "submitted" || status === "assessment") && (
           <GlassCard radius="lg" className="p-5 text-center">
             <Hourglass className="mx-auto size-10 text-ink" aria-hidden />
-            <p className="mt-2 font-bold">{loanApp.submittedAt ? `Submitted on ${formatDate(loanApp.submittedAt)}` : "Submitted"}</p>
+            <p className="mt-2 font-semibold">{loanApp.submittedAt ? `Submitted on ${formatDate(loanApp.submittedAt)}` : "Submitted"}</p>
             <p className="text-sm text-ink-2">You do not need to do anything. We will update this page.</p>
           </GlassCard>
         )}
 
         {status === "more_info" && (
           <GlassCard radius="lg" className="space-y-3 p-5">
-            <h2 className="font-bold">{T.moreInfoTitle}</h2>
+            <h2 className="font-semibold">{T.moreInfoTitle}</h2>
             <p className="rounded-2xl bg-warning-soft px-4 py-3 text-sm">
-              <span className="font-bold">{EXTRA_INFO_REQUEST.item}.</span> {EXTRA_INFO_REQUEST.detail}
+              <span className="font-semibold">{EXTRA_INFO_REQUEST.item}.</span> {EXTRA_INFO_REQUEST.detail}
             </p>
             <Field id="reply" label={T.reply} error={replyErr}>
               <GlassTextarea id="reply" value={reply} onChange={(e) => { setReply(e.target.value); setReplyErr(null); }} invalid={!!replyErr} aria-describedby="reply-err" />
@@ -332,7 +332,7 @@ export function LoanApply() {
         {status === "accepted" && loanApp.acceptance && (
           <GlassCard radius="xl" strength="strong" className="space-y-3 p-6 text-center">
             <CheckCircle2 className="mx-auto size-12 text-ok-text" aria-hidden />
-            <h2 className="text-2xl font-extrabold">{T.confirmedTitle}</h2>
+            <h2 className="text-2xl font-semibold tracking-[-0.035em]">{T.confirmedTitle}</h2>
             <p className="text-sm text-ink-2">{T.confirmedBody}</p>
             <dl className="divide-y divide-ink/10 rounded-[20px] bg-ink/[0.06] px-4 text-left text-sm">
               <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">{T.record.at}</dt><dd className="font-semibold">{formatDate(loanApp.acceptance.at)}</dd></div>
@@ -348,14 +348,14 @@ export function LoanApply() {
 
         {status === "declined" && (
           <GlassCard radius="lg" className="space-y-3 p-5">
-            <h2 className="text-xl font-bold">{T.statuses.declined.t}</h2>
+            <h2 className="text-xl font-semibold">{T.statuses.declined.t}</h2>
             {(() => {
               const r = DECLINE_REASONS.find((d) => d.code === loanApp.declineCode) ?? DECLINE_REASONS[0];
               return (
                 <>
-                  <p className="text-xs font-bold uppercase tracking-wider text-ink-2">{T.declinedReasonTitle}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{T.declinedReasonTitle}</p>
                   <p className="text-sm">{r.label}</p>
-                  <p className="text-xs font-bold uppercase tracking-wider text-ink-2">{T.declinedNext}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{T.declinedNext}</p>
                   <p className="text-sm">{r.next}</p>
                 </>
               );

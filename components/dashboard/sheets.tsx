@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 export function Row({ label, value, strong, tip }: { label: string; value: React.ReactNode; strong?: boolean; tip?: string }) {
   return (
-    <div className={cn("flex items-center justify-between gap-4 py-3", strong ? "text-base font-bold" : "text-sm")}>
+    <div className={cn("flex items-center justify-between gap-4 py-3", strong ? "text-[16px] font-semibold tracking-[-0.015em]" : "text-sm")}>
       <dt className={cn("flex items-center gap-1.5", !strong && "text-ink-2")}>
         {label}
         {tip && <InfoTip text={tip} />}
@@ -57,7 +57,7 @@ export function RepaySheet({
         {phase === "done" ? (
           <div className="flex flex-col items-center py-4 text-center">
             <SuccessCheck />
-            <GlassSheetTitle className="mt-5 text-2xl font-extrabold">{COPY.dashboard.repay.doneTitle}</GlassSheetTitle>
+            <GlassSheetTitle className="mt-5 text-2xl font-semibold tracking-[-0.035em]">{COPY.dashboard.repay.doneTitle}</GlassSheetTitle>
             <GlassSheetDescription className="mt-1 text-sm text-ink-2">{formatINR(amount)} repaid. {COPY.dashboard.repay.doneBody}</GlassSheetDescription>
             <GlassButton className="mt-6 w-full" onClick={() => change(false)}>
               Done
@@ -65,7 +65,7 @@ export function RepaySheet({
           </div>
         ) : (
           <div>
-            <GlassSheetTitle className="text-xl font-extrabold">Repay now</GlassSheetTitle>
+            <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">Repay now</GlassSheetTitle>
             <GlassSheetDescription className="mt-1 text-sm text-ink-2">{title}</GlassSheetDescription>
             <dl className="mt-4 divide-y divide-hairline rounded-card border border-hairline px-4">
               <Row label="Amount due" value={formatINR(amount)} tip="What you owe for these spends." />
@@ -100,7 +100,7 @@ export function LimitIncreaseSheet({ open, onOpenChange }: { open: boolean; onOp
         {done ? (
           <div className="flex flex-col items-center py-4 text-center">
             <SuccessCheck />
-            <GlassSheetTitle className="mt-5 text-2xl font-extrabold">Request received</GlassSheetTitle>
+            <GlassSheetTitle className="mt-5 text-2xl font-semibold tracking-[-0.035em]">Request received</GlassSheetTitle>
             <GlassSheetDescription className="mt-1 text-sm text-ink-2">Our lending partner will review it. Increases aren’t guaranteed. (Demo only.)</GlassSheetDescription>
             <GlassButton className="mt-6 w-full" onClick={() => change(false)}>
               Got it
@@ -108,7 +108,7 @@ export function LimitIncreaseSheet({ open, onOpenChange }: { open: boolean; onOp
           </div>
         ) : (
           <div>
-            <GlassSheetTitle className="text-xl font-extrabold">Request a higher limit</GlassSheetTitle>
+            <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">Request a higher limit</GlassSheetTitle>
             <GlassSheetDescription className="mt-1 text-sm text-ink-2">
               Your score is {score.current}. Pick what you’d like. The lending partner decides, and it’s not guaranteed.
             </GlassSheetDescription>
@@ -121,7 +121,7 @@ export function LimitIncreaseSheet({ open, onOpenChange }: { open: boolean; onOp
                   aria-checked={pick === o}
                   onClick={() => setPick(o)}
                   className={cn(
-                    "min-h-12 rounded-2xl border text-sm font-bold transition-colors",
+                    "min-h-12 rounded-2xl border text-sm font-semibold transition-colors",
                     pick === o ? "border-ink bg-accent-soft text-ink" : "border-hairline bg-ink/[0.07]",
                   )}
                 >
@@ -145,7 +145,7 @@ export function NotificationsSheet({ open, onOpenChange }: { open: boolean; onOp
   return (
     <GlassSheet open={open} onOpenChange={onOpenChange}>
       <GlassSheetContent>
-        <GlassSheetTitle className="text-xl font-extrabold">Notifications</GlassSheetTitle>
+        <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">Notifications</GlassSheetTitle>
         <GlassSheetDescription className="sr-only">Recent updates for {student.firstName}</GlassSheetDescription>
         <ul className="mt-4 space-y-2">
           {notifications.map((n, i) => (
@@ -154,7 +154,7 @@ export function NotificationsSheet({ open, onOpenChange }: { open: boolean; onOp
                 {i === 0 ? <CalendarClock className="size-4" aria-hidden /> : <BellRing className="size-4" aria-hidden />}
               </span>
               <div className="min-w-0">
-                <p className="text-sm font-bold">{n.title}</p>
+                <p className="text-sm font-semibold">{n.title}</p>
                 <p className="text-sm text-ink-2">{n.body}</p>
                 <p className="mt-1 text-xs text-ink-2">{n.time}</p>
               </div>

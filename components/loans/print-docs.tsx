@@ -13,24 +13,24 @@ import { PAYMENTS } from "@/lib/mock-data";
 import { useHydrated, useStore } from "@/lib/store/store";
 import { BRAND } from "@/lib/config";
 
-const Demo = () => <p className="text-xs font-bold">Demo preview, no real money. This is not a real receipt or statement.</p>;
+const Demo = () => <p className="text-xs font-semibold">Demo preview, no real money. This is not a real receipt or statement.</p>;
 
 export function ReceiptView({ id }: { id: string }) {
   const hydrated = useHydrated();
   const extra = useStore((s) => s.payments.extra);
   const p = [...extra, ...PAYMENTS].find((x) => x.id === id);
   if (!hydrated) return <p role="status" className="py-10 text-center text-ink-2">Loading…</p>;
-  if (!p) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that receipt. <Link href="/dashboard/loans" className="font-bold text-info-text">Back to loans</Link></GlassCard>;
+  if (!p) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that receipt. <Link href="/dashboard/loans" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">Back to loans</Link></GlassCard>;
   return (
     <div className="mx-auto max-w-md">
       <div className="mb-4 flex items-center justify-between gap-3 print:hidden">
-        <Link href="/dashboard/loans" className="text-sm font-bold text-info-text">← Back</Link>
+        <Link href="/dashboard/loans" className="text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">← Back</Link>
         <GlassButton size="sm" onClick={() => window.print()}><Printer className="size-4" aria-hidden /> Print</GlassButton>
       </div>
       <GlassCard radius="lg" className="space-y-4 p-6" role="article" aria-label={`Receipt ${p.id}`}>
         <div>
           <LogoLockup className="mb-4 h-8 text-ink" />
-          <h1 className="text-2xl font-extrabold">{COPY.loans.receipt}</h1>
+          <h1 className="text-2xl font-semibold tracking-[-0.035em]">{COPY.loans.receipt}</h1>
           <p className="text-xs text-ink-2">{BRAND.name} · for payments to the regulated lending partner</p>
         </div>
         <dl className="divide-y divide-ink/10 text-sm">
@@ -64,7 +64,7 @@ export function StatementView({ id }: { id: string }) {
   const [to, setTo] = useState(MOCK_TODAY.toISOString().slice(0, 10));
 
   if (!hydrated) return <p role="status" className="py-10 text-center text-ink-2">Loading…</p>;
-  if (!loan) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that loan. <Link href="/dashboard/loans" className="font-bold text-info-text">Back to loans</Link></GlassCard>;
+  if (!loan) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that loan. <Link href="/dashboard/loans" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">Back to loans</Link></GlassCard>;
 
   const rows = [...extra, ...PAYMENTS].filter((p) => p.loanId === loan.id && p.date.slice(0, 10) >= from && p.date.slice(0, 10) <= to).sort((a, b) => a.date.localeCompare(b.date));
   const paid = rows.filter((r) => r.state === "successful").reduce((s, r) => s + r.amount, 0);
@@ -72,7 +72,7 @@ export function StatementView({ id }: { id: string }) {
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mb-4 space-y-3 print:hidden">
-        <Link href={`/dashboard/loans/${loan.id}`} className="text-sm font-bold text-info-text">← Back to loan</Link>
+        <Link href={`/dashboard/loans/${loan.id}`} className="text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">← Back to loan</Link>
         <GlassCard radius="lg" className="grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
           <Field id="from" label="From"><GlassInput id="from" type="date" value={from} max={to} onChange={(e) => setFrom(e.target.value)} /></Field>
           <Field id="to" label="To"><GlassInput id="to" type="date" value={to} min={from} onChange={(e) => setTo(e.target.value)} /></Field>
@@ -83,7 +83,7 @@ export function StatementView({ id }: { id: string }) {
       <GlassCard radius="lg" className="space-y-4 p-6" role="article" aria-label="Loan statement">
         <div>
           <LogoLockup className="mb-4 h-8 text-ink" />
-          <h1 className="text-2xl font-extrabold">{COPY.loans.statement}</h1>
+          <h1 className="text-2xl font-semibold tracking-[-0.035em]">{COPY.loans.statement}</h1>
           <p className="text-xs text-ink-2">
             {loan.product} · {loan.id} · {loan.lender}
           </p>
@@ -112,7 +112,7 @@ export function StatementView({ id }: { id: string }) {
           </table>
         )}
         <p className="border-t border-ink/15 pt-3 text-sm">
-          Total successfully paid in this period: <span className="font-bold">{formatINR(paid)}</span>
+          Total successfully paid in this period: <span className="font-semibold">{formatINR(paid)}</span>
         </p>
         <Demo />
       </GlassCard>

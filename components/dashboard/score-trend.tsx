@@ -49,7 +49,7 @@ export default function ScoreTrend() {
               if (!p) return null;
               return (
                 <div className="glass glass-strong rounded-xl px-3 py-1.5 text-xs">
-                  <span className="font-bold">{p.month}</span> <span className="tabular-nums text-ink-2">score {p.score}</span>
+                  <span className="font-semibold">{p.month}</span> <span className="tabular-nums text-ink-2">score {p.score}</span>
                 </div>
               );
             }}

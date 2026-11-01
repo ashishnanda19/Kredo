@@ -29,7 +29,7 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-2xl font-extrabold tracking-tight">{T.offerTitle}</h2>
+        <h2 className="text-2xl font-semibold tracking-[-0.035em]">{T.offerTitle}</h2>
         <p className="mt-1 text-sm text-ink-2">{T.offerSub}</p>
       </div>
 
@@ -47,7 +47,7 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
       </GlassCard>
 
       <div>
-        <h3 className="mb-2 text-sm font-bold">{T.scheduleTitle}</h3>
+        <h3 className="mb-2 text-sm font-semibold">{T.scheduleTitle}</h3>
         <ScheduleTable schedule={offer.schedule} caption="Offer repayment schedule" />
       </div>
 
@@ -56,11 +56,11 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
           <input type="checkbox" checked={terms} onChange={(e) => { setTerms(e.target.checked); setErr(null); }} aria-describedby="terms-err" disabled={busy} className="mt-0.5 size-5 shrink-0 accent-[var(--accent)]" />
           <span>
             {T.termsCheck}{" "}
-            <Link href="/legal/terms" target="_blank" className="font-bold text-info-text">
+            <Link href="/legal/terms" target="_blank" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
               {T.terms} ({VERSIONS.terms})
             </Link>{" "}
             ·{" "}
-            <Link href="/legal/key-facts" target="_blank" className="font-bold text-info-text">
+            <Link href="/legal/key-facts" target="_blank" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
               {T.keyFacts}
             </Link>
           </span>

@@ -47,7 +47,7 @@ export function LoansOverview() {
                 <GlassCard radius="xl" strength="strong" className="p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h2 className="text-lg font-extrabold">
+                      <h2 className="text-lg font-semibold tracking-[-0.035em]">
                         <Link href={`/dashboard/loans/${loan.id}`} className="hover:underline">
                           {loan.product}
                         </Link>
@@ -58,12 +58,12 @@ export function LoansOverview() {
                     </div>
                     {next && <StatusPill kind="instalment" value={next.state} />}
                   </div>
-                  <p className="mt-3 text-3xl font-extrabold tabular-nums">{formatINR(o.total)}</p>
+                  <p className="mt-3 text-3xl font-semibold tracking-[-0.035em] tabular-nums">{formatINR(o.total)}</p>
                   <p className="text-xs text-ink-2">{T.total}</p>
                   {next && (
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink/15 pt-4">
                       <p className="text-sm">
-                        {T.nextDue}: <span className="font-bold">{formatINR(next.amount)}</span> by <span className="font-bold">{formatDate(next.dueDate)}</span>
+                        {T.nextDue}: <span className="font-semibold">{formatINR(next.amount)}</span> by <span className="font-semibold">{formatDate(next.dueDate)}</span>
                       </p>
                       <GlassButton onClick={() => setRepay(loan)}>{T.repay}</GlassButton>
                     </div>
@@ -76,7 +76,7 @@ export function LoansOverview() {
         )}
 
         <GlassCard radius="lg" className="p-5" role="region" aria-label="Payments">
-          <h2 className="mb-1 flex items-center gap-2 text-base font-bold">
+          <h2 className="mb-1 flex items-center gap-2 text-[16px] font-semibold tracking-[-0.015em]">
             <Banknote className="size-4 text-ink" aria-hidden /> Payments
           </h2>
           {!ready ? <RowsSkeleton rows={3} label="Loading payments" /> : payments.length === 0 ? <EmptyState title="No payments yet" body="Repayments you make show up here." /> : <PaymentList payments={payments} onRetry={(id) => setRepay(loans.find((l) => l.id === id) ?? loans[0] ?? null)} />}
@@ -84,12 +84,12 @@ export function LoansOverview() {
 
         {disputes.length > 0 && (
           <GlassCard radius="lg" className="p-5" role="region" aria-label="Disputes">
-            <h2 className="mb-2 text-base font-bold">Your disputes</h2>
+            <h2 className="mb-2 text-[16px] font-semibold tracking-[-0.015em]">Your disputes</h2>
             <ul className="divide-y divide-ink/10">
               {disputes.map((d) => (
                 <li key={d.ref} className="flex items-center justify-between gap-3 py-3 text-sm">
                   <div className="min-w-0">
-                    <p className="font-mono font-bold">{d.ref}</p>
+                    <p className="font-mono font-semibold">{d.ref}</p>
                     <p className="truncate text-xs text-ink-2">
                       {d.category} · payment {d.paymentId} · {formatDate(d.at)}
                     </p>

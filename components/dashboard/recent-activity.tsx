@@ -13,7 +13,7 @@ export function RecentActivity({ items }: { items: Transaction[] }) {
   return (
     <section aria-labelledby="recent-h" className="glass rounded-[24px] h-full  p-5">
       <div className="flex items-center justify-between">
-        <h2 id="recent-h" className="text-base font-bold">
+        <h2 id="recent-h" className="text-[16px] font-semibold tracking-[-0.015em]">
           Recent activity
         </h2>
         <Link href="/dashboard/activity" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-ink">

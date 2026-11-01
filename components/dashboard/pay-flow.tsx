@@ -72,7 +72,7 @@ export function PayFlow() {
           <SuccessCheck size={104} />
         </div>
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-          <h1 className="mt-6 text-3xl font-extrabold tracking-tight">{t.successTitle(formatINR(amount))}</h1>
+          <h1 className="mt-6 text-3xl font-semibold tracking-[-0.035em]">{t.successTitle(formatINR(amount))}</h1>
           <p className="mt-1 text-ink-2">to {vendor.name}</p>
 
           <GlassCard radius="lg" strength="strong" className="mt-6 px-5 text-left">
@@ -106,7 +106,7 @@ export function PayFlow() {
         <QrFrame scanning={scanning} scanned={vendor?.name} onScan={scan} />
 
         <fieldset>
-          <legend className="mb-2 text-sm font-bold">{t.vendor}</legend>
+          <legend className="mb-2 text-sm font-semibold">{t.vendor}</legend>
           <div role="radiogroup" aria-label={t.vendor} className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {vendors.slice(0, 6).map((v) => {
               const on = vendor?.id === v.id;
@@ -124,7 +124,7 @@ export function PayFlow() {
                 >
                   <CategoryIcon category={v.category} className="size-9 rounded-xl" />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-bold">{v.name}</span>
+                    <span className="block truncate text-sm font-semibold">{v.name}</span>
                     <span className="block truncate text-xs text-ink-2">{CATEGORY_LABEL[v.category]}</span>
                   </span>
                 </button>
@@ -139,11 +139,11 @@ export function PayFlow() {
         </fieldset>
 
         <div>
-          <label htmlFor="amount" className="mb-2 block text-sm font-bold">
+          <label htmlFor="amount" className="mb-2 block text-sm font-semibold">
             {t.amount}
           </label>
           <GlassCard radius="lg" className={cn("flex items-center gap-2 px-5 py-4 transition-shadow focus-within:shadow-[0_0_0_2px_var(--ink)]", amountError && "!shadow-[0_0_0_2px_var(--bad-text)]")}>
-            <span className="text-3xl font-extrabold text-ink-2">₹</span>
+            <span className="text-3xl font-semibold tracking-[-0.035em] text-ink-2">₹</span>
             <input
               id="amount"
               inputMode="numeric"
@@ -153,7 +153,7 @@ export function PayFlow() {
               aria-invalid={!!amountError}
               aria-describedby="amount-help"
               onChange={(e) => setAmountText(e.target.value.replace(/\D/g, "").slice(0, 5))}
-              className="min-w-0 flex-1 bg-transparent text-4xl font-extrabold tabular-nums outline-none placeholder:text-ink-2/50 focus-visible:shadow-none"
+              className="min-w-0 flex-1 bg-transparent text-4xl font-semibold tracking-[-0.035em] tabular-nums outline-none placeholder:text-ink-2/50 focus-visible:shadow-none"
             />
           </GlassCard>
           <div id="amount-help" className="mt-2 text-sm">
@@ -182,13 +182,13 @@ export function PayFlow() {
       {/* glass bottom sheet with a plain, clear breakdown (no slang near money) */}
       <GlassSheet open={sheet} onOpenChange={(o) => phase !== "processing" && setSheet(o)}>
         <GlassSheetContent>
-          <GlassSheetTitle className="text-xl font-extrabold">{t.sheetTitle}</GlassSheetTitle>
+          <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">{t.sheetTitle}</GlassSheetTitle>
           <GlassSheetDescription className="mt-1 text-sm text-ink-2">{t.sheetBody}</GlassSheetDescription>
 
           <div className="mt-4 flex items-center gap-3 rounded-2xl bg-ink/[0.07] p-3">
             {vendor && <CategoryIcon category={vendor.category} />}
             <div>
-              <p className="font-bold">{vendor?.name}</p>
+              <p className="font-semibold">{vendor?.name}</p>
               <p className="text-sm text-ink-2">{vendor && CATEGORY_LABEL[vendor.category]}</p>
             </div>
           </div>

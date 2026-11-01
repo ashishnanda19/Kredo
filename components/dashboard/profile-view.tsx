@@ -34,7 +34,7 @@ type Values = z.infer<typeof schema>;
 function Panel({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
     <GlassCard radius="lg" role="region" aria-label={title} id={id} className="p-5">
-      <h2 className="mb-3 text-base font-bold">{title}</h2>
+      <h2 className="mb-3 text-[16px] font-semibold tracking-[-0.015em]">{title}</h2>
       {children}
     </GlassCard>
   );
@@ -55,7 +55,7 @@ function Toggle({ id, label, hint, checked, onChange }: { id: string; label: str
   return (
     <div className="flex min-h-14 items-center gap-3 py-2">
       <label htmlFor={id} className="min-w-0 flex-1 cursor-pointer">
-        <span className="block text-[15px] font-bold">{label}</span>
+        <span className="block text-[15px] font-semibold">{label}</span>
         <span className="block text-sm text-ink-2">{hint}</span>
       </label>
       <Switch id={id} checked={checked} onCheckedChange={onChange} />
@@ -100,7 +100,7 @@ export function ProfileView() {
         <GlassCard radius="xl" strength="strong" className="flex items-center gap-4 p-5">
           <Avatar size={64} />
           <div className="min-w-0">
-            <h2 className="truncate text-xl font-extrabold tracking-tight">{profile.displayName}</h2>
+            <h2 className="truncate text-xl font-semibold tracking-[-0.035em]">{profile.displayName}</h2>
             <p className="truncate text-sm text-ink-2">{sum?.college ?? "College not added yet"}</p>
             <div className="mt-2 flex flex-wrap gap-1.5">
               <StatusPill kind="verification" value={verification.status} />
@@ -181,26 +181,26 @@ export function ProfileView() {
         <Panel title="Your credit limit">
           <div className="flex items-center gap-5">
             <ProgressRing value={pct} size={96} stroke={10} label={`${Math.round(pct * 100)} percent of limit used`}>
-              <span className="text-lg font-extrabold tabular-nums">{Math.round(pct * 100)}%</span>
+              <span className="text-lg font-semibold tracking-[-0.035em] tabular-nums">{Math.round(pct * 100)}%</span>
             </ProgressRing>
             <dl className="flex-1 space-y-1.5 text-sm">
               <div className="flex justify-between">
                 <dt className="flex items-center gap-1 text-ink-2">
                   Total limit <InfoTip text="The most you can have outstanding at once." />
                 </dt>
-                <dd className="font-bold tabular-nums">{formatINR(student.limit)}</dd>
+                <dd className="font-semibold tabular-nums">{formatINR(student.limit)}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-ink-2">Used</dt>
-                <dd className="font-bold tabular-nums">{formatINR(student.used)}</dd>
+                <dd className="font-semibold tabular-nums">{formatINR(student.used)}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-ink-2">Available</dt>
-                <dd className="font-bold tabular-nums">{formatINR(available)}</dd>
+                <dd className="font-semibold tabular-nums">{formatINR(available)}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-ink-2">Next review</dt>
-                <dd className="font-bold">{formatDate(student.nextReview)}</dd>
+                <dd className="font-semibold">{formatDate(student.nextReview)}</dd>
               </div>
             </dl>
           </div>
@@ -214,7 +214,7 @@ export function ProfileView() {
           <div className="divide-y divide-ink/10">
             <div className="flex min-h-14 items-center gap-3 py-2">
               <Moon className="size-5 text-ink" aria-hidden />
-              <label htmlFor="s-dark" className="flex-1 text-[15px] font-bold">
+              <label htmlFor="s-dark" className="flex-1 text-[15px] font-semibold">
                 {t.dark.label}
               </label>
               <Switch id="s-dark" checked={resolvedTheme !== "light"} onCheckedChange={(v) => setTheme(v ? "dark" : "light")} />
@@ -225,7 +225,7 @@ export function ProfileView() {
             ].map((l) => (
               <Link key={l.label} href={l.href} className="flex min-h-14 items-center gap-3">
                 <l.icon className="size-5 text-ink" aria-hidden />
-                <span className="flex-1 text-[15px] font-bold">{l.label}</span>
+                <span className="flex-1 text-[15px] font-semibold">{l.label}</span>
                 <ChevronRight className="size-5 text-ink-2" aria-hidden />
               </Link>
             ))}

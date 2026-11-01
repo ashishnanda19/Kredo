@@ -55,7 +55,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
     <div aria-live="polite">
       {phase === "choose" && (
         <>
-          <GlassSheetTitle className="text-xl font-extrabold">{T.repayTitle}</GlassSheetTitle>
+          <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">{T.repayTitle}</GlassSheetTitle>
           <GlassSheetDescription className="mt-1 text-sm text-ink-2">
             {loan.product}, instalment {inst.n} of {loan.tenure}
           </GlassSheetDescription>
@@ -66,7 +66,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
             <Row label="Total to pay" value={formatINR(amount)} strong />
           </dl>
           <fieldset className="mt-4">
-            <legend className="mb-2 text-sm font-bold">{T.method}</legend>
+            <legend className="mb-2 text-sm font-semibold">{T.method}</legend>
             <div role="radiogroup" className="space-y-2">
               {T.methods.map((m) => {
                 const Icon = ICON[m.id as keyof typeof ICON];
@@ -74,7 +74,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
                   <button key={m.id} type="button" role="radio" aria-checked={method === m.id} onClick={() => setMethod(m.id as typeof method)} className={cn("flex min-h-14 w-full items-center gap-3 rounded-2xl border px-4 text-left transition-colors", method === m.id ? "border-ink bg-accent-soft" : "border-ink/15 hover:bg-ink/10")}>
                     <Icon className="size-5 text-ink" aria-hidden />
                     <span>
-                      <span className="block text-sm font-bold">{m.label}</span>
+                      <span className="block text-sm font-semibold">{m.label}</span>
                       <span className="block text-xs text-ink-2">{m.hint}</span>
                     </span>
                   </button>
@@ -92,10 +92,10 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
 
       {phase === "checkout" && (
         <div>
-          <GlassSheetTitle className="text-xl font-extrabold">Secure checkout (mock)</GlassSheetTitle>
+          <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">Secure checkout (mock)</GlassSheetTitle>
           <GlassSheetDescription className="mt-1 text-sm text-ink-2">{T.checkoutNote}</GlassSheetDescription>
           <div className="mt-4 rounded-[20px] bg-ink/[0.06] p-4 text-sm">
-            <p className="font-bold">Mock Payments Ltd (placeholder)</p>
+            <p className="font-semibold">Mock Payments Ltd (placeholder)</p>
             <p className="mt-1 text-ink-2">
               Paying {formatINR(amount)} to {loan.lender}
             </p>
@@ -110,7 +110,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
       {phase === "processing" && (
         <div className="flex flex-col items-center gap-3 py-10 text-center">
           <Loader2 className="size-10 animate-spin text-info-text" aria-hidden />
-          <GlassSheetTitle className="text-lg font-bold">{T.paying}</GlassSheetTitle>
+          <GlassSheetTitle className="text-lg font-semibold">{T.paying}</GlassSheetTitle>
           <GlassSheetDescription className="sr-only">Processing your {label} payment</GlassSheetDescription>
         </div>
       )}
@@ -118,10 +118,10 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
       {phase === "result" && result && (
         <div className="text-center">
           {RESULT_ICON[result]}
-          <GlassSheetTitle className="mt-3 text-2xl font-extrabold">{result === "successful" ? "Repaid on time. That's a W." : PAY_STATE_INFO[result].label}</GlassSheetTitle>
+          <GlassSheetTitle className="mt-3 text-2xl font-semibold tracking-[-0.035em]">{result === "successful" ? "Repaid on time. That's a W." : PAY_STATE_INFO[result].label}</GlassSheetTitle>
           <GlassSheetDescription className="mt-2 text-sm text-ink-2">{result === "successful" ? `${formatINR(amount)} paid. ${PAY_STATE_INFO.successful.why}` : PAY_STATE_INFO[result].why}</GlassSheetDescription>
           <p className="mt-3 rounded-2xl bg-ink/[0.07] px-4 py-3 text-sm">
-            <span className="font-bold">Next: </span>
+            <span className="font-semibold">Next: </span>
             {PAY_STATE_INFO[result].next}
           </p>
           <div className="mt-5 space-y-2">

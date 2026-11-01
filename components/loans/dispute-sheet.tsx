@@ -37,7 +37,7 @@ function Form({ paymentId, onClose }: { paymentId: string; onClose: () => void }
   if (done)
     return (
       <div className="space-y-3 text-center">
-        <GlassSheetTitle className="text-xl font-extrabold">Dispute raised</GlassSheetTitle>
+        <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">Dispute raised</GlassSheetTitle>
         <GlassSheetDescription className="text-sm text-ink-2">{COPY.loans.disputeSent(done)}</GlassSheetDescription>
         <div className="flex items-center justify-center gap-2">
           <ReferenceNumber value={done} label="Dispute" />
@@ -52,7 +52,7 @@ function Form({ paymentId, onClose }: { paymentId: string; onClose: () => void }
   return (
     <form onSubmit={form.handleSubmit(submit)} noValidate className="space-y-4">
       <div>
-        <GlassSheetTitle className="text-xl font-extrabold">{COPY.loans.disputeTitle}</GlassSheetTitle>
+        <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">{COPY.loans.disputeTitle}</GlassSheetTitle>
         <GlassSheetDescription className="mt-1 text-sm text-ink-2">Payment {paymentId}. We will look into it and keep you updated.</GlassSheetDescription>
       </div>
       <Field id="d-cat" label="Category" error={errors.category?.message}>

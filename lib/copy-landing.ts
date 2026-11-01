@@ -9,7 +9,6 @@ import { BRAND } from "./config";
 const B = BRAND.name;
 
 export const LANDING = {
-  demoChip: "Demo · no real money",
 
   nav: {
     links: [
@@ -49,10 +48,10 @@ export const LANDING = {
   },
 
   stages: [
-    { id: "verify", label: "Verify", title: "Verify once", body: "College ID front and back, a quick check, then your limit unlocks." },
-    { id: "campus", label: "At campus", title: "Tap and pay at campus", body: "Pick a vendor that accepts us, check the total, pay. The receipt saves itself." },
-    { id: "repay", label: "Repay and grow", title: "Repay and grow", body: "Repay on time, watch your internal score climb, and your limit can grow." },
-    { id: "access", label: "Get access", title: "Be first on your campus", body: "Join the early-access list. Joining the waitlist does not guarantee access." },
+    { id: "verify", label: "Verify", short: "Verify", title: "Verify once", body: "College ID front and back, a quick check, then your limit unlocks." },
+    { id: "campus", label: "At campus", short: "Pay", title: "Tap and pay at campus", body: "Pick a vendor that accepts us, check the total, pay. The receipt saves itself." },
+    { id: "repay", label: "Repay and grow", short: "Repay", title: "Repay and grow", body: "Repay on time, watch your internal score climb, and your limit can grow." },
+    { id: "access", label: "Get access", short: "Access", title: "Be first on your campus", body: "Join the early-access list. Joining the waitlist does not guarantee access." },
   ],
 
   feed: {

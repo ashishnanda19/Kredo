@@ -13,7 +13,7 @@ export function OutstandingCard({ loan }: { loan: Loan }) {
   const o = outstandingOf(loan);
   return (
     <GlassCard radius="lg" className="px-5" role="region" aria-label={T.outstandingTitle}>
-      <h3 className="pt-4 text-sm font-bold">{T.outstandingTitle}</h3>
+      <h3 className="pt-4 text-sm font-semibold">{T.outstandingTitle}</h3>
       <dl className="divide-y divide-ink/10">
         <Row label={T.principal.label} tip={T.principal.tip} value={formatINR(o.principal)} />
         <Row label={T.interest.label} tip={T.interest.tip} value={formatINR(o.interest)} />
