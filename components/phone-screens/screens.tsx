@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Bell, Check, ChevronDown, ChevronLeft, Clock, Coffee, IdCard, Layers, LocateFixed, Lock, Printer, Search, Share, Sparkles, UtensilsCrossed, X } from "lucide-react";
 import { CountUp } from "@/components/shared/count-up";
+import { LogoMark } from "@/components/shared/logo";
 import { BRAND } from "@/lib/config";
 import { formatINR } from "@/lib/format";
 import { student } from "@/lib/mock-data";
@@ -323,7 +324,7 @@ export function LockScreenReminders({ wallpaper = "linear-gradient(180deg,#3A0E0
       <ul className="mt-auto space-y-[8px] px-[12px] pt-[230px]">
         {notes.map((n) => (
           <li key={n.t} className="flex items-start gap-[10px] rounded-[20px] bg-white/[.18] p-[12px] backdrop-blur-md">
-            <span className="grid size-[36px] shrink-0 place-items-center rounded-[10px] bg-[#0b0b0c]"><n.icon className="size-[18px]" aria-hidden /></span>
+            <LogoMark className="size-[36px]" />
             <div className="min-w-0 flex-1">
               <p className="flex justify-between text-[14px] font-semibold"><span>{BRAND.name}</span><span className="font-normal opacity-70">{n.time}</span></p>
               <p className="text-[15px] font-semibold">{n.t}</p>

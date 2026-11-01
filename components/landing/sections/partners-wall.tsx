@@ -18,7 +18,7 @@ export function PartnersWall() {
             {t.title}
           </h2>
         </Reveal>
-        <ul className="mt-12 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-6">
+        <ul data-stagger className="mt-12 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-6">
           {CAMPUS_VENDOR_TILES.map((v) => (
             <li key={v.slug} className="group relative aspect-[4/5] overflow-hidden rounded-[16px] bg-[#15151c] ring-1 ring-white/[.06]">
               <Image

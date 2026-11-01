@@ -1,6 +1,5 @@
 import { Lock, Wifi } from "lucide-react";
-import { LogoMark } from "@/components/shared/logo";
-import { BRAND } from "@/lib/config";
+import { LogoLockup } from "@/components/shared/logo";
 
 interface CardFacesProps {
   name: string;
@@ -31,10 +30,7 @@ export function CardFaces({ name, number, back, frontExtra, frontHidden, backHid
         <span aria-hidden className="absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.22)_45%,transparent_60%)]" />
         <div className="relative flex h-full flex-col justify-between">
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-2">
-              <LogoMark className="size-7" />
-              <span className="text-lg font-extrabold tracking-tight">{BRAND.name}</span>
-            </div>
+            <LogoLockup className="h-7 text-white" />
             <Wifi aria-hidden className="size-6 rotate-90 text-white/85" />
           </div>
           <div>

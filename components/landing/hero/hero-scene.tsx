@@ -58,8 +58,8 @@ const FEED: (FeedStage | null)[] = ["verify", "campus", "repay", null];
 const DARK_FROM = 2;
 /** The last stage settles to near-black so the hero runs straight into the dark sections below it. */
 const NIGHT = 3;
-/** Share of the pinned scroll spent on the yellow splash and its wipe to white. */
-const SPLASH = 0.12;
+/** Share of the pinned scroll spent on the yellow splash: the payment story, then the wipe to white. */
+const SPLASH = 0.22;
 /** Share spent on the intro (headline first, then the phone swings up out of the page). */
 const INTRO = 0.13;
 /** Everything before the four stages. */
@@ -245,8 +245,8 @@ export function HeroScene() {
         0.75,
       )
       .fromTo(fades, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.65);
-    // the splash wipe: objects fly out, the slogan blurs away, and the white full stop swells until it fills the
-    // screen; then the white hero headline rises into place underneath
+    // the splash: scrolling plays a payment in the scene, then everything breaks apart and the white full stop
+    // swells until it fills the screen; then the white hero headline rises into place underneath
     const splash = el.querySelector<HTMLElement>("[data-splash-overlay]");
     const dot = el.querySelector<HTMLElement>("[data-splash-dot]");
     const heroWords = el.querySelectorAll<HTMLElement>("[data-hw]");
@@ -284,6 +284,31 @@ export function HeroScene() {
           invalidateOnRefresh: true,
         },
       });
+      // 1. the payment (0 to 0.3): the phone turns to the stand, a scan line sweeps the QR, the sheet flips to
+      //    "Paid" and a check bursts over it
+      const sc = (k: string) => splash.querySelector<HTMLElement>(`[data-sc-${k}]`);
+      const [scPhone, scCard, scScan, scPaid, scBurst] = ["phone", "card", "scan", "paid-screen", "burst"].map(sc);
+      if (scPhone)
+        wipe.to(
+          scPhone,
+          { xPercent: -14, yPercent: 3, rotationY: 16, rotationX: -4, transformPerspective: 1600, scale: 1.05, ease: "power2.inOut", duration: 0.16 },
+          0,
+        );
+      if (scCard) wipe.to(scCard, { yPercent: 10, xPercent: -6, rotation: -4, ease: "power2.inOut", duration: 0.2 }, 0.02);
+      if (scScan)
+        wipe
+          .to(scScan, { opacity: 1, duration: 0.02 }, 0.06)
+          .fromTo(scScan, { top: "6%" }, { top: "88%", ease: "power1.inOut", duration: 0.1 }, 0.06)
+          .to(scScan, { opacity: 0, duration: 0.02 }, 0.16);
+      if (scPaid) wipe.to(scPaid, { opacity: 1, duration: 0.04 }, 0.17);
+      if (scBurst)
+        wipe.to(scBurst, { opacity: 1, duration: 0.01 }, 0.19);
+      // two rings ripple out from the check, one after the other
+      splash.querySelectorAll<HTMLElement>("[data-sc-ring]").forEach((ring, i) =>
+        wipe!.fromTo(ring, { scale: 0.6, opacity: 0.9 }, { scale: 2.8, opacity: 0, ease: "power2.out", duration: 0.12 }, 0.19 + i * 0.04),
+      );
+
+      // 2. the break-up (0.3 to 0.62): copy lifts away, the scene's objects fly outward, the wordmark blurs out
       splash.querySelectorAll<HTMLElement>("[data-floater]").forEach((f) => {
         const fx = parseFloat(f.dataset.fx ?? "0");
         const fy = parseFloat(f.dataset.fy ?? "0");
@@ -292,16 +317,17 @@ export function HeroScene() {
           {
             x: () => fx * window.innerWidth,
             y: () => fy * window.innerHeight,
-            scale: 1.35,
-            rotate: fx * 40,
+            scale: 1.25,
+            rotate: fx * 30,
             opacity: 0,
             filter: "blur(12px)",
             ease: "power2.in",
-            duration: 0.5,
+            duration: 0.3,
           },
-          0.04,
+          0.34,
         );
       });
+      if (scBurst) wipe.to(scBurst, { opacity: 0, scale: 1.4, filter: "blur(8px)", ease: "power2.in", duration: 0.12 }, 0.34);
       wipe
         .to(
           splash.querySelectorAll("[data-splash-fade]"),
@@ -309,10 +335,10 @@ export function HeroScene() {
             opacity: 0,
             y: -30,
             filter: "blur(10px)",
-            duration: 0.25,
+            duration: 0.18,
             stagger: 0.03,
           },
-          0.04,
+          0.3,
         )
         .to(
           splash.querySelectorAll("[data-splash-word]"),
@@ -320,21 +346,22 @@ export function HeroScene() {
             opacity: 0,
             scale: 1.12,
             filter: "blur(16px)",
-            duration: 0.3,
-            stagger: 0.05,
+            duration: 0.22,
+            stagger: 0.04,
           },
-          0.12,
+          0.4,
         )
         .to(
           splash.querySelector("[data-splash-bg]"),
-          { scale: 1.2, opacity: 0.4, duration: 0.6 },
-          0.1,
+          { scale: 1.2, opacity: 0.4, duration: 0.4 },
+          0.36,
         )
+        // 3. the wipe (0.42 to 0.84): the full stop swells until the screen is white
         .fromTo(
           dot,
           { scale: 1 },
-          { scale: cover, ease: "power3.in", duration: 0.62 },
-          0.2,
+          { scale: cover, ease: "power3.in", duration: 0.42 },
+          0.42,
         )
         .to(splash, { autoAlpha: 0, duration: 0.08 }, 0.84)
         .to(
@@ -382,7 +409,7 @@ export function HeroScene() {
           [
             splash,
             ...splash.querySelectorAll<HTMLElement>(
-              "[data-floater],[data-splash-fade],[data-splash-word],[data-splash-bg],[data-splash-dot]",
+              "[data-floater],[data-splash-fade],[data-splash-word],[data-splash-bg],[data-splash-dot],[data-sc-phone],[data-sc-card],[data-sc-scan],[data-sc-paid-screen],[data-sc-burst],[data-sc-ring]",
             ),
           ],
           { clearProps: "all" },
@@ -473,7 +500,7 @@ export function HeroScene() {
         // theme-light: the opening stages (splash, Verify, At campus) stay light in either site theme
         className={cn(
           "theme-light relative transition-colors duration-700",
-          !reduce && "h-[620svh]",
+          !reduce && "h-[720svh]",
           stage >= NIGHT ? "bg-[#06060a]" : dark ? "bg-[#120a3f]" : "bg-page",
         )}
       >

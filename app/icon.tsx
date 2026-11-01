@@ -1,27 +1,9 @@
 import { ImageResponse } from "next/og";
+import { brandIconDataUri } from "@/lib/brand-icon";
 
 export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
 
-export default function Icon() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0b0b0c",
-          color: "white",
-          fontSize: 300,
-          fontWeight: 800,
-        }}
-      >
-        K
-      </div>
-    ),
-    size,
-  );
+export default async function Icon() {
+  return new ImageResponse(<img src={await brandIconDataUri()} alt="" width={512} height={512} />, size);
 }

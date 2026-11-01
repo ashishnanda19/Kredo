@@ -56,7 +56,7 @@ export function DarkFeatures() {
         </Reveal>
 
         {/* F12 tall mood cards */}
-        <ul className="scrollbar-none -mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
+        <ul data-stagger className="scrollbar-none -mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
           {t.tall.map((c, i) => (
             <li key={c.mood} className="w-[78vw] max-w-[320px] shrink-0 snap-start lg:w-auto lg:max-w-none">
               <Reveal delay={i * 0.06} className="group relative h-[540px] overflow-hidden rounded-[24px] ring-1 ring-white/[.06]" style={{ background: moods[c.mood] }}>

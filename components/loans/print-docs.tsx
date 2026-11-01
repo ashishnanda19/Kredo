@@ -6,6 +6,7 @@ import { Printer } from "lucide-react";
 import { Field } from "@/components/forms/field";
 import { GlassButton, GlassCard, GlassInput } from "@/components/glass";
 import { StatusPill } from "@/components/portal/status-chip";
+import { LogoLockup } from "@/components/shared/logo";
 import { COPY } from "@/lib/copy";
 import { addDays, formatDate, formatINR, MOCK_TODAY } from "@/lib/format";
 import { PAYMENTS } from "@/lib/mock-data";
@@ -28,6 +29,7 @@ export function ReceiptView({ id }: { id: string }) {
       </div>
       <GlassCard radius="lg" className="space-y-4 p-6" role="article" aria-label={`Receipt ${p.id}`}>
         <div>
+          <LogoLockup className="mb-4 h-8 text-ink" />
           <h1 className="text-2xl font-extrabold">{COPY.loans.receipt}</h1>
           <p className="text-xs text-ink-2">{BRAND.name} · for payments to the regulated lending partner</p>
         </div>
@@ -80,6 +82,7 @@ export function StatementView({ id }: { id: string }) {
       </div>
       <GlassCard radius="lg" className="space-y-4 p-6" role="article" aria-label="Loan statement">
         <div>
+          <LogoLockup className="mb-4 h-8 text-ink" />
           <h1 className="text-2xl font-extrabold">{COPY.loans.statement}</h1>
           <p className="text-xs text-ink-2">
             {loan.product} · {loan.id} · {loan.lender}

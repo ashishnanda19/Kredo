@@ -1,5 +1,6 @@
 import { ArrowRight, Bell, Check, Coffee, Lock, Printer, UtensilsCrossed } from "lucide-react";
 import { GlassButton } from "@/components/glass";
+import { LogoMark } from "@/components/shared/logo";
 import { Reveal } from "@/components/shared/reveal";
 import { BRAND } from "@/lib/config";
 import { COPY } from "@/lib/copy";
@@ -46,7 +47,7 @@ export function Bento() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-3 md:grid-cols-6">
+        <div data-stagger className="mt-12 grid gap-3 md:grid-cols-6">
           {/* 1: pay at campus, receipts that file themselves */}
           <Card i={0} className="md:col-span-4">
             <div className="relative w-full pt-24 md:pt-0">
@@ -62,7 +63,7 @@ export function Bento() {
               </ul>
               <div className="absolute right-0 top-0 w-[min(290px,100%)] md:-top-12 rounded-[16px] bg-elevated/95 p-3 shadow-[0_18px_40px_-16px_rgba(0,0,0,0.35)] ring-1 ring-hairline backdrop-blur transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-y-1.5 md:max-lg:w-[240px]">
                 <p className="flex items-center gap-2 text-[11px] font-semibold text-ink-2">
-                  <span className="grid size-5 place-items-center rounded-[6px] bg-ink text-[9px] font-bold text-page">{BRAND.name[0]}</span>
+                  <LogoMark className="size-5" />
                   {BRAND.name} · now
                 </p>
                 <p className="mt-1.5 text-[13px] font-semibold leading-snug text-ink">{t.toast.title}</p>

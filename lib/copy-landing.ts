@@ -9,7 +9,7 @@ import { BRAND } from "./config";
 const B = BRAND.name;
 
 export const LANDING = {
-  bar: { text: "Demo preview · no real money moves", link: "Join early access", close: "Dismiss announcement", chip: "Demo · no real money" },
+  demoChip: "Demo · no real money",
 
   nav: {
     links: [
@@ -27,9 +27,14 @@ export const LANDING = {
   splash: {
     title: B,
     sub: "Pay on your phone, settle on time.",
+    subMark: "on time.",
+    steps: [
+      { title: "Scan at the stall", body: "At partner campus vendors" },
+      { title: "Pay from your limit", body: "Fee and due date upfront" },
+      { title: "Settle on time", body: "Reminders before it's due" },
+    ],
     cta: "Get early access",
     how: "See how it works",
-    scroll: "Scroll",
   },
 
   hero: {

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Menu } from "lucide-react";
 import { GlassSheet, GlassSheetContent, GlassSheetDescription, GlassSheetTitle } from "@/components/glass";
-import { LogoMark } from "@/components/shared/logo";
+import { LogoMark, Wordmark } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { BRAND } from "@/lib/config";
 import { COPY } from "@/lib/copy";
@@ -76,13 +76,12 @@ export function MorphNav() {
         />
 
         <Link href="/" aria-label={`${BRAND.name} home`} className="flex min-h-11 items-center gap-2">
-          <span className="group-data-[tone=dark]:hidden"><LogoMark /></span>
-          <span className="hidden group-data-[tone=dark]:inline"><LogoMark inverted /></span>
+          <LogoMark />
           <span
-            className="overflow-hidden whitespace-nowrap text-[17px] font-semibold tracking-[-0.02em]"
+            className="flex items-center overflow-hidden"
             style={{ opacity: "calc(1 - var(--p) * 1.6)", maxWidth: "calc((1 - var(--p)) * 90px)" }}
           >
-            {BRAND.name}
+            <Wordmark className="h-[19px]" />
           </span>
         </Link>
 

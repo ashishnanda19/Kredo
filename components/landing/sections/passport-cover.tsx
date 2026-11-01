@@ -42,7 +42,7 @@ export function PassportCover() {
         <span className="absolute inset-y-0 left-0 w-[10px] bg-black/25" />
         <p className="relative whitespace-nowrap font-mono text-[12px] tracking-[0.38em] text-accent">STUDENT · CAMPUS</p>
         <div className="relative mt-[14%] grid aspect-square w-[34%] place-items-center rounded-full border border-accent/70 shadow-[0_0_0_10px_rgba(245,216,50,0.08)]">
-          <LogoMark inverted className="size-[46%]" />
+          <LogoMark className="size-[46%]" />
         </div>
         <p className="relative mt-[12%] text-[clamp(22px,2.6vw,34px)] font-semibold leading-none tracking-[0.18em] text-accent">CREDIT</p>
         <p className="relative mt-2 text-[clamp(22px,2.6vw,34px)] font-semibold leading-none tracking-[0.18em] text-accent">PASSPORT</p>

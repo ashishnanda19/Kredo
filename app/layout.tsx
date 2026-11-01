@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AnnouncementBar } from "@/components/shared/announcement-bar";
+import { DemoChip } from "@/components/shared/demo-chip";
 import { DemoControls, PortalRuntime } from "@/components/portal/demo-controls";
 import { Providers } from "@/components/shared/providers";
 import { BRAND } from "@/lib/config";
@@ -28,8 +28,8 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 };
 
-/** Restores a dismissed announcement bar before first paint (avoids a layout jump). */
-const BAR_SCRIPT = `document.documentElement.classList.add("js");try{if(sessionStorage.getItem("kredo-bar")==="closed")document.documentElement.dataset.bar="closed"}catch(e){}`;
+/** Marks the page as script-enabled before first paint, so the JS-only start states (hero intro, splash) apply at once. */
+const BAR_SCRIPT = `document.documentElement.classList.add("js")`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Providers>
-          <AnnouncementBar />
+          <DemoChip />
           <PortalRuntime />
           <DemoControls />
           {children}

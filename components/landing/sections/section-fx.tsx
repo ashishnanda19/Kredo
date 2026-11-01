@@ -7,7 +7,8 @@ import { gsap, registerGsap, scheduleRefresh } from "@/lib/scroll";
 /**
  * Section transitions for the landing page. Every `[data-reveal]` block comes into focus as it scrolls in:
  * blurred, faded and slightly low, then sharpening into place (scroll-scrubbed, so it reverses on the way up).
- * Phones skip the blur and only fade and rise.
+ * Phones skip the blur and only fade and rise. Inside them, the cards of every `[data-stagger]` list land one after
+ * another (played once on entry, reversed when scrolled back above).
  * Content wrappers only, never section backgrounds, so colour blocks stay crisp. Off under reduced motion,
  * and the blocks start at opacity 0 (not dimmed) so nothing half-visible is read at the wrong contrast.
  */
@@ -27,6 +28,23 @@ export function SectionFx() {
             el,
             { opacity: 0, y: 72, scale: 0.97, ...(blur && { filter: "blur(22px)" }) },
             { opacity: 1, y: 0, scale: 1, ...(blur && { filter: "blur(0px)" }), ease: "none", scrollTrigger: { trigger: el, start: "top 98%", end: "top 52%", scrub: 0.6 } },
+          );
+        });
+        gsap.utils.toArray<HTMLElement>("[data-stagger]").forEach((list) => {
+          gsap.fromTo(
+            Array.from(list.children),
+            { opacity: 0, y: 48, scale: 0.96, ...(blur && { filter: "blur(10px)" }) },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              ...(blur && { filter: "blur(0px)" }),
+              ease: "power3.out",
+              duration: 0.9,
+              stagger: 0.08,
+              clearProps: "filter",
+              scrollTrigger: { trigger: list, start: "top 86%", toggleActions: "play none none reverse" },
+            },
           );
         });
       });

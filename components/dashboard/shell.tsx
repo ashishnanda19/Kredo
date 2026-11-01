@@ -38,7 +38,7 @@ function useActive() {
 export function SideRail() {
   const isActive = useActive();
   return (
-    <aside className="sticky top-[var(--bar-h)] hidden h-[calc(100dvh-var(--bar-h))] w-72 shrink-0 p-4 lg:block print:hidden">
+    <aside data-side-rail className="sticky top-[var(--bar-h)] hidden h-[calc(100dvh-var(--bar-h))] w-72 shrink-0 p-4 lg:block print:hidden">
       <GlassCard radius="xl" strength="strong" className="flex h-full flex-col justify-between p-5">
         <div>
           <Logo href="/dashboard" />

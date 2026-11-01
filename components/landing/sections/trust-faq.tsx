@@ -17,7 +17,7 @@ export function TrustFaq() {
         <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-2">{trust.eyebrow}</p>
           <TwoTone id="trust-title" a={trust.title} b={COPY.legal.disclosure} className="mt-3 max-w-3xl" />
-          <ul className="mt-12 grid gap-3 md:grid-cols-3">
+          <ul data-stagger className="mt-12 grid gap-3 md:grid-cols-3">
             {trust.cards.map((c, i) => {
               const Icon = ICONS[i];
               return (

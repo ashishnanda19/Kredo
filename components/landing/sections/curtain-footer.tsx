@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { DemoTag, Disclosure } from "@/components/shared/demo-tag";
-import { LogoMark } from "@/components/shared/logo";
-import { BRAND, GRIEVANCE } from "@/lib/config";
+import { LogoLockup } from "@/components/shared/logo";
+import { GRIEVANCE } from "@/lib/config";
 import { COPY } from "@/lib/copy";
 import { FooterSlogan } from "./footer-slogan";
 
@@ -76,8 +76,7 @@ export function CurtainFooter() {
 
         <div className="mt-8 grid gap-6 border-t border-white/10 pt-6 text-[12.5px] leading-relaxed text-white/60 md:grid-cols-[auto_1fr]">
           <div className="flex items-center gap-2.5">
-            <LogoMark inverted className="size-8" />
-            <span className="text-[15px] font-semibold text-white">{BRAND.name}</span>
+            <LogoLockup className="h-8 text-white" />
           </div>
           <div className="space-y-1.5">
             <Disclosure className="text-white/70" />
