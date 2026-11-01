@@ -464,6 +464,12 @@
 .hero-fade { animation: hero-fade 0.9s var(--ease-out) both; }
 .hero-pop { animation: hero-pop 1.1s var(--ease-out) both; }
 .hero-bob { animation: hero-bob 6s ease-in-out infinite; }
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+/* the splash only overlays the hero when JS can wipe it away */
+html:not(.js) [data-splash-overlay] { display: none; }
 
 /* light sections on warm grey blend into the white sections around them instead of meeting on a hard edge */
 .bg-soft-seam {

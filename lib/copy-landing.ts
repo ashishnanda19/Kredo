@@ -24,6 +24,15 @@ export const LANDING = {
     menu: "Menu",
   },
 
+  splash: {
+    kicker: "Campus credit for Indian college students",
+    title: "Campus, sorted",
+    sub: "Chai, canteen, xerox, stationery. Pay on your phone, settle on time.",
+    cta: "Get early access",
+    how: "See how it works",
+    scroll: "Scroll",
+  },
+
   hero: {
     title: "Pay at campus. Settle later.",
     sub: "Verified students get a small limit through our lending partner, spend at campus vendors, repay on time, and grow it.",

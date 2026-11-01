@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Decorative 3D-style objects from campus life that frame the hero headline on the first screen (original vector
- * art, no WebGL): a cutting-chai glass, a canteen receipt, a due-date tile and the Kredo card. Each one bobs
- * gently (CSS), follows the pointer by its own depth (--px/--py set on the hero), pops in on load, and flies
- * outward during the scroll intro (GSAP reads data-fx/data-fy, in viewport widths/heights).
+ * Decorative 3D-style objects from campus life for the opening splash (original vector art, no WebGL): a chai
+ * glass, a due-date tile, a xerox stack, a student ID, a canteen receipt and the Kredo card. Each one pops in on
+ * load, bobs gently (CSS), follows the pointer by its own depth (--px/--py set on the hero) and flies outward when
+ * the splash wipes away (GSAP reads data-fx/data-fy, in viewport widths/heights).
  */
 /** Cutting chai in a ribbed glass, the canteen staple. */
 function Chai({ className }: { className?: string }) {
@@ -70,10 +70,50 @@ function Receipt({ className }: { className?: string }) {
 function DueTile({ className }: { className?: string }) {
   return (
     <div className={cn("overflow-hidden rounded-[22%] bg-white text-center shadow-[0_30px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/5", className)}>
-      <p className="bg-accent py-[7%] text-[clamp(10px,1vw,14px)] font-bold tracking-[0.2em] text-accent-ink">NOV</p>
+      <p className="bg-[#0b0b0c] py-[7%] text-[clamp(10px,1vw,14px)] font-bold tracking-[0.2em] text-accent">NOV</p>
       <p className="pt-[4%] text-[clamp(30px,3.6vw,54px)] font-bold leading-none tracking-[-0.04em] text-[#0b0b0c]">02</p>
       <p className="pb-[10%] pt-[5%] text-[clamp(9px,0.85vw,12px)] font-semibold text-[#6b6b70]">Due date</p>
     </div>
+  );
+}
+
+/** A student ID card, the thing you verify with. */
+function IdCard({ className }: { className?: string }) {
+  return (
+    <div className={cn("relative aspect-[1/1.45] overflow-hidden rounded-[14px] bg-white shadow-[0_30px_50px_-24px_rgba(0,0,0,0.4)] ring-1 ring-black/5", className)}>
+      <span className="absolute left-1/2 top-[4%] h-[5%] w-[22%] -translate-x-1/2 rounded-full bg-[#d9d9de]" />
+      <div className="mt-[16%] bg-[#0b0b0c] px-[8%] py-[6%] text-[clamp(8px,0.8vw,11px)] font-bold tracking-[0.16em] text-accent">STUDENT ID</div>
+      <div className="mx-auto mt-[10%] grid aspect-square w-[44%] place-items-end overflow-hidden rounded-full bg-[#e4e7f0]">
+        <svg viewBox="0 0 60 60" className="w-full fill-[#b7bdd1]"><circle cx="30" cy="24" r="12" /><path d="M8 60c2-15 10-22 22-22s20 7 22 22Z" /></svg>
+      </div>
+      <div className="mx-[12%] mt-[10%] space-y-[6%]">
+        <span className="block h-[5px] w-3/4 rounded bg-[#d0d0d6]" />
+        <span className="block h-[5px] w-1/2 rounded bg-[#e2e2e7]" />
+      </div>
+      <span className="absolute bottom-[6%] right-[8%] grid size-[18%] place-items-center rounded-full bg-[#22C55E] text-[clamp(8px,0.8vw,12px)] font-bold text-white">✓</span>
+    </div>
+  );
+}
+
+/** A stack of fresh xerox pages, pre-exam essential. */
+function XeroxStack({ className }: { className?: string }) {
+  const sheet = (dx: number, dy: number, r: number, k: number, top: boolean) => (
+    <g key={k} transform={`translate(${dx} ${dy}) rotate(${r} 70 90)`}>
+      <rect x="10" y="10" width="120" height="160" rx="4" fill="#ffffff" stroke="#0b0b0c" strokeOpacity=".08" />
+      {top &&
+        [34, 48, 62, 76, 90, 104, 118, 132].map((y, i) => (
+          <rect key={y} x="24" y={y} width={[80, 92, 70, 88, 60, 90, 76, 50][i]} height="5" rx="2.5" fill="#c9c9cf" />
+        ))}
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 150 190" className={className}>
+      {sheet(10, 6, 8, 0, false)}
+      {sheet(4, 3, 3, 1, false)}
+      {sheet(0, 0, -3, 2, true)}
+      <circle cx="112" cy="40" r="16" fill="#0b0b0c" />
+      <text x="112" y="45" textAnchor="middle" fontSize="13" fontWeight="800" fill="#F5D832" fontFamily="system-ui, sans-serif">A4</text>
+    </svg>
   );
 }
 
@@ -91,20 +131,17 @@ function Card({ className }: { className?: string }) {
 }
 
 const ITEMS = [
-  { key: "chai", el: <Chai className="size-full drop-shadow-[0_24px_28px_rgba(122,62,14,0.25)]" />, pos: "left-[10%] top-[52%] w-[clamp(70px,8.5vw,128px)] max-sm:left-[5%] max-sm:top-[62%]", tilt: "rotate(-8deg)", depth: 26, fx: -0.35, fy: -0.25, delay: 500, dur: 6 },
-  { key: "due", el: <DueTile className="w-full" />, pos: "right-[13%] top-[50%] w-[clamp(74px,8vw,124px)] max-sm:right-[6%] max-sm:top-[59%]", tilt: "rotate(12deg) rotateY(-18deg)", depth: 18, fx: 0.35, fy: -0.25, delay: 650, dur: 7 },
-  { key: "receipt", el: <Receipt className="size-full drop-shadow-[0_24px_30px_rgba(0,0,0,0.18)]" />, pos: "left-[25%] bottom-[1%] w-[clamp(84px,10vw,150px)] max-sm:left-[-3%] max-sm:bottom-[2%]", tilt: "rotate(-16deg) rotateX(18deg)", depth: 34, fx: -0.3, fy: 0.3, delay: 800, dur: 8 },
-  { key: "card", el: <Card className="w-full" />, pos: "right-[26%] bottom-[5%] w-[clamp(150px,17vw,270px)] max-sm:right-[-12%] max-sm:bottom-[14%]", tilt: "rotate(-12deg) rotateY(-24deg) rotateX(14deg)", depth: 22, fx: 0.35, fy: 0.3, delay: 950, dur: 7.5 },
+  { key: "chai", el: <Chai className="size-full drop-shadow-[0_28px_30px_rgba(122,62,14,0.35)]" />, pos: "left-[7%] top-[17%] w-[clamp(74px,9vw,140px)] max-sm:left-[3%] max-sm:top-[13%]", tilt: "rotate(-10deg)", depth: 30, fx: -0.45, fy: -0.35, delay: 450, dur: 6 },
+  { key: "due", el: <DueTile className="w-full" />, pos: "right-[9%] top-[15%] w-[clamp(72px,8.5vw,128px)] max-sm:right-[4%] max-sm:top-[13%]", tilt: "rotate(12deg) rotateY(-18deg)", depth: 22, fx: 0.45, fy: -0.35, delay: 560, dur: 7 },
+  { key: "xerox", el: <XeroxStack className="size-full drop-shadow-[0_24px_30px_rgba(0,0,0,0.2)]" />, pos: "left-[2.5%] top-[46%] w-[clamp(80px,9vw,140px)] max-md:hidden", tilt: "rotate(-14deg) rotateY(20deg)", depth: 18, fx: -0.55, fy: 0, delay: 680, dur: 8 },
+  { key: "id", el: <IdCard className="w-full" />, pos: "right-[3%] top-[42%] w-[clamp(70px,7.5vw,116px)] max-md:hidden", tilt: "rotate(14deg) rotateY(-22deg) rotateX(8deg)", depth: 26, fx: 0.55, fy: 0, delay: 780, dur: 7.5 },
+  { key: "receipt", el: <Receipt className="size-full drop-shadow-[0_24px_30px_rgba(0,0,0,0.22)]" />, pos: "left-[15%] bottom-[5%] w-[clamp(84px,10vw,150px)] max-sm:left-[2%] max-sm:bottom-[13%]", tilt: "rotate(-16deg) rotateX(18deg)", depth: 36, fx: -0.4, fy: 0.4, delay: 880, dur: 8 },
+  { key: "card", el: <Card className="w-full" />, pos: "right-[12%] bottom-[8%] w-[clamp(150px,17vw,270px)] max-sm:right-[-14%] max-sm:bottom-[15%]", tilt: "rotate(-12deg) rotateY(-24deg) rotateX(14deg)", depth: 24, fx: 0.4, fy: 0.4, delay: 980, dur: 7.5 },
 ] as const;
 
-export function HeroFloaters() {
+export function SplashObjects() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden [perspective:1200px]">
-      {/* soft colour wash behind the headline, fades with the floaters */}
-      <div data-floater className="absolute inset-0" data-fx="0" data-fy="0">
-        <div className="absolute left-1/2 top-[34%] h-[60vmin] w-[90vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(245,216,50,0.22),transparent)]" />
-        <div className="absolute left-[30%] top-[55%] h-[50vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(58,31,184,0.08),transparent)]" />
-      </div>
+    <div aria-hidden className="pointer-events-none absolute inset-0 [perspective:1200px]">
       {ITEMS.map((it) => (
         <div key={it.key} data-floater data-fx={it.fx} data-fy={it.fy} className={cn("absolute", it.pos)}>
           {/* pointer parallax (depth) */}
