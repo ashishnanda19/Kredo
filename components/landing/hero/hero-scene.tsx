@@ -152,7 +152,7 @@ function GhostFragments({ on }: { on: boolean }) {
 }
 
 /**
- * F3–F6 hero. It opens on a yellow splash ("Campus, sorted.") whose full stop swells into a white wipe, then the
+ * F3–F6 hero. It opens on a yellow splash ("Kredo.") whose full stop swells into a white wipe, then the
  * white headline rises and the phone pops out. The section is several screens tall; its inner stage is sticky (the "pin"), and scroll progress
  * (ScrollTrigger over Lenis) picks the stage, the phone screen and how many feed cards are lit. The segmented
  * control scrolls to a stage. From "Repay and grow" on, the background shifts to deep indigo and the nav inverts.
@@ -460,14 +460,19 @@ export function HeroScene() {
   return (
     <>
       {/* reduced motion: the splash is a plain screen above the hero instead of a pinned overlay */}
-      {reduce && <HeroSplash />}
+      {reduce && (
+        <div className="theme-light">
+          <HeroSplash />
+        </div>
+      )}
       <section
         ref={sectionRef}
         id="how"
         aria-label={t.hero.title}
         // painted too, so no strip of another colour can show around the pinned stage while mobile toolbars resize
+        // theme-light: the opening stages (splash, Verify, At campus) stay light in either site theme
         className={cn(
-          "relative transition-colors duration-700",
+          "theme-light relative transition-colors duration-700",
           !reduce && "h-[620svh]",
           stage >= NIGHT ? "bg-[#06060a]" : dark ? "bg-[#120a3f]" : "bg-page",
         )}

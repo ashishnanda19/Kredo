@@ -15,7 +15,8 @@ import { EmailPill } from "./email-pill";
  * plain text CTA). Over the first 80px of scroll it morphs into a floating frosted pill (mark only,
  * same links, solid pill button). Width, padding and background interpolate via a CSS variable
  * (--p, 0..1) written on scroll, so React never re-renders while scrolling.
- * Over any element marked data-nav-theme="dark" the pill inverts (dark glass, white button).
+ * Over any element marked data-nav-theme="dark" the pill inverts (dark glass, white button). Over a light-only
+ * subtree (.theme-light, the hero opening) the nav takes the light tokens too, whatever the site theme.
  */
 export function MorphNav() {
   const ref = useRef<HTMLElement>(null);
@@ -34,7 +35,9 @@ export function MorphNav() {
       const r = el.getBoundingClientRect();
       const stack = document.elementsFromPoint(window.innerWidth / 2, r.top + 30);
       const host = stack.find((n) => !el.contains(n))?.closest<HTMLElement>("[data-nav-theme]");
-      el.dataset.tone = host?.dataset.navTheme === "dark" ? "dark" : "light";
+      const theme = host?.dataset.navTheme;
+      el.dataset.tone = theme === "dark" ? "dark" : "light";
+      el.classList.toggle("theme-light", theme !== "dark" && !!host?.closest(".theme-light"));
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);

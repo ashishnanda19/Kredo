@@ -25,9 +25,8 @@ export const LANDING = {
   },
 
   splash: {
-    kicker: "Campus credit for Indian college students",
-    title: "Campus, sorted",
-    sub: "Chai, canteen, xerox, stationery. Pay on your phone, settle on time.",
+    title: B,
+    sub: "Pay on your phone, settle on time.",
     cta: "Get early access",
     how: "See how it works",
     scroll: "Scroll",
