@@ -8,8 +8,8 @@ import { TwoTone } from "./two-tone";
 export function Voices() {
   const t = COPY.landing.voices;
   return (
-    <section aria-labelledby="voices-title" className="overflow-hidden bg-soft py-24 sm:py-32">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
+    <section aria-labelledby="voices-title" className="overflow-hidden bg-soft-seam py-32 sm:py-40">
+      <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <TwoTone id="voices-title" a={t.titleA} b={t.titleB} className="max-w-2xl" />
       </div>
       <ul className="sr-only">
@@ -17,7 +17,7 @@ export function Voices() {
           <li key={q.q}>{`${t.label}: "${q.q}", ${q.who}`}</li>
         ))}
       </ul>
-      <div aria-hidden className="edge-fade-x group mt-12 overflow-hidden">
+      <div data-reveal aria-hidden className="edge-fade-x group mt-12 overflow-hidden">
         <ul className="flex w-max gap-4 pr-4 animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none" style={{ animationDuration: "70s" }}>
           {[...t.quotes, ...t.quotes].map((q, i) => (
             <li key={i} className="flex w-[300px] shrink-0 flex-col justify-between rounded-[16px] bg-elevated p-5 ring-1 ring-hairline sm:w-[340px]">

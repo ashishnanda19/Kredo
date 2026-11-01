@@ -70,13 +70,11 @@ export function FeedCard({ item, dark, lit = true, solid, className }: { item: I
 
 /**
  * L2: notification cards flanking the phone. `lit` (0..6) lights cards one by one in a seeded order as the
- * stage progresses. From lg up they sit on arcs either side; below lg only the most recent card shows, as a
- * banner over the top of the phone. Decorative (sample data), so hidden from assistive tech.
+ * stage progresses. From lg up they sit on arcs either side (below lg see FeedBanner). Decorative (sample data), so hidden from assistive tech.
  */
 export function NotificationFeed({ stage, lit, dark }: { stage: FeedStage; lit: number; dark?: boolean }) {
   const items = COPY.landing.feed[stage];
   const rank = rankOf(stage);
-  const latest = ORDER[stage][Math.max(0, Math.min(items.length, lit) - 1)];
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
       <div className="hidden lg:block">
@@ -90,9 +88,20 @@ export function NotificationFeed({ stage, lit, dark }: { stage: FeedStage; lit: 
           );
         })}
       </div>
-      <div className="absolute left-1/2 top-[calc(var(--pw)*0.07)] z-10 -translate-x-1/2 lg:hidden">
-        {lit > 0 && <FeedCard key={`${stage}-${latest}`} item={items[latest]} dark={dark} solid className="anim-rise w-[min(300px,calc(100vw-48px))] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.35)]" />}
-      </div>
+    </div>
+  );
+}
+
+/**
+ * Below lg: the most recent card as a single banner in its own row between the copy and the phone,
+ * so it never covers the phone screen. The row keeps its height so the phone does not jump.
+ */
+export function FeedBanner({ stage, lit, dark, className }: { stage: FeedStage | null; lit: number; dark?: boolean; className?: string }) {
+  const items = stage ? COPY.landing.feed[stage] : null;
+  const latest = stage ? ORDER[stage][Math.max(0, Math.min(6, lit) - 1)] : 0;
+  return (
+    <div aria-hidden className={cn("pointer-events-none flex h-[64px] w-full items-center justify-center px-4 lg:hidden", className)}>
+      {items && lit > 0 && <FeedCard key={`${stage}-${latest}`} item={items[latest]} dark={dark} solid className="anim-rise w-[min(320px,calc(100vw-40px))] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.35)]" />}
     </div>
   );
 }

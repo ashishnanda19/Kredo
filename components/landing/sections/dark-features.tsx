@@ -3,6 +3,7 @@ import { DuesListScreen, LockScreenReminders, OfferScreen, PayReceiptScreen, Pho
 import { Reveal } from "@/components/shared/reveal";
 import { COPY } from "@/lib/copy";
 import { moods } from "@/lib/theme";
+import { ScrollWords } from "./scroll-words";
 
 const TALL_SCREENS = {
   navy: <DuesListScreen />,
@@ -19,12 +20,10 @@ const TALL_SCREENS = {
 export function DarkFeatures() {
   const t = COPY.landing.dark;
   return (
-    <section id="features" data-nav-theme="dark" aria-labelledby="features-title" className="scroll-mt-24 bg-[#06060a] py-24 text-white sm:py-32">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
+    <section id="features" data-nav-theme="dark" aria-labelledby="features-title" className="relative scroll-mt-24 bg-[#06060a] pb-40 pt-24 text-white sm:pb-52 sm:pt-32">
+      <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <h2 id="features-title" className="text-balance text-[clamp(2rem,4.6vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.04em]">
-            {t.title}
-          </h2>
+          <ScrollWords id="features-title" text={t.title} className="text-balance text-[clamp(2rem,4.6vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.04em]" />
           <p className="mx-auto mt-4 max-w-xl text-pretty text-[16px] leading-relaxed text-white/60 sm:text-[17px]">{t.sub}</p>
         </Reveal>
 
@@ -72,6 +71,8 @@ export function DarkFeatures() {
           ))}
         </ul>
       </div>
+      {/* feathered seam into the light section below, instead of a hard edge */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-page sm:h-52" />
     </section>
   );
 }

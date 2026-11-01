@@ -31,7 +31,7 @@ export function Bento() {
   const t = COPY.landing.bento;
   return (
     <section aria-labelledby="bento-title" className="bg-page py-24 sm:py-32">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
+      <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <TwoTone id="bento-title" a={t.titleA} b={t.titleB} className="max-w-2xl" />
           <div className="flex flex-wrap gap-3">

@@ -65,8 +65,8 @@ export function VendorMarquee() {
   const a = vendors.slice(0, half);
   const b = vendors.slice(half);
   return (
-    <section id="vendors" aria-labelledby="vendors-title" className="scroll-mt-24 bg-soft py-24 sm:py-32">
-      <div className="mx-auto flex max-w-[1180px] flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
+    <section id="vendors" aria-labelledby="vendors-title" className="scroll-mt-24 bg-soft-seam py-32 sm:py-40">
+      <div data-reveal className="mx-auto flex max-w-[1180px] flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
         <TwoTone id="vendors-title" a={t.titleA} b={t.titleB} className="max-w-2xl" />
         <GlassSheet>
           <GlassSheetTrigger asChild>
@@ -83,7 +83,7 @@ export function VendorMarquee() {
           <li key={v.id}>{`${v.name}, ${v.distance}, ${isOpen(v) ? t.open : t.closed}`}</li>
         ))}
       </ul>
-      <div aria-hidden className="mt-12 space-y-2">
+      <div data-reveal aria-hidden className="mt-12 space-y-2">
         <Row items={[...a, ...a]} />
         <Row items={[...b, ...b]} reverse />
       </div>

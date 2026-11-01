@@ -11,7 +11,7 @@ export function PartnersWall() {
   const t = COPY.landing.partners;
   return (
     <section data-nav-theme="dark" aria-labelledby="partners-title" className="bg-[#06060a] py-20 text-white sm:py-28">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
+      <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-white/60">{t.eyebrow}</p>
           <h2 id="partners-title" className="mt-3 text-balance text-[clamp(1.75rem,3.6vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">

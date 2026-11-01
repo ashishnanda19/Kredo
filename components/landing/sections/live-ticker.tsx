@@ -57,7 +57,7 @@ export function LiveTicker() {
 
   return (
     <section ref={ref} aria-labelledby="ticker-title" className="border-y border-hairline bg-page py-12 sm:py-16">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
+      <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <p id="ticker-title" className="flex items-center gap-2 font-mono text-[11px] font-semibold tracking-[0.12em] text-ink-2">
           <span className="relative flex size-2">
             <span className="absolute inset-0 rounded-full bg-ok motion-safe:animate-ping motion-safe:opacity-60" />

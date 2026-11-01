@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Check } from "lucide-react";
+import { Bell, Check, Gauge, ReceiptText, Wallet } from "lucide-react";
 import { COPY } from "@/lib/copy";
 import { usePrefersReducedMotion } from "@/lib/quality";
 import { gsap } from "@/lib/scroll";
@@ -33,18 +33,56 @@ function Fragment({ text, kind, className, style }: { text: string; kind: keyof 
 function Checklist({ className }: { className?: string }) {
   const t = COPY.landing.chaos;
   return (
-    <div data-card className={cn("w-full max-w-[340px] rounded-[20px] bg-elevated p-5 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.35)] ring-1 ring-hairline", className)}>
-      <p className="font-mono text-[11px] font-semibold tracking-[0.12em] text-ink-2">THIS MONTH</p>
-      <ul className="mt-3 space-y-1">
-        {t.checklist.map((c) => (
-          <li data-item key={c} className="flex items-center gap-3 rounded-[12px] px-2 py-2.5 text-[16px] font-semibold text-ink">
-            <span data-tick className="grid size-6 place-items-center rounded-full bg-ok text-white">
+    <div data-card className={cn("relative z-10 w-full max-w-[360px] rounded-[22px] bg-elevated p-5 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.4)] ring-1 ring-hairline", className)}>
+      <div className="flex items-center justify-between">
+        <p className="font-mono text-[11px] font-semibold tracking-[0.12em] text-ink-2">THIS MONTH</p>
+        <span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-bold text-accent-ink">All sorted</span>
+      </div>
+      <ul className="mt-3 divide-y divide-hairline">
+        {t.checklist.map((c, i) => (
+          <li data-item key={c} className="flex items-center gap-3 py-2.5">
+            <span data-tick className="grid size-6 shrink-0 place-items-center rounded-full bg-ok text-white">
               <Check className="size-3.5" strokeWidth={3} aria-hidden />
             </span>
-            {c}
+            <span className="min-w-0">
+              <span className="block text-[15.5px] font-semibold leading-tight text-ink">{c}</span>
+              <span className="block truncate text-[12.5px] text-ink-2">{t.checklistDetail[i]}</span>
+            </span>
           </li>
         ))}
       </ul>
+      <p className="mt-2 text-[11px] text-ink-2">{t.calmNote}</p>
+    </div>
+  );
+}
+
+const CALM_ICON = { receipt: ReceiptText, due: Bell, limit: Wallet, score: Gauge } as const;
+/** Where the tidy cards settle around the checklist (md and up): left/right side and top %. */
+const CALM_SPOTS = [
+  { side: "left", top: "10%" },
+  { side: "right", top: "16%" },
+  { side: "left", top: "56%" },
+  { side: "right", top: "62%" },
+] as const;
+
+function CalmCard({ i, className, style }: { i: number; className?: string; style?: React.CSSProperties }) {
+  const c = COPY.landing.chaos.calmCards[i];
+  const Icon = CALM_ICON[c.k as keyof typeof CALM_ICON];
+  return (
+    <div data-calm className={cn("w-[220px] rounded-[18px] bg-elevated p-3.5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.3)] ring-1 ring-hairline", className)} style={style}>
+      <p className="flex items-center gap-2 text-[12px] font-semibold text-ink-2">
+        <span className="grid size-6 place-items-center rounded-[8px] bg-soft text-ink">
+          <Icon className="size-3.5" aria-hidden />
+        </span>
+        {c.label}
+      </p>
+      <p className="mt-2 text-[16px] font-semibold tracking-[-0.01em] text-ink">{c.value}</p>
+      {c.k === "limit" ? (
+        <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-hairline">
+          <span className="block h-full w-[62%] rounded-full bg-ink" />
+        </span>
+      ) : null}
+      <p className="mt-1.5 text-[12px] text-ink-2">{c.note}</p>
     </div>
   );
 }
@@ -82,6 +120,9 @@ export function ChaosCalm() {
       .to("[data-before]", { opacity: 0, y: -24, duration: 0.1 }, 0.28)
       .fromTo("[data-after]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1 }, 0.4)
       .from("[data-card]", { opacity: 0, scale: 0.9, y: 40, duration: 0.16 }, 0.4)
+      .fromTo("[data-glow]", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.2 }, 0.42)
+      .from("[data-calm]", { opacity: 0, scale: 0.88, y: 24, filter: "blur(10px)", duration: 0.12, stagger: 0.04 }, 0.5)
+      .fromTo("[data-calm-line]", { strokeDashoffset: 60, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.12, stagger: 0.03 }, 0.56)
       .from("[data-item]", { opacity: 0.25, duration: 0.05, stagger: 0.045 }, 0.62)
       .from("[data-tick]", { scale: 0, duration: 0.05, stagger: 0.045 }, 0.62)
       .to({}, { duration: 0.12 }); // hold the finished checklist before the section scrolls away
@@ -104,6 +145,11 @@ export function ChaosCalm() {
             <p className="text-[clamp(1.9rem,4vw,3.25rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink">{t.after}</p>
             <p className="mt-3 text-ink-2">{t.afterSub}</p>
             <Checklist className="mt-6" />
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {CALM_SPOTS.map((_, i) => (
+                <CalmCard key={i} i={i} className="w-auto" />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -111,9 +157,9 @@ export function ChaosCalm() {
   }
 
   return (
-    <section ref={ref} aria-labelledby="chaos-title" className="relative h-[240svh] bg-soft">
+    <section ref={ref} aria-labelledby="chaos-title" className="relative h-[240svh] bg-soft-seam">
       <div className="sticky top-[var(--bar-h)] flex h-[calc(100svh-var(--bar-h))] flex-col items-center overflow-hidden px-4 pt-24 sm:pt-28">
-        <div className="grid text-center">
+        <div data-reveal className="grid text-center">
           <div data-before className="col-start-1 row-start-1">
             <h2 id="chaos-title" className="text-balance text-[clamp(1.9rem,4.4vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink">{t.before}</h2>
             <p className="mx-auto mt-3 max-w-md text-ink-2">{t.beforeSub}</p>
@@ -129,6 +175,25 @@ export function ChaosCalm() {
               const [l, top, rot, kind] = SPOTS[i % SPOTS.length];
               return <Fragment key={f} text={f} kind={kind} style={{ left: `${l}%`, top: `${top * 0.82}%`, transform: `rotate(${rot}deg)` }} />;
             })}
+          </div>
+          <div aria-hidden data-glow className="pointer-events-none absolute inset-0 opacity-0">
+            <div className="dot-grid absolute inset-0 [mask-image:radial-gradient(55%_55%_at_50%_45%,#000,transparent)]" />
+            <div className="absolute left-1/2 top-[45%] size-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_30%,transparent),transparent)]" />
+          </div>
+          <svg aria-hidden className="pointer-events-none absolute inset-0 hidden size-full md:block" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {[
+              [24, 20, 41, 34],
+              [76, 26, 59, 34],
+              [24, 66, 41, 56],
+              [76, 72, 59, 56],
+            ].map(([x1, y1, x2, y2], i) => (
+              <line key={i} data-calm-line x1={x1} y1={y1} x2={x2} y2={y2} className="stroke-ink-2/40" strokeWidth="1.2" strokeDasharray="4 5" vectorEffect="non-scaling-stroke" fill="none" />
+            ))}
+          </svg>
+          <div aria-hidden className="hidden md:block">
+            {CALM_SPOTS.map((spot, i) => (
+              <CalmCard key={i} i={i} className="absolute" style={{ [spot.side]: 0, top: spot.top }} />
+            ))}
           </div>
           <div className="absolute inset-0 grid place-items-center pb-10">
             <Checklist />

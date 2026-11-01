@@ -104,6 +104,14 @@ export const LANDING = {
     afterSub: `${B} keeps every spend, due date and repayment together. It just works.`,
     fragments: ["Mess bill pending", "bro ₹200 de de, kal dunga", "Payment request · ₹150", "Raju bhaiya – ₹340", "kitna chahiye?", "You owe ₹820", "Xerox – later", "Balance ₹43", "[UNPAID] fees", "Card declined", "99+"],
     checklist: ["Verified", "Limit set", "Pay at campus", "Repay", "Score grows"],
+    checklistDetail: ["Student ID matched", "₹3,000 from our lending partner", "12 campus payments", "Next due 2 Nov", "Up 12 this month"],
+    calmCards: [
+      { k: "receipt", label: "Receipt saved", value: "₹120 · Campus Cafe", note: "Paid today, 1:12 pm" },
+      { k: "due", label: "Next due", value: "₹1,150 · 2 Nov", note: "Reminder set for 1 Nov" },
+      { k: "limit", label: "Available to spend", value: "₹1,850 of ₹3,000", note: "Limit set by our lending partner" },
+      { k: "score", label: "Internal score", value: "72 · Building", note: "Not a bureau score" },
+    ],
+    calmNote: "Sample data.",
   },
 
   bento: {
@@ -144,6 +152,7 @@ export const LANDING = {
 
   footer: {
     curtainTitle: "Pay at campus. Settle later.",
+    slogan: "Campus, sorted.",
     columns: [
       { title: "Product", links: ["How it works", "Credit limit", "Repayments", "Credit profile"] },
       { title: "Students", links: ["Verify", "FAQ", "Support", "Grievance"] },

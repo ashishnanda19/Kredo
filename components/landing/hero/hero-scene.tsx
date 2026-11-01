@@ -6,11 +6,12 @@ import { Landmark, ShieldCheck } from "lucide-react";
 import { CampusPayScreen, DuesListScreen, LimitUnlockedScreen, LockScreenReminders, PassportScreen, ScaledScreen, VerifyScreen } from "@/components/phone-screens";
 import { COPY } from "@/lib/copy";
 import { usePrefersReducedMotion } from "@/lib/quality";
-import { registerGsap, scrollToY, ScrollTrigger } from "@/lib/scroll";
+import { gsap, registerGsap, scrollToY, ScrollTrigger } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { EmailPill } from "../sections/email-pill";
 import { HandPhone } from "./hand-phone";
-import { NotificationFeed, type FeedStage } from "./notification-feed";
+import { HeroFloaters } from "./hero-floaters";
+import { FeedBanner, NotificationFeed, type FeedStage } from "./notification-feed";
 import { StageSegmented } from "./stage-segmented";
 
 type Step =
@@ -37,6 +38,16 @@ const FEED: (FeedStage | null)[] = ["verify", "campus", "repay", null];
 const DARK_FROM = 2;
 /** The last stage settles to near-black so the hero runs straight into the dark sections below it. */
 const NIGHT = 3;
+/** Share of the pinned scroll spent on the intro (headline first, then the phone swings up out of the page). */
+const INTRO = 0.15;
+/** Intro start values; keep in step with the [data-intro-*] rules in globals.css. */
+const introFrom = () => {
+  const small = window.innerWidth < 640;
+  return {
+    title: { y: window.innerHeight * (small ? 0.1 : 0.12), scale: small ? 1.12 : 1.3 },
+    phone: { y: window.innerHeight * 0.55, rotateX: 72, scale: 0.74, opacity: 0 },
+  };
+};
 
 function screenFor(s: Step) {
   switch (s.screen) {
@@ -87,11 +98,19 @@ export function HeroScene() {
   const sectionRef = useRef<HTMLElement>(null);
   const areaRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState({ step: 0, lit: 1, dir: 1 });
+  const titleRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
   const stage = STEPS[state.step].stage;
   const dark = stage >= DARK_FROM;
   const panelId = "hero-stage-panel";
 
-  const apply = useCallback((p: number) => {
+  const apply = useCallback((raw: number) => {
+    // during the intro nothing is lit yet; the stages share the rest of the scroll
+    if (raw < INTRO) {
+      setState((prev) => (prev.step === 0 && prev.lit === 0 ? prev : { step: 0, lit: 0, dir: -1 }));
+      return;
+    }
+    const p = (raw - INTRO) / (1 - INTRO);
     const sg = Math.min(STAGE_COUNT - 1, Math.floor(p * STAGE_COUNT));
     const local = Math.min(1, p * STAGE_COUNT - sg);
     const ids = stepsOf(sg);
@@ -107,7 +126,35 @@ export function HeroScene() {
     registerGsap();
     const st = ScrollTrigger.create({ trigger: el, start: "top top", end: "bottom bottom", onUpdate: (self) => apply(self.progress) });
     apply(st.progress);
-    return () => st.kill();
+
+    // the intro: the headline settles to the top while the phone swings up out of the page toward the viewer
+    const from = introFrom();
+    const fades = el.querySelectorAll<HTMLElement>("[data-intro-fade]");
+    const intro = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: { trigger: el, start: "top top", end: () => `+=${INTRO * (el.offsetHeight - window.innerHeight)}`, scrub: 0.6, invalidateOnRefresh: true },
+    });
+    intro
+      .fromTo(titleRef.current, { ...from.title, transformOrigin: "50% 0%" }, { y: 0, scale: 1, ease: "power2.inOut", duration: 1 }, 0)
+      // swings up past upright toward the viewer (slight overshoot), then settles: the "pop out"
+      .fromTo(phoneRef.current, { ...from.phone, transformOrigin: "50% 100%" }, { y: () => -window.innerHeight * 0.02, rotateX: -7, scale: 1.05, opacity: 1, ease: "power2.out", duration: 0.75 }, 0)
+      .to(phoneRef.current, { y: 0, rotateX: 0, scale: 1, ease: "power1.inOut", duration: 0.25 }, 0.75)
+      .fromTo(fades, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.65);
+    // the floating objects drift outward, grow and blur away as the phone takes over
+    el.querySelectorAll<HTMLElement>("[data-floater]").forEach((f) => {
+      const fx = parseFloat(f.dataset.fx ?? "0");
+      const fy = parseFloat(f.dataset.fy ?? "0");
+      intro.to(f, { x: () => fx * window.innerWidth, y: () => fy * window.innerHeight, scale: 1.25, opacity: 0, filter: "blur(10px)", ease: "power1.in", duration: 0.7 }, 0);
+    });
+    const introNodes = [titleRef.current, phoneRef.current, ...fades].filter((n): n is HTMLElement => !!n);
+    introNodes.forEach((n) => n.setAttribute("data-intro-ready", ""));
+
+    return () => {
+      st.kill();
+      intro.scrollTrigger?.kill();
+      intro.kill();
+      introNodes.forEach((n) => gsap.set(n, { clearProps: "all" }));
+    };
   }, [reduce, apply]);
 
   // size the hand-phone to the space left under the headline (CSS var, no re-render)
@@ -134,7 +181,7 @@ export function HeroScene() {
     }
     const top = el.getBoundingClientRect().top + window.scrollY;
     const span = el.offsetHeight - window.innerHeight;
-    scrollToY(top + (i === 0 ? 0 : ((i + 0.02) / STAGE_COUNT) * span));
+    scrollToY(top + (INTRO + ((i === 0 ? 0 : i + 0.02) / STAGE_COUNT) * (1 - INTRO)) * span);
   };
 
   // pointer tilt (fine pointers only)
@@ -142,13 +189,18 @@ export function HeroScene() {
   const ry = useMotionValue(0);
   const srx = useSpring(rx, { stiffness: 120, damping: 18 });
   const sry = useSpring(ry, { stiffness: 120, damping: 18 });
-  const onPointerMove = (e: React.PointerEvent) => {
+  const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
     if (reduce || e.pointerType !== "mouse") return;
     const r = e.currentTarget.getBoundingClientRect();
+    // floaters read these for their parallax (CSS variables, no re-render)
+    e.currentTarget.style.setProperty("--px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+    e.currentTarget.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
     ry.set(((e.clientX - r.left) / r.width - 0.5) * 7);
     rx.set(-((e.clientY - r.top) / r.height - 0.5) * 5);
   };
-  const onPointerLeave = () => {
+  const onPointerLeave = (e: React.PointerEvent<HTMLElement>) => {
+    e.currentTarget.style.setProperty("--px", "0");
+    e.currentTarget.style.setProperty("--py", "0");
     rx.set(0);
     ry.set(0);
   };
@@ -162,7 +214,7 @@ export function HeroScene() {
       id="how"
       aria-label={t.hero.title}
       // painted too, so no strip of another colour can show around the pinned stage while mobile toolbars resize
-      className={cn("relative transition-colors duration-700", !reduce && "h-[460svh]", stage >= NIGHT ? "bg-[#06060a]" : dark ? "bg-[#120a3f]" : "bg-page")}
+      className={cn("relative transition-colors duration-700", !reduce && "h-[540svh]", stage >= NIGHT ? "bg-[#06060a]" : dark ? "bg-[#120a3f]" : "bg-page")}
     >
       <div
         data-nav-theme={dark ? "dark" : "light"}
@@ -183,6 +235,7 @@ export function HeroScene() {
           style={{ background: "radial-gradient(55% 40% at 50% 55%, rgba(58,31,184,.3) 0%, rgba(58,31,184,0) 70%), #06060a" }}
         />
         <GhostFragments on={dark} />
+        {!reduce && <HeroFloaters />}
 
         <div className={cn("relative flex flex-col items-center pt-[80px] sm:pt-[88px]", reduce ? "h-full" : "h-[calc(100svh-var(--bar-h))]")}>
           {/* L6 copy: every stage's text shares one grid cell so the phone never jumps */}
@@ -192,6 +245,8 @@ export function HeroScene() {
               return (
                 <div
                   key={s.id}
+                  ref={i === 0 ? titleRef : undefined}
+                  data-intro-title={i === 0 ? "" : undefined}
                   aria-hidden={!on}
                   className={cn(
                     "col-start-1 row-start-1 flex flex-col items-center transition-[opacity,transform,visibility] duration-500 ease-[cubic-bezier(.16,1,.3,1)]",
@@ -200,9 +255,18 @@ export function HeroScene() {
                 >
                   {i === 0 ? (
                     <>
-                      <h1 className="text-balance text-[clamp(2.4rem,5.8vw,4.75rem)] font-semibold leading-[0.98] tracking-[-0.045em]">{t.hero.title}</h1>
-                      <p className={cn("mt-3 max-w-2xl text-pretty text-[15px] leading-relaxed sm:text-[17px]", dark ? "text-white/70" : "text-ink-2")}>{t.hero.sub}</p>
-                      <ul className="mt-3.5 flex flex-wrap justify-center gap-x-6 gap-y-2">
+                      <h1 className="text-balance text-[clamp(2.4rem,5.8vw,4.75rem)] font-semibold leading-[0.98] tracking-[-0.045em] [perspective:800px]">
+                        {t.hero.title.split(" ").map((w, j, all) => (
+                          <span key={j}>
+                            <span className="hero-word" style={{ animationDelay: `${80 + j * 90}ms` }}>
+                              {w}
+                            </span>
+                            {j < all.length - 1 ? " " : ""}
+                          </span>
+                        ))}
+                      </h1>
+                      <p className={cn("hero-fade mt-3 max-w-2xl text-pretty text-[15px] leading-relaxed [animation-delay:420ms] sm:text-[17px]", dark ? "text-white/70" : "text-ink-2")}>{t.hero.sub}</p>
+                      <ul className="hero-fade mt-3.5 flex flex-wrap justify-center gap-x-6 gap-y-2 [animation-delay:600ms]">
                         {t.hero.badges.map((b, j) => {
                           const Icon = j === 0 ? ShieldCheck : Landmark;
                           return (
@@ -232,11 +296,18 @@ export function HeroScene() {
             })}
           </div>
 
+          {/* phones and tablets: the latest card gets its own row, so nothing sits over the phone screen */}
+          <div data-intro-fade className="w-full lg:hidden">
+            <FeedBanner stage={feed} lit={reduce ? 6 : state.lit} dark={dark} className="mt-3 sm:mt-4" />
+          </div>
+
           {/* phone area: feed (L2), hand + phone (L3–L5) */}
-          <div ref={areaRef} className="relative mt-5 w-full flex-1 [--pw:min(560px,calc(100svh-300px))] sm:mt-6">
-            {feed && <NotificationFeed stage={feed} lit={reduce ? 6 : state.lit} dark={dark} />}
+          <div ref={areaRef} className="relative mt-3 w-full flex-1 [--pw:min(560px,calc(100svh-300px))] sm:mt-4 lg:mt-6">
+            <div data-intro-fade className="absolute inset-0">
+              {feed && <NotificationFeed stage={feed} lit={reduce ? 6 : state.lit} dark={dark} />}
+            </div>
             <div className="absolute left-1/2 top-[calc(var(--pw)*-0.09)] -translate-x-1/2 [perspective:1400px]" style={{ width: "var(--pw)" }}>
-              <div className="anim-rise">
+              <div ref={phoneRef} data-intro-phone className="[transform-style:preserve-3d]">
               <motion.div style={{ rotateX: srx, rotateY: sry }}>
                 <HandPhone dark={dark}>
                   <div role="img" aria-label={`${t.hero.phoneAlt}: ${t.stages[stage].label}`} className="size-full">
@@ -263,13 +334,13 @@ export function HeroScene() {
               </motion.div>
               </div>
             </div>
-            <p className="pointer-events-none absolute inset-x-0 bottom-[72px] z-10 flex justify-center sm:inset-x-auto sm:bottom-[84px] sm:left-6 sm:block">
+            <p data-intro-fade className="pointer-events-none absolute inset-x-0 bottom-[72px] z-10 flex justify-center sm:inset-x-auto sm:bottom-[84px] sm:left-6 sm:block">
               {/* a backed pill on phones, where the label sits over the phone and hand */}
               <span className={cn("rounded-full px-2.5 py-1 text-[11px] leading-snug max-sm:shadow-sm max-sm:backdrop-blur-md sm:px-0 sm:py-0", dark ? "text-white/75 max-sm:bg-black/60" : "text-ink-2 max-sm:bg-page/90 max-sm:ring-1 max-sm:ring-hairline")}>{t.hero.sample}</span>
             </p>
           </div>
 
-          <div className="absolute inset-x-0 bottom-4 z-30 flex justify-center px-3 sm:bottom-6">
+          <div data-intro-fade className="absolute inset-x-0 bottom-4 z-30 flex justify-center px-3 sm:bottom-6">
             <StageSegmented stages={t.stages} active={stage} onSelect={select} panelId={panelId} />
           </div>
         </div>

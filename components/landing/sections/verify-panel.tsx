@@ -49,7 +49,7 @@ export function VerifyPanel() {
 
   return (
     <section ref={ref} aria-labelledby="verify-panel-title" className="bg-page py-24 sm:py-32">
-      <div className="mx-auto grid max-w-[1180px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div data-reveal className="mx-auto grid max-w-[1180px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div>
           <TwoTone id="verify-panel-title" a={t.titleA} b={t.titleB} />
           <p className="mt-5 max-w-md text-pretty text-[16px] leading-relaxed text-ink-2 sm:text-[17px]">{t.sub}</p>

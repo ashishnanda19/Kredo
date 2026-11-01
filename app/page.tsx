@@ -8,6 +8,7 @@ import { LiveTicker } from "@/components/landing/sections/live-ticker";
 import { MorphNav } from "@/components/landing/sections/morph-nav";
 import { PartnersWall } from "@/components/landing/sections/partners-wall";
 import { PassportHall } from "@/components/landing/sections/passport-hall";
+import { SectionFx } from "@/components/landing/sections/section-fx";
 import { SmoothScroll } from "@/components/landing/sections/smooth-scroll";
 import { TrustFaq } from "@/components/landing/sections/trust-faq";
 import { VendorMarquee } from "@/components/landing/sections/vendor-marquee";
@@ -18,6 +19,7 @@ export default function LandingPage() {
   return (
     <>
       <SmoothScroll />
+      <SectionFx />
       <MorphNav />
       {/* main sits above the sticky footer so its last section lifts away like a curtain */}
       <main id="main" className="relative z-10">

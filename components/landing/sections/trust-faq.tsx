@@ -13,8 +13,8 @@ export function TrustFaq() {
   const faq = COPY.faq;
   return (
     <>
-      <section id="trust" aria-labelledby="trust-title" className="scroll-mt-24 bg-page pt-24 sm:pt-32">
-        <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
+      <section id="trust" aria-labelledby="trust-title" className="scroll-mt-24 bg-page pt-32 sm:pt-40">
+        <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-2">{trust.eyebrow}</p>
           <TwoTone id="trust-title" a={trust.title} b={COPY.legal.disclosure} className="mt-3 max-w-3xl" />
           <ul className="mt-12 grid gap-3 md:grid-cols-3">
@@ -48,7 +48,7 @@ export function TrustFaq() {
       </section>
 
       <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 bg-page py-24 sm:py-32">
-        <div className="mx-auto grid max-w-[1180px] gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div data-reveal className="mx-auto grid max-w-[1180px] gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-2">{faq.eyebrow}</p>
             <h2 id="faq-title" className="mt-3 text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink">{faq.title}</h2>

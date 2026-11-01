@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 };
 
 /** Restores a dismissed announcement bar before first paint (avoids a layout jump). */
-const BAR_SCRIPT = `try{if(sessionStorage.getItem("kredo-bar")==="closed")document.documentElement.dataset.bar="closed"}catch(e){}`;
+const BAR_SCRIPT = `document.documentElement.classList.add("js");try{if(sessionStorage.getItem("kredo-bar")==="closed")document.documentElement.dataset.bar="closed"}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

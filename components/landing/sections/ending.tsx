@@ -4,6 +4,7 @@ import { COPY } from "@/lib/copy";
 import { moods } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { EmailPill } from "./email-pill";
+import { PopInGroup } from "./pop-in-group";
 
 /** Phones lying on the desk: [left %, top px, rotate deg, width px, screen, bg, hide below sm]. */
 const DEVICES = [
@@ -19,7 +20,7 @@ export function Ending() {
   const t = COPY.landing.ending;
   return (
     <section id="access" aria-labelledby="ending-title" className="scroll-mt-24 overflow-hidden bg-page pt-28 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] sm:pt-36 md:rounded-b-[36px]">
-      <div className="mx-auto max-w-[1180px] px-4 text-center sm:px-6">
+      <div data-reveal className="mx-auto max-w-[1180px] px-4 text-center sm:px-6">
         <Reveal>
           <h2 id="ending-title" className="text-balance text-[clamp(2.75rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-ink">
             {t.title}
@@ -28,20 +29,20 @@ export function Ending() {
           <EmailPill className="mx-auto mt-7 w-full max-w-md text-left" />
         </Reveal>
       </div>
-      <div role="img" aria-label={t.flatAlt} className="relative mx-auto mt-16 h-[360px] max-w-[1180px] sm:h-[440px]">
+      <PopInGroup role="img" aria-label={t.flatAlt} className="relative mx-auto mt-16 h-[360px] max-w-[1180px] sm:h-[440px]">
         {DEVICES.map((d, i) => (
           <div
             key={i}
             className={cn("absolute", d.sm ? "hidden sm:block" : "")}
-            style={{ left: `${d.l}%`, top: d.t, width: `clamp(150px, ${d.w / 11.8}vw, ${d.w}px)`, transform: `rotate(${d.r}deg)` }}
+            style={{ left: `${d.l}%`, top: d.t, width: `clamp(150px, ${d.w / 11.8}vw, ${d.w}px)`, transform: `rotate(${d.r}deg)`, perspective: 900 }}
           >
-            <div aria-hidden>
+            <div aria-hidden data-pop>
               <PhoneFrame screenBg={d.bg}>{d.s}</PhoneFrame>
             </div>
           </div>
         ))}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-page to-transparent" />
-      </div>
+      </PopInGroup>
     </section>
   );
 }

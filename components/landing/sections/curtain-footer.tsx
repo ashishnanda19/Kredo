@@ -4,6 +4,7 @@ import { DemoTag, Disclosure } from "@/components/shared/demo-tag";
 import { LogoMark } from "@/components/shared/logo";
 import { BRAND, GRIEVANCE } from "@/lib/config";
 import { COPY } from "@/lib/copy";
+import { FooterSlogan } from "./footer-slogan";
 
 /** Where each footer label goes. Labels without an entry are placeholders and render as plain text. */
 const HREF: Record<string, string> = {
@@ -24,7 +25,7 @@ const HREF: Record<string, string> = {
 };
 
 /**
- * Curtain footer: on screens wide and tall enough to show all of it (.curtain in globals.css), it is sticky at the
+ * Curtain footer: on screens wide and tall enough to show all of it (.curtain[data-fit] in globals.css), it is sticky at the
  * bottom *behind* the page (main sits above at z-10), so the last section lifts away like a curtain to reveal it.
  * Elsewhere it is an ordinary footer, so no part of it is ever unreachable.
  */
@@ -32,7 +33,7 @@ export function CurtainFooter() {
   const t = COPY.landing.footer;
   return (
     <footer data-nav-theme="dark" className="curtain relative z-0 bg-[#06060a] text-white">
-      <div className="mx-auto max-w-[1180px] px-4 pb-8 pt-16 sm:px-6">
+      <div className="mx-auto max-w-[1180px] px-4 pb-0 pt-16 sm:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <p className="max-w-3xl text-balance text-[clamp(2.4rem,5.4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em]">{t.curtainTitle}</p>
           <a href="#access" className="inline-flex min-h-12 shrink-0 items-center gap-1.5 self-start rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-ink transition-[filter] hover:brightness-95 lg:self-auto">
@@ -96,6 +97,7 @@ export function CurtainFooter() {
             </div>
           </div>
         </div>
+        <FooterSlogan text={t.slogan} />
       </div>
     </footer>
   );
