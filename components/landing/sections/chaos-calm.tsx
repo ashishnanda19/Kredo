@@ -117,9 +117,10 @@ export function ChaosCalm() {
       stagger: 0.03,
       duration: 0.5,
     })
-      .to("[data-before]", { opacity: 0, y: -24, duration: 0.1 }, 0.28)
-      .fromTo("[data-after]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1 }, 0.4)
-      .from("[data-card]", { opacity: 0, scale: 0.9, y: 40, duration: 0.16 }, 0.4)
+      // the two headlines and the card overlap in time so the screen is never empty mid-swap
+      .to("[data-before]", { opacity: 0, y: -24, filter: "blur(8px)", duration: 0.1 }, 0.26)
+      .fromTo("[data-after]", { opacity: 0, y: 24, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.1 }, 0.28)
+      .from("[data-card]", { opacity: 0, scale: 0.9, y: 40, duration: 0.14 }, 0.3)
       .fromTo("[data-glow]", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.2 }, 0.42)
       .from("[data-calm]", { opacity: 0, scale: 0.88, y: 24, filter: "blur(10px)", duration: 0.12, stagger: 0.04 }, 0.5)
       .fromTo("[data-calm-line]", { strokeDashoffset: 60, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.12, stagger: 0.03 }, 0.56)
