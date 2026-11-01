@@ -10,17 +10,17 @@ import { CAMPUS_VENDOR_TILES, licenseUrl } from "@/lib/partners";
 export function PartnersWall() {
   const t = COPY.landing.partners;
   return (
-    <section aria-labelledby="partners-title" className="bg-page py-20 sm:py-28">
+    <section data-nav-theme="dark" aria-labelledby="partners-title" className="bg-[#06060a] py-20 text-white sm:py-28">
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-2">{t.eyebrow}</p>
-          <h2 id="partners-title" className="mt-3 text-balance text-[clamp(1.75rem,3.6vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-ink">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-white/60">{t.eyebrow}</p>
+          <h2 id="partners-title" className="mt-3 text-balance text-[clamp(1.75rem,3.6vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
             {t.title}
           </h2>
         </Reveal>
         <ul className="mt-12 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-6">
           {CAMPUS_VENDOR_TILES.map((v) => (
-            <li key={v.slug} className="group relative aspect-[4/5] overflow-hidden rounded-[16px] bg-[#0f0f12]">
+            <li key={v.slug} className="group relative aspect-[4/5] overflow-hidden rounded-[16px] bg-[#15151c] ring-1 ring-white/[.06]">
               <Image
                 src={`/partners/${v.slug}.jpg`}
                 alt=""
@@ -38,8 +38,8 @@ export function PartnersWall() {
             </li>
           ))}
         </ul>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-[12px] text-ink-2">{t.note}</p>
-        <details className="mx-auto mt-2 max-w-3xl text-center text-[11.5px] text-ink-2">
+        <p className="mx-auto mt-5 max-w-2xl text-center text-[12px] text-white/60">{t.note}</p>
+        <details className="mx-auto mt-2 max-w-3xl text-center text-[11.5px] text-white/60">
           <summary className="inline-flex min-h-11 cursor-pointer items-center underline underline-offset-2">{t.credits}</summary>
           <ul className="mt-1 space-y-1 text-left sm:columns-2 sm:gap-8">
             {CAMPUS_VENDOR_TILES.map((v) => (

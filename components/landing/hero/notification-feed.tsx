@@ -36,7 +36,8 @@ const SLOTS: [("l" | "r"), number, number][] = [
   ["l", 54, 8], ["r", 60, 8],
 ];
 
-export function FeedCard({ item, dark, lit = true, className }: { item: Item; dark?: boolean; lit?: boolean; className?: string }) {
+/** `solid`: an opaque surface, for the phone-width banner that sits over the phone screen. */
+export function FeedCard({ item, dark, lit = true, solid, className }: { item: Item; dark?: boolean; lit?: boolean; solid?: boolean; className?: string }) {
   const Icon = ICONS[item.icon as keyof typeof ICONS] ?? Bell;
   const c = TONES[item.tone as keyof typeof TONES] ?? TONES.neutral;
   return (
@@ -46,7 +47,9 @@ export function FeedCard({ item, dark, lit = true, className }: { item: Item; da
         // unlit cards are dimmed through surface and colour, not opacity, so their text still meets contrast
         dark
           ? lit
-            ? "scale-100 bg-white/[.1] text-white ring-1 ring-white/15"
+            ? solid
+              ? "scale-100 bg-[#1b1442] text-white ring-1 ring-white/15"
+              : "scale-100 bg-white/[.1] text-white ring-1 ring-white/15"
             : "scale-[.96] bg-white/[.03] text-white/60 ring-1 ring-white/[.06]"
           : lit
             ? "scale-100 bg-elevated text-ink shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] ring-1 ring-hairline"
@@ -88,7 +91,7 @@ export function NotificationFeed({ stage, lit, dark }: { stage: FeedStage; lit: 
         })}
       </div>
       <div className="absolute left-1/2 top-[calc(var(--pw)*0.07)] z-10 -translate-x-1/2 lg:hidden">
-        {lit > 0 && <FeedCard key={`${stage}-${latest}`} item={items[latest]} dark={dark} className="anim-rise w-[min(300px,calc(100vw-48px))] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.35)]" />}
+        {lit > 0 && <FeedCard key={`${stage}-${latest}`} item={items[latest]} dark={dark} solid className="anim-rise w-[min(300px,calc(100vw-48px))] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.35)]" />}
       </div>
     </div>
   );

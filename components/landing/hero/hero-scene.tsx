@@ -35,6 +35,8 @@ const STAGE_COUNT = 4;
 const stepsOf = (stage: number) => STEPS.map((s, i) => [s, i] as const).filter(([s]) => s.stage === stage).map(([, i]) => i);
 const FEED: (FeedStage | null)[] = ["verify", "campus", "repay", null];
 const DARK_FROM = 2;
+/** The last stage settles to near-black so the hero runs straight into the dark sections below it. */
+const NIGHT = 3;
 
 function screenFor(s: Step) {
   switch (s.screen) {
@@ -62,7 +64,7 @@ function GhostFragments({ on }: { on: boolean }) {
       {[[6, 30, 190], [80, 24, 210], [4, 78, 170], [84, 74, 180]].map(([l, t, w], i) => (
         <span
           key={i}
-          className="absolute flex h-14 items-center gap-3 rounded-[16px] bg-white/[.03] px-3 opacity-60 ring-1 ring-white/[.06] [animation:ghost-drift_14s_ease-in-out_infinite_alternate] motion-reduce:animate-none"
+          className="absolute flex h-14 items-center gap-3 rounded-[16px] bg-white/[.03] px-3 opacity-60 max-md:hidden ring-1 ring-white/[.06] [animation:ghost-drift_14s_ease-in-out_infinite_alternate] motion-reduce:animate-none"
           style={{ left: `${l}%`, top: `${t}%`, width: w, animationDelay: `${i * -2.6}s` }}
         >
           <span className="size-8 shrink-0 rounded-[9px] bg-white/[.06]" />
@@ -155,12 +157,18 @@ export function HeroScene() {
   const feed = FEED[stage];
 
   return (
-    <section ref={sectionRef} id="how" aria-label={t.hero.title} className={cn("relative", !reduce && "h-[460svh]")}>
+    <section
+      ref={sectionRef}
+      id="how"
+      aria-label={t.hero.title}
+      // painted too, so no strip of another colour can show around the pinned stage while mobile toolbars resize
+      className={cn("relative transition-colors duration-700", !reduce && "h-[460svh]", stage >= NIGHT ? "bg-[#06060a]" : dark ? "bg-[#120a3f]" : "bg-page")}
+    >
       <div
         data-nav-theme={dark ? "dark" : "light"}
         onPointerMove={onPointerMove}
         onPointerLeave={onPointerLeave}
-        className={cn("overflow-hidden", reduce ? "relative min-h-[calc(100svh-var(--bar-h))]" : "sticky top-[var(--bar-h)] h-[calc(100svh-var(--bar-h))]", dark ? "text-white" : "text-ink")}
+        className={cn("overflow-hidden", reduce ? "relative min-h-[calc(100svh-var(--bar-h))]" : "sticky top-[var(--bar-h)] h-[calc(100lvh-var(--bar-h))]", dark ? "text-white" : "text-ink")}
       >
         {/* L0: page, shifting to indigo */}
         <div aria-hidden className="absolute inset-0 bg-page" />
@@ -169,9 +177,14 @@ export function HeroScene() {
           className={cn("absolute inset-0 transition-opacity duration-700 ease-out", dark ? "opacity-100" : "opacity-0")}
           style={{ background: "radial-gradient(70% 60% at 50% 75%, #3a1fb8 0%, rgba(58,31,184,0) 70%), linear-gradient(180deg,#07051a 0%,#120a3f 60%,#1d0f63 100%)" }}
         />
+        <div
+          aria-hidden
+          className={cn("absolute inset-0 transition-opacity duration-700 ease-out", stage >= NIGHT ? "opacity-100" : "opacity-0")}
+          style={{ background: "radial-gradient(55% 40% at 50% 55%, rgba(58,31,184,.3) 0%, rgba(58,31,184,0) 70%), #06060a" }}
+        />
         <GhostFragments on={dark} />
 
-        <div className="relative flex h-full flex-col items-center pt-[80px] sm:pt-[88px]">
+        <div className={cn("relative flex flex-col items-center pt-[80px] sm:pt-[88px]", reduce ? "h-full" : "h-[calc(100svh-var(--bar-h))]")}>
           {/* L6 copy: every stage's text shares one grid cell so the phone never jumps */}
           <div id={panelId} role="tabpanel" className="grid w-full max-w-6xl px-4 text-center">
             {t.stages.map((s, i) => {
@@ -250,13 +263,24 @@ export function HeroScene() {
               </motion.div>
               </div>
             </div>
-            <p className={cn("absolute inset-x-0 bottom-[70px] z-10 text-center text-[11px] leading-snug sm:inset-x-auto sm:bottom-[84px] sm:left-6 sm:text-left", dark ? "text-white/60" : "text-ink-2")}>{t.hero.sample}</p>
+            <p className="pointer-events-none absolute inset-x-0 bottom-[72px] z-10 flex justify-center sm:inset-x-auto sm:bottom-[84px] sm:left-6 sm:block">
+              {/* a backed pill on phones, where the label sits over the phone and hand */}
+              <span className={cn("rounded-full px-2.5 py-1 text-[11px] leading-snug max-sm:shadow-sm max-sm:backdrop-blur-md sm:px-0 sm:py-0", dark ? "text-white/75 max-sm:bg-black/60" : "text-ink-2 max-sm:bg-page/90 max-sm:ring-1 max-sm:ring-hairline")}>{t.hero.sample}</span>
+            </p>
           </div>
 
           <div className="absolute inset-x-0 bottom-4 z-30 flex justify-center px-3 sm:bottom-6">
             <StageSegmented stages={t.stages} active={stage} onSelect={select} panelId={panelId} />
           </div>
         </div>
+        {/* the hand dissolves into the page instead of ending on a hard edge where the next section starts */}
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-x-0 bottom-0 z-20 h-28 bg-gradient-to-t to-transparent transition-colors duration-700 sm:h-36",
+            stage >= NIGHT ? "from-[#06060a]" : dark ? "from-[#1d0f63]" : "from-page",
+          )}
+        />
       </div>
     </section>
   );
