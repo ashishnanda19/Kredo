@@ -19,13 +19,15 @@ import { VirtualCard } from "@/components/dashboard/virtual-card";
 import { Reveal } from "@/components/shared/reveal";
 import { ErrorState } from "@/components/shared/states";
 import { CoinRain } from "@/components/three/coin-rain";
+import { StudentHome } from "@/components/student/student-home";
+import { WorldOr } from "@/components/student/world-or";
 import { useDemoState } from "@/lib/hooks";
 import { loans, nextDue, transactions } from "@/lib/mock-data";
 
 // with the Phase 2 flag on, Aura replaces the illustrative score card
 const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE === "true";
 
-export default function DashboardPage() {
+function LegacyDashboard() {
   const { state, retry } = useDemoState(450);
   const [repayOpen, setRepayOpen] = useState(false);
   const [increaseOpen, setIncreaseOpen] = useState(false);
@@ -100,5 +102,14 @@ export default function DashboardPage() {
       <LimitIncreaseSheet open={increaseOpen} onOpenChange={setIncreaseOpen} />
       <NotificationsSheet open={bellOpen} onOpenChange={setBellOpen} />
     </div>
+  );
+}
+
+/** The original portal home, or the demo-world home when a seeded or newly verified student is signed in to the world. */
+export default function DashboardPage() {
+  return (
+    <WorldOr world={<StudentHome />}>
+      <LegacyDashboard />
+    </WorldOr>
   );
 }

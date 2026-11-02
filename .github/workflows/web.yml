@@ -2,9 +2,9 @@ name: web
 
 on:
   push:
-    paths: ["app/**", "components/**", "lib/**", "e2e/**", "package.json", "package-lock.json", "playwright.config.ts", ".github/workflows/web.yml"]
+    paths: ["app/**", "components/**", "lib/**", "e2e/**", "package.json", "package-lock.json", "playwright.config.ts", "vitest.config.ts", ".github/workflows/web.yml"]
   pull_request:
-    paths: ["app/**", "components/**", "lib/**", "e2e/**", "package.json", "package-lock.json", "playwright.config.ts", ".github/workflows/web.yml"]
+    paths: ["app/**", "components/**", "lib/**", "e2e/**", "package.json", "package-lock.json", "playwright.config.ts", "vitest.config.ts", ".github/workflows/web.yml"]
 
 jobs:
   test:
@@ -22,5 +22,6 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
+      - run: npm run test:unit
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

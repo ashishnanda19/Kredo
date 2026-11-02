@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { FlaskConical, RotateCcw, X } from "lucide-react";
+import { DemoWorldControls } from "@/components/demo/demo-world-controls";
 import { GlassButton, GlassCard } from "@/components/glass";
 import { COPY } from "@/lib/copy";
 import { AURA } from "@/lib/copy-aura";
@@ -131,6 +132,8 @@ export function DemoControls() {
               <X className="size-4" />
             </button>
           </div>
+
+          <DemoWorldControls />
 
           <Group
             label="Quick presets"

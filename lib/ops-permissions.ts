@@ -6,6 +6,8 @@ export const CAN = {
   fraudPage: ["fraud", "admin"],
   loanActions: ["admin", "support"],
   reconFlag: ["admin", "fraud"],
+  settlementRetry: ["admin", "support"],
+  refundDecide: ["admin", "support"],
   supportEdit: ["support", "admin"],
   seeSensitive: ["support", "admin"],
   export: ["admin", "reviewer", "fraud"],

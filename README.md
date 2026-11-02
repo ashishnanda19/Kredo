@@ -50,6 +50,43 @@ Everything below is mock state in a thin zustand store (`lib/store`), persisted 
 Env flags (`.env.local`, see `.env.example`): `NEXT_PUBLIC_DEMO_CONTROLS=true` shows the floating Demo Controls panel (every state, presets, ops role, reset). `NEXT_PUBLIC_PHASE2_CREDIT_PROFILE=true` enables the credit profile. Demo Controls are development only and must be removed for production.
 Tip: Demo Controls > "Verified + active loan" jumps straight to a populated dashboard.
 
+## MVP demo world (no backend)
+A deterministic, resettable, clearly-labelled simulation of student-to-vendor QR payment with coins, loans, midnight
+settlement and repayment. Spec and milestones: `docs/MVP_DEMO_PROMPT.md`. Built so far: Milestone 1 (foundations and seed) Milestone 2 (vendor side), Milestone 3 (student pay flow) and Milestone 4 (settlement and reconciliation).
+
+- **Money rule**: coins are a display unit (1 coin = Rs 1), never a wallet. Kredo holds and moves no money: the lender
+  pays vendors, students repay the lender. `NbfcPort` has only `submitSettlement` and `getRepaymentStatus`, and a unit
+  test pins that. Every screen carries "Demo: simulated data, no real money".
+- **One place for numbers**: every threshold, fee, limit, window and cut-off is in `lib/policy.ts` (validated, frozen).
+- **Domain** (`lib/domain/`): pure immer reducers over one `WorldState` (`world.ts`), IST time helpers (`time.ts`),
+  selectors, role switching rules (`roles.ts`). `lib/aura/engine.ts` derives Aura, tier, ladder level and quest state
+  from raw score events only. `lib/settlement.ts` builds the idempotent midnight settlement.
+- **Seed** (`lib/demo/seed.ts`): built by running the real reducers over about 110 days of scripted history (fixed seed,
+  clock at 30 Oct 2026 09:00 IST), so the ledger reconciles by construction. All names are fictional.
+- **Try it**: open `/start`, or Demo controls > Demo world (Reset, clock jumps, jump in as a seeded person). The demo PIN
+  is shown on screen. The world is saved in localStorage (`kredo-demo-world`) and Reset rebuilds it.
+- **Vendor side** (`/vendor/*`): a five-step onboarding wizard (details with phone code, ID check, bank check with a
+  simulated Rs 1 penny-drop, agreement, status), then home with a live feed, payments, QR and profile. Domain rules are
+  in `lib/domain/vendors.ts`; the QR payload is signed and versioned in `lib/qr.ts` (the signature is a demo checksum;
+  a real build signs on the server). The QR works only for an accepted stall with a verified bank account, and a new
+  QR revokes the old one. Ops review is at `/ops/vendors`. Demo controls choose the ID-check and penny-drop outcomes.
+- **Student pay flow** (`/dashboard`, `/dashboard/pay`, `/dashboard/loans`): when a demo-world student is signed in
+  these routes show the world-backed screens (`components/student/`); with nobody signed in to the world they show the
+  original portal screens, unchanged. `lib/domain/pay.ts` holds the gate checks in a fixed order, each with a reason
+  code (`LOW_AURA`, `PAST_DUE`, `OVER_LIMIT`, `PRIOR_DEFAULT_CAP`, `SELF_PAY`, velocity and so on), the quote shown before
+  consent, and the idempotent submit. Blocked self-pay and velocity breaches leave a fraud flag in the world.
+  Repaying (all due, one loan, or a part payment) goes through a simulated hand-off to the lending partner.
+- **Settlement** (`lib/settlement.ts`, `lib/reconcile.ts`, `lib/settlement-report.ts`): at each simulated midnight the
+  job groups each vendor's payments into one idempotent instruction (`SET-{vendor}-{date}`) and hands it to the mock
+  lender, which pays, fails or holds (chosen in Demo controls). Only a paid answer marks payments settled; ops can retry a
+  failed or held one. `/ops/settlements` reconciles instructed, paid and ledger totals per business date, flags any
+  mismatch, and downloads the report as CSV and JSON. Refunds (`lib/domain/refunds.ts`) are whole-payment: before
+  settlement the payment is left out of the batch; after, a negative adjustment is netted into the next one and carries
+  forward until a batch can absorb it. Large refunds wait for ops. Vendors see all of this at `/vendor/settlements`
+  and `/vendor/disputes`.
+- **Adapters** (`lib/api/`): NbfcPort, ScoreProvider, VerificationProvider, NotificationPort, all with mocks.
+- **Tests**: `npm run test:unit` (Vitest, fast-check), `npm run test:e2e` (adds `e2e/world-mock.spec.ts`).
+
 ## Aura and the score service
 Quick start for the full stack: in `services/score`, `docker compose up -d --build --wait` then `make seed` (600 simulated
 students, about 90 s); in the web app set `SCORE_API_URL` (see `.env.example`). The service's README has the

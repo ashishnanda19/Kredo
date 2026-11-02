@@ -137,3 +137,8 @@ App mock data:
 - Every figure in `lib/mock-*.ts`.
 
 Demo scaffolding to remove for production: the `DemoTag`, Demo Controls (`NEXT_PUBLIC_DEMO_CONTROLS`), and the "Internal, demo only" ops banner.
+
+MVP demo world (docs/MVP_DEMO_PROMPT.md): the seeded fictional people, stalls and history in `lib/demo/` (names, the
+persona table, the settlement references `UTR...`, the demo PIN 1234 and code 123456), and the "Demo: simulated data,
+no real money" label. The interest rate (1.5% per 30 days) and the flat Rs 5 fee in `lib/policy.ts` are placeholders until
+the lending partner sets them.

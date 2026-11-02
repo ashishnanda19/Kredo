@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ROLES } from "@/lib/copy-demo";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -179,6 +180,15 @@ export function AuthFlow({ mode }: { mode: Mode }) {
                   <Link href="/login" className="font-bold text-info-text">
                     Log in
                   </Link>
+                  {mode === "signup" && (
+                    <>
+                      <br />
+                      {ROLES.signupStallPrompt}{" "}
+                      <Link href="/start" className="font-bold text-info-text">
+                        {ROLES.signupStallLink}
+                      </Link>
+                    </>
+                  )}
                 </>
               )}
             </p>

@@ -18,6 +18,8 @@ import { Logo } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { formatINR } from "@/lib/format";
 import { available, student } from "@/lib/mock-data";
+import { useWorldStudent } from "@/components/student/use-student";
+import { availableLimit, outstandingPrincipalOf, studentState } from "@/lib/domain/selectors";
 import { spring } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +60,12 @@ function useActive() {
 export function SideRail() {
   const isActive = useActive();
   const onHome = usePathname() === "/dashboard";
-  const used = student.limit - available;
+  const ws = useWorldStudent();
+  // a signed-in demo-world student sees their own limit; otherwise the original fixed demo figures
+  const live = ws.studentId ? { avail: availableLimit(ws.world, ws.studentId), limit: studentState(ws.world, ws.studentId).limit, used: outstandingPrincipalOf(ws.world, ws.studentId) } : null;
+  const availNow = live ? live.avail : available;
+  const limitNow = live ? live.limit : student.limit;
+  const used = live ? live.used : student.limit - available;
   return (
     <aside className="sticky top-[var(--bar-h)] hidden h-[calc(100dvh-var(--bar-h))] w-72 shrink-0 border-r border-hairline lg:block print:hidden">
       <div className="flex h-full flex-col justify-between px-5 py-6">
@@ -112,16 +119,16 @@ export function SideRail() {
                   Available to spend
                 </p>
                 <p className="mt-1 text-[28px] font-semibold leading-none tracking-[-0.04em] tabular-nums">
-                  {formatINR(available)}
+                  {formatINR(availNow)}
                 </p>
                 <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-[#0b0b0c]/15">
                   <span
                     className="block h-full rounded-full bg-[#0b0b0c]"
-                    style={{ width: `${(used / student.limit) * 100}%` }}
+                    style={{ width: `${limitNow ? (used / limitNow) * 100 : 0}%` }}
                   />
                 </span>
                 <p className="mt-2 text-[12px] font-medium text-[#0b0b0c]/65">
-                  of {formatINR(student.limit)} limit
+                  of {formatINR(limitNow)} limit
                 </p>
                 <Link
                   href="/dashboard/pay"
