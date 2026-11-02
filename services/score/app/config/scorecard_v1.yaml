@@ -1,0 +1,116 @@
+# Kredo Risk Score (KRS) scorecard v1: an expert points table, not a trained model.
+# Changing a number here changes scores. Do it only through the ops dry-run flow (phase 3).
+# Factor names describe repayment behaviour only. Protected or proxy attributes are never inputs (see tests).
+
+version: v1.0.0
+feature_set_version: fs-1
+
+calibration:            # KRS = clamp(base + sum(points)); odds = base_odds * 2 ^ ((KRS - base) / pdo); PD = 1 / (1 + odds)
+  base_score: 500
+  base_odds: 20         # KRS 500 means 20:1 odds of repaying, PD about 4.8%
+  pdo: 40               # every 40 points doubles the odds
+  min_score: 0
+  max_score: 1000
+
+recency_half_life_days: 90    # a past event counts half after 90 days
+# Thin file: fewer loans than this past their due date → F1, F5 and F7 score 0 and THIN_FILE is added.
+# Counted by due date, not by closure, so repaying sooner can never flip a file from thin to thick and cost points.
+thin_file_min_loans: 2
+
+quick_repay:                  # a loan repaid within `days` of disbursal counts `weight` in F1 and F9 (anti-farming)
+  days: 3
+  weight: 0.25
+
+velocity_cap:                 # KRS may rise at most `max_rise` in any rolling `window_days`; falls are not capped
+  max_rise: 60
+  window_days: 30
+
+# Bins are read top to bottom: the first one whose `lt` (below) or `le` (at most) matches wins; `else: true` ends the list.
+factors:
+  f1_ontime_rate:             # recency-weighted share of closed loans paid on time (due date + grace)
+    window_days: 365
+    bins:
+      - {lt: 0.50, points: -140}
+      - {lt: 0.75, points: -60}
+      - {lt: 0.90, points: 0}
+      - {lt: 0.98, points: 40}
+      - {else: true, points: 80}
+
+  f2_worst_lateness:          # worst days past due in the last 6 months; positive points only once a loan has closed
+    window_days: 183
+    bins:
+      - {le: 0, points: 30}
+      - {le: 7, points: -10}
+      - {le: 30, points: -70}
+      - {le: 60, points: -150}
+      - {le: 90, points: -250}
+      - {else: true, points: -250}   # 90+ also triggers the KO_DPD90_12M knockout (policy)
+
+  f3_current_overdue:         # days past due on the worst open loan now
+    bins:
+      - {le: 0, points: 0}
+      - {le: 7, points: -40}
+      - {le: 30, points: -120}
+      - {else: true, points: -220}
+
+  f4_payment_failures:        # recency-weighted count of scored payment failures; positive points only once a loan has closed
+    window_days: 90
+    bins:
+      - {le: 0, points: 10}
+      - {lt: 1.5, points: -15}
+      - {le: 3.5, points: -45}
+      - {else: true, points: -90}
+
+  f5_rollover:                # share of the last N loans opened before, or within `reopen_hours` after, repaying the previous one
+    last_n: 6
+    reopen_hours: 24
+    bins:
+      - {lt: 0.20, points: 0}
+      - {le: 0.50, points: -20}
+      - {else: true, points: -50}
+
+  f6_stacking:                # loans open at the same time now
+    bins:
+      - {le: 1, points: 0}
+      - {le: 2, points: -15}
+      - {else: true, points: -40}
+
+  f7_utilisation:             # average principal / limit over the last N loans
+    last_n: 3
+    bins:
+      - {lt: 0.50, points: 15}
+      - {lt: 0.80, points: 5}
+      - {else: true, points: -10}
+    all_maxed: {over: 0.95, points: -25}   # every one of the last N above 95%
+
+  f8_closure_quality:         # closures in the last 24 months
+    window_days: 730
+    clean_closure: {points: 5, cap: 30}
+    early_repayment: {points: 5, cap: 20}
+    restructured: -120
+    settled: -200               # also caps the Aura tier for 12 months (policy)
+    written_off: -200           # also a permanent knockout (policy)
+
+  f9_track_record:            # closed loans (quick repays weighted), plus tenure once a loan has closed
+    bins:
+      - {lt: 1, points: 0}
+      - {lt: 3, points: 10}
+      - {lt: 6, points: 25}
+      - {lt: 12, points: 40}
+      - {else: true, points: 55}
+    tenure: {months: 6, points: 10}
+
+  f10_identity:               # verification status only; which college is never an input
+    full_verification: 20       # full KYC plus college ID and college email
+    new_phone: {days: 90, points: -20}
+
+  f11_credit_hunger:          # limit-increase requests plus declined applications
+    window_days: 30
+    bins:
+      - {le: 1, points: 0}
+      - {le: 2, points: -10}
+      - {else: true, points: -25}
+
+  f12_bureau:                 # only when policy.bureau.enabled and bureau consent is granted
+    new_to_credit: 0
+    bands: {A: 40, B: 20, C: 0, D: -30, E: -60}

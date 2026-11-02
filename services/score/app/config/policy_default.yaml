@@ -1,0 +1,94 @@
+# Lending policy defaults. The lending partner (NBFC) owns every number here and can override any of them.
+# The engine only recommends; the partner's decision is stored separately and always wins.
+
+version: default-2026-11
+
+repayment:
+  grace_days: 1           # paid by the due date + 1 day counts as on time
+  early_days: 2           # paid 2+ days before the due date counts as early
+  min_due_fraction: 1.0   # a partial payment by the due date below this share of what is owed is a payment failure
+
+bands:                    # highest first; KRS >= min_krs
+  - {band: A, min_krs: 680, action: eligible_step_up}
+  - {band: B, min_krs: 600, action: eligible_step_up}
+  - {band: C, min_krs: 520, action: eligible_hold}
+  - {band: D, min_krs: 440, action: manual_review}
+  - {band: E, min_krs: 0, action: paused}
+
+knockouts:
+  overdue_min_dpd: 31               # KO_OVERDUE_30
+  dpd90_min_dpd: 90                 # KO_DPD90_12M
+  dpd90_lookback_days: 365
+  fraud_flag_types: [FRAUD_CONFIRMED]          # KO_FRAUD
+  duplicate_flag_types: [DUPLICATE_IDENTITY]   # KO_DUPLICATE
+
+aura:
+  top_tier_min_aura: 85             # band A splits into main_character / aura_farmer here
+  settled_tier_cap: {tier: side_quest, months: 12}
+
+bureau:
+  enabled: false
+
+ladder:                   # the engine recommends a level; the partner's own decision is stored separately and wins
+  levels:                 # `cycles`: clean cycles needed at the level below; `min_band`: this band or better
+    - {level: L1, limit_paise: 100000, min_band: C}                        # ₹1,000: start after verification
+    - {level: L2, limit_paise: 200000, min_band: B, cycles: 2}             # ₹2,000
+    - {level: L3, limit_paise: 300000, min_band: B, cycles: 3}             # ₹3,000
+    - {level: L4, limit_paise: 500000, min_band: B, cycles: 3, min_months: 4}   # ₹5,000
+    - {level: L5, limit_paise: 750000, min_band: A, cycles: 4}             # ₹7,500
+    - {level: L6, limit_paise: 1000000, min_band: A, cycles: 4, min_months: 9}  # ₹10,000
+  clean_cycle:            # a loan of at least this share of the limit, open at least this long, repaid in full on
+    min_utilisation: 0.30 # time, with no scored payment failure
+    min_days_open: 7
+  step_up_min_days: 30    # at most one level up per 30 days
+  demote_at_dpd: 8        # any loan reaching this drops one level and resets clean cycles
+  freeze_at_dpd: 31       # any loan reaching this freezes the ladder until it is repaid and...
+  unfreeze_clean_cycles: 2  # ...this many clean cycles follow
+
+# Anti-gaming and fraud rules. Each rule raises an alert with evidence for the ops queue; nothing is automatic except
+# the velocity hold. Only a confirmed alert with a `confirm_flag` becomes a knockout, and lifting it is maker-checker.
+fraud:
+  hold_flag: SPEND_HOLD   # pauses new loans while a holding alert awaits review; not a knockout
+  farming:                # more than 4 loans repaid within 3 days of disbursal, inside 30 days
+    severity: low         # already down-weighted in F1 and F9; the alert is for visibility
+    quick_days: 3
+    window_days: 30
+    min_loans: 5
+  collusion:              # any of these between one student and one vendor (alert carries both ids)
+    severity: high
+    confirm_flag: FRAUD_CONFIRMED
+    same_amount: {min_spends: 3, window_days: 7, tolerance: 0.05}
+    near_limit: {fraction: 0.95, min_spends: 2}   # spends just under what was left on the loan
+    refund_within_hours: 48
+  vendor_anomaly:
+    severity: medium
+    share: 0.60           # one vendor takes more than 60% of a student's spend...
+    cycles: 3             # ...over 3 consecutive loans
+    surge_ratio: 3.0      # or a vendor's Kredo volume jumps more than 3x week on week
+    surge_min_week_paise: 200000
+  velocity:
+    severity: high
+    confirm_flag: FRAUD_CONFIRMED
+    max_spends: 5         # more than 5 spends...
+    window_minutes: 10    # ...in 10 minutes
+    max_campuses_per_day: 1
+    hold: true
+  ring:                   # a device, payout account or phone digest shared across accounts
+    severity: high
+    confirm_flag: DUPLICATE_IDENTITY
+    kinds: [device, payout_account, phone]
+  rollover:               # F5 already penalises this; the alert lets support offer help, not punishment
+    severity: low
+    min_loans: 3
+    within_hours: 24
+
+# Monitoring and the v2 training data. Not lending policy: nothing here changes a score or a limit.
+monitoring:
+  label:                  # a loan is labelled this long after its due date; bad if it reached `bad_dpd` DPD in that
+    version: 1            # window, or was settled, restructured or written off. BUMP the version if you change
+    window_days: 60       # the window or bad_dpd, so old and new labels are never mixed.
+    bad_dpd: 30
+  psi: {bin_width: 50, alert_above: 0.25, min_users: 100}   # KRS drift, month on month; no PSI below min_users
+  calibration: {min_loans_per_band: 20}     # fewer labelled loans than this and a band's rate is not shown as reliable
+  fairness: {min_cell: 20, flag_below: 0.8} # cohorts smaller than min_cell are hidden; a rate under 80% of the best flags
+  v2: {target_loans: 1500, target_bad: 100} # train v2 only after both are met
