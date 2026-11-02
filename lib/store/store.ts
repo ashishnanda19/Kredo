@@ -6,7 +6,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { MOCK_TODAY } from "@/lib/format";
 import { ACTIVE_LOAN, buildOffer, LOAN_PRODUCTS, PAYMENTS, TICKETS, VERSIONS, type AppStatus, type ConsentId, type Offer, type PaymentRecord, type PayState, type RejectionReason, type Ticket } from "@/lib/mock-portal";
 import { OPS_ROLES, SEED_AUDIT, type FraudOutcome, type FraudStatus, type OpsRole } from "@/lib/mock-ops";
-import type { AuthEdge, DataRequest, Dispute, KycStatus, Loan, OpsDecision, PortalState, TimelineEvent, VerificationDraft, VerificationStatus, VerificationSummary } from "./types";
+import type { AuraDemoPreset, AuthEdge, DataRequest, Dispute, KycStatus, Loan, OpsDecision, PortalState, TimelineEvent, VerificationDraft, VerificationStatus, VerificationSummary } from "./types";
 
 export const KYC_RETRY_LIMIT = 3;
 export const OTP_ATTEMPT_LIMIT = 5;
@@ -35,6 +35,7 @@ function initial(): PortalState {
     requests: [],
     ops: { role: "admin", audit: SEED_AUDIT, decisions: {}, fraud: {}, tickets: {}, reconFlags: {}, escalations: [], retries: {} },
     demo: { open: false, autoAccept: false, paymentOutcome: "successful" },
+    aura: { preset: null, statementReviewed: false },
   };
 }
 
@@ -87,6 +88,8 @@ interface Actions {
   setDemoOpen: (v: boolean) => void;
   setAutoAccept: (v: boolean) => void;
   applyPreset: (p: "fresh" | "new_student" | "verified" | "verified_loan") => void;
+  setAuraPreset: (p: AuraDemoPreset | null) => void;
+  markStatementReviewed: () => void;
   resetAll: () => void;
 }
 
@@ -315,6 +318,8 @@ export const useStore = create<Store>()(
 
       setDemoOpen: (open) => set((s) => ({ demo: { ...s.demo, open } })),
       setAutoAccept: (autoAccept) => set((s) => ({ demo: { ...s.demo, autoAccept } })),
+      setAuraPreset: (preset) => set((s) => ({ aura: { ...s.aura, preset } })),
+      markStatementReviewed: () => set((s) => ({ aura: { ...s.aura, statementReviewed: true } })),
       applyPreset: (p) => {
         const base = initial();
         const demo = get().demo;

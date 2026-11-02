@@ -1,0 +1,26 @@
+name: web
+
+on:
+  push:
+    paths: ["app/**", "components/**", "lib/**", "e2e/**", "package.json", "package-lock.json", "playwright.config.ts", ".github/workflows/web.yml"]
+  pull_request:
+    paths: ["app/**", "components/**", "lib/**", "e2e/**", "package.json", "package-lock.json", "playwright.config.ts", ".github/workflows/web.yml"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+      NEXT_PUBLIC_DEMO_CONTROLS: "true"
+      NEXT_PUBLIC_PHASE2_CREDIT_PROFILE: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e

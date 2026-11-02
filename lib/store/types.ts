@@ -1,5 +1,6 @@
 import type { AppStatus, ConsentId, Instalment, Offer, PaymentRecord, PayState, RejectionReason, Ticket, TicketEvent } from "@/lib/mock-portal";
 import type { AuditEntry, FraudOutcome, FraudStatus, OpsRole } from "@/lib/mock-ops";
+import type { AuraPreset } from "@/lib/score/types";
 
 export type VerificationStatus = "not_started" | "pending" | "accepted" | "rejected" | "expired" | "resubmission";
 export type KycStatus = "not_started" | "in_progress" | "provider_error" | "retry_limit" | "escalated" | "verified";
@@ -138,6 +139,10 @@ export interface PortalState {
     retries: Record<string, string>;
   };
   demo: { open: boolean; autoAccept: boolean; paymentOutcome: PayState };
+  /** Aura (mock mode): which demo preset to show (null: derived from the portal state), and quest flags. */
+  aura: { preset: AuraDemoPreset | null; statementReviewed: boolean };
 }
+
+export type AuraDemoPreset = AuraPreset | "unavailable";
 
 export type { TicketEvent };

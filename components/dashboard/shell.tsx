@@ -37,8 +37,8 @@ const RAIL_EXTRA: { href: string; label: string; icon: LucideIcon }[] = [
   ...(PHASE2
     ? [
         {
-          href: "/dashboard/credit-profile",
-          label: "Credit profile",
+          href: "/dashboard/aura",
+          label: "Aura",
           icon: Gauge,
         },
       ]

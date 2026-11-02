@@ -11,6 +11,7 @@ import { NudgeBanner } from "@/components/dashboard/nudge-banner";
 import { QuickActions } from "@/components/dashboard/quick-actions";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { ScoreCard } from "@/components/dashboard/score-card";
+import { AuraWidget } from "@/components/aura/aura-widget";
 import { DashboardSkeleton } from "@/components/dashboard/skeletons";
 import { SpendingCard } from "@/components/dashboard/spending-card";
 import { VendorCarousel } from "@/components/dashboard/vendor-carousel";
@@ -20,6 +21,9 @@ import { ErrorState } from "@/components/shared/states";
 import { CoinRain } from "@/components/three/coin-rain";
 import { useDemoState } from "@/lib/hooks";
 import { loans, nextDue, transactions } from "@/lib/mock-data";
+
+// with the Phase 2 flag on, Aura replaces the illustrative score card
+const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE === "true";
 
 export default function DashboardPage() {
   const { state, retry } = useDemoState(450);
@@ -69,9 +73,7 @@ export default function DashboardPage() {
                 </Reveal>
               </div>
               <div className="space-y-5">
-                <Reveal delay={0.05}>
-                  <ScoreCard />
-                </Reveal>
+                <Reveal delay={0.05}>{PHASE2 ? <AuraWidget /> : <ScoreCard />}</Reveal>
                 <Reveal delay={0.05}>
                   <RecentActivity items={recent} />
                 </Reveal>

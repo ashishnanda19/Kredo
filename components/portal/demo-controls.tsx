@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { FlaskConical, RotateCcw, X } from "lucide-react";
 import { GlassButton, GlassCard } from "@/components/glass";
 import { COPY } from "@/lib/copy";
+import { AURA } from "@/lib/copy-aura";
+import { loadAuraPreset } from "@/lib/score/use-aura";
 import { OPS_ROLES, REJECTION, type PayState, type RejectionReason } from "@/lib/mock-data";
 import { useStore, KYC_RETRY_LIMIT, makeRef, useHydrated } from "@/lib/store/store";
 import type { AuthEdge, KycStatus, VerificationStatus } from "@/lib/store/types";
@@ -11,6 +13,8 @@ import type { AppStatus } from "@/lib/mock-portal";
 import { cn } from "@/lib/utils";
 
 export const DEMO_ENABLED = process.env.NEXT_PUBLIC_DEMO_CONTROLS === "true";
+
+type AuraOption = keyof typeof AURA.demo.presets;
 
 /** Always mounted: rehydrates persisted demo state, and runs the "pending becomes accepted after 8s" auto mode. */
 export function PortalRuntime() {
@@ -140,6 +144,15 @@ export function DemoControls() {
             ] as const}
           />
 
+          <Group
+            label={AURA.demo.group}
+            value={(s.aura.preset ?? "auto") as AuraOption}
+            onPick={(v) => {
+              s.setAuraPreset(v === "auto" ? null : v);
+              if (v !== "auto" && v !== "unavailable") void loadAuraPreset(v);
+            }}
+            options={(Object.keys(AURA.demo.presets) as AuraOption[]).map((id) => ({ id, label: AURA.demo.presets[id] }))}
+          />
           <Group label="Verification status" options={VERIF} value={s.verification.status} onPick={(v) => s.setVerification(v, v === "rejected" || v === "resubmission" ? s.verification.reason : null)} />
           <label className="flex items-center gap-2 text-xs font-semibold">
             <input type="checkbox" className="size-4" checked={s.demo.autoAccept} onChange={(e) => s.setAutoAccept(e.target.checked)} />
