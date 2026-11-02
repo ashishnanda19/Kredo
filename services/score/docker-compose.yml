@@ -1,0 +1,69 @@
+# Local stack for the score service. Dev-only secrets: never reuse them anywhere real.
+name: kredo-score
+
+x-service-env: &service-env
+  SCORE_DATABASE_URL: postgresql+psycopg://kredo:kredo@postgres:5432/kredo_score
+  SCORE_REDIS_URL: redis://redis:6379/0
+  SCORE_HMAC_KEYS: '{"demo": {"secret": "dev-only-demo-secret-0000000000000000", "sources": ["demo_controls", "simulator"]}, "nbfc": {"secret": "dev-only-nbfc-secret-0000000000000000", "sources": ["nbfc"]}, "bff": {"secret": "dev-only-bff-secret-00000000000000000", "sources": ["demo_controls"]}}'
+  FEATURE_MANDATES: "false"
+  SCORE_OPS_JWT_SECRET: dev-only-ops-jwt-secret-000000000000000
+  SCORE_DEMO_PRESETS: "true"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: kredo
+      POSTGRES_PASSWORD: kredo
+      POSTGRES_DB: kredo_score
+    ports: ["55433:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kredo -d kredo_score"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports: ["56380:6379"]
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    build: .
+    command: ["alembic", "upgrade", "head"]
+    environment: *service-env
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  api:
+    build: .
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment: *service-env
+    ports: ["8000:8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/v1/ready')"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+
+  worker:
+    build: .
+    command: ["python", "-m", "app.events.worker"]
+    environment: *service-env
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+
+volumes:
+  pgdata:
+  redisdata:
