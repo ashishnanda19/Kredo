@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AlertOctagon, BarChart3, ClipboardCheck, Landmark, LifeBuoy, Search, ShieldAlert } from "lucide-react";
+import { AlertOctagon, BarChart3, ClipboardCheck, Gauge, Landmark, LifeBuoy, Search, ShieldAlert } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/glass";
 import { Logo } from "@/components/shared/logo";
@@ -19,6 +19,7 @@ const NAV = [
   { href: "/ops/fraud", label: "Fraud", icon: ShieldAlert },
   { href: "/ops/loans", label: "Loans", icon: Landmark },
   { href: "/ops/support", label: "Support", icon: LifeBuoy },
+  { href: "/ops/risk", label: "Risk", icon: Gauge },
 ];
 
 export function OpsShell({ children }: { children: React.ReactNode }) {

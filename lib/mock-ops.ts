@@ -7,12 +7,14 @@ import { COLLEGES, type RejectionReason } from "./mock-portal";
 
 const iso = (days: number, h = 10) => new Date(addDays(MOCK_TODAY, days).getTime() + (h - 9) * 3_600_000).toISOString();
 
-export type OpsRole = "reviewer" | "fraud" | "support" | "admin";
+export type OpsRole = "reviewer" | "fraud" | "support" | "admin" | "risk_analyst" | "risk_admin";
 export const OPS_ROLES: { id: OpsRole; label: string }[] = [
   { id: "reviewer", label: "Verification reviewer" },
   { id: "fraud", label: "Fraud analyst" },
   { id: "support", label: "Support agent" },
   { id: "admin", label: "Admin" },
+  { id: "risk_analyst", label: "Risk analyst" },
+  { id: "risk_admin", label: "Risk admin" },
 ];
 export const TEAM = ["Asha (placeholder)", "Ravi (placeholder)", "Meera (placeholder)", "Dev (placeholder)"];
 

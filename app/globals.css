@@ -70,6 +70,16 @@
   --cat-3: #1baf7a;
   --cat-4: #eda100;
   --cat-5: #e87ba4;
+
+  /* risk bands A..E: one blue ramp (ordinal, monotone lightness); charts also label every segment */
+  --band-a: #0d366b;
+  --band-b: #1c5cab;
+  --band-c: #3987e5;
+  --band-d: #86b6ef;
+  --band-e: #cde2fb;
+  /* waterfall: points that raise KRS / points that lower it (diverging blue and red poles) */
+  --pts-up: #2a78d6;
+  --pts-down: #d03b3b;
 }
 .theme-light {
   color-scheme: light;
@@ -102,6 +112,14 @@
   --cat-3: #199e70;
   --cat-4: #c98500;
   --cat-5: #d55181;
+
+  --band-a: #cde2fb;
+  --band-b: #86b6ef;
+  --band-c: #3987e5;
+  --band-d: #1c5cab;
+  --band-e: #104281;
+  --pts-up: #3987e5;
+  --pts-down: #e05252;
 }
 
 @theme inline {
