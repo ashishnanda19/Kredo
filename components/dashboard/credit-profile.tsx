@@ -19,7 +19,7 @@ import { CREDIT_PROFILE } from "@/lib/mock-data";
 import { useStore } from "@/lib/store/store";
 import { PageHeader } from "./header";
 
-const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE === "true";
+const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE !== "false";
 const T = COPY.credit;
 
 

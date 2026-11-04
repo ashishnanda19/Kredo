@@ -9,7 +9,6 @@ import { fmtDate } from "./domain/time";
 
 const s = (n: number) => (n === 1 ? "" : "s");
 
-export const DEMO_LABEL = "Demo: simulated data, no real money";
 
 /** Notifications written into the in-app tray by the simulated clock. */
 export const NOTE = {
@@ -165,7 +164,7 @@ export const ONB = {
     hours: "Opening hours",
     hoursHint: "For example 9am to 6pm.",
     photo: "Stall photo",
-    photoNote: "Placeholder only. Nothing is uploaded in this demo.",
+    photoNote: "Nothing is uploaded in this demo.",
     save: "Save and continue",
   },
   kyc: {
@@ -174,7 +173,7 @@ export const ONB = {
     idLabel: "Last 4 digits of your ID",
     idBad: "Enter the last four digits.",
     photo: "ID photo",
-    photoNote: "Placeholder only. Nothing is uploaded or stored in this demo.",
+    photoNote: "Nothing is uploaded or stored in this demo.",
     proofTitle: "Business registration",
     proofYes: "I have a business registration or licence",
     proofNo: "Small stall, no registration",
@@ -204,10 +203,10 @@ export const ONB = {
   agreement: {
     title: "Vendor agreement",
     intro: "Please read this before you submit. It's a short demo summary, not a final legal contract.",
-    points: (cutoffLabel: string, feePercent: number) => [
-      { h: "How you get paid", b: `Every night at ${cutoffLabel}, Kredo totals the payments you received that day and reports them to the lending partner. The lending partner pays that amount to your verified bank account. Kredo does not hold or move the money.` },
+    points: (delayHours: number, feePercent: number) => [
+      { h: "How you get paid", b: `${delayHours} hours after each payment, Kredo reports that payment to the lending partner. For example, a payment made at 9 am is paid out at 9 pm. The lending partner pays that amount to your verified bank account. Kredo does not hold or move the money.` },
       { h: "What it costs you", b: feePercent === 0 ? "There is no fee for you in this demo. The fee, if any, will be shown here before you agree." : `A fee of ${feePercent}% applies to each payment. It's taken out of the amount paid to you.` },
-      { h: "Refunds and disputes", b: "If you refund a payment before the nightly settlement, it's taken off that night's total. If you refund after settlement, the amount is taken off your next payout. Large refunds need review by our team." },
+      { h: "Refunds and disputes", b: "If you refund a payment within the 12 hours before it settles, it's left out of settlement. If you refund after settlement, the amount is taken off your next payout. Large refunds need review by our team." },
       { h: "Your QR", b: "Your QR works only while your stall is verified. If you regenerate it, the old one stops working at once." },
       { h: "Your responsibilities", b: "Only accept payments for goods or services you provide. Payments to your own account, or in circles with friends, are blocked and reviewed." },
     ],
@@ -242,7 +241,7 @@ export const DIRECTOR = {
   reset: "Reset demo",
   resetDone: "Demo reset to its starting state.",
   clock: "Simulated clock",
-  jumps: { hour: "+1 hour", day: "+1 day", days3: "+3 days", midnight: "Next midnight", due: "To due date", late8: "8 days past due", late31: "31 days past due" },
+  jumps: { hour: "+1 hour", h12: "+12 hours", day: "+1 day", days3: "+3 days", midnight: "Next midnight", due: "To due date", late8: "8 days past due", late31: "31 days past due" },
   outcomes: "Verification outcomes",
   pennyDrop: { label: "Bank check (₹1 test)", success: "Name matches", name_mismatch: "Name mismatch", provider_error: "Provider error" },
   kycOutcome: { label: "ID check", verified: "Verified", needs_retry: "Needs retry", provider_error: "Provider error" },
@@ -253,7 +252,7 @@ export const DIRECTOR = {
   presenterLabel: "Presenter mode",
   flowLabel: "Kredo does not touch money",
   failNextPay: "Drop the answer to the next payment (retry demo)",
-  jumpHint: "Each jump runs the same scheduled work the real system would: reminders, overdue and default checks, and the midnight settlement.",
+  jumpHint: "Each jump runs the same scheduled work the real system would: reminders, overdue and default checks, and each payment's settlement 12 hours after it was made.",
   persona: "Jump in as",
   studentPersona: "Student",
   vendorPersona: "Vendor",
@@ -393,7 +392,7 @@ export const STUDENT = {
     pay: (n: number) => `Pay ₹${n} to the lending partner`,
     note: "You repay the lending partner directly. Kredo records it and updates your record.",
     lenderTitle: "Paying the lending partner",
-    lenderBody: "Simulated: in the live product you'd be taken to the lending partner's payment page.",
+    lenderBody: "You'll be taken to the lending partner's payment page.",
     doneTitle: (n: number) => `₹${n} repaid`,
     doneBody: "The lending partner has your payment. Your record is updated.",
     auraUp: (n: number) => `Your Aura went up by ${n}.`,
@@ -416,13 +415,13 @@ export const TIER_LABEL: Record<string, string> = {
 /** Settlements and refunds, as the vendor sees them. Plain: this is money. */
 export const SETTLE = {
   title: "Settlements",
-  sub: "Every night at 12:00 midnight the lending partner is told what you received that day and pays it to your bank account. Kredo never holds the money.",
+  sub: "Twelve hours after each payment, the lending partner is told what you received and pays it to your bank account. Kredo never holds the money.",
   awaiting: "Awaiting settlement",
   next: "Next settlement",
-  nextAt: "Tonight at 12:00 midnight",
+  nextAt: "12 hours after each payment",
   adjustments: (n: number) => `₹${n} of refunds will be taken off your next payout.`,
   history: "Past settlements",
-  empty: "No settlements yet. Your first one appears after the first midnight with payments.",
+  empty: "No settlements yet. Your first one appears 12 hours after your first payment.",
   status: { scheduled: "Scheduled", processing: "Processing", paid: "Settled", failed: "Not completed", on_hold: "On hold" },
   ref: (r: string) => `Reference ${r}`,
   failed: (why: string) => `Not completed: ${why} The lending partner will retry.`,
@@ -540,7 +539,7 @@ export const FLOW = {
     repay: (n: number) => `₹${n} + interest`,
   },
   sample: { pay: "40 coins", settle: "₹ settlement", repay: "₹ + interest" },
-  previewBtn: { pay: "Student pays a stall", settle: "Midnight settlement", repay: "Student repays" },
+  previewBtn: { pay: "Student pays a stall", settle: "Settlement after 12 hours", repay: "Student repays" },
   overlayClose: "Close",
 };
 
@@ -573,12 +572,9 @@ export const STAGE = {
   nothing: "Demo tools are off.",
 };
 
-/** Investor metrics. Every card says "Simulated". Plain wording: these are numbers about money. */
+/** Investor metrics. Plain wording: these are numbers about money. */
 export const METRICS = {
   title: "Investor metrics",
-  banner: "Simulated data. Every number on this page comes from the fictional seeded campus and whatever has been done in this demo. None of it is real traction.",
-  badge: "Simulated",
-  footer: "Simulated data, no real money. Reset the demo to return to the seeded starting point.",
   kpis: { gmv: "Total spends", loans: "Payments made", students: "Active students (30 days)", vendors: "Active stalls (30 days)" },
   kpiSub: { gmv: "coins (₹1 each)", students: (n: number) => `of ${n} verified`, vendors: (n: number) => `of ${n} on the platform` },
   repay: { title: "Repayment", onTime: "Repaid on time", late: "Repaid late", defaulted: "Defaulted (30+ days)", avg: "Average days to repay", delinquent: "More than 30 days overdue", of: "of resolved payments", resolved: (n: number) => `${n} resolved payments` },
@@ -589,10 +585,9 @@ export const METRICS = {
   cohorts: { title: "On-time repayment by due week", sub: "Share of payments due that week that were repaid on time", due: (n: number) => `${n} due` },
   econ: {
     title: "Unit economics",
-    sub: "Margin on one average payment. These are illustrative assumptions you can edit, not results.",
-    illustrative: "Illustrative assumptions",
+    sub: "Margin on one average payment. Edit the assumptions to see how it moves.",
     fields: { fee: "Fee per payment (₹)", interestPct: "Interest (% per 30 days)", costOfFundsPct: "Lender's cost of funds (% a year)", defaultLossPct: "Default loss (% of principal)", cac: "Cost to acquire a student (₹)", loansPerStudent: "Payments per student, lifetime" },
-    ticket: (n: number, d: number) => `Average payment: ₹${n} over ${d} days (from this demo)`,
+    ticket: (n: number, d: number) => `Average payment: ₹${n} over ${d} days`,
     rows: { revenue: "Revenue (fee + interest)", costOfFunds: "Cost of funds", defaultLoss: "Default loss", cac: "Acquisition cost per payment", margin: "Margin per payment" },
     reset: "Back to the defaults",
     split: "Revenue is shown gross. How it is shared with the lending partner is not decided.",
@@ -635,14 +630,14 @@ export const VSUPPORT = {
   title: "Support",
   sub: "Answers to the questions stalls ask most. Nothing here moves money.",
   faq: [
-    { q: "When do I get paid?", a: "Every night at 12:00 midnight, Kredo totals the payments you received that day and reports them to the lending partner. The lending partner pays that amount to your verified bank account. Kredo never holds the money." },
+    { q: "When do I get paid?", a: "Twelve hours after each payment, Kredo reports that payment to the lending partner. The lending partner pays that amount to your verified bank account. Kredo never holds the money." },
     { q: "A payment shows 'Awaiting settlement'. Is something wrong?", a: "No. It means the nightly report has not run since the payment. It changes to 'Settled' once the lending partner has paid." },
     { q: "A settlement did not complete.", a: "The reason is shown on the Settlements page. The lending partner retries, and our team can send it again. Your payments stay safe as 'awaiting settlement' until it is paid." },
     { q: "How do I refund a payment?", a: "Open Payments, choose Refund and give a reason. Before settlement it is left out of that night's total. After settlement it is taken off your next payout. Refunds above 500 coins are reviewed by our team." },
     { q: "My QR was copied or lost.", a: "Open QR and make a new one. The old QR stops working at once." },
     { q: "Why is my daily receiving limit lower?", a: "Stalls without a business registration start with a lower daily limit. Add a registration to ask for a higher one." },
   ],
-  contact: "Still stuck? Write to the demo support desk at support@demo.invalid. This is a simulated address in the demo.",
+  contact: "Still stuck? Write to the support desk at support@demo.invalid.",
 };
 
 export const ACTIVITY_W = {
@@ -664,5 +659,5 @@ export const PROFILE_W = {
   accepted: "Verified",
   note: "Your ID number and photo are never stored here. Only the last four digits are kept.",
   links: { aura: "Your Aura", limit: "Your limit", loans: "Your payments" },
-  signOut: "Sign out of the demo",
+  signOut: "Sign out",
 };

@@ -8,9 +8,7 @@ import { METRICS, TIER_LABEL } from "@/lib/copy-demo";
 import { computeMetrics, defaultAssumptions, unitEconomics, type Assumptions, type Bar } from "@/lib/demo/metrics";
 import { fmtDate } from "@/lib/domain/time";
 import { useWorld, useWorldHydrated } from "@/lib/store/world";
-import { DemoMoneyLabel } from "./demo-money-label";
 
-/** Every card carries the "Simulated" badge, so no figure can be taken for real traction. */
 function SimCard({ title, sub, children, testId }: { title: string; sub?: string; children: React.ReactNode; testId?: string }) {
   return (
     <GlassCard radius="lg" className="space-y-3 p-5" data-testid={testId}>
@@ -19,7 +17,6 @@ function SimCard({ title, sub, children, testId }: { title: string; sub?: string
           <h2 className="text-base font-bold">{title}</h2>
           {sub && <p className="text-xs text-ink-2">{sub}</p>}
         </div>
-        <span data-testid="sim-badge" className="shrink-0 rounded-full border border-warn/45 bg-warning-soft px-2.5 py-0.5 text-xs font-bold text-warn-text">{METRICS.badge}</span>
       </div>
       {children}
     </GlassCard>
@@ -58,7 +55,6 @@ function Kpi({ label, value, sub, testId }: { label: string; value: string | num
       <p className="text-xs font-semibold text-ink-2">{label}</p>
       <p className="mt-1 text-3xl font-extrabold tabular-nums" data-testid={testId}>{value}</p>
       {sub && <p className="text-xs text-ink-2">{sub}</p>}
-      <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-warn-text">{METRICS.badge}</p>
     </GlassCard>
   );
 }
@@ -71,7 +67,6 @@ function Econ({ ticket, term }: { ticket: number; term: number }) {
   const money = (n: number) => `₹${(Math.round(n * 100) / 100).toFixed(2)}`;
   return (
     <SimCard title={METRICS.econ.title} sub={METRICS.econ.sub} testId="econ">
-      <p className="rounded-xl bg-warning-soft px-3 py-1.5 text-xs font-bold text-warn-text">{METRICS.econ.illustrative}</p>
       <div className="grid gap-3 sm:grid-cols-2">
         {(Object.keys(f) as (keyof Assumptions)[]).map((k) => (
           <label key={k} className="text-xs font-semibold">{f[k]}
@@ -105,9 +100,8 @@ export function MetricsPage() {
     <main id="main" className="mx-auto w-full max-w-6xl space-y-4 px-4 py-6 sm:px-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl font-extrabold tracking-tight">{METRICS.title}</h1>
-        <div className="flex items-center gap-3"><DemoMoneyLabel /><Link href="/demo" className="text-sm font-semibold underline">Demo Stage</Link></div>
+        <div className="flex items-center gap-3"><Link href="/demo" className="text-sm font-semibold underline">Demo Stage</Link></div>
       </header>
-      <p role="note" data-testid="sim-banner" className="rounded-2xl border border-warn/45 bg-warning-soft p-4 text-sm font-semibold text-warn-text">{METRICS.banner}</p>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Kpi label={METRICS.kpis.gmv} value={m.gmvCoins} sub={METRICS.kpiSub.gmv} testId="k-gmv" />
@@ -163,7 +157,6 @@ export function MetricsPage() {
         </SimCard>
         <Econ ticket={m.avgTicket} term={m.avgTermDays} />
       </div>
-      <p className="text-center text-xs text-ink-2">{METRICS.footer}</p>
     </main>
   );
 }

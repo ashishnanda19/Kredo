@@ -7,7 +7,7 @@ A student pay-later web app for Indian campuses. Kredo is the **app and technolo
 - the Next.js 16 front end in this folder (React 19, TypeScript strict, Tailwind v4, zustand, Framer Motion, Recharts, zod);
 - a Python FastAPI score service in `services/score` (its own README and `RUNBOOK.md`).
 
-The big feature is a **no-backend MVP demo world**: a deterministic, resettable, clearly labelled simulation of student-to-stall QR payment, loans, midnight settlement, repayment, the Aura engine, a two-phone Demo Stage and 11 scripted scenarios. The full spec is `docs/MVP_DEMO_PROMPT.md`. The README describes each part.
+The big feature is a **no-backend MVP demo world**: a deterministic, resettable, clearly labelled simulation of student-to-stall QR payment, loans, 12-hour settlement, repayment, the Aura engine, a two-phone Demo Stage and 11 scripted scenarios. The full spec is `docs/MVP_DEMO_PROMPT.md`. The README describes each part.
 
 ## Rules that must not be broken
 1. **Money.** Coins are a display unit only (1 coin = Rs 1). Never build or word anything as a wallet, top-up, withdrawal, transfer or pooled money. Kredo never holds or moves money: the lender pays stalls, students repay the lender. Name things `availableLimit`, `vendorReceivable`. The lender port (`lib/api/nbfc-port.ts`) has only `submitSettlement` and `getRepaymentStatus`, and a test pins that.
@@ -35,5 +35,5 @@ The big feature is a **no-backend MVP demo world**: a deterministic, resettable,
 - Next 16 specifics: error boundaries get a `retry` prop; run `next typegen` for route types.
 - Tests that click right after load can be flaky: wait for a ready marker or retry the click (see `e2e/stage-mock.spec.ts`).
 - Commit or push only when asked. Commit trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
-- Dark theme is the default (the spec said light; the owner chose dark). No new colours: use the tokens in `app/globals.css`.
+- Light theme is the default (the owner switched it back from dark; dark stays available through the theme toggle, with a blue-black base, never pure black). No new colours: use the tokens in `app/globals.css`.
 - Mobile first: every screen must work at 360px width with no sideways scroll.

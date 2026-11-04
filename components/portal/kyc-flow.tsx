@@ -36,7 +36,7 @@ function ProviderBody({ onClose }: { onClose: () => void }) {
 
   function toSelfie() {
     if (!/^\d{12}$/.test(idv)) {
-      setIdErr("Enter 12 digits. This is a placeholder field, please use made-up numbers.");
+      setIdErr("Enter 12 digits. Please use made-up numbers.");
       return;
     }
     setIdErr(null);

@@ -64,18 +64,19 @@ export function VerifyPanel() {
           <div className="dot-grid absolute inset-0 opacity-60" />
           {/* sample college ID */}
           <div className="relative mx-auto mt-6 w-full max-w-[420px]">
-            <div data-box className="absolute -inset-3 rounded-[18px] border-2 border-dashed border-info" />
-            <span data-box-label className="absolute -top-9 left-0 rounded-md bg-info px-2 py-0.5 font-mono text-[10.5px] font-semibold tracking-wide text-white">
+            <div data-box className="absolute -inset-3 rounded-[22px] border-2 border-dashed border-ink/35" />
+            <span data-box-label className="absolute -top-9 left-0 rounded-full bg-ink px-3 py-1 font-mono text-[10.5px] font-semibold tracking-wide text-page">
               {t.callouts.box}
             </span>
-            <div className="relative aspect-[1.586/1] overflow-hidden rounded-[14px] bg-elevated shadow-[0_18px_40px_-18px_rgba(0,0,0,0.35)] ring-1 ring-hairline">
-              <div className="flex h-[22%] items-center gap-2 bg-[#1f3b8a] px-4 text-white">
-                <span className="grid size-6 place-items-center rounded-full bg-white/20 text-[10px] font-bold">SIT</span>
-                <span className="truncate text-[12px] font-semibold sm:text-[13px]">{student.college}</span>
+            <div className="relative aspect-[1.586/1] overflow-hidden rounded-[18px] bg-card shadow-[0_24px_50px_-24px_rgba(0,0,0,0.45)] ring-1 ring-hairline-strong">
+              <div className="flex h-[24%] items-center gap-2.5 bg-[#0b0b0c] px-4 text-white">
+                <span className="grid size-7 place-items-center rounded-full bg-accent text-[9px] font-extrabold tracking-tight text-accent-ink">MUJ</span>
+                <span className="truncate text-[12px] font-semibold tracking-[-0.01em] sm:text-[13px]">{student.college}</span>
+                <span className="ml-auto font-mono text-[9px] uppercase tracking-[0.14em] text-white/50">Student ID</span>
               </div>
               <div className="flex gap-4 p-4">
-                <div className="grid aspect-[3/4] w-[26%] shrink-0 place-items-end overflow-hidden rounded-[8px] bg-[#e4e7f0]">
-                  <svg viewBox="0 0 60 80" className="w-full fill-[#b7bdd1]"><circle cx="30" cy="30" r="14" /><path d="M6 80c2-20 12-28 24-28s22 8 24 28Z" /></svg>
+                <div className="grid aspect-[3/4] w-[26%] shrink-0 place-items-end overflow-hidden rounded-[10px] bg-soft ring-1 ring-hairline">
+                  <svg viewBox="0 0 60 80" className="w-full fill-ink/20"><circle cx="30" cy="30" r="14" /><path d="M6 80c2-20 12-28 24-28s22 8 24 28Z" /></svg>
                 </div>
                 <dl className="min-w-0 flex-1 space-y-1.5 text-[11px] sm:text-[12px]">
                   <div><dt className="text-ink-2">Name</dt><dd className="font-semibold text-ink">{student.name}</dd></div>
@@ -83,7 +84,10 @@ export function VerifyPanel() {
                   <div><dt className="text-ink-2">Valid till</dt><dd className="font-semibold text-ink">Jun 2028</dd></div>
                 </dl>
               </div>
-              <span className="absolute bottom-2 right-3 text-[9px] font-semibold uppercase tracking-wider text-ink-2">Sample ID</span>
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-hairline px-4 py-2 font-mono text-[9.5px] tracking-[0.14em] text-ink-2">
+                <span>•••• 4821</span>
+                <span className="h-1.5 w-16 rounded-full bg-accent" />
+              </div>
             </div>
             <Callout data-c1 tone="ok" className="-right-2 top-[30%] sm:-right-10">{t.callouts.matched}</Callout>
             <Callout data-c2 tone="ok" className="-right-2 top-[48%] sm:-right-6">MATCHED · Name</Callout>

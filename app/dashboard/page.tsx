@@ -25,7 +25,7 @@ import { useDemoState } from "@/lib/hooks";
 import { loans, nextDue, transactions } from "@/lib/mock-data";
 
 // with the Phase 2 flag on, Aura replaces the illustrative score card
-const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE === "true";
+const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE !== "false";
 
 function LegacyDashboard() {
   const { state, retry } = useDemoState(450);

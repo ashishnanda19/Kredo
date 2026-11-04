@@ -45,15 +45,15 @@ export function InsightsPage() {
       </div>
       {none ? <GlassCard radius="xl" className="p-8 text-center text-sm text-ink-2" data-testid="insights-empty">{INSIGHTS.empty}</GlassCard> : (
         <>
-          <GlassCard radius="xl" strength="strong" className="p-5">
-            <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{INSIGHTS.today}</p>
-            <p className="mt-1 text-3xl font-extrabold tabular-nums" data-testid="ins-today">{i.today.coins} coins</p>
-            <p className="text-sm text-ink-2">{i.today.count} payments · {INSIGHTS.vsYesterday(i.today.coins - i.yesterday.coins)}</p>
+          <GlassCard radius="xl" className="theme-light !border-0 !bg-accent p-5 text-[#0b0b0c] !shadow-none">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#0b0b0c]/65">{INSIGHTS.today}</p>
+            <p className="mt-1 text-4xl font-semibold tabular-nums tracking-[-0.04em]" data-testid="ins-today">{i.today.coins} coins</p>
+            <p className="text-sm text-[#0b0b0c]/70">{i.today.count} {i.today.count === 1 ? "payment" : "payments"} · {INSIGHTS.vsYesterday(i.today.coins - i.yesterday.coins)}</p>
           </GlassCard>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <GlassCard radius="lg" className="p-4"><p className="text-xs text-ink-2">{INSIGHTS.ticket}</p><p className="text-2xl font-bold tabular-nums" data-testid="ins-ticket">{i.avgTicket} coins</p></GlassCard>
-            <GlassCard radius="lg" className="p-4"><p className="text-xs text-ink-2">{INSIGHTS.customers}</p><p className="text-2xl font-bold tabular-nums" data-testid="ins-customers">{i.customers30}</p><p className="text-xs text-ink-2">{INSIGHTS.repeat(i.repeatPercent)}</p></GlassCard>
-            <GlassCard radius="lg" className="p-4"><p className="text-xs text-ink-2">{INSIGHTS.refunds}</p><p className="text-sm font-semibold">{INSIGHTS.refundLine(i.refunds30.count, i.refunds30.coins)}</p></GlassCard>
+          <div className="grid grid-cols-2 gap-3">
+            <GlassCard radius="lg" className="p-4"><p className="text-xs text-ink-2">{INSIGHTS.ticket}</p><p className="text-xl font-semibold tabular-nums" data-testid="ins-ticket">{i.avgTicket} coins</p></GlassCard>
+            <GlassCard radius="lg" className="p-4"><p className="text-xs text-ink-2">{INSIGHTS.customers}</p><p className="text-xl font-semibold tabular-nums" data-testid="ins-customers">{i.customers30}</p><p className="text-xs text-ink-2">{INSIGHTS.repeat(i.repeatPercent)}</p></GlassCard>
+            <GlassCard radius="lg" className="col-span-2 p-4"><p className="text-xs text-ink-2">{INSIGHTS.refunds}</p><p className="text-sm font-semibold">{INSIGHTS.refundLine(i.refunds30.count, i.refunds30.coins)}</p></GlassCard>
           </div>
           <GlassCard radius="lg" className="space-y-2 p-5"><h2 className="text-base font-bold">{INSIGHTS.week}</h2><Bars testId="ins-week" label={INSIGHTS.week} data={i.week.map((d) => ({ label: fmtDate(d.date), value: d.coins }))} /></GlassCard>
           <GlassCard radius="lg" className="space-y-2 p-5"><h2 className="text-base font-bold">{INSIGHTS.hours}</h2><p className="text-xs text-ink-2">{INSIGHTS.hoursSub}</p><Bars testId="ins-hours" label={INSIGHTS.hours} data={busy.map((h) => ({ label: `${String(h.hour).padStart(2, "0")}:00`, value: h.count }))} /></GlassCard>

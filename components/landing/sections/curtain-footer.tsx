@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Disclosure } from "@/components/shared/demo-tag";
 import { LogoLockup } from "@/components/shared/logo";
-import { GRIEVANCE } from "@/lib/config";
 import { COPY } from "@/lib/copy";
 import { FooterSlogan } from "./footer-slogan";
 
@@ -15,9 +14,8 @@ const HREF: Record<string, string> = {
   Verify: "/verify",
   FAQ: "#faq",
   Support: "/dashboard/support",
-  Grievance: `mailto:${GRIEVANCE.email}`,
-  "Become a partner": "#vendors",
-  Settlement: "#vendors",
+  "Become a partner": "/vendor/onboarding",
+  Settlement: "/vendor/onboarding",
   "Vendor FAQ": "#faq",
   Privacy: "/legal/privacy",
   Terms: "/legal/terms",
@@ -65,14 +63,6 @@ export function CurtainFooter() {
           ))}
         </nav>
 
-        <div className="mt-8">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/60">{t.locationsLabel}</p>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {t.locations.map((l) => (
-              <li key={l} className="rounded-full border border-white/15 px-3 py-1 text-[13px] text-white/75">{l}</li>
-            ))}
-          </ul>
-        </div>
 
         <div className="mt-8 grid gap-6 border-t border-white/10 pt-6 text-[12.5px] leading-relaxed text-white/60 md:grid-cols-[auto_1fr]">
           <div className="flex items-center gap-2.5">
@@ -83,12 +73,6 @@ export function CurtainFooter() {
             <p>{COPY.legal.notLender}</p>
             <p>
               {COPY.legal.nudge} {t.waitlist}
-            </p>
-            <p>
-              {GRIEVANCE.officer}:{" "}
-              <a className="underline underline-offset-2 hover:text-white" href={`mailto:${GRIEVANCE.email}`}>
-                {GRIEVANCE.email}
-              </a>
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <span>{COPY.legal.footer}</span>

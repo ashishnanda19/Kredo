@@ -56,10 +56,6 @@ describe("copy rules", () => {
     expect(copy.FLOW.title).toBe("Kredo does not touch money");
     expect(copy.FLOW.nodes.kredoSub).toBe("records + scores");
   });
-  it("keeps the demo label exact", () => {
-    expect(copy.DEMO_LABEL).toBe("Demo: simulated data, no real money");
-    expect(copy.METRICS.badge).toBe("Simulated");
-  });
   it("every error message says what happened and offers a way forward", () => {
     for (const s of strings(copy.PAYGATE)) expect(s.length).toBeGreaterThan(20);
     expect(copy.ERROR_W.body).toMatch(/resetting the demo/);

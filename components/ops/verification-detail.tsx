@@ -30,7 +30,7 @@ const TEMPLATE = (name: string, code: string) =>
 function Evidence({ side }: { side: "Front" | "Back" }) {
   return (
     <figure className="m-0">
-      <div role="img" aria-label={`Placeholder ${side.toLowerCase()} of ID, watermarked Demo`} className="relative aspect-[1.586/1] overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#2a2a33,#121216)]">
+      <div role="img" aria-label={`${side} of ID, watermarked Demo`} className="relative aspect-[1.586/1] overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#2a2a33,#121216)]">
         <div aria-hidden className="absolute inset-3 rounded-xl border border-white/20">
           <div className="m-3 h-6 w-16 rounded bg-white/25" />
           <div className="m-3 mt-5 space-y-2">
@@ -45,7 +45,7 @@ function Evidence({ side }: { side: "Front" | "Back" }) {
           ))}
         </div>
       </div>
-      <figcaption className="mt-1 text-xs text-ink-2">{side} (placeholder image, not a real document)</figcaption>
+      <figcaption className="mt-1 text-xs text-ink-2">{side} (not a real document)</figcaption>
     </figure>
   );
 }
@@ -161,7 +161,7 @@ export function VerificationDetail({ id }: { id: string }) {
       </div>
 
       <GlassCard radius="lg" className="p-4" role="region" aria-label="Evidence viewer">
-        <h2 className="mb-2 text-sm font-bold">Evidence (placeholder images)</h2>
+        <h2 className="mb-2 text-sm font-bold">Evidence</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Evidence side="Front" />
           <Evidence side="Back" />

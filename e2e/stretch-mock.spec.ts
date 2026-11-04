@@ -53,10 +53,9 @@ test("a settlement report and a student statement download as real PDFs", async 
   await page.getByTestId("persona-v-gupta").click();
   await page.goto("/vendor/settlements");
   const [report] = await Promise.all([page.waitForEvent("download"), page.getByTestId("dl-pdf").first().click()]);
-  expect(report.suggestedFilename()).toMatch(/^SET-ven-gupta-chai-\d{8}\.pdf$/);
+  expect(report.suggestedFilename()).toMatch(/^SET-ven-gupta-chai-L-\d+\.pdf$/);
   const body = readFileSync((await report.path())!);
   expect(body.subarray(0, 5).toString()).toBe("%PDF-");
-  expect(body.toString("latin1")).toContain("Demo: simulated data, no real money");
 
   await page.goto("/start");
   await page.getByTestId("persona-diya").click();

@@ -145,9 +145,8 @@ export interface Policy {
     opsApprovalAboveCoins: number;
   };
   settlement: {
-    /** Cut-off hour in India time. 0 is midnight. */
-    cutoffHourIst: number;
-    mode: "t0_midnight" | "t1";
+    /** Hours after each payment before the lender is told to pay the stall for it. */
+    delayHours: number;
     /** Fee charged to the vendor, percent. Default 0 (A6.3). */
     vendorFeePercent: number;
   };
@@ -232,7 +231,7 @@ export const DEFAULT_POLICY: Policy = {
   },
   fraud: { roundWindowHours: 2, roundMinCount: 3, roundMultiple: 100, concentrationPercent: 60, concentrationMinCoins: 500 },
   refunds: { maxPerVendorPer7Days: 5, opsApprovalAboveCoins: 500 },
-  settlement: { cutoffHourIst: 0, mode: "t0_midnight", vendorFeePercent: 0 },
+  settlement: { delayHours: 12, vendorFeePercent: 0 },
   reminders: { atHourIst: 9, daysBefore: [3, 1], onDueDate: true, daysAfter: [1, 3, 7] },
   session: { roleSwitchReauthMinutes: 10 },
   qr: { amountTokenTtlSeconds: 300 },
@@ -302,7 +301,7 @@ export function validatePolicy(p: Policy): string[] {
   if (!(f.roundWindowHours >= 1 && f.roundMinCount >= 2 && f.roundMultiple >= 10 && f.concentrationPercent > 0 && f.concentrationPercent <= 100 && f.concentrationMinCoins > 0)) bad.push("fraud rule thresholds must be positive (round amounts at least 10 coins, concentration 1 to 100 percent)");
   if (!(p.refunds.maxPerVendorPer7Days >= 0 && p.refunds.opsApprovalAboveCoins > 0)) bad.push("refund caps must be positive");
   const s = p.settlement;
-  if (!(isInt(s.cutoffHourIst) && s.cutoffHourIst >= 0 && s.cutoffHourIst <= 23)) bad.push("settlement cut-off hour must be 0 to 23");
+  if (!(isInt(s.delayHours) && s.delayHours >= 1 && s.delayHours <= 48)) bad.push("settlement delay must be 1 to 48 hours");
   if (!(s.vendorFeePercent >= 0 && s.vendorFeePercent <= 100)) bad.push("vendor fee must be 0 to 100 percent");
   if (!(p.reminders.daysBefore.every((n) => n >= 1) && p.reminders.daysAfter.every((n) => n >= 1))) bad.push("reminder offsets must be 1 day or more");
   if (!(p.session.roleSwitchReauthMinutes >= 0)) bad.push("role-switch re-authentication window must be 0 or more minutes");

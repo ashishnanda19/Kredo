@@ -7,7 +7,7 @@ import { applySettlementResult, markProcessing, retrySettlement, submitInstructi
 import { linesCsv, reportJson, summaryCsv, csvCell } from "../settlement-report";
 import { reconcileDay, settlementDates, settlementIssues, stuckPayments } from "../reconcile";
 import { amountDue, awaitingSettlement } from "./selectors";
-import { DAY } from "./time";
+import { DAY, HOUR } from "./time";
 import { DomainError, advanceTo, createLoan, repayLoan } from "./world";
 import { decideRefund, refundPayment } from "./refunds";
 import { produce } from "immer";
@@ -39,18 +39,28 @@ describe("seed reconciliation", () => {
   });
 });
 
-describe("midnight job", () => {
-  it("settles a day's payments once and the vendor total is the sum of them", async () => {
+describe("twelve-hour settlement job", () => {
+  it("settles each payment on its own, 12 hours after it was made", async () => {
     let w = pay(SEEDED, 40, "a").world;
+    const a = Object.values(w.loans).find((l) => l.idempotencyKey === "a")!;
+    expect(advanceTo(w, a.createdAt + 12 * HOUR - 1).loans[a.id].settlementId).toBeUndefined();
+    w = advanceTo(w, a.createdAt + 6 * HOUR);
     w = pay(w, 60, "b", "stu-diya").world;
-    w = advanceTo(w, SEED_NOW + DAY);
-    const s = Object.values(w.settlements).filter((x) => x.vendorId === "ven-gupta-chai").sort((a, b) => b.date.localeCompare(a.date))[0];
-    expect(s.totalAmount).toBe(base("ven-gupta-chai") + 100);
+    const b = Object.values(w.loans).find((l) => l.idempotencyKey === "b")!;
+    w = advanceTo(w, a.createdAt + 12 * HOUR);
+    expect(w.loans[a.id].settlementId).toBeTruthy();
+    expect(w.loans[b.id].settlementId).toBeUndefined(); // b is only 6 hours old
+    const s = w.settlements[w.loans[a.id].settlementId!];
+    expect(s.totalAmount).toBe(40);
+    expect(s.count).toBe(1);
+    expect(s.createdAt).toBe(a.createdAt + 12 * HOUR);
     expect(s.status).toBe("scheduled");
+    w = advanceTo(w, b.createdAt + 12 * HOUR);
+    expect(w.settlements[w.loans[b.id].settlementId!].totalAmount).toBe(60);
     w = await settle(w);
     expect(w.settlements[s.id].status).toBe("paid");
     expect(w.settlements[s.id].reference).toMatch(/^UTR/);
-    expect(s.loanIds.every((id) => w.loans[id].vendorStatus === "settled")).toBe(true);
+    expect(w.loans[a.id].vendorStatus).toBe("settled");
   });
   it("a failed or held settlement leaves payments awaiting; retry then pays it", async () => {
     let w = advanceTo(pay(SEEDED, 40, "a").world, SEED_NOW + DAY);
@@ -94,7 +104,7 @@ describe("midnight job", () => {
 });
 
 describe("refunds", () => {
-  it("before settlement, the payment drops out of that night's total and the student stops owing", () => {
+  it("before settlement, the payment is never settled and the student stops owing", () => {
     let w = pay(SEEDED, 40, "a").world;
     w = pay(w, 60, "b", "stu-diya").world;
     const first = Object.values(w.loans).find((l) => l.idempotencyKey === "a")!;
@@ -102,8 +112,9 @@ describe("refunds", () => {
     expect(r.refund.mode).toBe("pre_settlement");
     expect(amountDue(r.world.loans[first.id])).toBe(0);
     const after = advanceTo(r.world, SEED_NOW + DAY);
-    const s = Object.values(after.settlements).filter((x) => x.vendorId === "ven-gupta-chai").sort((a, b) => b.date.localeCompare(a.date))[0];
-    expect(s.totalAmount).toBe(base("ven-gupta-chai") + 60);
+    const second = Object.values(after.loans).find((l) => l.idempotencyKey === "b")!;
+    expect(after.loans[first.id].settlementId).toBeUndefined();
+    expect(after.settlements[second.settlementId!].totalAmount).toBe(60);
     expect(r.world.notifications.some((n) => n.title === "A payment was refunded")).toBe(true);
   });
   it("after settlement, it becomes a negative adjustment netted into the next batch", async () => {
@@ -205,14 +216,15 @@ describe("settlement report", () => {
     let w = pay(SEEDED, 40, "a").world;
     w = pay(w, 60, "b", "stu-diya").world;
     w = await settle(advanceTo(w, SEED_NOW + DAY));
-    const list = Object.values(w.settlements).filter((s) => s.date === "2026-10-30" && s.vendorId === "ven-gupta-chai");
+    const list = Object.values(w.settlements).filter((s) => s.loanIds.some((id) => ["a", "b"].includes(w.loans[id].idempotencyKey)));
+    expect(list).toHaveLength(2);
     const json = JSON.parse(reportJson(w, list));
     expect(json.simulated).toBe(true);
     expect(json.settlements[0]).toMatchObject({ settlementId: list[0].id, amountRupees: list[0].totalAmount, status: "paid" });
     const lines = linesCsv(w, list).trim().split("\n");
     expect(lines[0]).toContain("settlement_id");
-    expect(lines.length - 1).toBe(list[0].count);
-    expect(summaryCsv(w, list).trim().split("\n")).toHaveLength(2);
+    expect(lines.length - 1).toBe(2);
+    expect(summaryCsv(w, list).trim().split("\n").length).toBeGreaterThanOrEqual(2);
   });
   it("defuses spreadsheet formulas and quotes commas", () => {
     expect(csvCell("=SUM(A1)")).toBe("'=SUM(A1)");

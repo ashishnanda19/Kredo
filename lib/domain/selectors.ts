@@ -123,11 +123,11 @@ export function vendorFacingStudent(w: WorldState, studentId: string): string {
   return s ? `${s.firstName} ${s.lastInitial}. (${s.idMasked.slice(-4)})` : "Student";
 }
 
-/** "Settles at 12:00 midnight tonight" / "Settled on 2 Nov, ref SET-..." for the vendor's home card. */
+/** "Settles 12 hours after each payment" / "Settled on 2 Nov, ref SET-..." for the vendor's home card. */
 export function settlementStatusLine(w: WorldState, vendorId: string): string {
   const mine = Object.values(w.settlements).filter((s) => s.vendorId === vendorId).sort((a, b) => b.date.localeCompare(a.date));
   const awaiting = awaitingSettlement(w, vendorId);
-  if (awaiting > 0) return "Settles at 12:00 midnight tonight";
+  if (awaiting > 0) return "Settles 12 hours after each payment";
   const last = mine[0];
   if (!last) return "No settlements yet";
   if (last.status === "paid") return `Settled on ${fmtDate(last.date)}, ref ${last.reference ?? last.id}`;

@@ -70,7 +70,7 @@ export function StatementView({ id }: { id: string }) {
   const paid = rows.filter((r) => r.state === "successful").reduce((s, r) => s + r.amount, 0);
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-3xl">
       <div className="mb-4 space-y-3 print:hidden">
         <Link href={`/dashboard/loans/${loan.id}`} className="text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">← Back to loan</Link>
         <GlassCard radius="lg" className="grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end">

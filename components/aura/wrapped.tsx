@@ -8,7 +8,7 @@ import { AURA } from "@/lib/copy-aura";
 import type { AuraHistoryView, AuraView } from "@/lib/score/types";
 import { useAura, useAuraHistory } from "@/lib/score/use-aura";
 import { cn } from "@/lib/utils";
-import { AuraSkeleton, NoScore, SampleNote, UnavailableBanner } from "./parts";
+import { AuraSkeleton, NoScore, UnavailableBanner } from "./parts";
 
 const W = AURA.wrapped;
 
@@ -57,7 +57,7 @@ function ShareButton({ view }: { view: AuraView }) {
 }
 
 export function Wrapped() {
-  const { status, view, source } = useAura();
+  const { status, view } = useAura();
   const { history } = useAuraHistory(30);
   const [i, setI] = useState(0);
   const [dir, setDir] = useState(1);
@@ -76,7 +76,6 @@ export function Wrapped() {
 
   return (
     <div className="space-y-4" data-testid="aura-wrapped">
-      <SampleNote source={source} />
       {status === "unavailable" && <UnavailableBanner updatedAt={view.updatedAt} />}
       <p className="text-sm text-ink-2">{W.subtitle}</p>
       <div

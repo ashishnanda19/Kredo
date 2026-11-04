@@ -14,10 +14,11 @@ import { refundPayment } from "../domain/refunds";
 import { ladderView } from "../domain/limit";
 import { recoveryPlan } from "../domain/recovery";
 import { amountDue, availableLimit, awaitingSettlement, blockedReason, isOpen, loansOfStudent, studentState } from "../domain/selectors";
-import { DAY, fmtDate, istStartOf, nextCutoff } from "../domain/time";
+import { DAY, HOUR, fmtDate, istStartOf } from "../domain/time";
 import type { Loan, WorldState } from "../domain/types";
 import { acceptAgreement, decideVendor, recordVendorBank, recordVendorKyc, saveStallDetails, submitVendor } from "../domain/vendors";
 import { awardQuest, repayLoan } from "../domain/world";
+import { getPolicy } from "../policy";
 import { qrPayload } from "../qr";
 import { downloadText, linesCsv, reportJson } from "../settlement-report";
 
@@ -179,8 +180,8 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "midnight",
     n: 3,
-    title: "Midnight",
-    blurb: "The nightly job reports each stall's day to the lending partner, which pays.",
+    title: "Twelve hours later",
+    blurb: "Twelve hours after each payment, the lending partner is told to pay the stall for it.",
     steps: [
       {
         caption: "A payment is made at Gupta Chai Tapri during the day.",
@@ -192,13 +193,13 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        caption: "Jump to the next midnight. The job totals each stall's day and hands the lending partner an instruction.",
+        caption: "Jump 12 hours ahead. The payment falls due and Kredo hands the lending partner an instruction for it.",
         run: async (ctx) => {
           ctx.setLender("paid");
-          await ctx.advanceTo(nextCutoff(ctx.world().clock.now, 0), "Next midnight");
-          const s = Object.values(ctx.world().settlements).filter((x) => x.vendorId === GUPTA).sort((a, b) => b.date.localeCompare(a.date))[0];
+          await ctx.advanceTo(ctx.world().clock.now + SETTLE_DELAY, "+12 hours");
+          const s = lastSettlement(ctx, GUPTA);
           ctx.vendor(GUPTA, "/vendor/settlements");
-          return `${stall(ctx, GUPTA)}: ₹${s.totalAmount} across ${s.count} payments. The lending partner paid it. Reference ${s.reference}. Kredo moved no money.`;
+          return `${stall(ctx, GUPTA)}: ₹${s.totalAmount} for that payment. The lending partner paid it. Reference ${s.reference}. Kredo moved no money.`;
         },
         actions: (ctx) => settlementReportActions(ctx, GUPTA),
       },
@@ -454,7 +455,7 @@ export const SCENARIOS: Scenario[] = [
     id: "refund",
     n: 11,
     title: "Dispute and refund",
-    blurb: "A refund before midnight changes tonight's batch. After settlement it becomes an adjustment.",
+    blurb: "A refund within the 12 hours drops the payment from settlement. After settlement it becomes an adjustment.",
     steps: [
       {
         caption: "Diya pays Campus Print Hub 80 coins, and later 120 coins.",
@@ -469,7 +470,7 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        caption: "The stall refunds the 80 coin payment before midnight. It simply drops out of tonight's batch.",
+        caption: "The stall refunds the 80 coin payment within the 12 hours. It simply never gets settled.",
         run: (ctx) => {
           const loan = Object.values(ctx.world().loans).find((l) => l.idempotencyKey.startsWith("sc-refund-a"))!;
           const r = refundPayment(ctx.world(), { loanId: loan.id, vendorId: PRINT, reason: "Wrong order", actor: PRINT });
@@ -478,12 +479,12 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        caption: "Midnight. The batch is lower by the refund, and the lending partner is told only the new total.",
+        caption: "Twelve hours on. Only the 120 coin payment is settled, and the lending partner is told just that.",
         run: async (ctx) => {
-          await ctx.advanceTo(nextCutoff(ctx.world().clock.now, 0), "Next midnight");
-          const s = Object.values(ctx.world().settlements).filter((x) => x.vendorId === PRINT).sort((a, b) => b.date.localeCompare(a.date))[0];
+          await ctx.advanceTo(ctx.world().clock.now + SETTLE_DELAY, "+12 hours");
+          const s = settlementOfPayment(ctx, "refund-b");
           ctx.vendor(PRINT, "/vendor/settlements");
-          return `Batch ₹${s.totalAmount} (${s.count} payments): ₹${Number(ctx.memo.base) + 120} expected without the refunded 80.`;
+          return `Settlement ₹${s.totalAmount} for the 120 coin payment. The refunded 80 was never reported.`;
         },
       },
       {
@@ -496,17 +497,30 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        caption: "The next night, a new payment is settled with the adjustment netted into the batch.",
+        caption: "A new payment is made. Twelve hours later it is settled with the adjustment netted off.",
         run: async (ctx) => {
           pay(ctx, "stu-diya", PRINT, 200, "refund-c");
-          await ctx.advanceTo(nextCutoff(ctx.world().clock.now, 0), "Next midnight");
-          const s = Object.values(ctx.world().settlements).filter((x) => x.vendorId === PRINT).sort((a, b) => b.date.localeCompare(a.date))[0];
-          return `Batch ₹${s.totalAmount} = 200 payment - ${-s.adjustmentCoins} adjustment.`;
+          await ctx.advanceTo(ctx.world().clock.now + SETTLE_DELAY, "+12 hours");
+          const s = settlementOfPayment(ctx, "refund-c");
+          return `Settlement ₹${s.totalAmount} = 200 payment - ${-s.adjustmentCoins} adjustment.`;
         },
         actions: (ctx) => settlementReportActions(ctx, PRINT),
       },
     ],
   },
 ];
+
+const SETTLE_DELAY = getPolicy().settlement.delayHours * HOUR;
+
+/** The newest settlement for a stall. */
+function lastSettlement(ctx: ScenarioCtx, vendorId: string) {
+  return Object.values(ctx.world().settlements).filter((x) => x.vendorId === vendorId).sort((a, b) => b.createdAt - a.createdAt || b.id.localeCompare(a.id))[0];
+}
+
+/** The settlement for the payment a scenario made with this key. */
+function settlementOfPayment(ctx: ScenarioCtx, key: string) {
+  const loan = Object.values(ctx.world().loans).find((l) => l.idempotencyKey.startsWith(`sc-${key}`))!;
+  return ctx.world().settlements[loan.settlementId!];
+}
 
 export const scenarioByN = (n: number) => SCENARIOS.find((s) => s.n === n);

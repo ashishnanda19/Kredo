@@ -8,11 +8,16 @@ import { gsap } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { useGsapScene } from "./use-gsap-scene";
 
-/** Where each fragment sits in the mess: [left %, top %, rotate deg, style]. */
-const SPOTS: [number, number, number, "bubble" | "bubbleMe" | "note" | "badge" | "slip"][] = [
-  [4, 8, -6, "note"], [62, 4, 5, "bubble"], [30, 18, -3, "slip"], [74, 30, 8, "badge"], [8, 40, 4, "bubbleMe"], [44, 44, -7, "bubble"],
-  [70, 58, -4, "slip"], [16, 70, 7, "badge"], [48, 74, 3, "note"], [80, 82, -8, "bubbleMe"], [2, 88, -2, "slip"],
-];
+type FragKind = "bubble" | "bubbleMe" | "note" | "badge" | "slip";
+
+/** Where fragment `i` sits in the mess: [left %, top %, rotate deg]. A loose, deterministic scatter over a 5 x 5 grid. */
+function spot(i: number): [number, number, number] {
+  const col = i % 5;
+  const row = Math.floor(i / 5);
+  const left = 1 + col * 19 + (row % 2 ? 7 : 0) + ((i * 7) % 5);
+  const top = row * 19 + ((i * 11) % 8);
+  return [Math.min(left, 78), top, ((i * 37) % 17) - 8];
+}
 
 const FRAG_STYLE = {
   bubble: "rounded-[18px] rounded-bl-[6px] bg-elevated text-ink ring-1 ring-hairline",
@@ -22,10 +27,16 @@ const FRAG_STYLE = {
   slip: "rounded-[6px] bg-elevated font-mono text-[12px] text-ink-2 ring-1 ring-hairline border-t-2 border-dashed border-ink/20",
 } as const;
 
-function Fragment({ text, kind, className, style }: { text: string; kind: keyof typeof FRAG_STYLE; className?: string; style?: React.CSSProperties }) {
+function Fragment({ text, kind, i, className, style }: { text: string; kind: FragKind; i: number; className?: string; style?: React.CSSProperties }) {
   return (
-    <span data-frag className={cn("absolute inline-block max-w-[220px] px-3.5 py-2 text-[13.5px] leading-snug shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)]", FRAG_STYLE[kind], className)} style={style}>
-      {text}
+    <span
+      data-frag
+      className={cn("absolute inline-block max-w-[44vw] px-3.5 py-2 text-[13px] leading-snug shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] sm:max-w-[220px] sm:text-[13.5px]", i >= 12 && "max-sm:hidden", FRAG_STYLE[kind], className)}
+      style={style}
+    >
+      <span className="block motion-safe:animate-[float-y_var(--d)_ease-in-out_var(--dl)_infinite]" style={{ "--d": `${4 + (i % 5) * 0.7}s`, "--dl": `${-(i % 7) * 0.6}s` } as React.CSSProperties}>
+        {text}
+      </span>
     </span>
   );
 }
@@ -51,7 +62,6 @@ function Checklist({ className }: { className?: string }) {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-[11px] text-ink-2">{t.calmNote}</p>
     </div>
   );
 }
@@ -101,6 +111,8 @@ export function ChaosCalm() {
     const stage = root.querySelector<HTMLElement>("[data-stage]")!;
     const frags = gsap.utils.toArray<HTMLElement>("[data-frag]", root);
     const s = stage.getBoundingClientRect();
+    const meter = { v: 100 };
+    const num = root.querySelector<HTMLElement>("[data-meter-num]");
     const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.6 } });
     tl.to(frags, {
       x: (_, el: HTMLElement) => {
@@ -114,10 +126,15 @@ export function ChaosCalm() {
       rotation: 0,
       scale: 0.4,
       opacity: 0,
-      stagger: 0.03,
-      duration: 0.5,
+      stagger: 0.012,
+      duration: 0.4,
     })
       // the two headlines and the card overlap in time so the screen is never empty mid-swap
+      // the chaos meter drains in step with the fragments, so every message that collapses lowers it a little
+      .to("[data-meter-bar]", { scaleX: 0, backgroundColor: "var(--ok-fill)", duration: 0.68, ease: "none" }, 0)
+      .to(meter, { v: 0, duration: 0.68, ease: "none", onUpdate: () => { if (num) num.textContent = `${Math.round(meter.v)}%`; } }, 0)
+      .to("[data-meter-before]", { opacity: 0, duration: 0.05 }, 0.68)
+      .to("[data-meter-after]", { opacity: 1, duration: 0.05 }, 0.7)
       .to("[data-before]", { opacity: 0, y: -24, filter: "blur(8px)", duration: 0.1 }, 0.26)
       .fromTo("[data-after]", { opacity: 0, y: 24, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.1 }, 0.28)
       .from("[data-card]", { opacity: 0, scale: 0.9, y: 40, duration: 0.14 }, 0.3)
@@ -126,7 +143,7 @@ export function ChaosCalm() {
       .fromTo("[data-calm-line]", { strokeDashoffset: 60, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.12, stagger: 0.03 }, 0.56)
       .from("[data-item]", { opacity: 0.25, duration: 0.05, stagger: 0.045 }, 0.62)
       .from("[data-tick]", { scale: 0, duration: 0.05, stagger: 0.045 }, 0.62)
-      .to({}, { duration: 0.12 }); // hold the finished checklist before the section scrolls away
+      .to({}, { duration: 0.04 });
   });
 
   if (reduce) {
@@ -137,8 +154,8 @@ export function ChaosCalm() {
             <h2 id="chaos-title" className="text-[clamp(1.9rem,4vw,3.25rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink">{t.before}</h2>
             <p className="mt-3 text-ink-2">{t.beforeSub}</p>
             <ul className="mt-6 flex flex-wrap gap-2">
-              {t.fragments.map((f, i) => (
-                <li key={f} className={cn("px-3 py-1.5 text-[13px]", FRAG_STYLE[SPOTS[i % SPOTS.length][3]])}>{f}</li>
+              {t.fragments.map((f) => (
+                <li key={f.t} className={cn("px-3 py-1.5 text-[13px]", FRAG_STYLE[f.k])}>{f.t}</li>
               ))}
             </ul>
           </div>
@@ -158,7 +175,7 @@ export function ChaosCalm() {
   }
 
   return (
-    <section ref={ref} aria-labelledby="chaos-title" className="relative h-[240svh] bg-soft-seam">
+    <section ref={ref} aria-labelledby="chaos-title" className="relative h-[220svh] bg-soft-seam">
       <div className="sticky top-[var(--bar-h)] flex h-[calc(100svh-var(--bar-h))] flex-col items-center overflow-hidden px-4 pt-24 sm:pt-28">
         <div data-reveal className="grid text-center">
           <div data-before className="col-start-1 row-start-1">
@@ -170,11 +187,20 @@ export function ChaosCalm() {
             <p className="mx-auto mt-3 max-w-md text-ink-2">{t.afterSub}</p>
           </div>
         </div>
-        <div data-stage className="relative mt-8 w-full max-w-[920px] flex-1">
+        <div data-meter className="mt-5 w-full max-w-[360px]">
+          <div className="relative h-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-2">
+            <span data-meter-before className="absolute inset-x-0">{t.meterBefore} <span data-meter-num className="tabular-nums">100%</span></span>
+            <span data-meter-after className="absolute inset-x-0 opacity-0">{t.meterAfter}</span>
+          </div>
+          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-hairline">
+            <span data-meter-bar className="block h-full w-full origin-left rounded-full bg-bad" />
+          </div>
+        </div>
+        <div data-stage className="relative mt-6 w-full max-w-[920px] flex-1">
           <div aria-hidden>
             {t.fragments.map((f, i) => {
-              const [l, top, rot, kind] = SPOTS[i % SPOTS.length];
-              return <Fragment key={f} text={f} kind={kind} style={{ left: `${l}%`, top: `${top * 0.82}%`, transform: `rotate(${rot}deg)` }} />;
+              const [l, top, rot] = spot(i);
+              return <Fragment key={f.t} i={i} text={f.t} kind={f.k} style={{ left: `${l}%`, top: `${top}%`, transform: `rotate(${rot}deg)` }} />;
             })}
           </div>
           <div aria-hidden data-glow className="pointer-events-none absolute inset-0 opacity-0">

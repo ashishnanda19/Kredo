@@ -4,8 +4,9 @@
  *
  * "Unpaid" money (failed, on hold, still processing) is not a mismatch; it is shown separately as outstanding.
  */
-import { batchDate, DAY, istDate, istStartOf } from "./domain/time";
+import { batchDate, DAY, HOUR, istDate, istStartOf } from "./domain/time";
 import type { Settlement, WorldState } from "./domain/types";
+import { getPolicy } from "./policy";
 
 export interface DayRecon {
   date: string;
@@ -40,6 +41,7 @@ export function settlementIssues(w: WorldState, s: Settlement): string[] {
 }
 
 export function reconcileDay(w: WorldState, date: string): DayRecon {
+  const delay = getPolicy().settlement.delayHours * HOUR;
   const settlements = Object.values(w.settlements).filter((s) => s.date === date).sort((a, b) => a.vendorId.localeCompare(b.vendorId));
   const issues = settlements.flatMap((s) => settlementIssues(w, s));
   const instructed = settlements.reduce((a, s) => a + s.totalAmount, 0);
@@ -52,10 +54,10 @@ export function reconcileDay(w: WorldState, date: string): DayRecon {
 
   // a payment from that day that closed its day but is in no settlement
   const start = istStartOf(date, 0);
-  if (w.lastCutoff >= start + DAY) {
+  {
     const inSome = new Set(Object.values(w.settlements).flatMap((s) => s.loanIds));
     for (const l of Object.values(w.loans)) {
-      if (l.createdAt >= start && l.createdAt < start + DAY && l.vendorStatus !== "refunded" && !inSome.has(l.id)) issues.push(`Payment ${l.id} from ${date} is in no settlement.`);
+      if (l.createdAt >= start && l.createdAt < start + DAY && l.vendorStatus !== "refunded" && l.createdAt + delay <= w.clock.now && !inSome.has(l.id)) issues.push(`Payment ${l.id} from ${date} is in no settlement.`);
     }
   }
   if (instructed !== ledger) issues.push(`Instructed ${instructed} but the ledger adds up to ${ledger}.`);
@@ -66,10 +68,10 @@ export function reconcileDay(w: WorldState, date: string): DayRecon {
 /** Business dates that have at least one settlement, newest first. */
 export const settlementDates = (w: WorldState): string[] => [...new Set(Object.values(w.settlements).map((s) => s.date))].sort().reverse();
 
-/** Payments received before the last cut-off that no settlement picked up. Should always be empty. */
+/** Payments past their settlement time that no settlement picked up. Should always be empty. */
 export function stuckPayments(w: WorldState) {
   const inSome = new Set(Object.values(w.settlements).flatMap((s) => s.loanIds));
-  return Object.values(w.loans).filter((l) => l.vendorStatus === "received" && l.createdAt < w.lastCutoff && !inSome.has(l.id));
+  return Object.values(w.loans).filter((l) => l.vendorStatus === "received" && l.createdAt + getPolicy().settlement.delayHours * HOUR <= w.clock.now && !inSome.has(l.id));
 }
 
 export { batchDate, istDate };

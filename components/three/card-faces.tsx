@@ -1,4 +1,4 @@
-import { Lock, Wifi } from "lucide-react";
+import { Lock } from "lucide-react";
 import { LogoLockup } from "@/components/shared/logo";
 
 interface CardFacesProps {
@@ -13,7 +13,7 @@ interface CardFacesProps {
 }
 
 /**
- * The two faces of the card as DOM (violet-to-magenta iridescent glass). Shared by the inline
+ * The two faces of the card as DOM (flat graphite, one hairline highlight). Shared by the inline
  * CSS card (poster / low-power fallback) and the scroll-driven fixed card.
  * Parent must provide `transform-style: preserve-3d`.
  */
@@ -23,24 +23,25 @@ export function CardFaces({ name, number, back, frontExtra, frontHidden, backHid
       <div
         aria-hidden={frontHidden}
         inert={frontHidden}
-        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] border border-white/10 bg-[linear-gradient(135deg,#1c1c22_0%,#0b0b0c_100%)] p-[5%] text-white"
+        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] bg-[#0b0b0c] text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,0.6)]"
       >
-        <span aria-hidden className="absolute -right-10 -top-14 size-56 rounded-full bg-white/15 blur-sm" />
-        <span aria-hidden className="absolute -right-12 -top-16 size-56 rounded-full bg-[radial-gradient(closest-side,rgba(245,216,50,0.22),transparent)]" />
-        <span aria-hidden className="absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.22)_45%,transparent_60%)]" />
-        <div className="relative flex h-full flex-col justify-between">
+        {/* brand yellow panel on the right, like the landing card, and a soft graphite sheen across the black */}
+        <span aria-hidden className="absolute inset-y-0 right-0 w-[28%] bg-accent" />
+        <span aria-hidden className="absolute inset-y-0 left-0 w-[72%] bg-[linear-gradient(105deg,transparent_38%,rgba(255,255,255,0.09)_50%,transparent_62%)]" />
+        <div className="relative flex h-full flex-col justify-between p-[5%]">
           <div className="flex items-start justify-between">
             <LogoLockup className="h-7 text-white" />
-            <Wifi aria-hidden className="size-6 rotate-90 text-white/85" />
           </div>
           <div>
-            <span aria-hidden className="mb-3 block h-7 w-10 rounded-md bg-[linear-gradient(135deg,#f8e57a,#e8c21e)] opacity-90" />
-            <p className="font-mono text-base tracking-[0.14em] sm:text-lg" aria-label={`Card number ${number}`}>
-              {number}
-            </p>
-            <div className="mt-2 flex flex-col items-start gap-1.5 min-[400px]:flex-row min-[400px]:items-end min-[400px]:justify-between">
+            <span aria-hidden className="mb-4 block h-[26px] w-[38px] rounded-[7px] bg-accent" />
+            <div className="flex items-center gap-3 font-mono text-[13px] uppercase tracking-[0.28em] text-white/60 sm:text-sm">
+              <span>Student</span>
+              <span aria-hidden className="tracking-[0.35em]">••••</span>
+              <span className="text-white" aria-label={`Card number ${number}`}>{number.replace(/[^0-9]/g, "").slice(-4)}</span>
+            </div>
+            <div className="mt-3 flex flex-col items-start gap-1.5 min-[400px]:flex-row min-[400px]:items-end min-[400px]:justify-between">
               <p className="truncate text-sm font-semibold uppercase tracking-wider">{name}</p>
-              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-black/35 px-2.5 py-1 text-[11px] font-semibold backdrop-blur">
+              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#0b0b0c]/90 px-2.5 py-1 text-[11px] font-semibold text-white">
                 <Lock className="size-3" aria-hidden /> Only works inside this app
               </span>
             </div>
@@ -52,7 +53,7 @@ export function CardFaces({ name, number, back, frontExtra, frontHidden, backHid
       <div
         aria-hidden={backHidden}
         inert={backHidden}
-        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] border border-white/20 bg-[linear-gradient(135deg,#1c1c22,#0b0b0c)] text-white [transform:rotateY(180deg)]"
+        className="backface-hidden absolute inset-0 overflow-hidden rounded-[7%/11%] bg-[#111114] text-white ring-1 ring-inset ring-white/10 [transform:rotateY(180deg)]"
       >
         {back ?? (
           <>

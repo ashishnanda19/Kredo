@@ -11,7 +11,6 @@ export function GrievanceCard() {
     <GlassCard radius="lg" role="region" aria-label={T.grievance} className="space-y-3 p-5">
       <div className="flex items-center justify-between gap-2">
         <h2 className="text-base font-bold">{T.grievance}</h2>
-        <span className="rounded-full bg-warning-soft px-2.5 py-1 text-[11px] font-bold text-warn-text">Placeholder</span>
       </div>
       <dl className="space-y-2 text-sm">
         <div><dt className="text-ink-2">Lender</dt><dd className="font-semibold">{g.lender}</dd></div>

@@ -18,7 +18,7 @@ import { buildSettlements } from "../settlement";
 import { appendAudit } from "./audit";
 import { runFraudRules } from "./flags";
 import { amountDue, hasOverdue, isOpen, loansOfStudent, principalOutstanding } from "./selectors";
-import { DAY, addDays, daysBetween, daysPastDue, istDate, istStartOf, nextCutoff } from "./time";
+import { DAY, HOUR, addDays, daysBetween, daysPastDue, istDate, istStartOf, nextCutoff } from "./time";
 import type { Loan, Notification, Repayment, ScoreEvent, WorldState } from "./types";
 
 export const WORLD_SCHEMA = 4;
@@ -260,8 +260,15 @@ export function overrideLimit(world: WorldState, studentId: string, toLevel: num
 
 // the simulated clock ---------------------------------------------------------------------------------------------
 
-function nextBoundary(t: number, p: Policy): number {
-  return Math.min(nextCutoff(t, 0), nextCutoff(t, p.settlement.cutoffHourIst), nextCutoff(t, p.reminders.atHourIst));
+/** The next scheduled instant: midnight, the reminder hour, or the moment a payment's settlement falls due. */
+function nextBoundary(w: WorldState, t: number, p: Policy): number {
+  let next = Math.min(nextCutoff(t, 0), nextCutoff(t, p.reminders.atHourIst));
+  for (const l of Object.values(w.loans)) {
+    if (l.vendorStatus !== "received" || l.settlementId) continue;
+    const due = l.createdAt + p.settlement.delayHours * HOUR;
+    if (due > t && due < next) next = due;
+  }
+  return next;
 }
 
 /** Utilisation at the due time: a penalty at most once per due date and once per cool-down window. */
@@ -321,17 +328,17 @@ function processInstant(d: Draft<WorldState>, t: number, p: Policy) {
     checkUtilisation(d, t, istDate(t - 1), p); // utilisation when yesterday's loans fell due
     applyTransitions(d, t, p);
   }
-  if (t === istStartOf(date, p.settlement.cutoffHourIst) && t > d.lastCutoff) {
+  if (t === istStartOf(date, 0) && t > d.lastCutoff) {
     d.lastCutoff = t;
-    buildSettlements(d as WorldState, t);
     runFraudRules(d, t, p);
   }
+  buildSettlements(d as WorldState, t, p.settlement.delayHours); // each payment settles delayHours after it was made
   if (t === istStartOf(date, p.reminders.atHourIst)) sendReminders(d, t, p);
 }
 
 /**
  * Moves the simulated clock to `target`, running every scheduled step on the way, in order: reminders (09:00),
- * utilisation checks, overdue and default transitions (midnight) and the settlement cut-off. Never goes backwards.
+ * utilisation checks, overdue and default transitions (midnight) and each payment's settlement, 12 hours after it was made. Never goes backwards.
  */
 export function advanceTo(world: WorldState, target: number, label?: string): WorldState {
   if (target <= world.clock.now) return world;
@@ -339,7 +346,7 @@ export function advanceTo(world: WorldState, target: number, label?: string): Wo
   return produce(world, (d) => {
     let t = d.clock.now;
     while (t < target) {
-      t = Math.min(target, nextBoundary(t, p));
+      t = Math.min(target, nextBoundary(d as WorldState, t, p));
       d.clock.now = t;
       processInstant(d, t, p);
     }

@@ -60,6 +60,7 @@ export function DemoWorldControls() {
           <Chip testId="jump-hour" onClick={() => w().advanceBy(HOUR, t.jumps.hour)}>{t.jumps.hour}</Chip>
           <Chip testId="jump-day" onClick={() => w().advanceBy(DAY, t.jumps.day)}>{t.jumps.day}</Chip>
           <Chip testId="jump-days3" onClick={() => w().advanceBy(3 * DAY, t.jumps.days3)}>{t.jumps.days3}</Chip>
+          <Chip testId="jump-12h" onClick={() => w().advanceBy(12 * HOUR, t.jumps.h12)}>{t.jumps.h12}</Chip>
           <Chip testId="jump-midnight" onClick={() => w().toNextMidnight()}>{t.jumps.midnight}</Chip>
           <Chip testId="jump-due" onClick={() => w().toDueDate()}>{t.jumps.due}</Chip>
           <Chip testId="jump-late8" onClick={() => w().toPastDue(8)}>{t.jumps.late8}</Chip>

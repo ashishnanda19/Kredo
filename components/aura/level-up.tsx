@@ -14,7 +14,7 @@ import { useAura, useAuraHistory, useWhatIf } from "@/lib/score/use-aura";
 import { rupees } from "@/lib/score/view";
 import { useStore } from "@/lib/store/store";
 import { cn } from "@/lib/utils";
-import { AuraSkeleton, NoScore, SampleNote, UnavailableBanner } from "./parts";
+import { AuraSkeleton, NoScore, UnavailableBanner } from "./parts";
 
 const T = AURA.levelUp;
 
@@ -171,12 +171,11 @@ function WhatIf({ view }: { view: AuraView }) {
 }
 
 export function LevelUp() {
-  const { status, view, source } = useAura();
+  const { status, view } = useAura();
   if (status === "loading") return <AuraSkeleton />;
   if (status === "no_score") return <NoScore />;
   return (
     <div className="space-y-5" data-testid="aura-level-up">
-      <SampleNote source={source} />
       {status === "unavailable" && <UnavailableBanner updatedAt={view?.updatedAt ?? null} />}
       <Quests />
       {view && (

@@ -16,9 +16,9 @@ function withSettlement(): { w: WorldState; id: string } {
 }
 
 describe("settlement", () => {
-  it("a settlement id is vendor plus business date", () => {
+  it("a settlement id is vendor plus payment", () => {
     const { id } = withSettlement();
-    expect(id).toMatch(/^SET-ven-gupta-chai-\d{8}$/);
+    expect(id).toMatch(/^SET-ven-gupta-chai-L-\d+$/);
   });
   it("totals the vendor's payments and starts as scheduled", () => {
     const { w, id } = withSettlement();

@@ -42,7 +42,6 @@ export function NextDueCard({ amount, dueDate, onRepay, clear }: NextDueCardProp
       aria-label="Next due"
       className="relative isolate flex h-full flex-col justify-between gap-5 overflow-hidden rounded-[24px] bg-[#0b0b0c] p-6 text-white ring-1 ring-white/[0.08]"
     >
-      <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 -z-10 size-72 rounded-full bg-[radial-gradient(closest-side,rgba(245,216,50,0.18),transparent)]" />
       <div className="flex items-start justify-between gap-3">
         <div>
           <h2 className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-white/60 [&_button]:text-white/60 [&_button:hover]:text-white">

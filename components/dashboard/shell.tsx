@@ -23,7 +23,7 @@ import { availableLimit, outstandingPrincipalOf, studentState } from "@/lib/doma
 import { spring } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
-const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE === "true";
+const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE !== "false";
 
 const NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/dashboard", label: "Home", icon: Home },
@@ -103,36 +103,28 @@ export function SideRail() {
             </ul>
           </nav>
 
-          {/* the limit tile; on Home the yellow limit panel already shows it */}
+          {/* the limit tile; on Home the limit card already shows it */}
           {!onHome && (
-            <div className="theme-light relative mt-8 overflow-hidden rounded-[20px] bg-accent p-4 text-[#0b0b0c]">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_80%_at_20%_0%,rgba(255,250,214,0.7),transparent_60%)]"
-              />
-              <div
-                aria-hidden
-                className="grain pointer-events-none absolute inset-0 opacity-[0.08]"
-              />
+            <div className="relative mt-8 overflow-hidden rounded-[20px] bg-card p-4 ring-1 ring-hairline">
               <div className="relative">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b0b0c]/60">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-2">
                   Available to spend
                 </p>
                 <p className="mt-1 text-[28px] font-semibold leading-none tracking-[-0.04em] tabular-nums">
                   {formatINR(availNow)}
                 </p>
-                <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-[#0b0b0c]/15">
+                <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-ink/10">
                   <span
-                    className="block h-full rounded-full bg-[#0b0b0c]"
+                    className="block h-full rounded-full bg-accent"
                     style={{ width: `${limitNow ? (used / limitNow) * 100 : 0}%` }}
                   />
                 </span>
-                <p className="mt-2 text-[12px] font-medium text-[#0b0b0c]/65">
+                <p className="mt-2 text-[12px] font-medium text-ink-2">
                   of {formatINR(limitNow)} limit
                 </p>
                 <Link
                   href="/dashboard/pay"
-                  className="mt-3 inline-flex min-h-9 items-center gap-1.5 rounded-full bg-[#0b0b0c] px-3.5 text-[12.5px] font-semibold text-white transition-transform active:scale-[0.97]"
+                  className="mt-3 inline-flex min-h-9 items-center gap-1.5 rounded-full bg-pill px-3.5 text-[12.5px] font-semibold text-pill-fg transition-transform active:scale-[0.97]"
                 >
                   <ScanLine className="size-3.5" aria-hidden /> Scan and pay
                 </Link>

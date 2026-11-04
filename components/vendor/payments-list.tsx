@@ -15,12 +15,14 @@ import { RefundSheet } from "./refund-sheet";
 
 type Filter = "all" | "received" | "settled" | "refunded";
 const t = VENDOR.payments;
+const PAGE = 15;
 
 export function PaymentsList() {
   const world = useWorld((s) => s.world);
   const vendorId = useWorld((s) => s.session.vendorId);
   const [filter, setFilter] = useState<Filter>("all");
   const [refunding, setRefunding] = useState<Loan | null>(null);
+  const [shown, setShown] = useState(PAGE);
 
   const loans = useMemo(() => {
     const all = vendorId ? loansOfVendor(world, vendorId) : [];
@@ -29,9 +31,9 @@ export function PaymentsList() {
 
   const days = useMemo(() => {
     const m = new Map<string, typeof loans>();
-    for (const l of loans) m.set(istDate(l.createdAt), [...(m.get(istDate(l.createdAt)) ?? []), l]);
+    for (const l of loans.slice(0, shown)) m.set(istDate(l.createdAt), [...(m.get(istDate(l.createdAt)) ?? []), l]);
     return [...m.entries()];
-  }, [loans]);
+  }, [loans, shown]);
 
   if (!vendorId) return null;
   const total = loans.reduce((s, l) => s + l.coins - l.refundedCoins, 0);
@@ -41,7 +43,7 @@ export function PaymentsList() {
       <GlassSegmented
         label="Filter payments"
         value={filter}
-        onChange={setFilter}
+        onChange={(f) => { setFilter(f); setShown(PAGE); }}
         options={(Object.keys(t.filters) as Filter[]).map((k) => ({ value: k, label: t.filters[k] }))}
       />
       <p data-testid="payments-total" className="text-sm text-ink-2">{t.total(loans.length, total)}</p>
@@ -49,7 +51,7 @@ export function PaymentsList() {
         <p className="py-8 text-center text-sm text-ink-2">{filter === "all" ? t.empty : t.emptyFilter}</p>
       ) : (
         days.map(([day, rows]) => (
-          <GlassCard key={day} radius="lg" className="p-4">
+          <GlassCard key={day} radius="lg" className="px-4 py-3">
             <h2 className="text-xs font-bold uppercase tracking-wider text-ink-2">{fmtDate(day)}</h2>
             <ul className="divide-y divide-hairline">
               {rows.map((l) => {
@@ -64,6 +66,9 @@ export function PaymentsList() {
             </ul>
           </GlassCard>
         ))
+      )}
+      {loans.length > shown && (
+        <Btn variant="secondary" className="w-full" data-testid="show-more" onClick={() => setShown((n) => n + PAGE)}>Show more ({loans.length - shown} left)</Btn>
       )}
       <RefundSheet loan={refunding} onClose={() => setRefunding(null)} />
     </div>

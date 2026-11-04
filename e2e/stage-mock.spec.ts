@@ -38,7 +38,6 @@ test("the stage shows a student's phone and a stall's phone, each its own real s
   const vendor = page.frameLocator('[data-testid="vendor-frame"]');
   await expect(student.getByTestId("student-home")).toBeVisible({ timeout: 20_000 });
   await expect(vendor.getByTestId("received-today")).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByTestId("demo-money-label")).toHaveCount(0); // no demo pill on the stage or inside its phones
   await expect(page.getByTestId("ledger-empty")).toBeVisible();
   await page.getByTestId("student-picker").selectOption("stu-meera");
   await expect(student.getByTestId("blocked-note")).toBeVisible({ timeout: 20_000 });

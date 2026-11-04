@@ -36,7 +36,7 @@ export function ActivityView() {
   const filtered = q || filter !== "all";
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-3xl">
       <PageHeader title={t.title} subtitle={state === "ready" ? t.stillToRepay(formatINR(dueTotal)) : undefined} />
 
       <div className="space-y-3">

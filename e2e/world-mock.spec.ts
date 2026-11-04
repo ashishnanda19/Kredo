@@ -13,7 +13,6 @@ test("the chooser offers both roles and carries the demo label", async ({ page }
   await expect(page.getByRole("heading", { name: "Who are you here as?" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Continue as a student" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Set up my stall" })).toBeVisible();
-  await expect(page.getByTestId("demo-money-label")).toContainText("no real money");
 });
 
 test("a signed-in stall opens its dashboard from the seeded ledger", async ({ page }) => {
@@ -21,7 +20,6 @@ test("a signed-in stall opens its dashboard from the seeded ledger", async ({ pa
   await expect(page).toHaveURL(/\/vendor$/);
   await expect(page.getByText("Gupta Chai Tapri")).toBeVisible();
   await expect(page.getByTestId("received-today")).toBeVisible();
-  await expect(page.getByTestId("demo-money-label")).toBeVisible();
 });
 
 test("the vendor area is guarded: nobody signed in, pending and suspended stalls each get a clear screen", async ({ page }) => {

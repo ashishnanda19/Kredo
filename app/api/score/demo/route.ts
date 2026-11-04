@@ -7,10 +7,10 @@ const Body = z.object({ preset: z.enum(PRESETS) });
 
 /**
  * Demo controls only: asks the score service for a new fake student with this preset's history, then makes it "you"
- * (an httpOnly cookie). Off unless NEXT_PUBLIC_DEMO_CONTROLS=true. In mock mode the browser switches fixtures instead.
+ * (an httpOnly cookie). On unless NEXT_PUBLIC_DEMO_CONTROLS=false. In mock mode the browser switches fixtures instead.
  */
 export async function POST(request: Request) {
-  if (process.env.NEXT_PUBLIC_DEMO_CONTROLS !== "true") return new Response(null, { status: 404 });
+  if (process.env.NEXT_PUBLIC_DEMO_CONTROLS === "false") return new Response(null, { status: 404 });
   if (!scoreApiConfigured()) return Response.json({ source: "mock" }, { headers: noStore });
   const parsed = Body.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: "unknown preset" }, { status: 400, headers: noStore });

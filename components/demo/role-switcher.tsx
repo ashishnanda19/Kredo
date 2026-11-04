@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GlassSegmented } from "@/components/glass";
+import { cn } from "@/lib/utils";
 import { ROLES } from "@/lib/copy-demo";
 import { needsReauth, planSwitch, type Switchable } from "@/lib/domain/roles";
 import { getPolicy } from "@/lib/policy";
 import { useWorld, useWorldHydrated } from "@/lib/store/world";
-import { DemoMoneyLabel } from "./demo-money-label";
 import { ReauthSheet } from "./reauth-sheet";
 
 /**
@@ -35,7 +35,7 @@ export function RoleSwitcher({ className }: { className?: string }) {
   return (
     <>
       <GlassSegmented
-        className={className}
+        className={cn("[&_button]:min-h-9 [&_button]:min-w-[4.5rem] [&_button]:px-3.5 [&_button]:text-[13px]", className)}
         label={ROLES.switcherLabel}
         value={active}
         options={[{ value: "student", label: ROLES.student_tab }, { value: "vendor", label: ROLES.vendor_tab }]}
@@ -63,8 +63,7 @@ export function WorldRoleBar() {
   const active = useWorld((s) => s.session.activeRole);
   if (!hydrated || !active) return null;
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-2 px-4 pt-3 sm:px-6 print:hidden">
-      <DemoMoneyLabel />
+    <div className="flex w-full items-center justify-end pb-3 print:hidden">
       <RoleSwitcher />
     </div>
   );

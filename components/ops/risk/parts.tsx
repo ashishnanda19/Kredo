@@ -72,7 +72,7 @@ export function MockBanner({ source }: { source: string | null }) {
   return (
     <p role="note" data-testid="risk-mock" className="mb-4 flex items-start gap-2 rounded-2xl bg-ink/[0.06] px-4 py-3 text-sm">
       <FlaskConical className="mt-0.5 size-4 shrink-0 text-ink-2" aria-hidden />
-      <span><span className="font-bold">Sample data from the engine&apos;s fake demo students.</span> Connect the score service (SCORE_API_URL) for live data and to take actions.</span>
+      <span>Connect the score service (SCORE_API_URL) for live data and to take actions.</span>
     </p>
   );
 }

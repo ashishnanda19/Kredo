@@ -21,7 +21,7 @@ export const PRICING = {
 
 /** Placeholder grievance contact. Replace with real officer details before launch. */
 export const GRIEVANCE = {
-  officer: "Grievance Officer (placeholder)",
+  officer: "Grievance Officer",
   email: "grievance@kredo.example",
   response: "We aim to reply within 7 working days.",
 } as const;

@@ -165,5 +165,5 @@ test("a stall's insights and support pages work", async ({ page }) => {
   await page.goto("/vendor/support");
   await page.getByText("When do I get paid?").click();
   await expect(page.getByText("Kredo never holds the money.")).toBeVisible();
-  await expect(page.getByTestId("support-contact")).toContainText("simulated");
+  await expect(page.getByTestId("support-contact")).toContainText("support@");
 });

@@ -1,7 +1,6 @@
 import { Landmark, MessageSquareWarning, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/shared/reveal";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { GRIEVANCE } from "@/lib/config";
 import { COPY } from "@/lib/copy";
 import { TwoTone } from "./two-tone";
 
@@ -27,17 +26,7 @@ export function TrustFaq() {
                       <Icon className="size-5 text-ink" aria-hidden />
                     </span>
                     <h3 className="mt-5 text-[18px] font-semibold tracking-[-0.02em] text-ink">{c.title}</h3>
-                    {i === 2 ? (
-                      <p className="mt-2 text-[15px] leading-relaxed text-ink-2">
-                        {GRIEVANCE.officer},{" "}
-                        <a className="font-semibold text-ink underline underline-offset-2" href={`mailto:${GRIEVANCE.email}`}>
-                          {GRIEVANCE.email}
-                        </a>
-                        . {GRIEVANCE.response}
-                      </p>
-                    ) : (
                       <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{c.body}</p>
-                    )}
                   </Reveal>
                 </li>
               );

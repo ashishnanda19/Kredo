@@ -17,7 +17,7 @@ const DOCS = {
     title: "Terms (summary)",
     version: VERSIONS.terms,
     body: [
-      "These are placeholder terms for a design preview. Real terms will be provided by the lending partner and reviewed by legal counsel.",
+      "These are sample terms for a design preview. Real terms will be provided by the lending partner and reviewed by legal counsel.",
       "Loans are offered by the lending partner on their terms. Approval is not guaranteed and depends on lender policy.",
       "Repayment dates, charges and total repayable are shown in your offer before you accept.",
     ],
@@ -26,7 +26,7 @@ const DOCS = {
     title: "Key fact summary",
     version: VERSIONS.keyFacts,
     body: [
-      "Placeholder. The real key fact summary lists the amount, all charges, the total repayable, the number and size of instalments, the due dates, late charges and how to complain.",
+      "The real key fact summary lists the amount, all charges, the total repayable, the number and size of instalments, the due dates, late charges and how to complain.",
       "Everything you pay is itemised before you accept an offer.",
     ],
   },
@@ -37,7 +37,7 @@ export function LegalPage({ doc }: { doc: keyof typeof DOCS }) {
   return (
     <PortalShell width="max-w-2xl" back={{ href: "/", label: "Home" }}>
       <h1 className="text-3xl font-extrabold tracking-tight">{d.title}</h1>
-      <p className="mt-1 text-xs text-ink-2">Version {d.version} · Placeholder text for a design preview, to be replaced with reviewed legal copy.</p>
+      <p className="mt-1 text-xs text-ink-2">Version {d.version} · Text for a design preview, to be replaced with reviewed legal copy.</p>
       <div className="mt-5 space-y-3 text-[15px] leading-relaxed">
         {d.body.map((p) => (
           <p key={p}>{p}</p>

@@ -75,7 +75,7 @@ export function MorphNav() {
           style={{ opacity: "var(--p)" }}
         />
 
-        <Link href="/" aria-label={`${BRAND.name} home`} className="relative flex min-h-11 min-w-8 items-center">
+        <Link href="/" aria-label={`${BRAND.name} home`} className="relative flex min-h-11 min-w-8 items-center motion-safe:[animation:rise_.8s_cubic-bezier(.22,1,.36,1)_both]">
           {/* the full logotype at the top of the page; it gives way to the coin tile as the nav condenses into a pill */}
           <span className="flex items-center overflow-hidden" style={{ opacity: "calc(1 - var(--p) * 2)", maxWidth: "calc((1 - var(--p)) * 96px)" }}>
             <Wordmark className="h-[22px]" />
@@ -85,7 +85,7 @@ export function MorphNav() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-1 md:flex motion-safe:[animation:rise_.8s_cubic-bezier(.22,1,.36,1)_both] [animation-delay:.06s]">
           {t.links.map((l) => (
             <li key={l.href}>
               <a href={l.href} className="inline-flex min-h-11 items-center rounded-full px-3 text-[13px] font-medium text-ink/80 transition-colors hover:text-ink group-data-[tone=dark]:text-white/75 group-data-[tone=dark]:hover:text-white">
@@ -95,7 +95,7 @@ export function MorphNav() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 motion-safe:[animation:rise_.8s_cubic-bezier(.22,1,.36,1)_both] [animation-delay:.12s]">
           <span className="hidden sm:block"><ThemeToggle className="group-data-[tone=dark]:text-white group-data-[tone=dark]:hover:bg-white/10" /></span>
           {/* one CTA: plain text when flat, a solid pill when floating (background fades in with --p) */}
           <a

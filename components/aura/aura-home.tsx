@@ -6,7 +6,7 @@ import { AURA } from "@/lib/copy-aura";
 import { formatDateLong } from "@/lib/format";
 import { useAura } from "@/lib/score/use-aura";
 import type { AuraView } from "@/lib/score/types";
-import { AuraGauge, AuraSkeleton, MoreLink, NoScore, NoticeCard, SampleNote, TierCard, UnavailableBanner } from "./parts";
+import { AuraGauge, AuraSkeleton, MoreLink, NoScore, NoticeCard, TierCard, UnavailableBanner } from "./parts";
 
 function Boosts({ view }: { view: AuraView }) {
   return (
@@ -65,13 +65,12 @@ function Hero({ view, frozen }: { view: AuraView; frozen: boolean }) {
 }
 
 export function AuraHome() {
-  const { status, view, source } = useAura();
+  const { status, view } = useAura();
   if (status === "loading") return <AuraSkeleton />;
   if (status === "no_score") return <NoScore />;
 
   return (
     <div className="space-y-5" data-testid={`aura-state-${status === "unavailable" ? "unavailable" : view?.state}`}>
-      <SampleNote source={source} />
       {status === "unavailable" && <UnavailableBanner updatedAt={view?.updatedAt ?? null} />}
       {view && (
         <>

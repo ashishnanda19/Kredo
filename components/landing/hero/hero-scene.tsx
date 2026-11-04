@@ -720,15 +720,6 @@ export function HeroScene() {
                   </motion.div>
                 </div>
               </div>
-              <p
-                data-intro-fade
-                className="pointer-events-none absolute bottom-[96px] left-3 z-10 w-[calc(50%-var(--pw)*0.2-16px)] sm:bottom-[104px] sm:left-6 sm:w-auto"
-              >
-                {/* in the free space left of the phone, so it never covers the screen */}
-                <span className={cn("block text-[11px] leading-snug", dark ? "text-white/70" : "text-ink-2")}>
-                  {t.hero.sample}
-                </span>
-              </p>
             </div>
 
             <div

@@ -10,7 +10,6 @@ import { STEP_ROUTE, useOnboarding } from "./use-onboarding";
 import { WizardFrame } from "./wizard-frame";
 
 const t = ONB.agreement;
-export const cutoffLabel = (hour: number) => (hour === 0 ? "12:00 midnight" : `${String(hour).padStart(2, "0")}:00`);
 
 export function AgreementStep() {
   const router = useRouter();
@@ -32,7 +31,7 @@ export function AgreementStep() {
       <form noValidate onSubmit={submit} className="space-y-4">
         <p className="text-sm text-ink-2">{t.intro}</p>
         <dl className="space-y-3">
-          {t.points(cutoffLabel(p.settlement.cutoffHourIst), p.settlement.vendorFeePercent).map((x) => (
+          {t.points(p.settlement.delayHours, p.settlement.vendorFeePercent).map((x) => (
             <div key={x.h}>
               <dt className="text-sm font-bold">{x.h}</dt>
               <dd className="text-sm text-ink-2">{x.b}</dd>

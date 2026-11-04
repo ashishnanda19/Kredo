@@ -165,21 +165,21 @@ export function PayWorld({ micro = false }: { micro?: boolean }) {
         </div>
       )}
 
-      <GlassCard radius="xl" className="grid place-items-center gap-2 p-6 text-center">
-        <ScanLine className={cn("size-10", scanning && "animate-pulse")} aria-hidden />
+      <GlassCard radius="xl" className="flex items-center gap-3 p-4">
+        <span className="grid size-11 shrink-0 place-items-center rounded-[14px] bg-accent text-accent-ink"><ScanLine className={cn("size-5", scanning && "animate-pulse")} aria-hidden /></span>
         <p role="status" className="text-sm font-semibold" data-testid="scan-status">{scanning ? t.scanning : vendor ? t.scanned(vendor.stallName) : t.pick}</p>
       </GlassCard>
 
       <fieldset>
         <legend className="mb-1 text-sm font-semibold">{t.pick}</legend>
         <p className="mb-2 text-xs text-ink-2">{t.pickHint}</p>
-        <div role="radiogroup" aria-label={t.pick} className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <div role="radiogroup" aria-label={t.pick} className="grid grid-cols-2 gap-2">
           {stalls.map(([id, v]) => {
             const on = vendorId === id;
             return (
-              <button key={id} type="button" role="radio" aria-checked={on} data-testid={`stall-${id}`} onClick={() => pickStall(id)} className={cn("glass glass-soft flex min-h-14 items-center gap-2 rounded-[18px] p-2 text-left transition-[box-shadow,transform] active:scale-[0.97]", on && "!shadow-[0_0_0_2px_var(--ink)]")}>
+              <button key={id} type="button" role="radio" aria-checked={on} data-testid={`stall-${id}`} onClick={() => pickStall(id)} className={cn("glass glass-soft flex min-h-14 flex-col items-start gap-2 rounded-[18px] p-3 text-left sm:flex-row sm:items-center sm:p-2 transition-[box-shadow,transform] active:scale-[0.97]", on && "!shadow-[0_0_0_2px_var(--ink)]")}>
                 <CategoryIcon category={ICON[v.category]} className="size-9 rounded-xl" />
-                <span className="min-w-0">
+                <span className="min-w-0 max-w-full">
                   <span className="block truncate text-sm font-semibold">{v.stallName}</span>
                   <span className="block truncate text-xs text-ink-2">{CATEGORIES.find((c) => c.value === v.category)?.label} · {v.campusArea}</span>
                 </span>

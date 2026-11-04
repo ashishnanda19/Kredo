@@ -10,7 +10,7 @@ import { PopInGroup } from "./pop-in-group";
 const DEVICES = [
   { l: 2, t: 70, r: -16, w: 210, s: <LockScreenReminders wallpaper={moods.sunset} />, bg: "#000", sm: true },
   { l: 20, t: 10, r: -6, w: 230, s: <DuesListScreen />, bg: "#EAF1E4", sm: false },
-  { l: 40, t: 40, r: 4, w: 240, s: <PassportScreen />, bg: "#0A0620", sm: false },
+  { l: 40, t: 40, r: 4, w: 240, s: <PassportScreen />, bg: "#0b0b0c", sm: false },
   { l: 60, t: 0, r: 12, w: 230, s: <LimitUnlockedScreen active={false} />, bg: "#fff", sm: false },
   { l: 78, t: 60, r: 20, w: 210, s: <PayReceiptScreen />, bg: "#f6f5f3", sm: true },
 ];

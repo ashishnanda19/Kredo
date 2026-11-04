@@ -1,66 +1,62 @@
 /**
- * The midnight settlement job (docs/MVP_DEMO_PROMPT.md, B9).
+ * The settlement job (docs/MVP_DEMO_PROMPT.md, B9).
  *
- * At each cut-off Kredo totals what every vendor received since the last one and produces a SETTLEMENT INSTRUCTION:
+ * Twelve hours after each payment (policy.settlement.delayHours) Kredo produces a SETTLEMENT INSTRUCTION for that payment:
  * a report the lending partner (NBFC) acts on. THIS MODULE NEVER MOVES MONEY. The lender pays the vendor; Kredo only
  * records and reports. The one outward call is `NbfcPort.submitSettlement` (lib/api/nbfc-port.ts), and a unit test
  * asserts that boundary.
  *
- * The job is idempotent: a settlement id is `vendor + business date`, so running a cut-off twice creates nothing new.
+ * The job is idempotent: a settlement id is `vendor + payment`, so running it twice creates nothing new.
  */
 import type { NbfcPort, SettlementInstruction, SettlementResult } from "./api/nbfc-port";
 import { NOTE } from "./copy-demo";
 import { appendAudit } from "./domain/audit";
-import { batchDate } from "./domain/time";
+import { HOUR, istDate } from "./domain/time";
+import { getPolicy } from "./policy";
 import type { Settlement, WorldState } from "./domain/types";
 
-export const settlementId = (vendorId: string, date: string) => `SET-${vendorId}-${date.replaceAll("-", "")}`;
+export const settlementId = (vendorId: string, loanId: string) => `SET-${vendorId}-${loanId}`;
 
 /**
- * Builds the settlement for every vendor with unsettled payments received before `cutoff`. Mutates the given
- * (draft) world. Returns the ids of the settlements it created; ids that already existed are left alone.
+ * Builds a settlement for every payment received at least `delayHours` before `now` and not yet settled. Mutates the
+ * given (draft) world. Returns the ids it created; ids that already existed are left alone.
  *
- *  - Refunds before settlement are netted (a refunded payment is never reported as owed).
- *  - A refund after settlement is a negative adjustment, netted into the next batch.
- *  - Adjustments only apply while the batch stays at or above zero; the rest carry to the next night.
+ *  - A payment refunded before settlement is never reported as owed.
+ *  - A refund after settlement is a negative adjustment, netted into that stall's next settlement.
+ *  - Adjustments only apply while the settlement stays at or above zero; the rest carry to the next one.
  */
-export function buildSettlements(w: WorldState, cutoff: number): string[] {
-  const date = batchDate(cutoff);
-  const byVendor = new Map<string, string[]>();
-  for (const l of Object.values(w.loans)) {
-    if (l.vendorStatus !== "received" || l.settlementId || l.createdAt >= cutoff) continue;
-    byVendor.set(l.vendorId, [...(byVendor.get(l.vendorId) ?? []), l.id]);
-  }
+export function buildSettlements(w: WorldState, now: number, delayHours: number = getPolicy().settlement.delayHours): string[] {
+  const due = Object.values(w.loans)
+    .filter((l) => l.vendorStatus === "received" && !l.settlementId && l.createdAt + delayHours * HOUR <= now)
+    .sort((a, b) => a.createdAt - b.createdAt || a.id.localeCompare(b.id));
 
   const created: string[] = [];
-  for (const [vendorId, loanIds] of [...byVendor.entries()].sort(([a], [b]) => a.localeCompare(b))) {
-    const id = settlementId(vendorId, date);
+  for (const l of due) {
+    const id = settlementId(l.vendorId, l.id);
     if (w.settlements[id]) continue; // idempotent
-    const loans = loanIds.map((x) => w.loans[x]).sort((a, b) => a.createdAt - b.createdAt || a.id.localeCompare(b.id));
-    const gross = loans.reduce((s, l) => s + l.coins, 0);
-    const refunds = loans.reduce((s, l) => s + l.refundedCoins, 0);
-    let net = gross - refunds;
+    const at = l.createdAt + delayHours * HOUR;
+    let net = l.coins - l.refundedCoins;
 
     const adjustmentIds: string[] = [];
     let adjustmentCoins = 0;
-    for (const a of w.adjustments.filter((x) => x.vendorId === vendorId && !x.settlementId && x.createdAt < cutoff).sort((x, y) => x.createdAt - y.createdAt)) {
+    for (const a of w.adjustments.filter((x) => x.vendorId === l.vendorId && !x.settlementId && x.createdAt <= at).sort((x, y) => x.createdAt - y.createdAt)) {
       if (net + a.coins < 0) break;
       net += a.coins;
       adjustmentCoins += a.coins;
       adjustmentIds.push(a.id);
     }
-    if (loans.length === 0) continue;
 
+    const date = istDate(l.createdAt);
     const settlement: Settlement = {
-      id, vendorId, date, grossCoins: gross, refundCoins: refunds, adjustmentCoins, totalAmount: net,
-      count: loans.length, loanIds: loans.map((l) => l.id), adjustmentIds, bankMasked: w.vendors[vendorId]?.bankMasked ?? "",
-      status: "scheduled", createdAt: cutoff, updatedAt: cutoff,
+      id, vendorId: l.vendorId, date, grossCoins: l.coins, refundCoins: l.refundedCoins, adjustmentCoins, totalAmount: net,
+      count: 1, loanIds: [l.id], adjustmentIds, bankMasked: w.vendors[l.vendorId]?.bankMasked ?? "",
+      status: "scheduled", createdAt: at, updatedAt: at,
     };
     w.settlements[id] = settlement;
-    for (const l of loans) l.settlementId = id;
+    l.settlementId = id;
     for (const a of w.adjustments) if (adjustmentIds.includes(a.id)) a.settlementId = id;
     w.seq += 1;
-    w.audit = appendAudit(w.audit, { at: cutoff, actor: "system", action: "settlement.created", target: id, details: { vendorId, date, total: net, count: loans.length } }, w.seq);
+    w.audit = appendAudit(w.audit, { at, actor: "system", action: "settlement.created", target: id, details: { vendorId: l.vendorId, date, total: net, count: 1 } }, w.seq);
     created.push(id);
   }
   return created;

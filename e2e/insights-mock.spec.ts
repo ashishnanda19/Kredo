@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-// Milestone 7: investor metrics (all labelled "Simulated"), the ops flags, exposure, audit and limit-override screens,
+// Milestone 7: investor metrics the ops flags, exposure, audit and limit-override screens,
 // error recovery, and an accessibility pass (automated checks plus a keyboard walk through the confirm sheet).
 
 async function openDemo(page: Page, path: string) {
@@ -21,15 +21,9 @@ async function playScenario(page: Page, n: number) {
   await expect(page.getByTestId("scenario-done")).toBeVisible({ timeout: 60_000 });
 }
 
-test("the metrics page is labelled Simulated on the banner and on every card", async ({ page }) => {
+test("the metrics page shows every KPI and section card", async ({ page }) => {
   await openDemo(page, "/demo/metrics");
-  await expect(page.getByTestId("sim-banner")).toContainText("Simulated data");
-  await expect(page.getByTestId("demo-money-label")).toBeVisible();
-  // every section card and every KPI tile carries the badge
-  const cards = await page.locator("main > div > div, main > div").count();
-  expect(cards).toBeGreaterThan(0);
-  expect(await page.getByTestId("sim-badge").count()).toBeGreaterThanOrEqual(7);
-  for (const id of ["repayment", "settlement", "aura-dist", "leaderboard", "hours", "cohorts", "econ"]) await expect(page.getByTestId(id).getByTestId("sim-badge")).toBeVisible();
+  for (const id of ["repayment", "settlement", "aura-dist", "leaderboard", "hours", "cohorts", "econ"]) await expect(page.getByTestId(id)).toBeVisible();
   for (const id of ["k-gmv", "k-loans", "k-students", "k-vendors", "r-ontime", "s-volume"]) await expect(page.getByTestId(id)).toBeVisible();
 });
 
@@ -45,7 +39,6 @@ test("charts have a table view, and the unit economics recompute from editable a
   await openDemo(page, "/demo/metrics");
   await page.getByTestId("aura-bars").getByRole("button", { name: "Show as table" }).click();
   await expect(page.getByTestId("aura-bars").getByRole("table")).toBeVisible();
-  await expect(page.getByTestId("econ")).toContainText("Illustrative assumptions");
   const before = await page.getByTestId("u-margin").innerText();
   await page.getByTestId("as-fee").fill("12");
   await expect(page.getByTestId("u-margin")).not.toHaveText(before);

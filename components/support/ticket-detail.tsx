@@ -32,7 +32,7 @@ export function TicketDetail({ id }: { id: string }) {
 
   if (!ticket)
     return (
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-3xl">
         <PageHeader title="Ticket" />
         <GlassCard radius="lg">
           <EmptyState title="We can't find that ticket" body="It may belong to another account." action={<GlassButton asChild><Link href="/dashboard/support">{T.title}</Link></GlassButton>} />

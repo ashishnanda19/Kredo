@@ -326,7 +326,7 @@ export const useStore = create<Store>()(
         const ops = { ...base.ops, role: get().ops.role };
         const stamp = { granted: true, at: now(), version: VERSIONS.privacy };
         const loggedIn = { ...base.session, loggedIn: true, mobile: "+91 98••• ••210" };
-        const verified = { ...base.verification, status: "accepted" as const, attempts: 1, celebrated: true, submittedAt: now(), summary: { college: "Sunrise Institute of Technology, Pune", fullName: "Aarav Sharma", course: "B.Tech", year: "2nd year", idMasked: "••••2041", hasFront: true, hasBack: true }, timeline: [{ id: uid("tl"), at: now(), title: "Verification accepted" }] };
+        const verified = { ...base.verification, status: "accepted" as const, attempts: 1, celebrated: true, submittedAt: now(), summary: { college: "Manipal University Jaipur", fullName: "Aarav Sharma", course: "B.Tech", year: "2nd year", idMasked: "••••2041", hasFront: true, hasBack: true }, timeline: [{ id: uid("tl"), at: now(), title: "Verification accepted" }] };
         const kycOk = { status: "verified" as const, retries: 0, reference: null, maskedId: "••••••••4821" };
         const consents = { identity: stamp, credit: stamp, comms: stamp };
         if (p === "fresh") set({ ...base, ops, demo });

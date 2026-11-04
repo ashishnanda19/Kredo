@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CreditCard, Home, QrCode, ReceiptText, UserRound, type LucideIcon } from "lucide-react";
-import { DemoMoneyLabel } from "@/components/demo/demo-money-label";
 import { RoleSwitcher } from "@/components/demo/role-switcher";
 import { Logo } from "@/components/shared/logo";
 import { VENDOR } from "@/lib/copy-demo";
@@ -32,7 +31,6 @@ export function VendorShell({ children }: { children: React.ReactNode }) {
           {vendor && !onboarding && <p className="mt-1 truncate text-sm font-semibold">{vendor.stallName}</p>}
         </div>
         <RoleSwitcher />
-        <DemoMoneyLabel className="w-full justify-center sm:w-auto" />
       </header>
       <main id="main" className="mx-auto w-full max-w-3xl px-4 pb-32 pt-4 sm:px-6">
         <VendorGate>{children}</VendorGate>

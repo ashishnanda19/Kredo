@@ -38,7 +38,7 @@ export function AuditOps() {
 
   if (!hydrated) return null;
   const cols: Column<WorldAuditEntry>[] = [
-    { key: "t", header: "Time (simulated)", cell: (a) => fmtDateTime(a.at) },
+    { key: "t", header: "Time", cell: (a) => fmtDateTime(a.at) },
     { key: "w", header: "Who", cell: (a) => a.actor },
     { key: "a", header: "Action", cell: (a) => <span className="font-mono">{a.action}</span> },
     { key: "g", header: "Target", cell: (a) => <span className="font-mono">{a.target}</span> },

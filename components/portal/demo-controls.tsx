@@ -14,7 +14,7 @@ import type { AuthEdge, KycStatus, VerificationStatus } from "@/lib/store/types"
 import type { AppStatus } from "@/lib/mock-portal";
 import { cn } from "@/lib/utils";
 
-export const DEMO_ENABLED = process.env.NEXT_PUBLIC_DEMO_CONTROLS === "true";
+export const DEMO_ENABLED = process.env.NEXT_PUBLIC_DEMO_CONTROLS !== "false";
 
 type AuraOption = keyof typeof AURA.demo.presets;
 
@@ -94,7 +94,7 @@ const EDGE: { id: AuthEdge; label: string }[] = [
   { id: "suspicious", label: "Suspicious login" },
 ];
 
-/** Floating demo panel. Hidden unless NEXT_PUBLIC_DEMO_CONTROLS=true. */
+/** Floating demo panel. Shown everywhere (local and deployed) unless NEXT_PUBLIC_DEMO_CONTROLS=false. */
 export function DemoControls() {
   const s = useStore();
   const embedded = useEmbedded();

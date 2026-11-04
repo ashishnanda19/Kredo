@@ -19,7 +19,7 @@ export const student = {
   name: "Aarav Sharma",
   firstName: "Aarav",
   initials: "AS",
-  college: "Sunrise Institute of Technology", // fictional
+  college: "Manipal University Jaipur", // fictional
   course: "B.Tech, 2nd year",
   email: "aarav.sharma@sunrise.ac.in",
   phone: "+91 98XXX XX210",
@@ -128,7 +128,7 @@ export const notifications = [
 ];
 
 export const colleges = [
-  "Sunrise Institute of Technology",
+  "Manipal University Jaipur",
   "Lakeview College of Arts",
   "Northgate University",
   "Riverbend Polytechnic",

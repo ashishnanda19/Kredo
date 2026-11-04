@@ -20,7 +20,7 @@ const BASE = {
     disclosure: "Credit offered by our regulated lending partner.",
     notLender: `${B} is an app and is not a bank or lender. Credit, if approved, is provided by the lending partner on their terms.`,
     nudge: "Borrow only what you can repay.",
-    footer: `© 2026 ${B} (placeholder brand).`,
+    footer: `© 2026 ${B}.`,
   },
 
   nav: {
@@ -95,7 +95,7 @@ const BASE = {
     disclaimer:
       "This is our own in-app score, shown here for illustration. It is not a credit bureau score. Limits are decided by our lending partner and are not guaranteed.",
     sliderLabel: "Months of on-time repayments",
-    limitLabel: "Illustrative limit",
+    limitLabel: "Your limit",
     justJoined: "Just joined",
     bands: {
       building: { label: "Building", blurb: "Just getting started" },
@@ -181,7 +181,7 @@ const BASE = {
       },
       {
         q: "Is my data safe?",
-        a: "We only ask for what's needed to verify you, and we explain why at every step. Read the privacy notice before you sign up. (Placeholder copy for this preview.)",
+        a: "We only ask for what's needed to verify you, and we explain why at every step. Read the privacy notice before you sign up.",
       },
     ],
   },
@@ -227,7 +227,7 @@ const BASE = {
       checking: "Checking…",
       change: "Change email",
       resend: "Resend code",
-      needAll: "Enter all 6 digits. Any code works in this demo.",
+      needAll: "Enter all 6 digits. Any code works.",
     },
     id: {
       title: "Show us your college ID",
@@ -237,7 +237,7 @@ const BASE = {
       choose: "Choose file",
       camera: "Use camera",
       change: "Choose a different photo",
-      local: "Demo only: the photo stays in your browser and is never uploaded.",
+      local: "The photo stays in your browser and is never uploaded.",
       scanning: "Scanning…",
       continue: "Continue",
       checking: "Checking your ID…",
@@ -257,7 +257,7 @@ const BASE = {
       limitLabel: "Your credit limit",
       limitTip: "The most you can have outstanding at any time. It can change over time.",
       note: "Use it at campus vendors and repay later in the app.",
-      demoNote: "This is a demo number. Real limits are decided by the lending partner and aren't guaranteed.",
+      demoNote: "Real limits are decided by the lending partner and aren't guaranteed.",
       cta: "Go to my dashboard",
     },
   },
@@ -305,7 +305,7 @@ const BASE = {
       confirm: (amt: string) => `Repay ${amt}`,
       busy: "Processing…",
       doneTitle: "Repaid on time. That's a W.",
-      doneBody: "On-time repayments help your score. (Demo: nothing real happened.)",
+      doneBody: "On-time repayments help your score.",
       done: "Done",
     },
     increase: {
@@ -314,7 +314,7 @@ const BASE = {
       note: "A bigger limit means more to repay.",
       send: "Send request",
       doneTitle: "Request received",
-      doneBody: "Our lending partner will review it. Increases aren't guaranteed. (Demo only.)",
+      doneBody: "Our lending partner will review it. Increases aren't guaranteed.",
       done: "Got it",
     },
   },
@@ -334,7 +334,7 @@ const BASE = {
     confirm: (amt: string) => `Confirm and pay ${amt}`,
     paying: "Paying…",
     successTitle: (amt: string) => `Paid ${amt}`,
-    successBody: "We'll remind you before it's due. (Demo: no real money moved.)",
+    successBody: "We'll remind you before it's due.",
     home: "Back to home",
     again: "Make another payment",
     scan: { idle: "Tap to scan vendor QR", scanning: "Scanning…" },
@@ -369,7 +369,7 @@ const BASE = {
     help: "Help",
     helpCentre: "Help centre",
     grievance: "Raise a grievance",
-    logout: "Log out (demo)",
+    logout: "Log out",
   },
 
   states: {

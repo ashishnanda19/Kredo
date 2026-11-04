@@ -144,7 +144,7 @@ export function LoanApply() {
   );
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-3xl">
       <PageHeader title={T.applyTitle} subtitle={T.applySub} />
 
       <div className="space-y-4">

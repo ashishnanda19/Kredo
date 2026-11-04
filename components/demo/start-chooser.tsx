@@ -10,7 +10,6 @@ import { ROLES } from "@/lib/copy-demo";
 import { PERSONAS, type Persona } from "@/lib/demo/constants";
 import { useStore } from "@/lib/store/store";
 import { useWorld, useWorldHydrated } from "@/lib/store/world";
-import { DemoMoneyLabel } from "./demo-money-label";
 
 /** Signs a seeded person into the world, and lines the existing student portal up with them so /dashboard opens. */
 export function useJumpIn() {
@@ -37,7 +36,6 @@ export function StartChooser() {
     <main id="main" className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-6 px-4 py-8 sm:px-6">
       <div className="flex items-center justify-between gap-3">
         <Logo href="/" />
-        <DemoMoneyLabel />
       </div>
       <div>
         <h1 className="text-3xl font-extrabold tracking-tight">{t.startTitle}</h1>

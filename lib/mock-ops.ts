@@ -16,7 +16,7 @@ export const OPS_ROLES: { id: OpsRole; label: string }[] = [
   { id: "risk_analyst", label: "Risk analyst" },
   { id: "risk_admin", label: "Risk admin" },
 ];
-export const TEAM = ["Asha (placeholder)", "Ravi (placeholder)", "Meera (placeholder)", "Dev (placeholder)"];
+export const TEAM = ["Asha", "Ravi", "Meera", "Dev"];
 
 /* ----------------------------------------------------- verification queue */
 export type QueueStatus = "pending" | "failed" | "expired" | "escalated" | "accepted";
@@ -39,7 +39,7 @@ export interface QueueItem {
   reason?: RejectionReason;
   attempts: number;
   assignee: string | null;
-  /** what the student typed vs what is on the ID (placeholder data). Mismatch is highlighted. */
+  /** what the student typed vs what is on the ID. Mismatch is highlighted. */
   entered: { name: string; college: string; course: string; dob: string };
   onId: { name: string; college: string; course: string; dob: string };
   kycStatus: "verified" | "in_progress" | "provider_error" | "escalated" | "not_started";
@@ -62,7 +62,7 @@ export const QUEUE: QueueItem[] = Array.from({ length: 20 }, (_, i) => {
     status,
     reason,
     attempts: 1 + (i % 3),
-    assignee: i % 4 === 0 ? null : ["Asha (placeholder)", "Ravi (placeholder)", "Meera (placeholder)"][i % 3],
+    assignee: i % 4 === 0 ? null : ["Asha", "Ravi", "Meera"][i % 3],
     entered: { name: FIRST[i], college: COLLEGES[(i * 3) % COLLEGES.length], course: "B.Tech, 2nd year", dob: "2005-0" + ((i % 9) + 1) + "-14" },
     onId: { name: nameBad ? FIRST[(i + 3) % 20] : FIRST[i], college: reason === "college_unrecognised" ? "Unlisted Institute" : COLLEGES[(i * 3) % COLLEGES.length], course: "B.Tech, 2nd year", dob: "2005-0" + ((i % 9) + 1) + "-14" },
     kycStatus: (["verified", "in_progress", "provider_error", "escalated", "not_started"] as const)[i % 5],
@@ -105,7 +105,7 @@ export const FRAUD_ALERTS: FraudAlert[] = Array.from({ length: 12 }, (_, i) => (
     { label: IND[i % 4][0], source: IND[i % 4][1], at: iso(-(i % 7) - 1, 8 + i) },
     { label: IND[(i + 1) % 4][0], source: IND[(i + 1) % 4][1], at: iso(-(i % 7) - 1, 9 + i) },
   ],
-  notes: i % 3 === 0 ? [{ by: "Ravi (placeholder)", at: iso(-1), text: "Looked at the two submissions side by side. Waiting for the student to respond." }] : [],
+  notes: i % 3 === 0 ? [{ by: "Ravi", at: iso(-1), text: "Looked at the two submissions side by side. Waiting for the student to respond." }] : [],
 }));
 
 /* ------------------------------------------------------- loan monitoring */
@@ -127,7 +127,7 @@ export const OPS_LOANS: OpsLoan[] = Array.from({ length: 14 }, (_, i) => ({
   product: ["Campus Starter", "Semester Support", "Final Year Flex"][i % 3],
   amount: [2000, 4000, 7000, 3000, 5000][i % 5],
   status: LSTAT[i % 8],
-  action: ["Awaiting lender decision", "Waiting for student reply", null, "Confirm disbursement", null, null, "Call student (placeholder)", null][i % 8],
+  action: ["Awaiting lender decision", "Waiting for student reply", null, "Confirm disbursement", null, null, "Call student", null][i % 8],
   outstanding: i % 8 < 4 ? 0 : [1800, 3000, 650, 5200][i % 4],
 }));
 
@@ -217,9 +217,9 @@ export interface AuditEntry {
   reason: string;
 }
 export const SEED_AUDIT: AuditEntry[] = [
-  { id: "a1", at: iso(-1, 11), who: "Asha (placeholder), Reviewer", what: "Approved student verification APP-10429", reason: "V-OK Details match the ID" },
-  { id: "a2", at: iso(-1, 13), who: "Ravi (placeholder), Fraud analyst", what: "Marked FRD-3305 as false positive", reason: "Two students shared a hostel device" },
-  { id: "a3", at: iso(-2, 15), who: "Meera (placeholder), Support", what: "Assigned CMP-2026-0141 to self", reason: "Taking ownership" },
+  { id: "a1", at: iso(-1, 11), who: "Asha, Reviewer", what: "Approved student verification APP-10429", reason: "V-OK Details match the ID" },
+  { id: "a2", at: iso(-1, 13), who: "Ravi, Fraud analyst", what: "Marked FRD-3305 as false positive", reason: "Two students shared a hostel device" },
+  { id: "a3", at: iso(-2, 15), who: "Meera, Support", what: "Assigned CMP-2026-0141 to self", reason: "Taking ownership" },
 ];
 
 export const OPS_SERIES = Array.from({ length: 14 }, (_, i) => ({

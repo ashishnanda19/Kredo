@@ -84,7 +84,7 @@ export function VendorsOps() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            <div className="grid min-h-24 place-items-center rounded-2xl border border-dashed border-hairline text-xs text-ink-2"><span className="flex items-center gap-1.5"><ImageIcon className="size-4" aria-hidden /> Stall photo (placeholder)</span></div>
+            <div className="grid min-h-24 place-items-center rounded-2xl border border-dashed border-hairline text-xs text-ink-2"><span className="flex items-center gap-1.5"><ImageIcon className="size-4" aria-hidden /> Stall photo</span></div>
             <dl className="space-y-1 text-sm sm:col-span-2">
               <div className="flex justify-between gap-3"><dt className="text-ink-2">Owner ID</dt><dd>{sel.onboarding?.idMasked ? <MaskedValue value={sel.onboarding.idMasked} label="Owner ID" /> : "Verified before the demo"}</dd></div>
               <div className="flex justify-between gap-3"><dt className="text-ink-2">Verification</dt><dd>{sel.verificationLevel === "full" ? "Registered business" : "Small stall, no registration"}</dd></div>

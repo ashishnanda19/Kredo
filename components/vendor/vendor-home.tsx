@@ -10,7 +10,7 @@ import { awaitingSettlement, loansOfVendor, receivedOn, settlementStatusLine } f
 import { useWorld } from "@/lib/store/world";
 import { PaymentRow } from "./payment-row";
 
-const FEED = 8;
+const FEED = 6;
 
 /** The stall's home: today's coins, what's awaiting settlement, and a live feed that updates as students pay. */
 export function VendorHome() {
@@ -29,31 +29,31 @@ export function VendorHome() {
 
   return (
     <div className="space-y-4">
-      <GlassCard radius="xl" strength="strong" className="p-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{VENDOR.today}</p>
-        <p data-testid="received-today" className="mt-1 text-4xl font-extrabold tabular-nums tracking-tight">{today.coins} <span className="text-lg font-semibold text-ink-2">{VENDOR.coins}</span></p>
-        <p data-testid="payments-today" className="mt-1 text-sm text-ink-2">{VENDOR.paymentsToday(today.count)}</p>
+      <GlassCard radius="xl" className="theme-light !border-0 !bg-accent p-5 text-[#0b0b0c] !shadow-none sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#0b0b0c]/65">{VENDOR.today}</p>
+        <p data-testid="received-today" className="mt-1 text-5xl font-semibold tabular-nums tracking-[-0.04em]">{today.coins} <span className="text-lg font-semibold text-[#0b0b0c]/65">{VENDOR.coins}</span></p>
+        <p data-testid="payments-today" className="mt-1 text-sm text-[#0b0b0c]/70">{VENDOR.paymentsToday(today.count)}</p>
         <div className="mt-4" role="img" aria-label={VENDOR.dailyCap(today.coins, vendor.dailyCap)}>
-          <span className="block h-1.5 overflow-hidden rounded-full bg-ink/15"><span className="block h-full rounded-full bg-accent" style={{ width: `${pct}%` }} /></span>
-          <p className="mt-1.5 text-xs text-ink-2">{VENDOR.dailyCap(today.coins, vendor.dailyCap)}</p>
+          <span className="block h-2 overflow-hidden rounded-full bg-[#0b0b0c]/15"><span className="block h-full rounded-full bg-[#0b0b0c]" style={{ width: `${pct}%` }} /></span>
+          <p className="mt-1.5 text-xs text-[#0b0b0c]/70">{VENDOR.dailyCap(today.coins, vendor.dailyCap)}</p>
         </div>
       </GlassCard>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <GlassCard radius="lg" className="p-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{VENDOR.awaiting}</p>
-          <p data-testid="awaiting" className="mt-1 text-2xl font-bold tabular-nums">{awaiting} {VENDOR.coins}</p>
-          <p data-testid="settlement-line" className="mt-1 text-sm text-ink-2">{settlementStatusLine(world, vendorId)}</p>
-          <p className="mt-1 text-xs text-ink-2">{VENDOR.awaitingHint}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <GlassCard radius="lg" className="p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">{VENDOR.awaiting}</p>
+          <p data-testid="awaiting" className="mt-1 text-xl font-semibold tabular-nums tracking-[-0.02em]">{awaiting} {VENDOR.coins}</p>
+          <p data-testid="settlement-line" className="mt-1 text-xs leading-snug text-ink-2">{settlementStatusLine(world, vendorId)}</p>
         </GlassCard>
-        <GlassCard radius="lg" className="p-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{VENDOR.settledWeek}</p>
-          <p data-testid="settled-week" className="mt-1 text-2xl font-bold tabular-nums">{settledWeek} {VENDOR.coins}</p>
-          <GlassButton asChild variant="secondary" size="sm" className="mt-3"><Link href="/vendor/qr"><QrCode className="size-4" aria-hidden /> {VENDOR.nav.qr}</Link></GlassButton>
+        <GlassCard radius="lg" className="p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">{VENDOR.settledWeek}</p>
+          <p data-testid="settled-week" className="mt-1 text-xl font-semibold tabular-nums tracking-[-0.02em]">{settledWeek} {VENDOR.coins}</p>
+          <p className="mt-1 text-xs leading-snug text-ink-2">{VENDOR.awaitingHint}</p>
         </GlassCard>
       </div>
+      <GlassButton asChild size="lg" className="w-full"><Link href="/vendor/qr"><QrCode className="size-5" aria-hidden /> {VENDOR.nav.qr}</Link></GlassButton>
 
-      <GlassCard radius="lg" className="p-5">
+      <GlassCard radius="lg" className="p-4 sm:p-5">
         <div className="flex items-baseline justify-between gap-2">
           <h2 className="text-base font-bold">{VENDOR.feedTitle}</h2>
           <p className="text-xs text-ink-2">{VENDOR.feedLive}</p>

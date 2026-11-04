@@ -9,7 +9,7 @@ import { CountUp } from "@/components/shared/count-up";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AURA } from "@/lib/copy-aura";
 import { formatDateLong } from "@/lib/format";
-import type { AuraView, Source } from "@/lib/score/types";
+import type { AuraView } from "@/lib/score/types";
 import { cn } from "@/lib/utils";
 
 /** The bureau disclaimer. Every screen that shows Aura renders this. */
@@ -167,10 +167,6 @@ export function UnavailableBanner({ updatedAt }: { updatedAt: string | null }) {
   );
 }
 
-export function SampleNote({ source }: { source: Source | null }) {
-  if (source !== "mock") return null;
-  return <p className="mb-3 text-xs font-semibold text-ink-2">{AURA.states.sample}</p>;
-}
 
 export function MoreLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (

@@ -2,7 +2,7 @@
  * Landing-page copy for the Flighty/Ramp-inspired redesign. Merged into COPY (lib/copy.ts) as COPY.landing.
  * Rules: short and confident, slang only in headlines / empty states / success toasts (max one per
  * paragraph), never near money, fees, dates, consent, errors or legal text. No awards, no user counts,
- * no real testimonials, no app-store badges. All numbers are sample data and labelled as such.
+ * no real testimonials, no app-store badges.
  */
 import { BRAND } from "./config";
 
@@ -14,7 +14,6 @@ export const LANDING = {
     links: [
       { href: "#how", label: "How it works" },
       { href: "#features", label: "Features" },
-      { href: "#vendors", label: "Vendors" },
       { href: "#trust", label: "Trust" },
       { href: "#faq", label: "FAQ" },
     ],
@@ -43,7 +42,6 @@ export const LANDING = {
       { title: "Student-verified", sub: "College ID check" },
       { title: "Lending-partner backed", sub: "Regulated partner" },
     ],
-    sample: "Sample data. Numbers are illustrative.",
     phoneAlt: `${B} app on a phone, showing the current step`,
   },
 
@@ -58,7 +56,7 @@ export const LANDING = {
     verify: [
       { icon: "doc", tone: "blue", title: "ID received", detail: "Front and back uploaded" },
       { icon: "clock", tone: "amber", title: "Reviewing your ID", detail: "Usually under 2 working days" },
-      { icon: "check", tone: "green", title: "Student verified ✓", detail: "Sunrise Institute of Technology" },
+      { icon: "check", tone: "green", title: "Student verified ✓", detail: "Manipal University Jaipur" },
       { icon: "up", tone: "green", title: "Limit unlocked · ₹3,000", detail: "Set by our lending partner" },
       { icon: "offer", tone: "violet", title: "Offer ready · review charges", detail: "Every charge shown before you accept" },
       { icon: "avatar", tone: "neutral", title: "Riya joined from your hostel", detail: "Sample notification" },
@@ -83,10 +81,9 @@ export const LANDING = {
 
   access: { title: "Get early access", sub: "Tell us your college email. We'll let you know when we reach your campus.", placeholder: "Your college email", button: "Join early access", consent: "We only use your email to tell you about early access. No spam. Joining the waitlist does not guarantee access.", done: "You're on the list. W.", doneSub: "(Preview only, nothing was sent.)" },
 
-  partners: { eyebrow: "Campus vendors", title: "Built for the chai stalls, canteens and xerox shops students already use.", tag: "Illustrative", note: "Illustrative only: vendor names are fictional and none of these businesses is a partner. Photos of real Indian vendors from Wikimedia Commons.", credits: "Photo credits", resized: "resized" },
 
   dark: {
-    title: "Everything you need to know about your limit — and more.",
+    title: "Everything you need to know about your limit, and more.",
     sub: "See what you owe, when it's due and why, in plain numbers. No small print, no surprises.",
     glow: { title: "See where your money goes. Finally!", body: "Every spend, every due date, every charge, on one screen.", callout: "Next due ₹1,150 · in 3 days" },
     tall: [
@@ -105,17 +102,40 @@ export const LANDING = {
     callouts: { matched: "MATCHED · College ID", review: "NEEDS REVIEW", limit: "LIMIT SET", box: "VERIFY ID" },
   },
 
-  ticker: { label: `STUDENTS ON ${B.toUpperCase()} TODAY (sample data)`, items: [{ k: "payments made", v: 1284 }, { k: "receipts saved", v: 1279 }, { k: "repaid on time", v: 412 }, { k: "IDs verified", v: 96 }, { k: "reminders sent", v: 2310 }] },
-
-  logoGrid: { titleA: "Built for campuses across India.", titleB: "Colleges and vendors (placeholders).", stat: "₹245", statSub: "Average campus spend per week (sample)" },
-
   chaos: {
-    before: "Pocket money that never lasted.",
-    beforeSub: "Five ways a week of campus spending used to look.",
+    before: "Pocket money? Gone by Thursday.",
+    beforeSub: "Mess bills, IOUs, failed UPIs and the group chat asking who owes who. Sound familiar?",
+    meterBefore: "Chaos level",
+    meterAfter: "Chaos level: sorted",
     after: "Now it all lives in one place.",
-    afterSub: `${B} keeps every spend, due date and repayment together. It just works.`,
-    fragments: ["Mess bill pending", "bro ₹200 de de, kal dunga", "Payment request · ₹150", "Raju bhaiya – ₹340", "kitna chahiye?", "You owe ₹820", "Xerox – later", "Balance ₹43", "[UNPAID] fees", "Card declined", "99+"],
-    checklist: ["Verified", "Limit set", "Pay at campus", "Repay", "Score grows"],
+    afterSub: `${B} keeps every spend, due date and repayment together. No more guessing, no more udhaar spiral.`,
+    fragments: [
+      { t: "bro ₹200 de de, kal dunga", k: "bubble" },
+      { t: "Mess bill pending", k: "note" },
+      { t: "UPI pending hai yaar 😭", k: "bubble" },
+      { t: "Balance ₹43", k: "badge" },
+      { t: "kal pakka 🤞", k: "bubbleMe" },
+      { t: "Canteen tab · ₹340", k: "slip" },
+      { t: "split the bill pls 🙏", k: "bubble" },
+      { t: "Fees due Friday", k: "note" },
+      { t: "Card declined", k: "badge" },
+      { t: "bhai paisa kab dega??", k: "bubbleMe" },
+      { t: "Payment request · ₹150", k: "slip" },
+      { t: "Mom: kharcha kitna hua?", k: "bubble" },
+      { t: "Exam xerox ₹120", k: "note" },
+      { t: "99+ unread", k: "badge" },
+      { t: "who owes who? nobody knows", k: "bubble" },
+      { t: "Chai udhaar ₹30", k: "slip" },
+      { t: "checking balance… 😬", k: "bubbleMe" },
+      { t: "Rent due on the 5th", k: "note" },
+      { t: "Raju bhaiya ₹340", k: "badge" },
+      { t: "kitna chahiye?", k: "bubble" },
+      { t: "Xerox later", k: "slip" },
+      { t: "Hostel fees. Again.", k: "note" },
+      { t: "You owe ₹820", k: "badge" },
+      { t: "send 150 pls", k: "bubbleMe" },
+    ],
+    checklist: ["Verified", "Limit set", "Pay at campus", "Repay on time", "Aura grows"],
     checklistDetail: ["Student ID matched", "₹3,000 from our lending partner", "12 campus payments", "Next due 2 Nov", "Up 12 this month"],
     calmCards: [
       { k: "receipt", label: "Receipt saved", value: "₹120 · Campus Cafe", note: "Paid today, 1:12 pm" },
@@ -123,7 +143,6 @@ export const LANDING = {
       { k: "limit", label: "Available to spend", value: "₹1,850 of ₹3,000", note: "Limit set by our lending partner" },
       { k: "score", label: "Internal score", value: "72 · Building", note: "Not a bureau score" },
     ],
-    calmNote: "Sample data.",
   },
 
   bento: {
@@ -141,28 +160,11 @@ export const LANDING = {
     toast: { title: "Receipt added for ₹120 at Campus Cafe.", body: "Your payment is complete." },
   },
 
-  vendors: { titleA: "Your campus, already on it.", titleB: "Vendors near you that accept us (sample list).", cta: "Become a partner", open: "Open", closed: "Closed", sampleTime: "Open or closed at 7:30 pm, sample data." },
-
   passport: {
     eyebrow: "Your repayment story",
     cover: { edition: "Student · Campus edition", title: "Credit Passport", number: "No. 0042" },
     ticker: ["on time", "limit up", "no cap", "3 in a row", "verified", "main character"],
     titleA: "Look back on how you built your score.", titleB: "Every on-time repayment, on one page.", disclaimer: "Internal score, not a credit bureau score. It does not replace your CIBIL or other bureau score." },
-
-  voices: {
-    titleA: "Voices from campus.",
-    titleB: "Sample quotes, to be replaced with real survey answers.",
-    label: "Sample, replace with real survey quotes",
-    tag: "Sample",
-    quotes: [
-      { q: "Last week of the month and the mess bill is due. This is the bit I need help with.", who: "2nd-year, engineering" },
-      { q: "I want to see the total I owe before I tap anything. No surprises.", who: "1st-year, commerce" },
-      { q: "Reminders the day before would honestly save me.", who: "3rd-year, design" },
-      { q: "Xerox before every exam adds up. Small amounts, but every week.", who: "2nd-year, law" },
-      { q: "If my limit grows when I repay on time, I'd actually care about repaying on time.", who: "Final year, science" },
-      { q: "Tell me who the lender is. I want to know who I'm dealing with.", who: "1st-year, arts" },
-    ],
-  },
 
   ending: { flatAlt: "Several phones on a desk showing the app's screens", title: "Have a nice semester!", cta: "Get early access", sub: "Works in your browser on phone, laptop and tablet. No app to install." },
 
@@ -171,14 +173,11 @@ export const LANDING = {
     slogan: "Campus, sorted.",
     columns: [
       { title: "Product", links: ["How it works", "Credit limit", "Repayments", "Credit profile"] },
-      { title: "Students", links: ["Verify", "FAQ", "Support", "Grievance"] },
+      { title: "Students", links: ["Verify", "FAQ", "Support"] },
       { title: "Vendors", links: ["Become a partner", "Settlement", "Vendor FAQ"] },
-      { title: "Company", links: ["About (placeholder)", "Careers (placeholder)", "Press (placeholder)"] },
+      { title: "Company", links: ["About", "Careers", "Press"] },
       { title: "Legal", links: ["Privacy", "Terms", "Key facts"] },
     ],
-    locations: ["Pune", "Bengaluru", "Delhi", "Mumbai", "Hyderabad", "Chennai", "Kolkata"],
     waitlist: "Joining the waitlist does not guarantee access.",
-    locationsLabel: "Campus cities on our list (placeholder)",
-    placeholder: "placeholder",
   },
 } as const;

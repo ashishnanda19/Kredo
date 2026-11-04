@@ -12,8 +12,8 @@ export const SEED_NOW = istStartOf("2026-10-30", 9);
 /** How far back the seeded history starts. Persona stories reach about 100 days; backgrounds about 75. */
 export const SEED_HISTORY_DAYS = 110;
 
-export const CAMPUS = "Demo University Campus";
-export const COLLEGE = "Demo University";
+export const CAMPUS = "Manipal University Jaipur Campus";
+export const COLLEGE = "Manipal University Jaipur";
 
 export type PersonaKind = "student" | "vendor";
 

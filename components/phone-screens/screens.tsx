@@ -266,9 +266,8 @@ export function PassportScreen() {
   const stats: [string, string, string][] = [["6", "on-time repayments", "y"], ["₹4,350", "total repaid", "g"], ["₹5,000", "current limit", "g"], ["82", "Aura, Main Character", "p"]];
   const stickers: [string][] = [["Verified"], ["On time"], ["Limit up"]];
   return (
-    <div className="relative h-full overflow-hidden text-white" style={{ background: "linear-gradient(180deg,#0A0620 0%,#160A47 55%,#1B0B5E 100%)" }}>
-      <div aria-hidden className="absolute inset-0 opacity-50" style={{ backgroundImage: "radial-gradient(rgba(180,170,255,.35) 1px, transparent 1px)", backgroundSize: "12px 12px", maskImage: "radial-gradient(80% 50% at 50% 35%, #000, transparent)" }} />
-      <div aria-hidden className="absolute -top-[120px] left-1/2 size-[420px] -translate-x-1/2 rounded-full bg-[#6D4BFF] opacity-30 blur-[80px]" />
+    <div className="relative h-full overflow-hidden text-white" style={{ background: "linear-gradient(180deg,#0b0b0c 0%,#111114 100%)" }}>
+      <div aria-hidden className="absolute inset-0 opacity-50" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,.2) 1px, transparent 1px)", backgroundSize: "12px 12px", maskImage: "radial-gradient(80% 50% at 50% 35%, #000, transparent)" }} />
       <div className="relative">
         <StatusBar dark />
         <div className="flex items-center justify-between px-[20px] pt-[6px]">
@@ -285,7 +284,7 @@ export function PassportScreen() {
         </div>
         <svg viewBox="0 0 390 200" className="mt-[8px] w-full" aria-hidden>
           <defs>
-            <linearGradient id="pp-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#F5D832" stopOpacity=".45" /><stop offset="1" stopColor="#8B7BFF" stopOpacity="0" /></linearGradient>
+            <linearGradient id="pp-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#F5D832" stopOpacity=".45" /><stop offset="1" stopColor="#F5D832" stopOpacity="0" /></linearGradient>
           </defs>
           <path d="M40 175 L110 152 L180 138 L250 104 L320 72 L360 58 L360 200 L40 200Z" fill="url(#pp-area)" />
           <path d="M40 175 L110 152 L180 138 L250 104 L320 72 L360 58" fill="none" stroke="#F5D832" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
@@ -314,7 +313,7 @@ export function PassportScreen() {
             </li>
           ))}
         </ul>
-        <p className="px-[20px] pt-[12px] text-[12px] text-white/55">Internal score, not a bureau score. Sample data.</p>
+        <p className="px-[20px] pt-[12px] text-[12px] text-white/55">Internal score, not a bureau score.</p>
       </div>
     </div>
   );

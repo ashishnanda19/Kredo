@@ -23,13 +23,13 @@ export function CoinCard({ world, studentId }: { world: ReturnType<typeof useWor
   const used = outstandingPrincipalOf(world, studentId);
   const pct = st.limit ? Math.min(100, Math.round((used / st.limit) * 100)) : 0;
   return (
-    <GlassCard radius="xl" strength="strong" className="p-6" data-testid="coin-card">
-      <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{t.available}</p>
-      <p data-testid="available-coins" className="mt-1 text-5xl font-extrabold tabular-nums tracking-tight">{avail} <span className="text-lg font-semibold text-ink-2">{t.coins}</span></p>
-      <p className="text-sm text-ink-2">{t.rupees(avail)}</p>
+    <GlassCard radius="xl" className="theme-light !border-0 !bg-accent p-5 text-[#0b0b0c] !shadow-none sm:p-6" data-testid="coin-card">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[#0b0b0c]/65">{t.available}</p>
+      <p data-testid="available-coins" className="mt-1 text-5xl font-semibold tabular-nums tracking-[-0.04em]">{avail} <span className="text-lg font-semibold text-[#0b0b0c]/65">{t.coins}</span></p>
+      <p className="text-sm text-[#0b0b0c]/70">{t.rupees(avail)}</p>
       <div className="mt-4" role="img" aria-label={`${t.inUse(used)} ${t.ofLimit(st.limit)}`}>
-        <span className="block h-2 overflow-hidden rounded-full bg-ink/15"><span className="block h-full rounded-full bg-accent" style={{ width: `${pct}%` }} /></span>
-        <p className="mt-1.5 flex justify-between text-xs text-ink-2"><span>{t.inUse(used)}</span><span data-testid="limit-total">{t.ofLimit(st.limit)}</span></p>
+        <span className="block h-2 overflow-hidden rounded-full bg-[#0b0b0c]/15"><span className="block h-full rounded-full bg-[#0b0b0c]" style={{ width: `${pct}%` }} /></span>
+        <p className="mt-1.5 flex justify-between text-xs text-[#0b0b0c]/70"><span>{t.inUse(used)}</span><span data-testid="limit-total">{t.ofLimit(st.limit)}</span></p>
       </div>
       {blocked && (
         <div role="status" data-testid="blocked-note" className="mt-4 rounded-2xl bg-warning-soft p-3 text-sm text-warn-text">
@@ -38,7 +38,7 @@ export function CoinCard({ world, studentId }: { world: ReturnType<typeof useWor
           <Link href="/dashboard/recovery" data-testid="recovery-cta" className="mt-1 inline-block font-semibold underline">{STUDENT.coinCard.recoveryLink}</Link>
         </div>
       )}
-      <p className="mt-3 text-xs text-ink-2">{t.note}</p>
+      <p className="mt-3 text-xs text-[#0b0b0c]/65">{t.note}</p>
     </GlassCard>
   );
 }

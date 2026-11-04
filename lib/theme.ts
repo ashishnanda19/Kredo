@@ -25,7 +25,6 @@ export const moods = {
   sunset: "linear-gradient(160deg,#2A1747 0%,#6B2A63 45%,#C2552F 100%)",
   ember: "linear-gradient(160deg,#3A0E07 0%,#8E2A12 50%,#E2572A 100%)",
   forest: "linear-gradient(160deg,#06140F 0%,#0C2A1E 55%,#0F3A2A 100%)",
-  glowBorder: "linear-gradient(120deg,#7C5CFF,#E2489A 50%,#FF8A3D)",
 } as const;
 
 export const radii = { card: 14, bento: 16, tall: 24 } as const;

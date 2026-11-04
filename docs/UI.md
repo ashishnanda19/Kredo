@@ -1,6 +1,6 @@
 # UI map
 
-Screenshots of every key screen are in `docs/screens/` (`<name>.phone.png` at 360px wide, `<name>.desktop.png` at 1280px; regenerate with `npm run screens`). Dark theme is the default.
+Screenshots of every key screen are in `docs/screens/` (`<name>.phone.png` at 360px wide, `<name>.desktop.png` at 1280px; regenerate with `npm run screens`). Light theme is the default; dark is available from the theme toggle.
 
 ## Look and feel
 - **Tokens** in `app/globals.css`: surfaces `--page`, `--card`, `--elevated`; text `--ink`, `--ink-2` (secondary, AA on page and card); accent signal yellow `--accent` with dark `--accent-ink` (AAA); status text `--ok-text`, `--bad-text`, `--warn-text`, `--info-text`; pills `--pill-bg/--pill-fg`. Do not add colours. `lib/a11y.test.ts` checks contrast.

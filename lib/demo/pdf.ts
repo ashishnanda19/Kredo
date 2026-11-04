@@ -6,7 +6,6 @@ import { amountDue } from "../domain/selectors";
 import { fmtDate, fmtDateTime } from "../domain/time";
 import type { Settlement, WorldState } from "../domain/types";
 
-const SIM = "Demo: simulated data, no real money";
 const ascii = (s: string) => s.replaceAll("₹", "Rs ").replaceAll("•", "*").replace(/[^\x20-\x7E]/g, "?");
 
 type Doc = import("jspdf").jsPDF;
@@ -19,7 +18,6 @@ class Writer {
   }
   private header() {
     this.doc.setFont("helvetica", "bold").setFontSize(15).text(ascii(this.title), 40, 40);
-    this.doc.setFont("helvetica", "normal").setFontSize(8).text(ascii(SIM), 40, 828);
     this.y = 64;
   }
   line(text: string, opts: { bold?: boolean; size?: number; gap?: number } = {}) {

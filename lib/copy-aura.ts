@@ -118,7 +118,6 @@ export const AURA = {
     unavailableBody: (date: string) => `We can't reach the latest Aura right now. This is your last known Aura, from ${date}.`,
     unavailableNoCache: "We can't reach your Aura right now. Please try again in a few minutes.",
     retry: "Try again",
-    sample: "Showing sample Aura data",
   },
 
   history: {

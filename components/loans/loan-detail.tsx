@@ -24,7 +24,7 @@ export function LoanDetail({ id }: { id: string }) {
 
   if (!loan)
     return (
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-3xl">
         <PageHeader title="Loan" />
         <GlassCard radius="lg">
           <EmptyState title="We can't find that loan" body="It may not be set up on this account." action={<GlassButton asChild><Link href="/dashboard/loans">{T.title}</Link></GlassButton>} />

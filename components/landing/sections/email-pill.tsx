@@ -36,7 +36,7 @@ export function EmailPill({ className, dark, compact }: { className?: string; da
             {t.done} <span className={dark ? "font-normal text-white/60" : "font-normal text-ink-2"}>{t.doneSub}</span>
           </motion.p>
         ) : (
-          <motion.form key="form" exit={{ opacity: 0 }} onSubmit={submit} noValidate className={cn("flex items-center gap-1 rounded-full p-1 pl-4", dark ? "bg-white/10" : "bg-card", err && "ring-2 ring-bad")}>
+          <motion.form key="form" exit={{ opacity: 0 }} onSubmit={submit} noValidate className={cn("flex items-center gap-1 rounded-full p-1 pl-4", dark ? "liquid-glass [--lg-blur:12px] [--lg-fill:rgba(255,255,255,0.08)]" : "bg-card", err && "ring-2 ring-bad")}>
             <label htmlFor={id} className="sr-only">{t.placeholder}</label>
             <input
               id={id}

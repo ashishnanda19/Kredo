@@ -95,7 +95,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
           <GlassSheetTitle className="text-xl font-semibold tracking-[-0.035em]">Secure checkout (mock)</GlassSheetTitle>
           <GlassSheetDescription className="mt-1 text-sm text-ink-2">{T.checkoutNote}</GlassSheetDescription>
           <div className="mt-4 rounded-[20px] bg-ink/[0.06] p-4 text-sm">
-            <p className="font-semibold">Mock Payments Ltd (placeholder)</p>
+            <p className="font-semibold">Mock Payments Ltd</p>
             <p className="mt-1 text-ink-2">
               Paying {formatINR(amount)} to {loan.lender}
             </p>

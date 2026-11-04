@@ -153,6 +153,6 @@ test("the demo student's activity and profile are their own, and the home shows 
   await page.goto("/dashboard/profile");
   await expect(page.getByTestId("profile-world")).toContainText("Diya");
   await expect(page.getByTestId("profile-world")).toContainText("••••");
-  await page.getByRole("button", { name: "Sign out of the demo" }).click();
+  await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/start/);
 });

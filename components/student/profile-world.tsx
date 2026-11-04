@@ -31,10 +31,10 @@ export function ProfileWorld() {
         </dl>
         <p className="mt-3 text-xs text-ink-2">{PROFILE_W.note}</p>
       </GlassCard>
-      <nav aria-label="Your record" className="flex flex-wrap gap-x-5 text-sm font-semibold">
-        <Link href="/dashboard/aura" className="inline-flex min-h-11 items-center underline">{PROFILE_W.links.aura}</Link>
-        <Link href="/dashboard/limit" className="inline-flex min-h-11 items-center underline">{PROFILE_W.links.limit}</Link>
-        <Link href="/dashboard/loans" className="inline-flex min-h-11 items-center underline">{PROFILE_W.links.loans}</Link>
+      <nav aria-label="Your record" className="grid grid-cols-3 gap-2 text-center text-sm font-semibold">
+        {([["/dashboard/aura", PROFILE_W.links.aura], ["/dashboard/limit", PROFILE_W.links.limit], ["/dashboard/loans", PROFILE_W.links.loans]] as const).map(([href, label]) => (
+          <Link key={href} href={href} className="glass glass-soft flex min-h-14 items-center justify-center rounded-[18px] px-2 py-2 leading-tight transition-transform active:scale-[0.97]">{label}</Link>
+        ))}
       </nav>
       <GlassButton variant="outline" className="w-full" onClick={() => { signOut(); router.push("/start"); }}>{PROFILE_W.signOut}</GlassButton>
     </div>

@@ -9,7 +9,7 @@ const isoDate = (days: number) => iso(days).slice(0, 10);
 
 /* ----------------------------------------------------------------- colleges */
 export const COLLEGES = [
-  "Sunrise Institute of Technology, Pune",
+  "Manipal University Jaipur",
   "Lakeview College of Arts, Kochi",
   "Northgate University, Delhi",
   "Riverbend Polytechnic, Lucknow",
@@ -80,7 +80,7 @@ export const REJECTION: Record<RejectionReason, { label: string; why: string; fi
   },
 };
 
-export const EXPECTED_REVIEW = "usually within 1 to 2 working days (placeholder)";
+export const EXPECTED_REVIEW = "usually within 1 to 2 working days";
 
 /* ------------------------------------------------------------------- loans */
 export interface LoanProduct {
@@ -89,7 +89,7 @@ export interface LoanProduct {
   tagline: string;
   min: number;
   max: number;
-  /** monthly charge as a percent of the principal, flat (placeholder) */
+  /** monthly charge as a percent of the principal, flat */
   chargePct: number;
   processingPct: number;
   tenures: number[];
@@ -144,7 +144,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
   },
 ];
 
-export const LENDER = { name: "Placeholder Finance Ltd (regulated lending partner)", short: "Placeholder Finance" };
+export const LENDER = { name: "Partner Finance Ltd (regulated lending partner)", short: "Partner Finance" };
 export const VERSIONS = { terms: "T-2026.1", offer: "O-2026.1", privacy: "P-2026.1", keyFacts: "K-2026.1" };
 
 export const ACCOUNT_AGE_DAYS = 62;
@@ -246,7 +246,7 @@ export const PAY_STATE_INFO: Record<PayState, { label: string; why: string; next
   pending: { label: "Pending", why: "The bank has not confirmed this payment yet.", next: "Nothing to do. Most payments confirm within a few minutes, and some take up to a day." },
   successful: { label: "Successful", why: "The payment went through and was added to your loan.", next: "You can download the receipt." },
   failed: { label: "Failed", why: "The payment did not go through. No money was taken, or any amount taken will be returned by your bank.", next: "Try again, or pick a different payment method." },
-  reversed: { label: "Reversed", why: "The bank returned this payment after it was made.", next: "The amount usually reaches your account in 5 to 7 working days (placeholder). Contact support if it takes longer." },
+  reversed: { label: "Reversed", why: "The bank returned this payment after it was made.", next: "The amount usually reaches your account in 5 to 7 working days. Contact support if it takes longer." },
 };
 
 export const DISPUTE_CATEGORIES = ["Charged twice", "Amount is wrong", "Payment not shown", "I did not make this payment", "Other"];
@@ -288,14 +288,14 @@ export const TICKETS: Ticket[] = [
 ];
 
 export const TICKET_STATUS_LABEL: Record<TicketStatus, string> = { open: "Open", in_progress: "In progress", awaiting: "Awaiting you", resolved: "Resolved", escalated: "Escalated" };
-export const RESPONSE_EXPECTATION = "We aim to reply within 2 working days. Complaints are acknowledged within 24 hours (placeholder timelines).";
+export const RESPONSE_EXPECTATION = "We aim to reply within 2 working days. Complaints are acknowledged within 24 hours.";
 
 export const GRIEVANCE_CARD = {
   lender: LENDER.name,
-  officer: "Grievance Officer (placeholder)",
+  officer: "Grievance Officer",
   email: "grievance@lender.example",
-  phone: "+91 00000 00000 (placeholder)",
-  escalation: "Step 1: raise a ticket here. Step 2: if unresolved in the stated time, write to the lender grievance officer. Step 3: you may escalate to the regulator as per its guidance (placeholder text).",
+  phone: "+91 00000 00000",
+  escalation: "Step 1: raise a ticket here. Step 2: if unresolved in the stated time, write to the lender grievance officer. Step 3: you may escalate to the regulator as per its guidance.",
 };
 
 /* ----------------------------------------------------------- credit profile */
@@ -313,7 +313,7 @@ export const CREDIT_PROFILE = {
     { id: "h3", date: isoDate(-52), text: "Campus spend repaid 2 days late", ok: false },
     { id: "h4", date: isoDate(-60), text: "Account opened", ok: true },
   ],
-  reporting: "Not reported to bureaus (placeholder)",
+  reporting: "Not reported to bureaus",
 };
 
 /* --------------------------------------------------------------- consents */

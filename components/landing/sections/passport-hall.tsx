@@ -41,7 +41,7 @@ const STATS: [string, string][] = [
 /**
  * Flighty-passport look-back. On wide screens the section pins and opens on a passport-booklet cover; as you scroll
  * the stamps scatter and the booklet flies into the phone, which turns to face you while the copy arrives.
- * Phones and reduced motion get the plain stacked layout. Dark indigo; the nav inverts over it.
+ * Phones and reduced motion get the plain stacked layout. Black like the other dark sections; the nav inverts over it.
  */
 export function PassportHall() {
   const t = COPY.landing.passport;
@@ -84,11 +84,11 @@ export function PassportHall() {
       data-nav-theme="dark"
       aria-labelledby="passport-title"
       className={cn("relative z-[1] text-white", !reduce && "lg:h-[240svh]")}
-      style={{ background: "radial-gradient(60% 50% at 70% 60%, rgba(109,75,255,.35), transparent 70%), linear-gradient(180deg,#07051a 0%,#120a3f 100%)" }}
+      style={{ background: "radial-gradient(55% 45% at 70% 60%, rgba(255,255,255,.06), transparent 70%), #06060a" }}
     >
       {/* feathered seams hang outside the section, over its light neighbours, so no light band shows while it is pinned */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 -top-28 z-20 h-28 bg-gradient-to-b from-transparent to-[#07051a] sm:-top-36 sm:h-36" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 -bottom-24 z-20 h-24 bg-gradient-to-b from-[#120a3f] to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 -top-28 z-20 h-28 bg-gradient-to-b from-transparent to-[#06060a] sm:-top-36 sm:h-36" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 -bottom-24 z-20 h-24 bg-gradient-to-b from-[#06060a] to-transparent" />
       <div
         data-pin
         className={cn("relative overflow-hidden py-24 sm:py-32", !reduce && "lg:sticky lg:top-[var(--bar-h)] lg:flex lg:h-[calc(100svh-var(--bar-h))] lg:items-center lg:py-0")}
@@ -105,7 +105,7 @@ export function PassportHall() {
             ))}
           </div>
         </div>
-        <div aria-hidden className="absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(190,180,255,.35)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:radial-gradient(70%_60%_at_50%_50%,#000,transparent)]" />
+        <div aria-hidden className="absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(255,255,255,.22)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:radial-gradient(70%_60%_at_50%_50%,#000,transparent)]" />
         <div className="relative mx-auto grid w-full max-w-[1180px] items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <div data-zoom-copy>
@@ -144,7 +144,7 @@ export function PassportHall() {
             <p data-zoom-copy className="mt-8 max-w-lg text-[12.5px] leading-relaxed text-white/60">{t.disclaimer} Sample data.</p>
           </div>
           <div data-zoom-phone className="relative z-10 mx-auto [transform-style:preserve-3d] w-[min(300px,78vw)] lg:w-[min(300px,calc((100svh-160px)/2.14))]">
-            <PhoneFrame screenBg="#0A0620">
+            <PhoneFrame screenBg="#0b0b0c">
               <PassportScreen />
             </PhoneFrame>
           </div>
