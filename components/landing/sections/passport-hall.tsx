@@ -68,8 +68,7 @@ export function PassportHall() {
       gsap.set(copy, { opacity: 0, y: 40, filter: "blur(10px)" });
       gsap
         .timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.6, invalidateOnRefresh: true } })
-        // the cover holds for a beat, then the stamps scatter and the booklet flies into the phone, turning as it goes
-        .to(cover.querySelectorAll("[data-cover-stamp]"), { opacity: 0, scale: 1.3, filter: "blur(6px)", stagger: 0.02, duration: 0.18 }, 0.12)
+        // the cover holds for a beat, then the booklet flies into the phone, turning as it goes
         .to(book, { x: () => toPhone().x, y: () => toPhone().y, scale: 0.42, rotateY: -28, ease: "power2.inOut", duration: 0.4 }, 0.16)
         .to(book, { opacity: 0, filter: "blur(8px)", duration: 0.12 }, 0.46)
         .fromTo(phone, { opacity: 0, scale: 0.86, rotateY: 22 }, { opacity: 1, scale: 1, rotateY: 0, ease: "power2.out", duration: 0.24 }, 0.42)
@@ -98,23 +97,40 @@ export function PassportHall() {
         <div data-cover className="absolute inset-0 z-30 hidden [perspective:1400px]">
           <PassportCover />
         </div>
+        {/* a giant outlined ticker drifting behind everything */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[4%] overflow-hidden">
+          <div className="flex w-max whitespace-nowrap text-[clamp(110px,15vw,230px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.06)] motion-safe:animate-[passport-ticker_60s_linear_infinite]">
+            {[...t.ticker, ...t.ticker].map((w, i) => (
+              <span key={i} className="px-[0.35em]">{w} <span className="align-middle text-[0.28em] text-accent/30 [-webkit-text-stroke:0]">✦</span></span>
+            ))}
+          </div>
+        </div>
         <div aria-hidden className="absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(190,180,255,.35)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:radial-gradient(70%_60%_at_50%_50%,#000,transparent)]" />
         <div className="relative mx-auto grid w-full max-w-[1180px] items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <div data-zoom-copy>
+              <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-accent ring-1 ring-white/15">
+                <span aria-hidden className="size-1.5 rounded-full bg-accent" /> {t.eyebrow}
+              </p>
               <TwoTone id="passport-title" a={t.titleA} b={t.titleB} dark />
             </div>
             <dl data-zoom-copy className="mt-10 grid gap-3 sm:grid-cols-3">
-              {STATS.map(([v, k]) => (
-                <div key={k} className="flex flex-col-reverse rounded-[16px] bg-white/[.06] p-4 ring-1 ring-white/10">
-                  <dt className="mt-1.5 text-[13px] text-white/60">{k}</dt>
-                  <dd className="text-[24px] font-semibold leading-tight tracking-[-0.03em]">{v}</dd>
+              {STATS.map(([v, k], i) => (
+                <div
+                  key={k}
+                  className={cn(
+                    "flex flex-col-reverse rounded-[18px] p-5",
+                    i === 0 ? "bg-accent text-accent-ink" : "bg-white/[.06] ring-1 ring-white/12",
+                  )}
+                >
+                  <dt className={cn("mt-2 text-[13px] font-medium", i === 0 ? "text-accent-ink/70" : "text-white/60")}>{k}</dt>
+                  <dd className="text-[clamp(26px,2.8vw,34px)] font-semibold leading-none tracking-[-0.04em]">{v}</dd>
                 </div>
               ))}
             </dl>
-            <ul data-zoom-copy className="mt-8 flex flex-wrap gap-3">
+            <ul data-zoom-copy className="mt-8 flex flex-wrap gap-2.5">
               {STAMPS.map((s) => (
-                <li key={s.label} className="flex items-center gap-2.5 rounded-full border border-dashed border-white/25 py-1.5 pl-1.5 pr-4">
+                <li key={s.label} className="flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[.04] py-1.5 pl-1.5 pr-4">
                   <span className="grid size-8 place-items-center rounded-full bg-accent text-accent-ink">
                     <s.icon className="size-4" aria-hidden />
                   </span>

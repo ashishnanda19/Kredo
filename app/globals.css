@@ -571,3 +571,9 @@ html:not(.js) [data-splash-overlay] { display: none; }
   0% { stroke-opacity: 1; stroke-width: 6; }
   100% { stroke-opacity: 0.25; stroke-width: 3; }
 }
+
+/* Credit passport: a giant outlined ticker drifting behind the section */
+@keyframes passport-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

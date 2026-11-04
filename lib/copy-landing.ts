@@ -143,7 +143,11 @@ export const LANDING = {
 
   vendors: { titleA: "Your campus, already on it.", titleB: "Vendors near you that accept us (sample list).", cta: "Become a partner", open: "Open", closed: "Closed", sampleTime: "Open or closed at 7:30 pm, sample data." },
 
-  passport: { titleA: "Look back on how you built your score.", titleB: "Every on-time repayment, on one page.", disclaimer: "Internal score, not a credit bureau score. It does not replace your CIBIL or other bureau score." },
+  passport: {
+    eyebrow: "Your repayment story",
+    cover: { edition: "Student · Campus edition", title: "Credit Passport", number: "No. 0042" },
+    ticker: ["on time", "limit up", "no cap", "3 in a row", "verified", "main character"],
+    titleA: "Look back on how you built your score.", titleB: "Every on-time repayment, on one page.", disclaimer: "Internal score, not a credit bureau score. It does not replace your CIBIL or other bureau score." },
 
   voices: {
     titleA: "Voices from campus.",

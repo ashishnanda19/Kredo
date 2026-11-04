@@ -27,12 +27,30 @@ export function LogoMark({ className }: { className?: string }) {
   return <MarkImage className={cn("size-8 shrink-0", className)} />;
 }
 
+/** The coin artwork (two overlapping discs, the front one stamped with a clover), in the logotype's coordinate space. */
+function CoinShapes() {
+  return (
+    <>
+      <circle cx="600.4" cy="-62" r="64" fill="#F8BA0B"/><circle cx="636.4" cy="-62" r="64" fill="#FABF05" stroke="#B8860B" strokeOpacity=".55" strokeWidth="3"/><g fill="#151514"><circle cx="624.4" cy="-74" r="13"/><circle cx="624.4" cy="-50" r="13"/><circle cx="648.4" cy="-74" r="13"/><circle cx="648.4" cy="-50" r="13"/><circle cx="636.4" cy="-62" r="13"/></g>
+    </>
+  );
+}
+
+/** The coin on its own, for use as a graphic or as the "o" of a word. Sized by height. */
+export function Coin({ className }: { className?: string }) {
+  return (
+    <svg viewBox="532 -130 176 136" aria-hidden className={cn("h-[1em] w-auto shrink-0", className)}>
+      <CoinShapes />
+    </svg>
+  );
+}
+
 /** The full logotype ("kred" plus the coin). Sized by height; the letters take the surrounding text colour. */
 export function Wordmark({ className }: { className?: string }) {
   return (
     <svg viewBox="14 -172 692 176" role="img" aria-label={BRAND.name} className={cn("h-[22px] w-auto shrink-0", className)}>
       <path fill="currentColor" d={LETTERS} />
-      <circle cx="600.4" cy="-62" r="64" fill="#F8BA0B"/><circle cx="636.4" cy="-62" r="64" fill="#FABF05" stroke="#B8860B" strokeOpacity=".55" strokeWidth="3"/><g fill="#151514"><circle cx="624.4" cy="-74" r="13"/><circle cx="624.4" cy="-50" r="13"/><circle cx="648.4" cy="-74" r="13"/><circle cx="648.4" cy="-50" r="13"/><circle cx="636.4" cy="-62" r="13"/></g>
+      <CoinShapes />
     </svg>
   );
 }

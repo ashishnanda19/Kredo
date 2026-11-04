@@ -263,7 +263,8 @@ export function PayReceiptScreen() {
 
 /* --------------------------------------------------------- Credit passport (dark indigo) */
 export function PassportScreen() {
-  const stats: [string, string][] = [["6", "on-time repayments"], ["₹4,350", "total repaid"], ["₹5,000", "current limit"], ["Building", "score band"]];
+  const stats: [string, string, string][] = [["6", "on-time repayments", "y"], ["₹4,350", "total repaid", "g"], ["₹5,000", "current limit", "g"], ["82", "Aura, Main Character", "p"]];
+  const stickers: [string][] = [["Verified"], ["On time"], ["Limit up"]];
   return (
     <div className="relative h-full overflow-hidden text-white" style={{ background: "linear-gradient(180deg,#0A0620 0%,#160A47 55%,#1B0B5E 100%)" }}>
       <div aria-hidden className="absolute inset-0 opacity-50" style={{ backgroundImage: "radial-gradient(rgba(180,170,255,.35) 1px, transparent 1px)", backgroundSize: "12px 12px", maskImage: "radial-gradient(80% 50% at 50% 35%, #000, transparent)" }} />
@@ -271,36 +272,49 @@ export function PassportScreen() {
       <div className="relative">
         <StatusBar dark />
         <div className="flex items-center justify-between px-[20px] pt-[6px]">
-          <p className="text-[28px] font-bold tracking-[-0.03em]">Credit passport</p>
+          <div className="flex items-center gap-[10px]">
+            <LogoMark className="size-[34px]" />
+            <p className="text-[26px] font-extrabold leading-none tracking-[-0.05em]">Credit passport</p>
+          </div>
           <span className="grid size-[34px] place-items-center rounded-full bg-white/10"><Share className="size-[16px]" aria-hidden /></span>
         </div>
-        <div className="flex gap-[8px] px-[20px] pt-[12px] text-[13px] font-semibold">
+        <div className="flex gap-[8px] px-[20px] pt-[12px] text-[13px] font-bold">
           {["2026", "This semester", "All time"].map((p, i) => (
             <span key={p} className="rounded-full px-[12px] py-[6px]" style={i === 0 ? { background: Y, color: "#111" } : { background: "rgba(255,255,255,.1)" }}>{p}</span>
           ))}
         </div>
-        <svg viewBox="0 0 390 230" className="mt-[10px] w-full" aria-hidden>
+        <svg viewBox="0 0 390 200" className="mt-[8px] w-full" aria-hidden>
           <defs>
-            <linearGradient id="pp-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#8B7BFF" stopOpacity=".55" /><stop offset="1" stopColor="#8B7BFF" stopOpacity="0" /></linearGradient>
+            <linearGradient id="pp-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#F5D832" stopOpacity=".45" /><stop offset="1" stopColor="#8B7BFF" stopOpacity="0" /></linearGradient>
           </defs>
-          {[[40, 180], [110, 150], [180, 130], [250, 95], [320, 60], [360, 40]].map(([x, y], i, a) =>
-            i ? <path key={i} d={`M${a[i - 1][0]} ${a[i - 1][1]} Q ${(a[i - 1][0] + x) / 2} ${Math.min(a[i - 1][1], y) - 40} ${x} ${y}`} fill="none" stroke="rgba(200,190,255,.45)" strokeWidth="1.5" strokeDasharray="3 5" /> : null,
-          )}
-          <path d="M40 200 L110 175 L180 160 L250 120 L320 85 L360 70 L360 230 L40 230Z" fill="url(#pp-area)" />
-          <path d="M40 200 L110 175 L180 160 L250 120 L320 85 L360 70" fill="none" stroke="#B6ABFF" strokeWidth="2.5" />
-          {[[40, 200, "₹1k"], [180, 160, "₹3k"], [360, 70, "₹5k"]].map(([x, y, l]) => (
-            <g key={l as string}><circle cx={x as number} cy={y as number} r="5" fill="#fff" /><text x={(x as number) - 8} y={(y as number) - 12} fontSize="12" fill="#cfc8ff">{l}</text></g>
+          <path d="M40 175 L110 152 L180 138 L250 104 L320 72 L360 58 L360 200 L40 200Z" fill="url(#pp-area)" />
+          <path d="M40 175 L110 152 L180 138 L250 104 L320 72 L360 58" fill="none" stroke="#F5D832" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+          {[[40, 175, "₹1k"], [180, 138, "₹3k"], [360, 58, "₹5k"]].map(([x, y, l]) => (
+            <g key={l as string}><circle cx={x as number} cy={y as number} r="6" fill="#fff" stroke="#F5D832" strokeWidth="3" /><text x={(x as number) - 10} y={(y as number) - 14} fontSize="13" fontWeight="700" fill="#fff">{l}</text></g>
           ))}
         </svg>
-        <div className="grid grid-cols-2 gap-[10px] px-[16px] pt-[6px]">
-          {stats.map(([v, k]) => (
-            <div key={k} className="rounded-[16px] bg-white/[.07] p-[14px] ring-1 ring-white/10">
-              <p className="text-[30px] font-bold leading-none tracking-[-0.03em]">{v}</p>
-              <p className="pt-[6px] text-[13px] text-white/60">{k}</p>
+        <div className="grid grid-cols-2 gap-[10px] px-[16px] pt-[4px]">
+          {stats.map(([v, k, tone]) => (
+            <div key={k} className={tone === "y" ? "rounded-[20px] bg-[#F5D832] p-[14px] text-[#111]" : "rounded-[20px] bg-white/[.08] p-[14px] ring-1 ring-white/12"}>
+              <p className="text-[30px] font-extrabold leading-none tracking-[-0.05em]">{v}</p>
+              <p className={tone === "y" ? "pt-[6px] text-[13px] font-medium text-black/65" : "pt-[6px] text-[13px] text-white/60"}>{k}</p>
             </div>
           ))}
         </div>
-        <p className="px-[20px] pt-[14px] text-[12px] text-white/55">Internal score, not a bureau score. Sample data.</p>
+        <div className="flex gap-[8px] px-[16px] pt-[12px]">
+          {stickers.map(([label]) => (
+            <span key={label} className="rounded-full border border-white/20 bg-white/[.06] px-[12px] py-[6px] text-[12.5px] font-semibold">{label}</span>
+          ))}
+        </div>
+        <ul className="space-y-[8px] px-[16px] pt-[14px]">
+          {([["Repaid ₹1,150", "on time", "+3 Aura"], ["Limit up to ₹5,000", "step 4", "new"], ["Repaid ₹600", "3 in a row", "+4 Aura"]] as const).map(([a, b, c]) => (
+            <li key={a} className="flex items-center justify-between rounded-[16px] bg-white/[.06] px-[12px] py-[9px] ring-1 ring-white/10">
+              <span className="leading-tight"><span className="block text-[13.5px] font-bold">{a}</span><span className="block text-[12px] text-white/55">{b}</span></span>
+              <span className="rounded-full bg-[#F5D832] px-[9px] py-[3px] text-[11.5px] font-extrabold text-[#111]">{c}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="px-[20px] pt-[12px] text-[12px] text-white/55">Internal score, not a bureau score. Sample data.</p>
       </div>
     </div>
   );
