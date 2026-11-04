@@ -423,13 +423,13 @@ export function HeroScene() {
     if (!el) return;
     const ro = new ResizeObserver(([e]) => {
       const { width, height } = e.contentRect;
-      // the floating stage control overlaps the hand, never the screen: the screen's bottom edge sits at 0.891 of
-      // the art width below the area top (the box is pulled up by 9% of its width and the glass ends at 98.1%), so
+      // the floating stage control overlaps the hand, never the screen: the screen's bottom edge sits at 0.834 of
+      // the art width below the area top (the box is pulled up by 9% of its width and the glass ends at 92.4%), so
       // leave room for the control (its offset + height + a gap) under it
       const reserve = width < 640 ? 78 : 90;
       const pw = Math.max(
         220,
-        Math.min((height - reserve) / 0.891, width * 1.3, width >= 1024 ? 760 : 620),
+        Math.min((height - reserve) / 0.834, width * 1.3, width >= 1024 ? 760 : 620),
       );
       el.style.setProperty("--pw", `${Math.round(pw)}px`);
     });

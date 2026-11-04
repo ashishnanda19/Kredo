@@ -45,8 +45,8 @@ Student and vendor screens are built for phones first.
   <tr>
     <td align="center"><img src="docs/readme/m-vendor-home.png" width="170" alt="Vendor home" /><br /><sub>Vendor home</sub></td>
     <td align="center"><img src="docs/readme/m-vendor-qr.png" width="170" alt="Stall QR" /><br /><sub>Stall QR</sub></td>
+    <td align="center"><img src="docs/readme/m-vendor-payments.png" width="170" alt="Payments" /><br /><sub>Payments</sub></td>
     <td align="center"><img src="docs/readme/m-vendor-settlements.png" width="170" alt="Settlements" /><br /><sub>Settlements</sub></td>
-    <td></td>
   </tr>
 </table>
 </div>
@@ -63,58 +63,3 @@ Aura is the student-facing view of a repayment score. It is one deterministic en
 <img src="docs/readme/landing-passport-phone.png" alt="Credit Passport" width="100%" />
 </div>
 
-## Principles
-
-- **No wallet.** Coins are a display unit for the limit, not money. There is no top-up, withdrawal or transfer.
-- **Costs before consent.** Fee, total and due date are shown before every payment.
-- **Idempotent actions.** A repeated request never books twice.
-- **Config, not hard-codes.** Every fee, rate, limit and window lives in one validated, frozen policy file.
-- **Privacy by default.** Only masked values (last four digits) are kept. ID photos and numbers are never stored or sent.
-
-## Try the demo
-
-The MVP runs entirely in the browser with seeded data, so there is nothing to set up beyond Node. It includes student-to-stall QR payment, loans, per-payment settlement, repayment, the Aura engine, a two-phone Demo Stage and scripted scenarios. A Demo controls panel lets you move the clock, pick the lender's answers and reset.
-
-```bash
-npm install
-npm run dev
-```
-
-Open <http://localhost:3000>. Go to `/start` to sign in as a seeded student or vendor, or `/demo` for the two-phone Stage.
-
-## Tech stack
-
-| Area | Tools |
-|---|---|
-| App | Next.js 16, React 19, TypeScript (strict) |
-| UI | Tailwind CSS v4, Framer Motion, GSAP, Recharts |
-| State and validation | zustand, immer, zod |
-| Score service | Python FastAPI, in `services/score` |
-| Testing | Vitest, fast-check, Playwright, axe |
-
-## Project layout
-
-```
-app/            routes: landing, /start, /dashboard, /vendor, /ops, /demo
-components/     student, vendor, ops, demo, landing and shared UI
-lib/policy.ts   every fee, rate, limit, window and threshold
-lib/domain/     pure reducers over one world state
-lib/aura/       the Aura engine
-lib/settlement  the per-payment settlement job and reports
-lib/api/        lender port and mocks (a real backend replaces these)
-services/score  Python score service
-docs/           specs, UI notes and screenshots
-```
-
-## Quality checks
-
-```bash
-npm run typecheck   # types, including route types
-npm run lint
-npm run test:unit   # Vitest and property tests
-npm run test:e2e    # builds, then runs Playwright (desktop and phone)
-```
-
-## Status
-
-Kredo is an unreleased MVP. Fees, interest and fraud thresholds are placeholders until the lending partner sets them, and the lender and its answers are simulated in the demo.

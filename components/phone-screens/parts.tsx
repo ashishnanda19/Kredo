@@ -8,14 +8,14 @@ export const SYS = '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
 export const SCREEN_W = 390;
 export const SCREEN_H = 844;
 
-/** Renders children at the 390x844 design size and scales them to fill the container width. */
+/** Renders children at the 390x844 design size and scales them to fit the container (centred, so a wider glass shows a little background at the sides). */
 export function ScaledScreen({ children, className, bg = "#fff" }: { children: React.ReactNode; className?: string; bg?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [s, setS] = useState(0);
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const ro = new ResizeObserver(([e]) => setS(e.contentRect.width / SCREEN_W));
+    const ro = new ResizeObserver(([e]) => setS(Math.min(e.contentRect.width / SCREEN_W, e.contentRect.height / SCREEN_H)));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -23,7 +23,7 @@ export function ScaledScreen({ children, className, bg = "#fff" }: { children: R
     <div ref={ref} className={cn("relative h-full w-full overflow-hidden", className)} style={{ background: bg }}>
       <div
         className="tnum"
-        style={{ width: SCREEN_W, height: SCREEN_H, transform: `scale(${s})`, transformOrigin: "top left", fontFamily: SYS, opacity: s ? 1 : 0 }}
+        style={{ position: "absolute", left: "50%", top: 0, width: SCREEN_W, height: SCREEN_H, transform: `translateX(-50%) scale(${s})`, transformOrigin: "top center", fontFamily: SYS, opacity: s ? 1 : 0 }}
       >
         {children}
       </div>

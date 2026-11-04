@@ -52,14 +52,14 @@ export function PaymentsList() {
       ) : (
         days.map(([day, rows]) => (
           <GlassCard key={day} radius="lg" className="px-4 py-3">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-ink-2">{fmtDate(day)}</h2>
+            <h2 className="mb-0.5 text-xs font-bold uppercase tracking-wider text-ink-2">{fmtDate(day)}</h2>
             <ul className="divide-y divide-hairline">
               {rows.map((l) => {
                 const pending = world.refunds.some((r) => r.loanId === l.id && r.status === "pending_ops");
                 const can = l.status !== "refunded" && l.repaid === 0 && !pending;
                 return (
                   <li key={l.id}>
-                    <PaymentRow world={world} loan={l} action={pending ? <span className="text-xs text-ink-2">{REFUND.requested}</span> : can ? <Btn size="sm" variant="ghost" className="min-h-9 px-3 text-xs" data-testid="refund-open" onClick={() => setRefunding(l)}>{REFUND.action}</Btn> : null} />
+                    <PaymentRow world={world} loan={l} action={pending ? <span className="text-xs text-ink-2">{REFUND.requested}</span> : can ? <Btn size="sm" variant="secondary" className="mt-1 min-h-8 px-3 text-xs" data-testid="refund-open" onClick={() => setRefunding(l)}>{REFUND.action}</Btn> : null} />
                   </li>
                 );
               })}
