@@ -5,9 +5,10 @@ import { WorldOr } from "@/components/student/world-or";
 
 export const metadata: Metadata = { title: "Scan and pay" };
 
-export default function PayPage() {
+export default async function PayPage({ searchParams }: { searchParams: Promise<{ micro?: string }> }) {
+  const { micro } = await searchParams;
   return (
-    <WorldOr world={<PayWorld />}>
+    <WorldOr world={<PayWorld key={micro ? "micro" : "pay"} micro={micro === "1"} />}>
       <PayFlow />
     </WorldOr>
   );

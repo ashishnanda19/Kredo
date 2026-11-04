@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { FlaskConical, RotateCcw, X } from "lucide-react";
+import { useEmbedded } from "@/components/demo/use-embedded";
 import { DemoWorldControls } from "@/components/demo/demo-world-controls";
 import { GlassButton, GlassCard } from "@/components/glass";
 import { COPY } from "@/lib/copy";
@@ -96,7 +97,9 @@ const EDGE: { id: AuthEdge; label: string }[] = [
 /** Floating demo panel. Hidden unless NEXT_PUBLIC_DEMO_CONTROLS=true. */
 export function DemoControls() {
   const s = useStore();
-  if (!DEMO_ENABLED) return null;
+  const embedded = useEmbedded();
+  // inside a phone frame on the Demo Stage the panel would sit on top of the app; the stage has its own
+  if (!DEMO_ENABLED || embedded) return null;
   const d = COPY.demo;
 
   return (

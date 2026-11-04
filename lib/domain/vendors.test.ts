@@ -54,7 +54,7 @@ describe("vendor onboarding", () => {
   it("penny-drop: a name mismatch or provider error leaves the bank unverified", () => {
     const { world, vendorId } = created();
     for (const outcome of ["name_mismatch", "provider_error"] as const) {
-      const w = recordVendorBank(world, vendorId, { accountLast4: "1111", ifsc: "SBIN0000123", outcome, holderName: "A. N. Other" });
+      const w = recordVendorBank(world, vendorId, { accountLast4: "1111", ifsc: "DEMO0000123", outcome, holderName: "A. N. Other" });
       expect(w.vendors[vendorId].bankVerified).toBe(false);
       expect(() => acceptAgreement(w, vendorId)).toThrow(DomainError);
     }

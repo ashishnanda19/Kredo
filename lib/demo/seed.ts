@@ -286,6 +286,7 @@ export function buildSeedWorld(seed: number = SEED, now: number = SEED_NOW): Wor
     // the live demo starts here: keep the last two weeks of notices, and a clock history of its own
     d.notifications = d.notifications.filter((n) => n.at >= now - 14 * DAY);
     d.clock.startedAt = now;
+    d.monitoring = true; // the live demo is watched for fraud; the seeded history is not
     d.clock.history = [];
   });
 }

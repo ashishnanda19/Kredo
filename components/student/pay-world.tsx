@@ -20,6 +20,7 @@ import { checkQr, qrPayload } from "@/lib/qr";
 import { NetworkError, precheck, submitPay } from "@/lib/store/pay-actions";
 import { useWorld } from "@/lib/store/world";
 import { cn } from "@/lib/utils";
+import { CameraScanner } from "./camera-scanner";
 import { useWorldStudent } from "./use-student";
 
 const t = STUDENT.pay;
@@ -30,13 +31,15 @@ type Phase = "form" | "confirm" | "submitting" | "network" | "done";
 interface Declined { code: string; message: string }
 
 /** Scan and pay, backed by the demo world. A stall picker stands in for the camera; the QR is checked as a scan would be. */
-export function PayWorld() {
+export function PayWorld({ micro = false }: { micro?: boolean }) {
   const { world, studentId } = useWorldStudent();
   const [qr, setQr] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
   const [paste, setPaste] = useState("");
-  const [amountText, setAmountText] = useState("");
+  const [camera, setCamera] = useState(false);
+  const policyMicro = getPolicy().quests.microSpend;
+  const [amountText, setAmountText] = useState(micro ? String(policyMicro.coins) : "");
   const [term, setTerm] = useState(getPolicy().repayment.dueInDaysDefault);
   const [declined, setDeclined] = useState<Declined | null>(null);
   const [phase, setPhase] = useState<Phase>("form");
@@ -67,17 +70,20 @@ export function PayWorld() {
     }, 500);
   }
 
-  function usePasted() {
-    const r = checkQr(world, paste.trim());
+  /** A code from the camera or the paste box: held to exactly the same checks as a picked stall. */
+  function applyCode(text: string) {
+    const code = text.trim();
+    const r = checkQr(useWorld.getState().world, code);
     setDeclined(null);
-    setQr(r.ok ? paste.trim() : null);
+    setQr(r.ok ? code : null);
     setScanError(r.ok ? null : r.message);
   }
+  const usePasted = () => applyCode(paste);
 
   function review() {
     setDeclined(null);
     if (!qr || !vendorId) return setScanError(t.pickFirst);
-    const r = precheck({ studentId: studentId!, qr, coins: amount });
+    const r = precheck({ studentId: studentId!, qr, coins: amount, microSpend: micro });
     if (!r.ok) return setDeclined({ code: r.code, message: r.message });
     key.current = newKey();
     setPin("");
@@ -91,7 +97,7 @@ export function PayWorld() {
     setPinError(false);
     setPhase("submitting");
     try {
-      const r = await submitPay({ studentId: studentId!, qr, coins: amount, termDays: term, idempotencyKey: key.current });
+      const r = await submitPay({ studentId: studentId!, qr, coins: amount, termDays: micro ? policyMicro.dueInDays : term, microSpend: micro, idempotencyKey: key.current });
       if (r.ok) {
         setDone(r.loan);
         setPhase("done");
@@ -143,7 +149,7 @@ export function PayWorld() {
     );
   }
 
-  const q = vendorId && amount > 0 ? quote(world, studentId, amount, term) : null;
+  const q = vendorId && amount > 0 ? quote(world, studentId, amount, micro ? policyMicro.dueInDays : term) : null;
   const stalls = Object.entries(world.vendors);
   return (
     <div className="mx-auto max-w-xl space-y-6" data-testid="pay-world">
@@ -151,6 +157,13 @@ export function PayWorld() {
         <h1 className="text-[clamp(1.7rem,3.4vw,2.4rem)] font-semibold tracking-[-0.04em]">{t.title}</h1>
         <p className="mt-1 text-sm text-ink-2">{t.sub}</p>
       </div>
+
+      {micro && (
+        <div data-testid="micro-banner" className="rounded-2xl bg-accent-soft p-4 text-sm">
+          <p className="font-semibold">{t.microTitle}</p>
+          <p className="mt-0.5">{t.microBody(policyMicro.coins, policyMicro.dueInDays)}</p>
+        </div>
+      )}
 
       <GlassCard radius="xl" className="grid place-items-center gap-2 p-6 text-center">
         <ScanLine className={cn("size-10", scanning && "animate-pulse")} aria-hidden />
@@ -174,6 +187,13 @@ export function PayWorld() {
             );
           })}
         </div>
+        <div className="mt-2">
+          {camera ? (
+            <CameraScanner onClose={() => setCamera(false)} onCode={(text) => { setCamera(false); applyCode(text); }} />
+          ) : (
+            <GlassButton size="sm" variant="secondary" data-testid="camera-open" onClick={() => setCamera(true)}>{t.camera.open}</GlassButton>
+          )}
+        </div>
         {scanError && <p role="alert" data-testid="scan-error" className="mt-2 text-sm font-medium text-bad-text">{scanError}</p>}
         <details className="mt-2 text-xs text-ink-2">
           <summary className="cursor-pointer font-semibold">{t.paste}</summary>
@@ -187,12 +207,12 @@ export function PayWorld() {
       <div>
         <label htmlFor="coins" className="mb-2 block text-sm font-semibold">{t.amount}</label>
         <GlassCard radius="lg" className="flex items-center gap-2 px-5 py-4 focus-within:shadow-[0_0_0_2px_var(--ink)]">
-          <input id="coins" inputMode="numeric" autoComplete="off" placeholder="0" value={amountText} aria-describedby="coins-help" onChange={(e) => { setAmountText(e.target.value.replace(/\D/g, "").slice(0, 5)); setDeclined(null); }} className="min-w-0 flex-1 bg-transparent text-4xl font-semibold tabular-nums tracking-[-0.035em] outline-none placeholder:text-ink-2/50" />
+          <input id="coins" inputMode="numeric" autoComplete="off" placeholder="0" value={amountText} aria-describedby="coins-help" readOnly={micro} onChange={(e) => { setAmountText(e.target.value.replace(/\D/g, "").slice(0, 5)); setDeclined(null); }} className="min-w-0 flex-1 bg-transparent text-4xl font-semibold tabular-nums tracking-[-0.035em] outline-none placeholder:text-ink-2/50" />
           <span className="text-lg font-semibold text-ink-2">coins</span>
         </GlassCard>
         <p id="coins-help" className="mt-2 text-sm text-ink-2" data-testid="avail-help">{t.amountHelp(avail)}</p>
         <div className="mt-2 flex flex-wrap gap-2">
-          {t.presets.map((p) => <GlassButton key={p} variant="secondary" size="sm" onClick={() => { setAmountText(String(p)); setDeclined(null); }}>{p}</GlassButton>)}
+          {!micro && t.presets.map((p) => <GlassButton key={p} variant="secondary" size="sm" onClick={() => { setAmountText(String(p)); setDeclined(null); }}>{p}</GlassButton>)}
         </div>
       </div>
 
@@ -222,8 +242,8 @@ export function PayWorld() {
               <GlassSheetTitle className="text-xl font-extrabold">{t.confirmTitle}</GlassSheetTitle>
               <GlassSheetDescription className="text-sm text-ink-2">{t.to(vendor?.stallName ?? "")}</GlassSheetDescription>
               <div role="radiogroup" aria-label={t.rows.term} className="flex flex-wrap gap-2">
-                {termOptions().map((d) => (
-                  <button key={d} type="button" role="radio" aria-checked={term === d} onClick={() => setTerm(d)} className={cn("min-h-11 rounded-full border px-4 text-sm font-semibold", term === d ? "border-transparent bg-accent text-accent-ink" : "border-hairline hover:bg-card")}>{t.termOption(d)}</button>
+                {(micro ? [policyMicro.dueInDays] : termOptions()).map((d) => (
+                  <button key={d} type="button" role="radio" aria-checked={micro || term === d} onClick={() => setTerm(d)} className={cn("min-h-11 rounded-full border px-4 text-sm font-semibold", term === d ? "border-transparent bg-accent text-accent-ink" : "border-hairline hover:bg-card")}>{t.termOption(d)}</button>
                 ))}
               </div>
               {q && (

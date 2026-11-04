@@ -18,9 +18,9 @@ export default defineConfig({
   reporter: process.env.CI ? "github" : "list",
   use: { trace: "retain-on-failure" },
   projects: [
-    { name: "mock", testMatch: /(aura|ops|world|vendor|student|settlement)-mock\.spec\.ts/, use: { ...devices["Desktop Chrome"], baseURL: `http://127.0.0.1:${MOCK}` } },
+    { name: "mock", testMatch: /(aura|ops|world|vendor|student|settlement|recovery|stage|insights|stretch)-mock\.spec\.ts/, use: { ...devices["Desktop Chrome"], baseURL: `http://127.0.0.1:${MOCK}` } },
     { name: "copy", testMatch: /copy-rules\.spec\.ts/ },
-    { name: "mock-phone", testMatch: /(aura|world|vendor|student|settlement)-mock\.spec\.ts/, use: { ...devices["Pixel 7"], baseURL: `http://127.0.0.1:${MOCK}` } },
+    { name: "mock-phone", testMatch: /(aura|world|vendor|student|settlement|recovery|stage|insights|stretch)-mock\.spec\.ts/, use: { ...devices["Pixel 7"], baseURL: `http://127.0.0.1:${MOCK}` } },
     { name: "live", testMatch: /(bff|ops)-live\.spec\.ts/, use: { ...devices["Desktop Chrome"], baseURL: `http://127.0.0.1:${LIVE}` } },
   ],
   webServer: [

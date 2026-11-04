@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AlertOctagon, BarChart3, ClipboardCheck, Store, Scale, Gauge, Landmark, LifeBuoy, Search, ShieldAlert } from "lucide-react";
+import { AlertOctagon, BarChart3, ClipboardCheck, Store, Scale, Flag, PieChart, ScrollText, SlidersHorizontal, Gauge, Landmark, LifeBuoy, Search, ShieldAlert } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/glass";
 import { Logo } from "@/components/shared/logo";
@@ -18,6 +18,10 @@ const NAV = [
   { href: "/ops/verifications", label: "Verifications", icon: ClipboardCheck },
   { href: "/ops/vendors", label: "Vendors", icon: Store },
   { href: "/ops/settlements", label: "Settlements", icon: Scale },
+  { href: "/ops/flags", label: "Flags", icon: Flag },
+  { href: "/ops/exposure", label: "Exposure", icon: PieChart },
+  { href: "/ops/limits", label: "Limits", icon: SlidersHorizontal },
+  { href: "/ops/audit", label: "Audit log", icon: ScrollText },
   { href: "/ops/fraud", label: "Fraud", icon: ShieldAlert },
   { href: "/ops/loans", label: "Loans", icon: Landmark },
   { href: "/ops/support", label: "Support", icon: LifeBuoy },

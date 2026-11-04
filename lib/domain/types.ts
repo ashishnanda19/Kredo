@@ -186,6 +186,7 @@ export interface Settlement {
 }
 
 export type ScoreEventKind =
+  | "LIMIT_OVERRIDE"
   | "ON_TIME"
   | "WITHIN_GRACE"
   | "LATE_1_7"
@@ -263,6 +264,8 @@ export interface WorldState {
   notifications: Notification[];
   audit: WorldAuditEntry[];
   flags: FraudFlag[];
+  /** False while the seed is being built (history is not scanned for fraud), true for the live demo. */
+  monitoring: boolean;
   refunds: Refund[];
   /** The last cut-off already processed (epoch ms). A cut-off never runs twice. */
   lastCutoff: number;
@@ -271,7 +274,7 @@ export interface WorldState {
 }
 
 /** A rule hit worth an ops look: a blocked self-pay, a velocity breach and so on. Rules, not a model. */
-export type FraudFlagKind = "SELF_PAY" | "VELOCITY_STUDENT" | "VELOCITY_VENDOR";
+export type FraudFlagKind = "SELF_PAY" | "VELOCITY_STUDENT" | "VELOCITY_VENDOR" | "ROUND_CLUSTER" | "CONCENTRATION" | "SHARED_DEVICE";
 
 export interface FraudFlag {
   id: string;
@@ -281,6 +284,10 @@ export interface FraudFlag {
   vendorId: string;
   detail: string;
   status: "open" | "dismissed" | "confirmed";
+  /** Who decided it and why, once an analyst has looked. */
+  decidedBy?: string;
+  decidedAt?: number;
+  note?: string;
 }
 
 export interface Session {

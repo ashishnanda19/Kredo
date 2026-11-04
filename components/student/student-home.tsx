@@ -34,6 +34,7 @@ export function CoinCard({ world, studentId }: { world: ReturnType<typeof useWor
         <div role="status" data-testid="blocked-note" className="mt-4 rounded-2xl bg-warning-soft p-3 text-sm text-warn-text">
           <p className="font-semibold">{t.blockedTitle}</p>
           <p>{blocked.message}</p>
+          <Link href="/dashboard/recovery" data-testid="recovery-cta" className="mt-1 inline-block font-semibold underline">{STUDENT.coinCard.recoveryLink}</Link>
         </div>
       )}
       <p className="mt-3 text-xs text-ink-2">{t.note}</p>
@@ -91,7 +92,8 @@ export function StudentHome() {
             )}
           </GlassCard>
 
-          <GlassCard radius="lg" className="flex items-center justify-between gap-3 p-5" data-testid="aura-mini">
+          <GlassCard radius="lg" className="relative flex items-center justify-between gap-3 p-5" data-testid="aura-mini">
+            <Link href="/dashboard/aura" aria-label="Open your Aura" className="absolute inset-0 rounded-[inherit]" />
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-ink-2">{STUDENT.aura.title}</p>
               <p className="text-3xl font-extrabold tabular-nums" data-testid="aura-value">{st.aura}</p>

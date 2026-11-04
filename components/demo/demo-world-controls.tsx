@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { RotateCcw } from "lucide-react";
+import { SCENARIOS } from "@/lib/demo/scenarios";
 import { GlassButton } from "@/components/glass";
 import type { Scenarios } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -40,6 +42,10 @@ export function DemoWorldControls() {
   const now = useWorld((s) => s.world.clock.now);
   const scenarios = useWorld((s) => s.scenarios);
   const setScenario = useWorld((s) => s.setScenario);
+  const presenter = useWorld((s) => s.presenter);
+  const setPresenter = useWorld((s) => s.setPresenter);
+  const flowOn = useWorld((s) => s.flowOverlay);
+  const setFlow = useWorld((s) => s.setFlowOverlay);
   const t = DIRECTOR;
   const jump = useJumpIn();
   const w = useWorld.getState;
@@ -67,6 +73,18 @@ export function DemoWorldControls() {
         <OutcomeRow label={t.nbfc.label} testId="nbfc" value={scenarios.nbfc} options={[["paid", t.nbfc.paid], ["failed", t.nbfc.failed], ["on_hold", t.nbfc.on_hold]]} onPick={(v) => setScenario("nbfc", v as Scenarios["nbfc"])} />
         <OutcomeRow label={t.pennyDrop.label} testId="penny" value={scenarios.pennyDrop} options={[["success", t.pennyDrop.success], ["name_mismatch", t.pennyDrop.name_mismatch], ["provider_error", t.pennyDrop.provider_error]]} onPick={(v) => setScenario("pennyDrop", v as Scenarios["pennyDrop"])} />
         <OutcomeRow label={t.kycOutcome.label} testId="kyc" value={scenarios.kyc} options={[["verified", t.kycOutcome.verified], ["needs_retry", t.kycOutcome.needs_retry], ["provider_error", t.kycOutcome.provider_error]]} onPick={(v) => setScenario("kyc", v as Scenarios["kyc"])} />
+      </div>
+
+      <div className="space-y-1.5">
+        <Link href="/demo" data-testid="open-stage" className="inline-flex min-h-9 items-center rounded-full bg-accent px-3 text-xs font-bold text-accent-ink">{t.stage}</Link>
+        <p className="text-xs font-semibold">{t.scenariosLabel}</p>
+        <div className="flex flex-wrap gap-1.5">
+          {SCENARIOS.map((sc) => (
+            <Link key={sc.n} href={`/demo?scenario=${sc.n}`} title={sc.title} data-testid={`director-scenario-${sc.n}`} className="grid size-9 place-items-center rounded-full border border-ink/20 text-xs font-bold hover:bg-ink/10">{sc.n}</Link>
+          ))}
+        </div>
+        <label className="flex items-center gap-2 text-xs font-semibold"><input type="checkbox" className="size-4" checked={presenter} onChange={(e) => setPresenter(e.target.checked)} />{t.presenterLabel}</label>
+        <label className="flex items-center gap-2 text-xs font-semibold"><input type="checkbox" data-testid="director-flow" className="size-4" checked={flowOn} onChange={(e) => setFlow(e.target.checked)} />{t.flowLabel}</label>
       </div>
 
       <Chip testId="send-queued" onClick={() => void w().runSettlements()}>{t.sendQueued}</Chip>

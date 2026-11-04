@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { FlowOverlay } from "@/components/demo/flow-overlay";
 import { WorldRuntime } from "@/components/demo/world-runtime";
 import { DemoControls, PortalRuntime } from "@/components/portal/demo-controls";
 import { Providers } from "@/components/shared/providers";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PortalRuntime />
           <WorldRuntime />
           <DemoControls />
+          <FlowOverlay />
           {children}
         </Providers>
       </body>

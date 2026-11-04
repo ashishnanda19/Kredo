@@ -52,7 +52,7 @@ Tip: Demo Controls > "Verified + active loan" jumps straight to a populated dash
 
 ## MVP demo world (no backend)
 A deterministic, resettable, clearly-labelled simulation of student-to-vendor QR payment with coins, loans, midnight
-settlement and repayment. Spec and milestones: `docs/MVP_DEMO_PROMPT.md`. Built so far: Milestone 1 (foundations and seed) Milestone 2 (vendor side), Milestone 3 (student pay flow) and Milestone 4 (settlement and reconciliation).
+settlement and repayment. Spec and milestones: `docs/MVP_DEMO_PROMPT.md`. Built so far: Milestone 1 (foundations and seed) Milestone 2 (vendor side), Milestone 3 (student pay flow) Milestone 4 (settlement and reconciliation) Milestone 5 (Aura screens), Milestone 6 (Demo Stage and Director) Milestone 7 (metrics, fraud and ops polish) and Milestone 8 (stretch: PDFs, camera scan, spoken captions).
 
 - **Money rule**: coins are a display unit (1 coin = Rs 1), never a wallet. Kredo holds and moves no money: the lender
   pays vendors, students repay the lender. `NbfcPort` has only `submitSettlement` and `getRepaymentStatus`, and a unit
@@ -84,6 +84,36 @@ settlement and repayment. Spec and milestones: `docs/MVP_DEMO_PROMPT.md`. Built 
   settlement the payment is left out of the batch; after, a negative adjustment is netted into the next one and carries
   forward until a batch can absorb it. Large refunds wait for ops. Vendors see all of this at `/vendor/settlements`
   and `/vendor/disputes`.
+- **Aura, limit and recovery** (`/dashboard/aura`, `/dashboard/limit`, `/dashboard/recovery`): the engine in
+  `lib/aura/engine.ts` is answered through a `ScoreProvider` (`lib/aura/provider.ts`). The Aura screen shows the score,
+  tier, streak, a best next step, the quests with what each adds today (capped at +8 per 30 days, never lifting
+  someone above the minimum while something is overdue) and the last ten events with plain reasons. The limit screen
+  (`lib/domain/limit.ts`) shows the ladder, what the next step still needs, the post-default cap and what moved the
+  limit before. The recovery screen (`lib/domain/recovery.ts`) orders the way back: pay what is overdue, do the
+  quests, then an optional small proof-of-repayment payment that is the one spend a low Aura may make.
+- **Demo Stage and Director** (`/demo`, `/demo/flow`): a student's phone and a stall's phone side by side, each a real
+  page of this app in an iframe (`/demo/frame` signs the frame in as the chosen person). The shared world lives in
+  localStorage and windows hear about changes through the `storage` event; each frame keeps its own signed-in person in
+  `window.name` (sessionStorage is shared by same-origin frames, so it can't). The ledger strip (`lib/demo/ledger.ts`)
+  is rebuilt from the audit log and score events. The money-flow diagram animates on real events and shows no arrow into
+  Kredo. The 11 scripted scenarios (`lib/demo/scenarios.ts`) run step by step or by auto-play, each from a fresh seed by
+  default, and are unit-tested without a screen. Presenter mode enlarges the phones and hides the pickers.
+- **Metrics, fraud and ops** (`/demo/metrics`, `/ops/flags`, `/ops/exposure`, `/ops/limits`, `/ops/audit`): the investor
+  metrics (`lib/demo/metrics.ts`) are computed from the world and every card says "Simulated"; the unit-economics
+  assumptions are editable, labelled illustrative, and never presented as results. Fraud rules (`lib/domain/flags.ts`,
+  thresholds in `lib/policy.ts`) raise flags: self-pay and velocity at pay time, round-number clustering before the
+  cut-off, one-student concentration and shared devices at night. They run only for the live demo, not the seed history,
+  and never block a payment or move money. Ops can confirm or dismiss a flag with a note, set a limit step by hand
+  (reason required, audited, role-gated), see exposure by due-date bucket, and search and export the audit log. Each
+  demo-world area has an error screen with "Reset the demo", and a damaged saved world falls back to the seed.
+- **Accessibility**: `e2e/insights-mock.spec.ts` runs automated checks (axe, WCAG A and AA, serious and critical fail) over
+  every demo-world screen and walks the confirm sheet by keyboard; `lib/a11y.test.ts` checks the colour tokens for contrast.
+- **Stretch** (Milestone 8): settlement reports and student statements download as PDFs (`lib/demo/pdf.ts`, jsPDF, built in the
+  browser, every page marked simulated); the pay screen can scan a stall QR with the camera (`lib/qr-scan.ts`, jsQR; frames
+  are decoded on the device and never stored, and the result goes through the same `checkQr` as a picked stall); scenario
+  captions can be read aloud with the browser's speech synthesis (`lib/demo/speech.ts`). Windows on one browser already
+  stay live-linked through the `storage` event; syncing across separate phones would need a small shared backend, which
+  is not built.
 - **Adapters** (`lib/api/`): NbfcPort, ScoreProvider, VerificationProvider, NotificationPort, all with mocks.
 - **Tests**: `npm run test:unit` (Vitest, fast-check), `npm run test:e2e` (adds `e2e/world-mock.spec.ts`).
 

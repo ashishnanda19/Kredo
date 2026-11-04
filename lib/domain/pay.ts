@@ -11,17 +11,17 @@ import { postDefaultCap } from "../aura/engine";
 import { PAYGATE } from "../copy-demo";
 import { checkQr } from "../qr";
 import { getPolicy, totalRepayable } from "../policy";
-import { appendAudit } from "./audit";
 import { amountDue, availableLimit, pastGraceLoans, receivedOn, studentState } from "./selectors";
 import { DAY, HOUR, addDays, istDate } from "./time";
-import type { FraudFlag, FraudFlagKind, Loan, WorldState } from "./types";
+import { raiseFlag } from "./flags";
+import type { FraudFlagKind, Loan, WorldState } from "./types";
 import { isVendorActive } from "./vendors";
 import { IdempotencyConflict, createLoan } from "./world";
 import { produce } from "immer";
 
 export type PayCode =
   | "BAD_AMOUNT" | "STUDENT_NOT_VERIFIED" | "ACCOUNT_BLOCKED" | "LOW_AURA" | "PAST_DUE" | "OVER_LIMIT" | "PRIOR_DEFAULT_CAP"
-  | "VENDOR_NOT_ACTIVE" | "VENDOR_DAILY_CAP" | "SELF_PAY" | "VELOCITY_STUDENT" | "VELOCITY_VENDOR"
+  | "MICRO_NOT_AVAILABLE" | "VENDOR_NOT_ACTIVE" | "VENDOR_DAILY_CAP" | "SELF_PAY" | "VELOCITY_STUDENT" | "VELOCITY_VENDOR"
   | "MALFORMED" | "BAD_SIGNATURE" | "UNKNOWN_STALL" | "REVOKED" | "INACTIVE";
 
 export type GateResult = { ok: true } | { ok: false; code: PayCode; message: string };
@@ -40,8 +40,20 @@ export function selfPayLink(w: WorldState, studentId: string, vendorId: string):
   return null;
 }
 
+/**
+ * The small "proof of repayment" payment: open to someone recovering (a prior default, or Aura below the minimum) who
+ * has not done it yet, if the policy allows it. It is the one spend a low Aura may make, so repaying it on time can
+ * earn Aura back.
+ */
+export function microSpendEligible(w: WorldState, studentId: string, at: number = w.clock.now): boolean {
+  const p = getPolicy();
+  if (!p.quests.microSpend.enabled) return false;
+  const s = studentState(w, studentId, at);
+  return !s.microSpendDone && (s.hasPriorDefault || s.aura < p.aura.blockBelowAura);
+}
+
 /** The money-free checks on one request, in the documented order. Does not change anything. */
-export function checkGate(w: WorldState, studentId: string, vendorId: string, coins: number, at: number = w.clock.now): GateResult {
+export function checkGate(w: WorldState, studentId: string, vendorId: string, coins: number, at: number = w.clock.now, opts: { microSpend?: boolean } = {}): GateResult {
   const p = getPolicy();
   const student = w.students[studentId];
   const vendor = w.vendors[vendorId];
@@ -50,7 +62,8 @@ export function checkGate(w: WorldState, studentId: string, vendorId: string, co
   if (w.accounts[student.accountId]?.status === "suspended") return no("ACCOUNT_BLOCKED", PAYGATE.ACCOUNT_BLOCKED());
 
   const state = studentState(w, studentId, at);
-  if (state.aura < p.aura.blockBelowAura) return no("LOW_AURA", PAYGATE.LOW_AURA());
+  if (opts.microSpend && (coins !== p.quests.microSpend.coins || !microSpendEligible(w, studentId, at))) return no("MICRO_NOT_AVAILABLE", PAYGATE.MICRO_NOT_AVAILABLE());
+  if (state.aura < p.aura.blockBelowAura && !opts.microSpend) return no("LOW_AURA", PAYGATE.LOW_AURA());
   const past = pastGraceLoans(w, studentId, at);
   if (past.length) return no("PAST_DUE", PAYGATE.PAST_DUE(past.reduce((s, l) => s + amountDue(l), 0)));
 
@@ -104,6 +117,8 @@ export interface PayInput {
   qr: string;
   coins: number;
   termDays?: number;
+  /** The proof-of-repayment payment: fixed amount and window from policy. */
+  microSpend?: boolean;
   idempotencyKey: string;
   at?: number;
 }
@@ -113,14 +128,7 @@ export type PayResult =
   | { ok: false; world: WorldState; code: PayCode; message: string };
 
 function flag(w: WorldState, kind: FraudFlagKind, studentId: string, vendorId: string, detail: string, at: number): WorldState {
-  const day = istDate(at);
-  if (w.flags.some((f) => f.kind === kind && f.studentId === studentId && f.vendorId === vendorId && istDate(f.at) === day)) return w;
-  return produce(w, (d) => {
-    const seq = ++d.seq;
-    const f: FraudFlag = { id: `F-${String(seq).padStart(5, "0")}`, at, kind, studentId, vendorId, detail, status: "open" };
-    d.flags.push(f);
-    d.audit = appendAudit(d.audit, { at, actor: "system", action: "fraud.flagged", target: f.id, details: { kind, studentId, vendorId } }, ++d.seq);
-  });
+  return produce(w, (d) => void raiseFlag(d, kind, studentId, vendorId, detail, at));
 }
 
 export type PrecheckResult = { ok: true; world: WorldState; vendorId: string } | { ok: false; world: WorldState; code: PayCode; message: string };
@@ -129,11 +137,11 @@ export type PrecheckResult = { ok: true; world: WorldState; vendorId: string } |
  * Scan and gate checks for one request, without creating anything. A blocked attempt that looks like abuse leaves a
  * fraud flag (the returned world carries it), so the flag exists even when the student never gets as far as paying.
  */
-export function precheckPay(world: WorldState, input: Pick<PayInput, "studentId" | "qr" | "coins" | "at">): PrecheckResult {
+export function precheckPay(world: WorldState, input: Pick<PayInput, "studentId" | "qr" | "coins" | "at" | "microSpend">): PrecheckResult {
   const at = input.at ?? world.clock.now;
   const scan = checkQr(world, input.qr);
   if (!scan.ok) return { ok: false, world, code: scan.code, message: PAYGATE[scan.code]() };
-  const gate = checkGate(world, input.studentId, scan.vendorId, input.coins, at);
+  const gate = checkGate(world, input.studentId, scan.vendorId, input.coins, at, { microSpend: input.microSpend });
   if (gate.ok) return { ok: true, world, vendorId: scan.vendorId };
   let w = world;
   if (gate.code === "SELF_PAY") w = flag(w, "SELF_PAY", input.studentId, scan.vendorId, `Blocked: the student and the stall share a ${selfPayLink(world, input.studentId, scan.vendorId)}.`, at);
@@ -148,17 +156,17 @@ export function precheckPay(world: WorldState, input: Pick<PayInput, "studentId"
  */
 export function payByQr(world: WorldState, input: PayInput): PayResult {
   const at = input.at ?? world.clock.now;
-  const term = input.termDays ?? getPolicy().repayment.dueInDaysDefault;
+  const term = input.microSpend ? getPolicy().quests.microSpend.dueInDays : (input.termDays ?? getPolicy().repayment.dueInDaysDefault);
 
   const prior = Object.values(world.loans).find((l) => l.idempotencyKey === input.idempotencyKey);
   if (prior) {
-    const same = prior.studentId === input.studentId && prior.coins === input.coins && prior.termDays === term;
+    const same = prior.studentId === input.studentId && prior.coins === input.coins && prior.termDays === term && !!prior.microSpend === !!input.microSpend;
     if (!same) throw new IdempotencyConflict(input.idempotencyKey);
     return { ok: true, world, loan: prior, duplicate: true };
   }
 
-  const pre = precheckPay(world, { studentId: input.studentId, qr: input.qr, coins: input.coins, at });
+  const pre = precheckPay(world, { studentId: input.studentId, qr: input.qr, coins: input.coins, at, microSpend: input.microSpend });
   if (!pre.ok) return pre;
-  const r = createLoan(world, { studentId: input.studentId, vendorId: pre.vendorId, coins: input.coins, termDays: term, idempotencyKey: input.idempotencyKey, at });
+  const r = createLoan(world, { studentId: input.studentId, vendorId: pre.vendorId, coins: input.coins, termDays: term, microSpend: input.microSpend, idempotencyKey: input.idempotencyKey, at });
   return { ok: true, world: r.world, loan: r.loan, duplicate: r.duplicate };
 }

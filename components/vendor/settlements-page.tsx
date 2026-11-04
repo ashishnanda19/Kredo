@@ -8,6 +8,7 @@ import { SETTLE } from "@/lib/copy-demo";
 import { awaitingSettlement, vendorFacingStudent } from "@/lib/domain/selectors";
 import { fmtDate, fmtDateTime } from "@/lib/domain/time";
 import type { Settlement, SettlementStatus, WorldState } from "@/lib/domain/types";
+import { downloadPdf, settlementPdf } from "@/lib/demo/pdf";
 import { downloadText, linesCsv, reportJson } from "@/lib/settlement-report";
 import { useWorld } from "@/lib/store/world";
 
@@ -38,6 +39,7 @@ function SettlementItem({ world, s }: { world: WorldState; s: Settlement }) {
       <div className="mt-2 flex flex-wrap gap-2">
         <GlassButton size="sm" variant="ghost" className="min-h-9 px-3 text-xs" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? SETTLE.hide : SETTLE.show}</GlassButton>
         <GlassButton size="sm" variant="ghost" className="min-h-9 px-3 text-xs" data-testid="dl-csv" onClick={() => downloadText(`${s.id}.csv`, linesCsv(world, [s]), "text/csv")}><Download className="size-3.5" aria-hidden /> {SETTLE.csv}</GlassButton>
+        <GlassButton size="sm" variant="ghost" className="min-h-9 px-3 text-xs" data-testid="dl-pdf" onClick={() => void settlementPdf(world, [s]).then((d) => downloadPdf(`${s.id}.pdf`, d))}><Download className="size-3.5" aria-hidden /> {SETTLE.pdf}</GlassButton>
         <GlassButton size="sm" variant="ghost" className="min-h-9 px-3 text-xs" data-testid="dl-json" onClick={() => downloadText(`${s.id}.json`, reportJson(world, [s]), "application/json")}><Download className="size-3.5" aria-hidden /> {SETTLE.json}</GlassButton>
       </div>
       {open && (

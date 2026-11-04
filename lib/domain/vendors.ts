@@ -115,7 +115,7 @@ export function recordVendorKyc(world: WorldState, vendorId: string, input: { id
 /** Records the penny-drop result. Only a success marks the bank account verified. */
 export function recordVendorBank(world: WorldState, vendorId: string, input: { accountLast4: string; ifsc: string; outcome: "success" | "name_mismatch" | "provider_error"; holderName?: string; at?: number }): WorldState {
   if (!/^\d{4}$/.test(input.accountLast4)) throw new DomainError("BAD_ACCOUNT", "Enter a valid account number.");
-  if (!isIfsc(input.ifsc)) throw new DomainError("BAD_IFSC", "Enter a valid IFSC, for example HDFC0001234.");
+  if (!isIfsc(input.ifsc)) throw new DomainError("BAD_IFSC", "Enter a valid IFSC, for example DEMO0001234.");
   return produce(world, (d) => {
     const at = input.at ?? d.clock.now;
     const v = vendorOf(d, vendorId);

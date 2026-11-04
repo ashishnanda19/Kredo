@@ -556,3 +556,18 @@ html:not(.js) [data-splash-overlay] { display: none; }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Demo Stage: a payment that has just arrived flashes once; a pulse on the money-flow diagram fades after a few seconds */
+@keyframes row-flash {
+  0% { background-color: color-mix(in oklab, var(--accent) 55%, transparent); }
+  100% { background-color: transparent; }
+}
+@keyframes flow-fade {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes flow-edge {
+  0% { stroke-opacity: 1; stroke-width: 6; }
+  100% { stroke-opacity: 0.25; stroke-width: 3; }
+}

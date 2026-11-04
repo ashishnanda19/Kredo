@@ -127,6 +127,17 @@ export interface Policy {
     student: { perHour: { count: number; coins: number }; perDay: { count: number; coins: number } };
     vendor: { perHour: { count: number; coins: number } };
   };
+  /** Fraud rules (rules, not a model). Each raises a flag for ops; none blocks a payment on its own. */
+  fraud: {
+    /** Round-amount clustering: this many round payments to one stall in the window before the cut-off. */
+    roundWindowHours: number;
+    roundMinCount: number;
+    /** A payment is "round" when it is a multiple of this many coins. */
+    roundMultiple: number;
+    /** Concentration: one student paying at least this percent of a stall's coins over 7 days, once the stall has this many coins. */
+    concentrationPercent: number;
+    concentrationMinCoins: number;
+  };
   refunds: {
     /** Refunds a vendor may raise per rolling 7 days. */
     maxPerVendorPer7Days: number;
@@ -219,6 +230,7 @@ export const DEFAULT_POLICY: Policy = {
     student: { perHour: { count: 5, coins: 1500 }, perDay: { count: 15, coins: 4000 } },
     vendor: { perHour: { count: 120, coins: 15000 } },
   },
+  fraud: { roundWindowHours: 2, roundMinCount: 3, roundMultiple: 100, concentrationPercent: 60, concentrationMinCoins: 500 },
   refunds: { maxPerVendorPer7Days: 5, opsApprovalAboveCoins: 500 },
   settlement: { cutoffHourIst: 0, mode: "t0_midnight", vendorFeePercent: 0 },
   reminders: { atHourIst: 9, daysBefore: [3, 1], onDueDate: true, daysAfter: [1, 3, 7] },
@@ -286,6 +298,8 @@ export function validatePolicy(p: Policy): string[] {
   if (!(v.light > 0 && v.full >= v.light)) bad.push("vendor daily caps must be positive and the full cap at least the light cap");
   const vel = p.velocity;
   for (const w of [vel.student.perHour, vel.student.perDay, vel.vendor.perHour]) if (!(w.count > 0 && w.coins > 0)) bad.push("velocity limits must be positive");
+  const f = p.fraud;
+  if (!(f.roundWindowHours >= 1 && f.roundMinCount >= 2 && f.roundMultiple >= 10 && f.concentrationPercent > 0 && f.concentrationPercent <= 100 && f.concentrationMinCoins > 0)) bad.push("fraud rule thresholds must be positive (round amounts at least 10 coins, concentration 1 to 100 percent)");
   if (!(p.refunds.maxPerVendorPer7Days >= 0 && p.refunds.opsApprovalAboveCoins > 0)) bad.push("refund caps must be positive");
   const s = p.settlement;
   if (!(isInt(s.cutoffHourIst) && s.cutoffHourIst >= 0 && s.cutoffHourIst <= 23)) bad.push("settlement cut-off hour must be 0 to 23");

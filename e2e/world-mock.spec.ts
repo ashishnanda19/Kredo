@@ -47,11 +47,11 @@ test("a person with both accounts switches after confirming their PIN", async ({
   await expect(page).toHaveURL(/\/dashboard/);
   // make the last confirmation old, as if ten minutes had passed
   await page.evaluate(() => {
-    const raw = localStorage.getItem("kredo-demo-world");
-    if (!raw) throw new Error("world not saved");
+    const raw = sessionStorage.getItem("kredo-demo-session");
+    if (!raw) throw new Error("session not saved");
     const j = JSON.parse(raw);
-    j.state.session.confirmedAt = 0;
-    localStorage.setItem("kredo-demo-world", JSON.stringify(j));
+    j.confirmedAt = 0;
+    sessionStorage.setItem("kredo-demo-session", JSON.stringify(j));
   });
   await page.reload();
   await page.getByRole("radio", { name: "Vendor" }).click();

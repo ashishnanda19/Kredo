@@ -73,7 +73,7 @@ export function SideRail() {
           <Logo href="/dashboard" className="px-2" />
           <nav aria-label="Dashboard" className="mt-8">
             <ul className="space-y-0.5">
-              {[...NAV, ...RAIL_EXTRA].map((n) => {
+              {[...NAV, ...RAIL_EXTRA, ...(ws.studentId && !PHASE2 ? [{ href: "/dashboard/aura", label: "Aura", icon: Gauge }] : [])].map((n) => {
                 const active = isActive(n.href);
                 return (
                   <li key={n.href}>
@@ -172,7 +172,7 @@ export function BottomTabs() {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] font-semibold transition-colors",
-                    active ? "text-pill-fg" : "text-ink-2",
+                    active ? "text-pill-fg" : "text-ink",
                   )}
                 >
                   {active && (

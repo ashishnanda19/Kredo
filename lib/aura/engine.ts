@@ -174,6 +174,7 @@ export function deriveState(events: readonly ScoreEvent[], now: number, p: Polic
       case "EARLY_CLOSE":
         if (e.delta > 0) lastRewardAt = e.at;
         break;
+      case "LIMIT_OVERRIDE":
       case "LIMIT_APPROVED":
         if (typeof e.meta?.toLevel === "number") {
           level = e.meta.toLevel;

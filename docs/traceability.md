@@ -142,3 +142,9 @@ MVP demo world (docs/MVP_DEMO_PROMPT.md): the seeded fictional people, stalls an
 persona table, the settlement references `UTR...`, the demo PIN 1234 and code 123456), and the "Demo: simulated data,
 no real money" label. The interest rate (1.5% per 30 days) and the flat Rs 5 fee in `lib/policy.ts` are placeholders until
 the lending partner sets them.
+
+Investor metrics (`/demo/metrics`): every figure is simulated. The unit-economics defaults are illustrative placeholders:
+lender cost of funds 12% a year, default loss 3% of principal, acquisition cost Rs 150 per student, 24 payments per
+student over their life, plus the demo policy's flat Rs 5 fee and 1.5% interest per 30 days. None are results or
+estimates from real operations. The fraud thresholds in `lib/policy.ts` (round amounts, concentration share) are also
+placeholders for the lending partner and the fraud team to set.

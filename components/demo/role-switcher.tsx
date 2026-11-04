@@ -7,6 +7,7 @@ import { ROLES } from "@/lib/copy-demo";
 import { needsReauth, planSwitch, type Switchable } from "@/lib/domain/roles";
 import { getPolicy } from "@/lib/policy";
 import { useWorld, useWorldHydrated } from "@/lib/store/world";
+import { DemoMoneyLabel } from "./demo-money-label";
 import { ReauthSheet } from "./reauth-sheet";
 
 /**
@@ -62,7 +63,8 @@ export function WorldRoleBar() {
   const active = useWorld((s) => s.session.activeRole);
   if (!hydrated || !active) return null;
   return (
-    <div className="mx-auto flex w-full max-w-5xl justify-end px-4 pt-3 sm:px-6 print:hidden">
+    <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-2 px-4 pt-3 sm:px-6 print:hidden">
+      <DemoMoneyLabel />
       <RoleSwitcher />
     </div>
   );

@@ -64,7 +64,7 @@ export function VendorHome() {
           <ul data-testid="live-feed" className="mt-2 divide-y divide-hairline" aria-live="polite">
             <AnimatePresence initial={false}>
               {feed.map((l) => (
-                <motion.li key={l.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                <motion.li key={l.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} data-fresh={now - l.createdAt < 120_000} className={now - l.createdAt < 120_000 ? "animate-[row-flash_1.8s_ease-out] rounded-xl px-2" : undefined}>
                   <PaymentRow world={world} loan={l} />
                 </motion.li>
               ))}

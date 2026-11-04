@@ -16,11 +16,12 @@ import { NOTE } from "../copy-demo";
 import { getPolicy, computeFee, computeInterest, type Policy, type QuestId } from "../policy";
 import { buildSettlements } from "../settlement";
 import { appendAudit } from "./audit";
+import { runFraudRules } from "./flags";
 import { amountDue, hasOverdue, isOpen, loansOfStudent, principalOutstanding } from "./selectors";
 import { DAY, addDays, daysBetween, daysPastDue, istDate, istStartOf, nextCutoff } from "./time";
 import type { Loan, Notification, Repayment, ScoreEvent, WorldState } from "./types";
 
-export const WORLD_SCHEMA = 3;
+export const WORLD_SCHEMA = 4;
 
 export class DomainError extends Error {
   constructor(public readonly code: string, message?: string) {
@@ -40,7 +41,7 @@ export class IdempotencyConflict extends DomainError {
 export function emptyWorld(seed: number, startedAt: number): WorldState {
   return {
     schema: WORLD_SCHEMA, seed, clock: { now: startedAt, startedAt, history: [] }, accounts: {}, students: {}, vendors: {}, loans: {}, repayments: [], adjustments: [],
-    settlements: {}, scoreEvents: [], notifications: [], audit: [], flags: [], refunds: [], lastCutoff: istStartOf(istDate(startedAt)), seq: 0,
+    settlements: {}, scoreEvents: [], notifications: [], audit: [], flags: [], monitoring: false, refunds: [], lastCutoff: istStartOf(istDate(startedAt)), seq: 0,
   };
 }
 
@@ -239,6 +240,24 @@ export function approveIncrease(world: WorldState, studentId: string, actor: str
   });
 }
 
+/**
+ * Ops sets a student's limit step by hand. A reason is required and an audit entry is written; the student is told.
+ * It changes the step only: the Aura score, streak and default memory are untouched, and nothing money-related moves.
+ */
+export function overrideLimit(world: WorldState, studentId: string, toLevel: number, actor: string, reason: string, at: number = world.clock.now): WorldState {
+  const p = getPolicy();
+  if (!world.students[studentId]) throw new DomainError("UNKNOWN_PARTY", "That student does not exist.");
+  if (!Number.isInteger(toLevel) || toLevel < 1 || toLevel > p.ladder.levels.length) throw new DomainError("BAD_LEVEL", `Choose a step from 1 to ${p.ladder.levels.length}.`);
+  if (!reason.trim()) throw new DomainError("REASON_REQUIRED", "Give a reason. It is written to the audit log.");
+  const before = deriveState(eventsOf(world, studentId), at);
+  if (before.level === toLevel) throw new DomainError("NO_CHANGE", "That is already the student's step.");
+  return produce(world, (d) => {
+    pushEvents(d, studentId, at, [{ kind: "LIMIT_OVERRIDE", delta: 0, reasonCode: "LIMIT_OVERRIDE", explanation: "The limit was set by the lending partner's operations team.", meta: { toLevel } }]);
+    audit(d, at, actor, "limit.override", studentId, { fromLevel: before.level, toLevel, reason: reason.trim() });
+    limitNotice(d, studentId, before, deriveState(eventsOf(d, studentId), at), at);
+  });
+}
+
 // the simulated clock ---------------------------------------------------------------------------------------------
 
 function nextBoundary(t: number, p: Policy): number {
@@ -305,6 +324,7 @@ function processInstant(d: Draft<WorldState>, t: number, p: Policy) {
   if (t === istStartOf(date, p.settlement.cutoffHourIst) && t > d.lastCutoff) {
     d.lastCutoff = t;
     buildSettlements(d as WorldState, t);
+    runFraudRules(d, t, p);
   }
   if (t === istStartOf(date, p.reminders.atHourIst)) sendReminders(d, t, p);
 }

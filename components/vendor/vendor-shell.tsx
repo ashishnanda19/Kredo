@@ -43,7 +43,7 @@ export function VendorShell({ children }: { children: React.ReactNode }) {
             <ul className="grid grid-cols-5 gap-1">
               {NAV.map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} aria-current={active(n.href) ? "page" : undefined} className={cn("flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] font-semibold transition-colors", active(n.href) ? "bg-pill text-pill-fg" : "text-ink-2")}>
+                  <Link href={n.href} aria-current={active(n.href) ? "page" : undefined} className={cn("flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] font-semibold transition-colors", active(n.href) ? "bg-pill text-pill-fg" : "text-ink")}>
                     <n.icon className="size-5" aria-hidden />
                     <span>{n.label}</span>
                   </Link>

@@ -8,10 +8,12 @@
  * (a NetworkError), like a dropped connection after the server did the work. Retrying with the same key returns the
  * same loan, so exactly one loan exists.
  */
+import { getAdapters } from "../api";
+import { AURA_W } from "../copy-demo";
 import { precheckPay, payByQr, type PayCode, type PayInput, type PrecheckResult } from "../domain/pay";
 import { amountDue } from "../domain/selectors";
 import type { Loan, ScoreEvent } from "../domain/types";
-import { DomainError, repayLoan } from "../domain/world";
+import { DomainError, awardQuest, repayLoan } from "../domain/world";
 import { useWorld } from "./world";
 
 export class NetworkError extends Error {
@@ -22,7 +24,7 @@ export class NetworkError extends Error {
 }
 
 /** Gate checks only. Leaves a fraud flag for abuse-looking blocks. */
-export function precheck(input: Pick<PayInput, "studentId" | "qr" | "coins">): PrecheckResult {
+export function precheck(input: Pick<PayInput, "studentId" | "qr" | "coins" | "microSpend">): PrecheckResult {
   const s = useWorld.getState();
   const r = precheckPay(s.world, input);
   if (r.world !== s.world) s.apply(() => r.world);
@@ -68,4 +70,28 @@ export function repay(loanIds: string[], key: string, amount?: number): RepayOut
   }
   s.apply(() => w);
   return { paid, loans: ordered.map((l) => l.id), events };
+}
+
+export type QuestOutcome = { ok: true; delta: number } | { ok: false; message: string };
+
+/**
+ * A student does one of the three tapped quests. Identity and bank quests first ask the (mock) verification provider;
+ * the engine then applies the caps. A quest that would add nothing is refused and stays available.
+ */
+export async function completeQuest(studentId: string, questId: "verify_identity" | "verify_bank" | "set_reminders"): Promise<QuestOutcome> {
+  const s = useWorld.getState();
+  const student = s.world.students[studentId];
+  if (!student) return { ok: false, message: AURA_W.questReject.NOT_AVAILABLE };
+  if (questId === "verify_identity") {
+    const r = await getAdapters().verification.submitKyc({ kind: "student", idMasked: student.idMasked });
+    if (r.outcome !== "verified") return { ok: false, message: AURA_W.questVerifyFail };
+  }
+  if (questId === "verify_bank") {
+    const r = await getAdapters().verification.pennyDrop({ bankMasked: "•••• 0000", ifsc: "DEMO0000001", ownerName: student.firstName, stallName: student.firstName });
+    if (r.outcome !== "success") return { ok: false, message: AURA_W.questVerifyFail };
+  }
+  const r = awardQuest(useWorld.getState().world, studentId, questId);
+  if (!r.result.draft) return { ok: false, message: AURA_W.questReject[r.result.rejected ?? "NOT_AVAILABLE"] };
+  useWorld.getState().apply(() => r.world);
+  return { ok: true, delta: r.result.draft.delta };
 }

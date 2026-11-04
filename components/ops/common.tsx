@@ -91,7 +91,7 @@ export function DataTable<T>({ caption, columns, rows, rowKey, onRow, empty, loa
     );
   if (rows.length === 0) return <p className="rounded-2xl bg-ink/[0.05] px-4 py-8 text-center text-sm text-ink-2">{empty}</p>;
   return (
-    <div className="overflow-x-auto rounded-[16px] bg-elevated ring-1 ring-hairline">
+    <div tabIndex={0} role="region" aria-label={caption} className="overflow-x-auto rounded-[16px] bg-elevated ring-1 ring-hairline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40">
       <table className="w-full min-w-[640px] text-left text-[13px]">
         <caption className="sr-only">{caption}</caption>
         <thead className="text-[11px] uppercase tracking-wider text-ink-2">

@@ -7,6 +7,8 @@ import { STUDENT } from "@/lib/copy-demo";
 import { amountDue, isOpen, loansOfStudent } from "@/lib/domain/selectors";
 import { fmtDate } from "@/lib/domain/time";
 import type { Loan } from "@/lib/domain/types";
+import { Download } from "lucide-react";
+import { downloadPdf, statementPdf } from "@/lib/demo/pdf";
 import { LoanRow } from "./loan-parts";
 import { RepaySheetWorld } from "./repay-sheet";
 import { useWorldStudent } from "./use-student";
@@ -54,7 +56,8 @@ export function LoansWorld() {
         </>
       )}
       <RepaySheetWorld open={repay} onOpenChange={setRepay} loans={open} />
-      <Link href="/dashboard" className="inline-block text-sm font-semibold underline">Back home</Link>
+      <GlassButton variant="outline" size="sm" data-testid="statement-pdf" onClick={() => void statementPdf(world, studentId).then((d) => downloadPdf("statement.pdf", d))}><Download className="size-4" aria-hidden /> {t.statementPdf}</GlassButton>
+      <div><Link href="/dashboard" className="inline-block text-sm font-semibold underline">Back home</Link></div>
     </div>
   );
 }

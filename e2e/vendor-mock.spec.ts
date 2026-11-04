@@ -26,7 +26,7 @@ async function kyc(page: Page, registered: boolean) {
 async function bank(page: Page) {
   await expect(page).toHaveURL(/onboarding\/bank/);
   await page.getByLabel("Account number").fill("123456789034");
-  await page.getByLabel("IFSC code").fill("HDFC0001234");
+  await page.getByLabel("IFSC code").fill("DEMO0001234");
   await page.getByRole("button", { name: "Verify with ₹1" }).click();
 }
 
@@ -92,7 +92,7 @@ test("a name mismatch on the ₹1 bank check blocks the next step until it succe
   await page.getByTestId("penny-success").click();
   await page.getByRole("button", { name: "Close demo controls" }).click();
   await page.getByLabel("Account number").fill("123456789034");
-  await page.getByLabel("IFSC code").fill("HDFC0001234");
+  await page.getByLabel("IFSC code").fill("DEMO0001234");
   await page.getByRole("button", { name: "Verify with ₹1" }).click();
   await expect(page.getByTestId("bank-result")).toContainText("verified");
 });
