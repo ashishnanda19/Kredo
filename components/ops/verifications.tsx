@@ -8,6 +8,7 @@ import { MaskedValue } from "@/components/portal/mask";
 import { StatusPill } from "@/components/portal/status-chip";
 import { QUEUE, REJECTION, type QueueItem } from "@/lib/mock-data";
 import { useStore } from "@/lib/store/store";
+import { VerificationType } from "./verification-type";
 import { DataTable, OpsPage, fmtDT, type Column } from "./common";
 import { effectiveStatus } from "./ops-data";
 
@@ -43,7 +44,7 @@ function Queue() {
   ];
 
   return (
-    <OpsPage title="Verification review queue" desc="Search by application ID or a masked identifier. Full identifiers are never shown.">
+    <OpsPage title="Verification review queue" actions={<VerificationType current="students" />} desc="Search by application ID or a masked identifier. Full identifiers are never shown.">
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <div className="relative min-w-[220px] flex-1">
           <Search aria-hidden className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-ink-2" />

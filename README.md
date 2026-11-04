@@ -52,7 +52,7 @@ Tip: Demo Controls > "Verified + active loan" jumps straight to a populated dash
 
 ## MVP demo world (no backend)
 A deterministic, resettable, clearly-labelled simulation of student-to-vendor QR payment with coins, loans, midnight
-settlement and repayment. Spec and milestones: `docs/MVP_DEMO_PROMPT.md`. Built so far: Milestone 1 (foundations and seed) Milestone 2 (vendor side), Milestone 3 (student pay flow) Milestone 4 (settlement and reconciliation) Milestone 5 (Aura screens), Milestone 6 (Demo Stage and Director) Milestone 7 (metrics, fraud and ops polish) and Milestone 8 (stretch: PDFs, camera scan, spoken captions).
+settlement and repayment. Spec and milestones: `docs/MVP_DEMO_PROMPT.md`. Built so far: Milestone 1 (foundations and seed) Milestone 2 (vendor side), Milestone 3 (student pay flow) Milestone 4 (settlement and reconciliation) Milestone 5 (Aura screens), Milestone 6 (Demo Stage and Director) Milestone 7 (metrics, fraud and ops polish) and Milestone 8 (stretch: PDFs, camera scan, spoken captions), plus the final gaps closed (vendor insights and support, the demo student's own activity and profile).
 
 - **Money rule**: coins are a display unit (1 coin = Rs 1), never a wallet. Kredo holds and moves no money: the lender
   pays vendors, students repay the lender. `NbfcPort` has only `submitSettlement` and `getRepaymentStatus`, and a unit

@@ -142,3 +142,17 @@ test("the demo-world home does not scroll sideways on a phone", async ({ page })
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("the demo student's activity and profile are their own, and the home shows streak and quests", async ({ page }) => {
+  await jump(page, "diya");
+  await expect(page.getByTestId("home-streak")).toContainText("on-time repayments in a row");
+  await expect(page.getByTestId("home-quests")).toBeVisible();
+  await page.goto("/dashboard/activity");
+  await expect(page.getByTestId("activity-item").first()).toBeVisible();
+  await expect(page.getByTestId("activity-world")).toContainText(/Paid \d+ coins to|Repaid ₹/);
+  await page.goto("/dashboard/profile");
+  await expect(page.getByTestId("profile-world")).toContainText("Diya");
+  await expect(page.getByTestId("profile-world")).toContainText("••••");
+  await page.getByRole("button", { name: "Sign out of the demo" }).click();
+  await expect(page).toHaveURL(/\/start/);
+});

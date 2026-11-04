@@ -298,6 +298,8 @@ export const STUDENT = {
     note: "Coins are a way of showing your credit limit. They aren't a wallet and can't be topped up or withdrawn.",
   },
   scan: "Scan and pay",
+  noQuests: "No quests open right now.",
+  questsOpen: (n: number) => `${n} quest${n === 1 ? "" : "s"} open`,
   dueSoon: "Due soon",
   dueNone: "Nothing due. Clear skies.",
   dueOn: (d: string) => `Due ${d}`,
@@ -608,4 +610,59 @@ export const ERROR_W = {
   retry: "Try again",
   reset: "Reset the demo",
   home: "Back to the start",
+};
+
+/** Vendor insights, vendor support, and the student activity and profile screens. Plain: money and records. */
+export const INSIGHTS = {
+  title: "Insights",
+  sub: "How your stall is doing. Coins are your receivable: what the lending partner pays you.",
+  today: "Today",
+  vsYesterday: (n: number) => (n === 0 ? "Same as yesterday" : n > 0 ? `${n} more than yesterday` : `${-n} fewer than yesterday`),
+  week: "Last 7 days",
+  hours: "Busiest hours (30 days)",
+  hoursSub: "India time",
+  ticket: "Average payment",
+  customers: "Customers (30 days)",
+  repeat: (p: number) => `${p}% came back more than once`,
+  refunds: "Refunds (30 days)",
+  refundLine: (n: number, c: number) => `${n} refund${n === 1 ? "" : "s"}, ${c} coins`,
+  empty: "No payments yet. Insights appear once students start paying.",
+  table: "Show as table",
+  chart: "Show as chart",
+};
+
+export const VSUPPORT = {
+  title: "Support",
+  sub: "Answers to the questions stalls ask most. Nothing here moves money.",
+  faq: [
+    { q: "When do I get paid?", a: "Every night at 12:00 midnight, Kredo totals the payments you received that day and reports them to the lending partner. The lending partner pays that amount to your verified bank account. Kredo never holds the money." },
+    { q: "A payment shows 'Awaiting settlement'. Is something wrong?", a: "No. It means the nightly report has not run since the payment. It changes to 'Settled' once the lending partner has paid." },
+    { q: "A settlement did not complete.", a: "The reason is shown on the Settlements page. The lending partner retries, and our team can send it again. Your payments stay safe as 'awaiting settlement' until it is paid." },
+    { q: "How do I refund a payment?", a: "Open Payments, choose Refund and give a reason. Before settlement it is left out of that night's total. After settlement it is taken off your next payout. Refunds above 500 coins are reviewed by our team." },
+    { q: "My QR was copied or lost.", a: "Open QR and make a new one. The old QR stops working at once." },
+    { q: "Why is my daily receiving limit lower?", a: "Stalls without a business registration start with a lower daily limit. Add a registration to ask for a higher one." },
+  ],
+  contact: "Still stuck? Write to the demo support desk at support@demo.invalid. This is a simulated address in the demo.",
+};
+
+export const ACTIVITY_W = {
+  title: "Activity",
+  sub: "Everything that has happened on your account, newest first.",
+  empty: "Nothing yet. Pay a stall and it shows up here.",
+  paid: (coins: number, stall: string) => `Paid ${coins} coins to ${stall}`,
+  repaid: (amount: number, closed: boolean) => `Repaid ₹${amount}${closed ? " (payment closed)" : " (part payment)"}`,
+  refunded: (coins: number, stall: string) => `${stall} refunded ${coins} coins`,
+  aura: (delta: number, why: string) => `Aura ${delta > 0 ? "+" : ""}${delta}: ${why}`,
+};
+
+export const PROFILE_W = {
+  title: "Profile",
+  college: "College",
+  id: "Student ID",
+  phone: "Phone",
+  status: "Verification",
+  accepted: "Verified",
+  note: "Your ID number and photo are never stored here. Only the last four digits are kept.",
+  links: { aura: "Your Aura", limit: "Your limit", loans: "Your payments" },
+  signOut: "Sign out of the demo",
 };

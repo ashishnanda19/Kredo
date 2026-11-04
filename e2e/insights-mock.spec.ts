@@ -197,6 +197,10 @@ const SWEEP: [string, string, string][] = [
   ["v-gupta", "/vendor/settlements", "settle-awaiting"],
   ["v-gupta", "/vendor/qr", "stall-qr"],
   ["v-gupta", "/vendor/disputes", "refund-cap"],
+  ["v-gupta", "/vendor/insights", "ins-today"],
+  ["v-gupta", "/vendor/support", "support-contact"],
+  ["diya", "/dashboard/activity", "activity-world"],
+  ["diya", "/dashboard/profile", "profile-world"],
 ];
 for (const [persona, path, marker] of SWEEP) {
   test(`accessibility sweep: ${path} as ${persona}`, async ({ page }) => {
@@ -216,3 +220,11 @@ for (const path of ["/ops/vendors", "/ops/settlements", "/ops/flags", "/ops/limi
     expect(r.violations.filter((v) => v.impact === "serious" || v.impact === "critical").map((v) => `${v.id}: ${v.nodes.slice(0, 2).map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
   });
 }
+
+test("the verification queues have a Students | Vendors switch", async ({ page }) => {
+  await openDemo(page, "/ops/verifications");
+  await page.getByRole("radio", { name: "Vendors" }).click();
+  await expect(page).toHaveURL(/\/ops\/vendors/);
+  await page.getByRole("radio", { name: "Students" }).click();
+  await expect(page).toHaveURL(/\/ops\/verifications/);
+});

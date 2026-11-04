@@ -10,6 +10,7 @@ import { fmtDateTime } from "@/lib/domain/time";
 import type { AccountStatus, VendorProfile } from "@/lib/domain/types";
 import { useWorld, useWorldHydrated } from "@/lib/store/world";
 import { DomainError } from "@/lib/domain/world";
+import { VerificationType } from "./verification-type";
 import { DataTable, Guarded, OpsPage, Toast, useRole, useToast, type Column } from "./common";
 
 const FILTERS = [
@@ -66,7 +67,7 @@ export function VendorsOps() {
 
   if (!hydrated) return null;
   return (
-    <OpsPage title="Vendors" desc="Review new stalls and manage active ones. Reasons are required for rejecting, suspending and revoking, and every action is written to the audit log.">
+    <OpsPage title="Vendors" actions={<VerificationType current="vendors" />} desc="Review new stalls and manage active ones. Reasons are required for rejecting, suspending and revoking, and every action is written to the audit log.">
       <div className="mb-3">
         <GlassSegmented label="Filter vendors" options={FILTERS} value={filter} onChange={(v) => { setFilter(v); setOpenId(null); }} />
       </div>

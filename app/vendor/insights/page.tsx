@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { StubPage } from "@/components/vendor/stub-page";
+import { InsightsPage } from "@/components/vendor/insights-page";
 
 export const metadata: Metadata = { title: "Insights" };
 
 export default function Page() {
-  return <StubPage title="Insights" milestone="Milestone 7" />;
+  return <InsightsPage />;
 }

@@ -153,3 +153,17 @@ test("ops can review a pending stall, and suspending a stall shows its owner the
   await page.getByTestId("persona-v-print").click();
   await expect(page.getByRole("heading", { name: "This stall isn't active right now" })).toBeVisible();
 });
+
+test("a stall's insights and support pages work", async ({ page }) => {
+  await page.goto("/start");
+  await page.getByTestId("persona-v-gupta").click();
+  await page.getByRole("link", { name: "Insights" }).first().click();
+  await expect(page.getByTestId("ins-today")).toBeVisible();
+  await expect(page.getByTestId("ins-customers")).toBeVisible();
+  await page.getByTestId("ins-week").getByRole("button", { name: "Show as table" }).click();
+  await expect(page.getByTestId("ins-week").getByRole("table")).toBeVisible();
+  await page.goto("/vendor/support");
+  await page.getByText("When do I get paid?").click();
+  await expect(page.getByText("Kredo never holds the money.")).toBeVisible();
+  await expect(page.getByTestId("support-contact")).toContainText("simulated");
+});

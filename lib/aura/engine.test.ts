@@ -75,3 +75,39 @@ describe("Aura engine", () => {
     for (const id of ["stu-diya", "stu-rohan", "stu-sana"]) expect(studentState(later, id).limit).toBe(studentState(SEEDED, id).limit);
   });
 });
+
+describe("Aura bounds (property)", () => {
+  it("stays within 0 to 100, and KRS within 400 to 800, whatever happens", async () => {
+    const fc = await import("fast-check");
+    const { payByQr } = await import("../domain/pay");
+    const { qrPayload } = await import("../qr");
+    const { loansOfStudent, isOpen, amountDue } = await import("../domain/selectors");
+    const ops = fc.array(fc.oneof(
+      fc.record({ k: fc.constant("pay" as const), coins: fc.integer({ min: 5, max: 400 }) }),
+      fc.record({ k: fc.constant("jump" as const), days: fc.integer({ min: 0, max: 45 }) }),
+      fc.record({ k: fc.constant("repay" as const) }),
+      fc.record({ k: fc.constant("quest" as const), q: fc.constantFrom("verify_identity" as const, "verify_bank" as const, "set_reminders" as const) }),
+    ), { minLength: 1, maxLength: 12 });
+    fc.assert(
+      fc.property(fc.constantFrom("stu-aarav", "stu-ishita", "stu-kabir", "stu-rohan", "stu-meera"), ops, (id, seq) => {
+        let w = SEEDED;
+        for (const o of seq) {
+          if (o.k === "pay") {
+            const r = payByQr(w, { studentId: id, qr: qrPayload("ven-gupta-chai", 1), coins: o.coins, idempotencyKey: `p${w.seq}` });
+            w = r.world;
+          } else if (o.k === "jump") w = advanceTo(w, w.clock.now + o.days * DAY);
+          else if (o.k === "repay") {
+            const l = loansOfStudent(w, id).filter(isOpen)[0];
+            if (l) w = repayLoan(w, { loanId: l.id, amount: amountDue(w.loans[l.id]) }).world;
+          } else w = awardQuest(w, id, o.q).world;
+          const s = studentState(w, id);
+          expect(s.aura).toBeGreaterThanOrEqual(0);
+          expect(s.aura).toBeLessThanOrEqual(100);
+          expect(s.krs).toBeGreaterThanOrEqual(400);
+          expect(s.krs).toBeLessThanOrEqual(800);
+        }
+      }),
+      { numRuns: 40 },
+    );
+  });
+});

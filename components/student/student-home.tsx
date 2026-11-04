@@ -6,7 +6,8 @@ import { Bell, ScanLine } from "lucide-react";
 import { GlassButton, GlassCard } from "@/components/glass";
 import { Logo } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { STUDENT, TIER_LABEL } from "@/lib/copy-demo";
+import { AURA_W, STUDENT, TIER_LABEL } from "@/lib/copy-demo";
+import { questViews } from "@/lib/domain/recovery";
 import { amountDue, blockedReason, availableLimit, isOpen, loansOfStudent, nextDue, outstandingPrincipalOf, studentState } from "@/lib/domain/selectors";
 import { fmtDate, fmtDateTime } from "@/lib/domain/time";
 import { NotificationsTray, useUnread } from "./notifications-sheet";
@@ -54,6 +55,7 @@ export function StudentHome() {
   const open = loansOfStudent(world, studentId).filter(isOpen);
   const due = nextDue(world, studentId);
   const recent = [...loansOfStudent(world, studentId)].sort((a, b) => b.createdAt - a.createdAt || b.id.localeCompare(a.id)).slice(0, 5);
+  const openQuests = questViews(world, studentId).filter((q) => q.manual && q.status === "available");
   const lastRepay = world.repayments.filter((r) => r.studentId === studentId).sort((a, b) => b.at - a.at)[0];
 
   return (
@@ -101,8 +103,19 @@ export function StudentHome() {
             <div className="text-right">
               <p className="text-xs text-ink-2">{STUDENT.aura.tier}</p>
               <p className="font-semibold" data-testid="aura-tier">{TIER_LABEL[st.tier] ?? st.tier}</p>
-              <p className="text-xs text-ink-2">{STUDENT.aura.note}</p>
+              <p className="text-xs text-ink-2" data-testid="home-streak">{AURA_W.streak(st.consecutiveOnTime)}</p>
             </div>
+          </GlassCard>
+
+          <GlassCard radius="lg" className="p-5" data-testid="home-quests">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-ink-2">{AURA_W.quests}</h2>
+            {openQuests.length === 0 ? <p className="mt-2 text-sm text-ink-2">{STUDENT.noQuests}</p> : (
+              <>
+                <p className="mt-2 text-sm font-semibold">{STUDENT.questsOpen(openQuests.length)}</p>
+                <p className="text-xs text-ink-2">{AURA_W.next.quest(openQuests[0].title, openQuests[0].aura)}</p>
+              </>
+            )}
+            <Link href="/dashboard/aura" className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold underline">{STUDENT.aura.title}</Link>
           </GlassCard>
         </div>
 

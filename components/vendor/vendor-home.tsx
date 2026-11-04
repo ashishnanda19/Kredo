@@ -73,6 +73,11 @@ export function VendorHome() {
         )}
         <Link href="/vendor/payments" className="mt-2 inline-block text-sm font-semibold underline">{VENDOR.nav.payments}</Link>
       </GlassCard>
+      <nav aria-label="More" className="flex flex-wrap gap-x-5 gap-y-1 text-sm font-semibold">
+        <Link href="/vendor/insights" className="inline-flex min-h-11 items-center underline">{VENDOR.nav.insights}</Link>
+        <Link href="/vendor/disputes" className="inline-flex min-h-11 items-center underline">Refunds</Link>
+        <Link href="/vendor/support" className="inline-flex min-h-11 items-center underline">Support</Link>
+      </nav>
     </div>
   );
 }
