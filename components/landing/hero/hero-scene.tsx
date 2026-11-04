@@ -116,7 +116,7 @@ const push = {
   }),
 };
 
-/** L1: faint card outlines drifting behind the phone on the dark stages. */
+/** L1: a faint dot grid behind the phone on the dark stages. */
 function GhostFragments({ on }: { on: boolean }) {
   return (
     <div
@@ -127,29 +127,6 @@ function GhostFragments({ on }: { on: boolean }) {
       )}
     >
       <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(190,180,255,.35)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:radial-gradient(60%_55%_at_50%_60%,#000,transparent)]" />
-      {[
-        [6, 30, 190],
-        [80, 24, 210],
-        [4, 78, 170],
-        [84, 74, 180],
-      ].map(([l, t, w], i) => (
-        <span
-          key={i}
-          className="absolute flex h-14 items-center gap-3 rounded-[16px] bg-white/[.03] px-3 opacity-60 max-md:hidden ring-1 ring-white/[.06] [animation:ghost-drift_14s_ease-in-out_infinite_alternate] motion-reduce:animate-none"
-          style={{
-            left: `${l}%`,
-            top: `${t}%`,
-            width: w,
-            animationDelay: `${i * -2.6}s`,
-          }}
-        >
-          <span className="size-8 shrink-0 rounded-[9px] bg-white/[.06]" />
-          <span className="flex-1 space-y-1.5">
-            <span className="block h-2 w-3/4 rounded bg-white/[.08]" />
-            <span className="block h-2 w-1/2 rounded bg-white/[.05]" />
-          </span>
-        </span>
-      ))}
     </div>
   );
 }
