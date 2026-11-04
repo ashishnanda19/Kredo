@@ -32,7 +32,7 @@ export function CoinCard({ world, studentId }: { world: ReturnType<typeof useWor
         <p className="mt-1.5 flex justify-between text-xs text-[#0b0b0c]/70"><span>{t.inUse(used)}</span><span data-testid="limit-total">{t.ofLimit(st.limit)}</span></p>
       </div>
       {blocked && (
-        <div role="status" data-testid="blocked-note" className="mt-4 rounded-2xl bg-warning-soft p-3 text-sm text-warn-text">
+        <div role="status" data-testid="blocked-note" className="mt-4 rounded-2xl bg-[#0b0b0c] p-3 text-sm text-white">
           <p className="font-semibold">{t.blockedTitle}</p>
           <p>{blocked.message}</p>
           <Link href="/dashboard/recovery" data-testid="recovery-cta" className="mt-1 inline-block font-semibold underline">{STUDENT.coinCard.recoveryLink}</Link>

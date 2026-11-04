@@ -11,6 +11,13 @@ import { useGsapScene } from "./use-gsap-scene";
 type FragKind = "bubble" | "bubbleMe" | "note" | "badge" | "slip";
 
 /** Where fragment `i` sits in the mess: [left %, top %, rotate deg]. A loose, deterministic scatter over a 5 x 5 grid. */
+/** On phones: two loose columns of the first twelve fragments, so nothing piles up or wraps into tall blobs. */
+function spotMobile(i: number): [number, number] {
+  const col = i % 2;
+  const row = Math.floor(i / 2);
+  return [col ? 46 + ((i * 3) % 4) : 2 + ((i * 5) % 5), row * 15 + ((i * 7) % 5)];
+}
+
 function spot(i: number): [number, number, number] {
   const col = i % 5;
   const row = Math.floor(i / 5);
@@ -31,7 +38,7 @@ function Fragment({ text, kind, i, className, style }: { text: string; kind: Fra
   return (
     <span
       data-frag
-      className={cn("absolute inline-block max-w-[44vw] px-3.5 py-2 text-[13px] leading-snug shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] sm:max-w-[220px] sm:text-[13.5px]", i >= 12 && "max-sm:hidden", FRAG_STYLE[kind], className)}
+      className={cn("absolute inline-block max-w-[50vw] px-3 py-1.5 text-[12.5px] leading-snug shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] left-[var(--ml)] top-[var(--mt)] sm:left-[var(--l)] sm:top-[var(--t)] sm:max-w-[220px] sm:px-3.5 sm:py-2 sm:text-[13.5px]", i >= 12 && "max-sm:hidden", FRAG_STYLE[kind], className)}
       style={style}
     >
       <span className="block motion-safe:animate-[float-y_var(--d)_ease-in-out_var(--dl)_infinite]" style={{ "--d": `${4 + (i % 5) * 0.7}s`, "--dl": `${-(i % 7) * 0.6}s` } as React.CSSProperties}>
@@ -200,7 +207,8 @@ export function ChaosCalm() {
           <div aria-hidden>
             {t.fragments.map((f, i) => {
               const [l, top, rot] = spot(i);
-              return <Fragment key={f.t} i={i} text={f.t} kind={f.k} style={{ left: `${l}%`, top: `${top}%`, transform: `rotate(${rot}deg)` }} />;
+              const [ml, mt] = spotMobile(i);
+              return <Fragment key={f.t} i={i} text={f.t} kind={f.k} style={{ "--l": `${l}%`, "--t": `${top}%`, "--ml": `${ml}%`, "--mt": `${mt}%`, transform: `rotate(${rot}deg)` } as React.CSSProperties} />;
             })}
           </div>
           <div aria-hidden data-glow className="pointer-events-none absolute inset-0 opacity-0">

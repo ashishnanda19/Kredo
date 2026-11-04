@@ -57,15 +57,15 @@ export function StageSegmented({ stages, active, onSelect, panelId, className }:
             tabIndex={on ? 0 : -1}
             onClick={() => onSelect(i)}
             className={cn(
-              "relative min-h-11 shrink-0 whitespace-nowrap rounded-full px-3.5 text-[13px] font-semibold transition-colors sm:px-5 sm:text-sm",
+              "relative min-h-11 shrink-0 whitespace-nowrap rounded-full px-3 text-[13px] font-semibold transition-colors sm:px-5 sm:text-sm",
               on ? "text-accent-ink" : "text-white/70 hover:text-white",
             )}
           >
             {on && <motion.span layoutId={`stage-${id}`} transition={reduce ? { duration: 0 } : spring.stretch} className="absolute inset-0 rounded-full bg-accent" />}
             {/* narrow phones get the short label so all four fit without scrolling */}
-            <span className="relative max-[399px]:hidden">{s.label}</span>
-            <span aria-hidden className="relative min-[400px]:hidden">{s.short ?? s.label}</span>
-            {s.short && <span className="sr-only min-[400px]:hidden">{s.label}</span>}
+            <span className="relative max-sm:hidden">{s.label}</span>
+            <span aria-hidden className="relative sm:hidden">{s.short ?? s.label}</span>
+            {s.short && <span className="sr-only sm:hidden">{s.label}</span>}
           </button>
         );
       })}
