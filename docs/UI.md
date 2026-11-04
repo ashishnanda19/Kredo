@@ -4,7 +4,7 @@ Screenshots of every key screen are in `docs/screens/` (`<name>.phone.png` at 36
 
 ## Look and feel
 - **Tokens** in `app/globals.css`: surfaces `--page`, `--card`, `--elevated`; text `--ink`, `--ink-2` (secondary, AA on page and card); accent signal yellow `--accent` with dark `--accent-ink` (AAA); status text `--ok-text`, `--bad-text`, `--warn-text`, `--info-text`; pills `--pill-bg/--pill-fg`. Do not add colours. `lib/a11y.test.ts` checks contrast.
-- **Components** (reuse, do not rebuild): `components/glass/` (`GlassCard`, `GlassButton`, `GlassInput`, `GlassSegmented`, `GlassSheet`), `components/ui/` (`Badge`, `Skeleton`, `Tooltip`), `components/forms/field.tsx` (label + control + error), `components/shared/` (`Logo`, `ThemeToggle`, `SuccessCheck`, `CategoryIcon`, `DemoTag`).
+- **Components** (reuse, do not rebuild): `components/glass/` (`GlassCard`, `GlassButton`, `GlassInput`, `GlassSegmented`, `GlassSheet`), `components/ui/` (`Badge`, `Skeleton`, `Tooltip`), `components/forms/field.tsx` (label + control + error), `components/shared/` (`Logo`, `ThemeToggle`, `SuccessCheck`, `CategoryIcon`).
 - **Shells**: student `components/dashboard/shell.tsx` (side rail on desktop, floating pill tab bar on phones), vendor `components/vendor/vendor-shell.tsx`, ops `components/ops/ops-shell.tsx`.
 - **Patterns**: rounded glass cards, pill buttons, bottom sheets for confirmations (Radix dialog, focus trapped, Escape closes), yellow primary highlight, tabular numbers for money. Phones first at 360px, wider layouts are a bonus (except the Stage and ops, which are wide).
 - **The demo label** `components/demo/demo-money-label.tsx` shows wherever money, stalls or students appear. `data-testid` attributes mark every important element for tests.

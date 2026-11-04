@@ -17,11 +17,10 @@ const B = BRAND.name;
 const BASE = {
   /** Plain and serious. No slang. */
   legal: {
-    demoTag: "Demo preview, no real money, nothing is uploaded",
     disclosure: "Credit offered by our regulated lending partner.",
     notLender: `${B} is an app and is not a bank or lender. Credit, if approved, is provided by the lending partner on their terms.`,
     nudge: "Borrow only what you can repay.",
-    footer: `© 2026 ${B} (placeholder brand). Demo preview, no real money.`,
+    footer: `© 2026 ${B} (placeholder brand).`,
   },
 
   nav: {

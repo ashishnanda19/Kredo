@@ -246,7 +246,7 @@ export function ProfileView() {
         <div className="space-y-1 pb-2 text-center">
           <Disclosure className="justify-center" />
           <p className="text-xs text-ink-2">
-            {BRAND.name} is not a bank or lender. Member since {student.memberSince}. {COPY.legal.demoTag}.
+            {BRAND.name} is not a bank or lender. Member since {student.memberSince}.
           </p>
           {verified && (
             <p className="flex items-center justify-center gap-1 text-xs text-ok-text">

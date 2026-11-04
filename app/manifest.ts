@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${BRAND.name}: pay later at campus`,
     short_name: BRAND.name,
-    description: "Demo preview, no real money. Student pay-later interface.",
+    description: "Student pay-later interface.",
     start_url: "/dashboard",
     display: "standalone",
     orientation: "portrait",

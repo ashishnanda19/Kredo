@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { DemoTag, Disclosure } from "@/components/shared/demo-tag";
+import { Disclosure } from "@/components/shared/demo-tag";
 import { LogoLockup } from "@/components/shared/logo";
 import { GRIEVANCE } from "@/lib/config";
 import { COPY } from "@/lib/copy";
@@ -91,7 +91,6 @@ export function CurtainFooter() {
               </a>
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <DemoTag className="border-[#fbbf24]/40 bg-[#fbbf24]/10 text-[#fbbf24]" />
               <span>{COPY.legal.footer}</span>
             </div>
           </div>

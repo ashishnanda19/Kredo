@@ -20,7 +20,6 @@ for (const [preset, state] of STATES) {
     await page.goto("/dashboard/aura");
     await expect(page.getByTestId(`aura-state-${state}`)).toBeVisible();
     await expect(page.getByTestId("aura-disclaimer")).toBeVisible();
-    await expect(page.getByText("Demo preview, no real money")).toBeVisible();
     await expect(page.locator("body")).not.toContainText("KRS");
   });
 }

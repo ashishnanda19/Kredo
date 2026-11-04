@@ -11,7 +11,6 @@ import { SCENARIOS } from "@/lib/demo/scenarios";
 import { loansOfVendor } from "@/lib/domain/selectors";
 import { useWorld, useWorldHydrated } from "@/lib/store/world";
 import { cn } from "@/lib/utils";
-import { DemoMoneyLabel } from "./demo-money-label";
 import { LedgerStrip } from "./ledger-strip";
 import { MoneyFlow } from "./money-flow";
 import { PhoneFrame } from "./phone-frame";
@@ -123,7 +122,6 @@ export function Stage() {
           {!presenter && <p className="text-sm text-ink-2">{STAGE.sub}</p>}
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <DemoMoneyLabel />
           <label className="flex min-h-11 items-center gap-2 text-sm font-semibold"><input type="checkbox" data-testid="presenter-toggle" className="size-4" checked={presenter} onChange={(e) => setPresenter(e.target.checked)} />{STAGE.presenter}</label>
           <label className="flex min-h-11 items-center gap-2 text-sm font-semibold"><input type="checkbox" data-testid="flow-toggle" className="size-4" checked={flowOn} onChange={(e) => setFlow(e.target.checked)} />{STAGE.flowOverlay}</label>
           {canSpeak && <label className="flex min-h-11 items-center gap-2 text-sm font-semibold"><input type="checkbox" data-testid="voice-toggle" className="size-4" checked={voice} onChange={(e) => setVoice(e.target.checked)} />{STAGE.voice}</label>}

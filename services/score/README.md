@@ -250,7 +250,7 @@ production, and again once students have longer histories.
 6. **Fraud rules will flag some honest students** (near-same spends, spending just under the limit). Watch the confirm
    rate per rule in the report before trusting a rule.
 7. **There is no lending partner yet.** The "partner" in prechecks and outcomes is the demo key, and the simulator
-   plays one. Keep the "Demo preview, no real money" tag until a real NBFC exists.
+   plays one.
 
 ### Changing a threshold safely
 

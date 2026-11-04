@@ -2,7 +2,7 @@ import Link from "next/link";
 import { GlassCard } from "@/components/glass";
 import { Logo } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { DemoTag, Disclosure } from "@/components/shared/demo-tag";
+import { Disclosure } from "@/components/shared/demo-tag";
 
 /** Centered glass sheet for auth, verification and KYC screens. */
 export function PortalShell({ children, width = "max-w-md", back }: { children: React.ReactNode; width?: string; back?: { href: string; label: string } }) {
@@ -24,7 +24,6 @@ export function PortalShell({ children, width = "max-w-md", back }: { children: 
           {children}
         </GlassCard>
         <div className="mt-5 flex flex-col items-center gap-2">
-          <DemoTag />
           <Disclosure />
         </div>
       </main>

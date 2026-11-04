@@ -88,9 +88,8 @@ function Card() {
       >
         <span className="absolute inset-y-0 right-0 w-[30%] bg-accent [clip-path:polygon(38%_0,100%_0,100%_100%,0_100%)]" />
         <span className="absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.16)_45%,transparent_60%)]" />
-        <span className="absolute left-[7%] top-[11%] flex items-center gap-[2.4cqw]">
-          <LogoMark className="size-[9cqw]" />
-          <Wordmark className="h-[4.7cqw]" />
+        <span className="absolute left-[7%] top-[11%] flex items-center">
+          <Wordmark className="h-[7cqw]" />
         </span>
         <span className="absolute left-[7%] top-[42%] h-[18%] w-[13%] rounded-[2cqw] bg-[linear-gradient(135deg,#f9e88a,#d9b31a)] shadow-[inset_0_0_0_0.4cqw_rgba(0,0,0,0.15)]" />
         <span className="absolute bottom-[11%] left-[7%] text-[3.6cqw] font-semibold tracking-[0.2em] text-white/60">STUDENT</span>

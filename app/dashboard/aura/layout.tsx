@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { AuraDisclaimer, AuraNav } from "@/components/aura/parts";
 import { PageHeader } from "@/components/dashboard/header";
 import { GlassCard } from "@/components/glass";
-import { DemoTag } from "@/components/shared/demo-tag";
 import { EmptyState } from "@/components/shared/states";
 import { WorldOr } from "@/components/student/world-or";
 import { AURA } from "@/lib/copy-aura";
@@ -23,7 +22,6 @@ export default function AuraLayout({ children }: { children: React.ReactNode }) 
         </div>
       ) : (
         <div className="mx-auto max-w-3xl">
-          <DemoTag className="mb-3" />
           <PageHeader title={AURA.title} />
           <AuraNav />
           <AuraDisclaimer className="mb-5" />

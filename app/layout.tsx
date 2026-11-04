@@ -13,7 +13,7 @@ const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], dis
 
 export const metadata: Metadata = {
   title: { default: `${BRAND.name}: pay at campus, settle later`, template: `%s | ${BRAND.name}` },
-  description: `A small credit limit for verified college students, to use at campus vendors. ${COPY.legal.disclosure} ${COPY.legal.demoTag}.`,
+  description: `A small credit limit for verified college students, to use at campus vendors. ${COPY.legal.disclosure}`,
   applicationName: BRAND.name,
   appleWebApp: { capable: true, title: BRAND.name, statusBarStyle: "default" },
   formatDetection: { telephone: false },

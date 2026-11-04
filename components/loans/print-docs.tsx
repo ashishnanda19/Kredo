@@ -13,7 +13,7 @@ import { PAYMENTS } from "@/lib/mock-data";
 import { useHydrated, useStore } from "@/lib/store/store";
 import { BRAND } from "@/lib/config";
 
-const Demo = () => <p className="text-xs font-semibold">Demo preview, no real money. This is not a real receipt or statement.</p>;
+const Demo = () => <p className="text-xs font-semibold">This is not a real receipt or statement.</p>;
 
 export function ReceiptView({ id }: { id: string }) {
   const hydrated = useHydrated();

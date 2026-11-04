@@ -136,7 +136,7 @@ App mock data:
 - Ops staff (Asha, Ravi and Meera, each marked placeholder), the "Call student" template, and "Not reported to bureaus".
 - Every figure in `lib/mock-*.ts`.
 
-Demo scaffolding to remove for production: the `DemoTag`, Demo Controls (`NEXT_PUBLIC_DEMO_CONTROLS`), and the "Internal, demo only" ops banner.
+Demo scaffolding to remove for production: Demo Controls (`NEXT_PUBLIC_DEMO_CONTROLS`), and the "Internal, demo only" ops banner.
 
 MVP demo world (docs/MVP_DEMO_PROMPT.md): the seeded fictional people, stalls and history in `lib/demo/` (names, the
 persona table, the settlement references `UTR...`, the demo PIN 1234 and code 123456), and the "Demo: simulated data,

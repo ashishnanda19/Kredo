@@ -1,6 +1,6 @@
 # Kredo (placeholder name): student pay-later web experience
 
-**Demo preview, no real money.** The web app has no auth or payments. Aura (the student view of the in-app score)
+The web app has no auth or payments. Aura (the student view of the in-app score)
 comes from the score service in [`services/score`](services/score/README.md) when `SCORE_API_URL` is set; otherwise
 the app keeps running on mock data, as before.
 Neon-violet "nightclub meets iOS glass" visuals, scroll-driven landing page with a persistent 3D card.

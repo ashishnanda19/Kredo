@@ -75,13 +75,13 @@ export function MorphNav() {
           style={{ opacity: "var(--p)" }}
         />
 
-        <Link href="/" aria-label={`${BRAND.name} home`} className="flex min-h-11 items-center gap-2">
-          <LogoMark />
-          <span
-            className="flex items-center overflow-hidden"
-            style={{ opacity: "calc(1 - var(--p) * 1.6)", maxWidth: "calc((1 - var(--p)) * 90px)" }}
-          >
-            <Wordmark className="h-[19px]" />
+        <Link href="/" aria-label={`${BRAND.name} home`} className="relative flex min-h-11 min-w-8 items-center">
+          {/* the full logotype at the top of the page; it gives way to the coin tile as the nav condenses into a pill */}
+          <span className="flex items-center overflow-hidden" style={{ opacity: "calc(1 - var(--p) * 2)", maxWidth: "calc((1 - var(--p)) * 96px)" }}>
+            <Wordmark className="h-[22px]" />
+          </span>
+          <span className="absolute left-0 top-1/2 -translate-y-1/2" style={{ opacity: "calc(var(--p) * 2 - 0.6)" }}>
+            <LogoMark />
           </span>
         </Link>
 
