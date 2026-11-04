@@ -147,7 +147,6 @@ export function ChaosCalm() {
       .from("[data-card]", { opacity: 0, scale: 0.9, y: 40, duration: 0.14 }, 0.3)
       .fromTo("[data-glow]", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.2 }, 0.42)
       .from("[data-calm]", { opacity: 0, scale: 0.88, y: 24, filter: "blur(10px)", duration: 0.12, stagger: 0.04 }, 0.5)
-      .fromTo("[data-calm-line]", { strokeDashoffset: 60, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.12, stagger: 0.03 }, 0.56)
       .from("[data-item]", { opacity: 0.25, duration: 0.05, stagger: 0.045 }, 0.62)
       .from("[data-tick]", { scale: 0, duration: 0.05, stagger: 0.045 }, 0.62)
       .to({}, { duration: 0.04 });
@@ -212,19 +211,8 @@ export function ChaosCalm() {
             })}
           </div>
           <div aria-hidden data-glow className="pointer-events-none absolute inset-0 opacity-0">
-            <div className="dot-grid absolute inset-0 [mask-image:radial-gradient(55%_55%_at_50%_45%,#000,transparent)]" />
-            <div className="absolute left-1/2 top-[45%] size-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_30%,transparent),transparent)]" />
+            <div className="dot-grid absolute inset-0 opacity-50 [mask-image:radial-gradient(55%_55%_at_50%_45%,#000,transparent)]" />
           </div>
-          <svg aria-hidden className="pointer-events-none absolute inset-0 hidden size-full md:block" viewBox="0 0 100 100" preserveAspectRatio="none">
-            {[
-              [24, 20, 41, 34],
-              [76, 26, 59, 34],
-              [24, 66, 41, 56],
-              [76, 72, 59, 56],
-            ].map(([x1, y1, x2, y2], i) => (
-              <line key={i} data-calm-line x1={x1} y1={y1} x2={x2} y2={y2} className="stroke-ink-2/40" strokeWidth="1.2" strokeDasharray="4 5" vectorEffect="non-scaling-stroke" fill="none" />
-            ))}
-          </svg>
           <div aria-hidden className="hidden md:block">
             {CALM_SPOTS.map((spot, i) => (
               <CalmCard key={i} i={i} className="absolute" style={{ [spot.side]: 0, top: spot.top }} />

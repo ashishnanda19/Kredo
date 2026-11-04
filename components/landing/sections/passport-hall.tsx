@@ -141,7 +141,7 @@ export function PassportHall() {
                 </li>
               ))}
             </ul>
-            <p data-zoom-copy className="mt-8 max-w-lg text-[12.5px] leading-relaxed text-white/60">{t.disclaimer} Sample data.</p>
+            <p data-zoom-copy className="mt-8 max-w-lg text-[12.5px] leading-relaxed text-white/60">{t.disclaimer}</p>
           </div>
           <div data-zoom-phone className="relative z-10 mx-auto [transform-style:preserve-3d] w-[min(300px,78vw)] lg:w-[min(300px,calc((100svh-160px)/2.14))]">
             <PhoneFrame screenBg="#0b0b0c">
