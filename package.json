@@ -10,7 +10,8 @@
     "test:e2e": "next build && playwright test",
     "typecheck": "next typegen && tsc --noEmit",
     "test:unit": "vitest run",
-    "test:unit:watch": "vitest"
+    "test:unit:watch": "vitest",
+    "screens": "node scripts/screens.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^6.0.2",
