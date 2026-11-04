@@ -1,14 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { BadgeCheck, CalendarCheck, Repeat, TrendingUp } from "lucide-react";
 import { PassportScreen, PhoneFrame } from "@/components/phone-screens";
 import { COPY } from "@/lib/copy";
 import { usePrefersReducedMotion } from "@/lib/quality";
 import { gsap } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { TwoTone } from "./two-tone";
-import { PassportCover } from "./passport-cover";
+import { PassportCover, STAMPS } from "./passport-cover";
 import { useGsapScene } from "./use-gsap-scene";
 
 /** Offset of an element inside an ancestor from layout positions (ignores transforms, so it stays right mid-zoom). */
@@ -24,14 +23,6 @@ function offsetIn(el: HTMLElement, ancestor: HTMLElement) {
   return { x, y };
 }
 
-/** Milestone stamps: earned in the app, not awards. */
-const STAMPS = [
-  { icon: BadgeCheck, label: "Verified", when: "Aug 2026" },
-  { icon: CalendarCheck, label: "First repayment", when: "Sep 2026" },
-  { icon: Repeat, label: "3 on time in a row", when: "Oct 2026" },
-  { icon: TrendingUp, label: "Limit up", when: "Oct 2026" },
-];
-
 const STATS: [string, string][] = [
   ["6", "on-time repayments"],
   ["₹4,350", "repaid in total"],
@@ -40,7 +31,7 @@ const STATS: [string, string][] = [
 
 /**
  * Flighty-passport look-back. On wide screens the section pins and opens on a passport-booklet cover; as you scroll
- * the stamps scatter and the booklet flies into the phone, which turns to face you while the copy arrives.
+ * the booklet's cover swings open, its stamps press on, and the spread flies into the phone, which pops up as the copy arrives.
  * Phones and reduced motion get the plain stacked layout. Black like the other dark sections; the nav inverts over it.
  */
 export function PassportHall() {
@@ -66,14 +57,22 @@ export function PassportHall() {
       // set every copy block hidden up front (a staggered tween only pre-renders its first target)
       const copy = root.querySelectorAll("[data-zoom-copy]");
       gsap.set(copy, { opacity: 0, y: 40, filter: "blur(10px)" });
+      const stamps = gsap.utils.toArray<HTMLElement>("[data-stamp]", cover);
+      const front = cover.querySelector<HTMLElement>("[data-cover-front]");
+      gsap.set(stamps, { opacity: 0, scale: 0.5, rotate: -14 });
       gsap
         .timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.6, invalidateOnRefresh: true } })
-        // the cover holds for a beat, then the booklet flies into the phone, turning as it goes
-        .to(book, { x: () => toPhone().x, y: () => toPhone().y, scale: 0.42, rotateY: -28, ease: "power2.inOut", duration: 0.4 }, 0.16)
-        .to(book, { opacity: 0, filter: "blur(8px)", duration: 0.12 }, 0.46)
-        .fromTo(phone, { opacity: 0, scale: 0.86, rotateY: 22 }, { opacity: 1, scale: 1, rotateY: 0, ease: "power2.out", duration: 0.24 }, 0.42)
-        .to(copy, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.06, duration: 0.2 }, 0.5)
-        .set(cover, { display: "none" }, 0.6);
+        // 1. the closed booklet holds for a beat, then the front cover swings open on its spine; the spread slides to stay centred
+        .to(front, { rotateY: -172, ease: "power2.inOut", duration: 0.24 }, 0.08)
+        .to(book, { x: () => (book ? book.offsetWidth / 2 : 0), ease: "power2.inOut", duration: 0.24 }, 0.08)
+        // 2. the milestone stamps press onto the page one after another
+        .to(stamps, { opacity: 1, scale: 1, rotate: -6, ease: "back.out(2.2)", stagger: 0.045, duration: 0.09 }, 0.3)
+        // 3. the spread shrinks into the phone, which pops up as it lands
+        .to(book, { x: () => toPhone().x, y: () => toPhone().y, scale: 0.42, ease: "power2.inOut", duration: 0.26 }, 0.56)
+        .to(book, { opacity: 0, filter: "blur(8px)", duration: 0.1 }, 0.72)
+        .fromTo(phone, { opacity: 0, scale: 0.68, y: 60, rotateY: 26 }, { opacity: 1, scale: 1, y: 0, rotateY: 0, ease: "back.out(1.5)", duration: 0.22 }, 0.68)
+        .to(copy, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.05, duration: 0.18 }, 0.78)
+        .set(cover, { display: "none" }, 0.9);
       return () => gsap.set([cover, ...copy], { clearProps: "all" });
     });
   });
@@ -83,7 +82,7 @@ export function PassportHall() {
       ref={ref}
       data-nav-theme="dark"
       aria-labelledby="passport-title"
-      className={cn("relative z-[1] text-white", !reduce && "lg:h-[240svh]")}
+      className={cn("relative z-[1] text-white", !reduce && "lg:h-[320svh]")}
       style={{ background: "radial-gradient(55% 45% at 70% 60%, rgba(255,255,255,.06), transparent 70%), #06060a" }}
     >
       {/* feathered seams hang outside the section, over its light neighbours, so no light band shows while it is pinned */}

@@ -261,6 +261,11 @@
     opacity: 0;
   }
 }
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @keyframes float-y {
   0%,
   100% {
