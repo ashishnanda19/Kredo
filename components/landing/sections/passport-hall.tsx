@@ -100,7 +100,7 @@ export function PassportHall() {
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[4%] overflow-hidden">
           <div className="flex w-max whitespace-nowrap text-[clamp(110px,15vw,230px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.06)] motion-safe:animate-[passport-ticker_60s_linear_infinite]">
             {[...t.ticker, ...t.ticker].map((w, i) => (
-              <span key={i} className="px-[0.35em]">{w} <span className="align-middle text-[0.28em] text-accent/30 [-webkit-text-stroke:0]">✦</span></span>
+              <span key={i} className="px-[0.5em]">{w}</span>
             ))}
           </div>
         </div>
