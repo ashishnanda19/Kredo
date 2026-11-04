@@ -10,17 +10,9 @@ export const STAMPS = [
   { icon: TrendingUp, label: "Limit up", when: "Oct 2026" },
 ];
 
-/** Stickers stuck on the cover: [label, position, tilt, style]. */
-const STICKERS = [
-  { t: "no cap", cls: "left-[8%] top-[34%] -rotate-[9deg] bg-[#0b0b0c] text-accent" },
-  { t: "on time ✓", cls: "right-[6%] top-[32%] rotate-[7deg] bg-white text-[#0b0b0c]" },
-  { t: "limit up ↗", cls: "left-[11%] top-[74%] -rotate-[5deg] bg-[#0b0b0c] text-white" },
-];
-
 /**
  * Opening frame of the credit-passport section on wide screens: a passport booklet, drawn like a real object.
- * Brand-yellow matte cover with a slow light sweep, a foil seal ring that turns, stickers, a machine-readable strip and
- * stitched edges. On scroll the front cover swings open on its spine to show the holder page and the milestone stamps,
+ * Brand-yellow matte cover with a slow light sweep, a foil seal ring that turns and stitched edges. On scroll the front cover swings open on its spine to show the holder page and the milestone stamps,
  * then the spread shrinks into the phone. The scroll scene drives `data-cover-front` (the swing), `data-stamp` (each
  * stamp pops in) and `data-cover-book` (the move); the idle float and the tilt live on inner elements.
  */
@@ -93,18 +85,7 @@ export function PassportCover() {
                   Passport
                 </h3>
 
-                {/* stickers */}
-                {STICKERS.map((s) => (
-                  <span key={s.t} className={`absolute rounded-full px-[3.4cqw] py-[1.4cqw] text-[3.4cqw] font-bold tracking-tight shadow-[0_4px_10px_-2px_rgba(0,0,0,0.4)] ring-2 ring-white/70 ${s.cls}`}>{s.t}</span>
-                ))}
-
                 <div className="mt-auto flex w-full flex-col items-center gap-[4%]">
-                  {/* machine-readable strip, like a real passport */}
-                  <p className="w-full overflow-hidden whitespace-nowrap font-mono text-[2.1cqw] leading-[1.5] tracking-[0.12em] text-[#0b0b0c]/70">
-                    P&lt;KRD&lt;SHARMA&lt;&lt;AARAV&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
-                    <br />
-                    0042&lt;&lt;MUJ&lt;&lt;STUDENT&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
-                  </p>
                   <div className="flex w-full items-center justify-between text-[#0b0b0c]/70">
                     <Wordmark className="h-[4.2cqw] text-[#0b0b0c]" />
                     <span className="font-mono text-[2.6cqw] tracking-[0.2em]">{c.number}</span>
