@@ -63,3 +63,4 @@ Aura is the student-facing view of a repayment score. It is one deterministic en
 <img src="docs/readme/landing-passport-phone.png" alt="Credit Passport" width="100%" />
 </div>
 
+<img src="docs/readme/banner.svg" alt="Kredo" width="100%" />

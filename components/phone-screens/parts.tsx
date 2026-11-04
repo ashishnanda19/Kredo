@@ -9,21 +9,30 @@ export const SCREEN_W = 390;
 export const SCREEN_H = 844;
 
 /** Renders children at the 390x844 design size and scales them to fit the container (centred, so a wider glass shows a little background at the sides). */
-export function ScaledScreen({ children, className, bg = "#fff" }: { children: React.ReactNode; className?: string; bg?: string }) {
+export function ScaledScreen({ children, className, bg = "#fff", fill }: { children: React.ReactNode; className?: string; bg?: string; fill?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const [s, setS] = useState(0);
+  const [h, setH] = useState(SCREEN_H);
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const ro = new ResizeObserver(([e]) => setS(Math.min(e.contentRect.width / SCREEN_W, e.contentRect.height / SCREEN_H)));
+    const ro = new ResizeObserver(([e]) => {
+      const { width, height } = e.contentRect;
+      if (fill) {
+        // fill: scale to the width and give the screen as much design height as the glass has, so nothing is left empty
+        const k = width / SCREEN_W;
+        setS(k);
+        setH(height / k);
+      } else setS(Math.min(width / SCREEN_W, height / SCREEN_H));
+    });
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [fill]);
   return (
     <div ref={ref} className={cn("relative h-full w-full overflow-hidden", className)} style={{ background: bg }}>
       <div
         className="tnum"
-        style={{ position: "absolute", left: "50%", top: 0, width: SCREEN_W, height: SCREEN_H, transform: `translateX(-50%) scale(${s})`, transformOrigin: "top center", fontFamily: SYS, opacity: s ? 1 : 0 }}
+        style={{ position: "absolute", left: fill ? 0 : "50%", top: 0, width: SCREEN_W, height: fill ? h : SCREEN_H, transform: fill ? `scale(${s})` : `translateX(-50%) scale(${s})`, transformOrigin: fill ? "top left" : "top center", fontFamily: SYS, opacity: s ? 1 : 0 }}
       >
         {children}
       </div>

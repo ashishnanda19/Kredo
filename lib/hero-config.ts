@@ -1,9 +1,9 @@
 /**
- * Hero hand-phone asset: a photo of a hand holding a phone, cut out to a transparent PNG at /public/hero/hand-phone-2.png
+ * Hero hand-phone asset: a photo of a hand holding a phone, cut out to a transparent PNG at /public/hero/hand-phone-3.png
  * and placed on the 1000 x 1400 art box. PHONE_SCREEN is the photo's glass; open `/?debug=1` to see the box.
  * Set HERO_HAND_IMAGE to null to fall back to the drawn SVG hand.
  */
-export const HERO_HAND_IMAGE: string | null = "/hero/hand-phone-2.png";
+export const HERO_HAND_IMAGE: string | null = "/hero/hand-phone-3.png";
 
 /** The art box is 1000 x 1400 units. */
 export const HAND_BOX = { w: 1000, h: 1400 } as const;

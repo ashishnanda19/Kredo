@@ -62,6 +62,9 @@ const NIGHT = 3;
 const SPLASH = 0.22;
 /** Share spent on the intro (headline first, then the phone swings up out of the page). */
 const INTRO = 0.13;
+/** The workflow, drawn huge and faint behind the phone on the dark stages. */
+const HERO_WORDS = ["Verify", "Pay", "Settle", "Repay", "Grow"];
+
 /** Everything before the four stages. */
 const OPEN = SPLASH + INTRO;
 /** Intro start values; keep in step with the [data-intro-*] rules in globals.css. */
@@ -542,6 +545,22 @@ export function HeroScene() {
                 "radial-gradient(55% 40% at 50% 55%, rgba(58,31,184,.3) 0%, rgba(58,31,184,0) 70%), #06060a",
             }}
           />
+          {/* L0b: a purple glow behind the phone and the workflow in huge outlined words, on the dark stages */}
+          <div
+            aria-hidden
+            className={cn("pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-700 ease-out", dark ? "opacity-100" : "opacity-0")}
+          >
+            <div className="absolute left-1/2 top-[58%] size-[min(980px,130vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(124,92,255,0.55),rgba(124,92,255,0.18)_55%,rgba(124,92,255,0)_75%)]" />
+            {[["top-[16%]", ""], ["bottom-[6%]", "[animation-direction:reverse]"]].map(([pos, dir]) => (
+              <div key={pos} className={cn("absolute inset-x-0 overflow-hidden", pos)}>
+                <div className={cn("flex w-max whitespace-nowrap text-[clamp(90px,13vw,200px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.10)] motion-safe:animate-[passport-ticker_70s_linear_infinite]", dir)}>
+                  {[...HERO_WORDS, ...HERO_WORDS].map((w, i) => (
+                    <span key={i} className="px-[0.35em]">{w} <span className="align-middle text-[0.28em] text-accent/30 [-webkit-text-stroke:0]">✦</span></span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
           <GhostFragments on={dark} />
           {!reduce && <HeroSplash overlay onHow={() => select(0)} />}
 
@@ -690,7 +709,7 @@ export function HeroScene() {
                         aria-label={`${t.hero.phoneAlt}: ${t.stages[stage].label}`}
                         className="size-full"
                       >
-                        <ScaledScreen bg={dark ? "#0A0620" : "#fff"}>
+                        <ScaledScreen fill bg={dark ? "#0A0620" : "#fff"}>
                           <div className="relative size-full" aria-hidden>
                             <AnimatePresence initial={false} custom={state.dir}>
                               <motion.div
