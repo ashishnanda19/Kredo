@@ -527,7 +527,25 @@ export function HeroScene() {
             aria-hidden
             className={cn("pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-700 ease-out", dark ? "opacity-100" : "opacity-0")}
           >
-            <div className="absolute left-1/2 top-[58%] size-[min(980px,130vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(124,92,255,0.55),rgba(124,92,255,0.18)_55%,rgba(124,92,255,0)_75%)]" />
+            {/* a layered aurora: overlapping soft gradients (violet core, indigo and magenta flanks, a floor bounce), masked to fade out and drifting slowly on the GPU. Gradients only, no blur filter, so it stays cheap */}
+            <div
+              className="absolute left-1/2 top-[56%] aspect-[1.25] w-[min(1500px,190vw)] -translate-x-1/2 -translate-y-1/2 motion-safe:animate-[aurora-a_18s_ease-in-out_infinite_alternate]"
+              style={{
+                background:
+                  "radial-gradient(34% 36% at 50% 44%, rgba(168,140,255,.50), rgba(168,140,255,0) 70%), radial-gradient(40% 40% at 28% 56%, rgba(78,52,225,.46), rgba(78,52,225,0) 72%), radial-gradient(38% 36% at 74% 50%, rgba(196,84,214,.26), rgba(196,84,214,0) 72%), radial-gradient(60% 46% at 50% 74%, rgba(58,31,184,.52), rgba(58,31,184,0) 76%)",
+                maskImage: "radial-gradient(closest-side, #000 62%, transparent 100%)",
+                WebkitMaskImage: "radial-gradient(closest-side, #000 62%, transparent 100%)",
+              }}
+            />
+            <div
+              className="absolute left-1/2 top-[50%] aspect-square w-[min(760px,110vw)] -translate-x-1/2 -translate-y-1/2 mix-blend-screen motion-safe:animate-[aurora-b_13s_ease-in-out_infinite_alternate]"
+              style={{
+                background:
+                  "radial-gradient(40% 46% at 46% 42%, rgba(120,96,255,.38), rgba(120,96,255,0) 70%), radial-gradient(30% 34% at 60% 62%, rgba(236,120,190,.20), rgba(236,120,190,0) 70%)",
+                maskImage: "radial-gradient(closest-side, #000 55%, transparent 100%)",
+                WebkitMaskImage: "radial-gradient(closest-side, #000 55%, transparent 100%)",
+              }}
+            />
             {[["top-[16%]", ""], ["bottom-[6%]", "[animation-direction:reverse]"]].map(([pos, dir]) => (
               <div key={pos} className={cn("absolute inset-x-0 overflow-hidden", pos)}>
                 <div className={cn("flex w-max whitespace-nowrap text-[clamp(90px,13vw,200px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.10)] motion-safe:animate-[passport-ticker_70s_linear_infinite]", dir)}>
