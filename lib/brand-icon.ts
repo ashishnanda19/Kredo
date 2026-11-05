@@ -8,6 +8,6 @@ import path from "node:path";
  */
 export async function brandIconDataUri({ square = false }: { square?: boolean } = {}) {
   let svg = await readFile(path.join(process.cwd(), "public/brand/kredo-icon.svg"), "utf8");
-  if (square) svg = svg.replace(`rx="116"`, `rx="0"`);
+  if (square) svg = svg.replace(`rx="245"`, `rx="0"`);
   return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
 }
