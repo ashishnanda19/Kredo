@@ -145,6 +145,33 @@ export const LANDING = {
     ],
   },
 
+  scenes: {
+    railLabel: "Scene progress",
+    items: [
+      { eyebrow: "Your limit", a: "Know your limit.", b: "Before you spend a rupee.", body: "Once you are verified, our lending partner sets a small limit. You see it first, in plain numbers." },
+      { eyebrow: "Scan and pay", a: "Scan. Check.", b: "Pay.", body: "Pick a vendor, see the fee, the total and the due date, then confirm. Nothing is hidden until later." },
+      { eyebrow: "Reminders", a: "A nudge before", b: "it is due.", body: "Reminders land the day before, so a due date never sneaks up on you." },
+      { eyebrow: "Your dues", a: "Every due date,", b: "one screen.", body: "What you owe, to whom and by when, grouped so you can plan the week." },
+      { eyebrow: "Receipts", a: "Receipts that", b: "save themselves.", body: "Every payment files its own receipt, ready when you need to check or share it." },
+    ],
+  },
+
+  strip: {
+    eyebrow: "More ways it helps",
+    titleA: `With ${B}`,
+    titleB: "you can finally.",
+    sub: "Pay at campus, see the cost first, and stay on top of every due date.",
+    cards: [
+      { a: "Pay with a scan", cap: "Scan a stall's QR and pay from your limit in seconds." },
+      { a: "See the cost first", cap: "The fee, total and due date are shown before you confirm." },
+      { a: "Never miss a due date", cap: "Reminders arrive the day before, so repaying on time is easy." },
+      { a: "Watch your limit grow", cap: "Repay on time and your limit steps up, with a reason each time." },
+      { a: "Keep your passport", cap: "Your Credit Passport tells your repayment story on one page." },
+      { a: "Stay in control", cap: "Costs, dates and the lender's name are always in front of you." },
+    ],
+    hint: "Drag or scroll",
+  },
+
   bento: {
     titleA: "One app for campus credit.",
     titleB: "Pay, track, repay and grow, without the chaos.",
@@ -162,7 +189,6 @@ export const LANDING = {
 
   passport: {
     eyebrow: "Your repayment story",
-    cover: { edition: "Student · Campus edition", title: "Credit Passport", number: "No. 0042" },
     ticker: ["on time", "limit up", "no cap", "3 in a row", "verified", "main character"],
     titleA: "Look back on how you built your score.", titleB: "Every on-time repayment, on one page.", disclaimer: "Internal score, not a credit bureau score. It does not replace your CIBIL or other bureau score." },
 

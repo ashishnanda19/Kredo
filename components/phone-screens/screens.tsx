@@ -257,6 +257,18 @@ export function PayReceiptScreen() {
         </ul>
       </div>
       <p className="mx-[20px] mt-[12px] flex items-center gap-[6px] text-[13px] text-[#15803d]"><Check className="size-[14px]" strokeWidth={3} aria-hidden /> Payment matched with lender records</p>
+      <div className="mx-[16px] mt-[14px] rounded-[18px] bg-white p-[16px]">
+        <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#6b6b70]">What happens next</p>
+        <ul className="mt-[10px] space-y-[10px] text-[15px]">
+          {([["Today", "Campus Cafe is told you paid"], ["In 12 hours", "The lending partner pays the stall"], ["30 Nov", "You repay the lending partner"]] as const).map(([k, v]) => (
+            <li key={k} className="flex gap-[10px]"><span className="mt-[6px] size-[8px] shrink-0 rounded-full bg-[#F5D832] ring-1 ring-black/10" /><span><span className="block font-semibold">{k}</span><span className="block text-[#6b6b70]">{v}</span></span></li>
+          ))}
+        </ul>
+      </div>
+      <div className="mt-auto flex gap-[10px] px-[16px] pb-[26px]">
+        <span className="flex-1 rounded-full bg-[#0b0b0c] py-[14px] text-center text-[16px] font-semibold text-white">Share receipt</span>
+        <span className="rounded-full bg-white px-[20px] py-[14px] text-[16px] font-semibold ring-1 ring-black/10">PDF</span>
+      </div>
     </div>
   );
 }
