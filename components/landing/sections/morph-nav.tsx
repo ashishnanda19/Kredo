@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Menu } from "lucide-react";
 import { GlassSheet, GlassSheetContent, GlassSheetDescription, GlassSheetTitle } from "@/components/glass";
-import { LogoMark, Wordmark } from "@/components/shared/logo";
+import { LogoMark, Logotype } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { BRAND } from "@/lib/config";
 import { COPY } from "@/lib/copy";
@@ -78,7 +78,7 @@ export function MorphNav() {
         <Link href="/" aria-label={`${BRAND.name} home`} className="relative flex min-h-11 min-w-8 items-center motion-safe:[animation:rise_.8s_cubic-bezier(.22,1,.36,1)_both]">
           {/* the full logotype at the top of the page; it gives way to the coin tile as the nav condenses into a pill */}
           <span className="flex items-center overflow-hidden" style={{ opacity: "calc(1 - var(--p) * 2)", maxWidth: "calc((1 - var(--p)) * 96px)" }}>
-            <Wordmark className="h-[30px]" />
+            <Logotype />
           </span>
           <span className="absolute left-0 top-1/2 -translate-y-1/2" style={{ opacity: "calc(var(--p) * 2 - 0.6)" }}>
             <LogoMark />
