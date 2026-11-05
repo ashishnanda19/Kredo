@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CampusPayScreen, DuesListScreen, LimitUnlockedScreen, LockScreenReminders, PayReceiptScreen, PhoneFrame } from "@/components/phone-screens";
@@ -26,7 +25,7 @@ function Copy({ i }: { i: number }) {
 }
 
 /**
- * Scene-by-scene storytelling. On wide screens the section is tall and its stage is sticky: one phone resting on the desk stays
+ * Scene-by-scene storytelling. On wide screens the section is tall and its stage is sticky: one upright phone stays
  * put while five scenes swap beside it (text rises in, the screen pops over the last), and a thin rail on the edge
  * tracks progress. Phones and reduced motion get a plain stack of the same five scenes.
  */
@@ -56,37 +55,29 @@ export function ScenesStage() {
       {/* wide, motion on: the sticky stage */}
       {!reduce && (
         <div className="sticky top-0 hidden h-svh overflow-hidden lg:block">
-          <Image src="/hero/desk.jpg" alt="" fill sizes="100vw" quality={70} className="object-cover" />
-          <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,var(--page)_0%,color-mix(in_oklab,var(--page)_88%,transparent)_34%,color-mix(in_oklab,var(--page)_30%,transparent)_70%,transparent_100%)]" />
-          <div aria-hidden className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-page to-transparent" />
-          <div aria-hidden className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-page to-transparent" />
-
           <div className="relative mx-auto grid h-full max-w-[1180px] grid-cols-[1fr_1fr] items-center gap-10 px-6">
             <div key={idx} className="animate-[scene-in_0.7s_cubic-bezier(.16,1,.3,1)_both]">
               <Copy i={idx} />
             </div>
-            {/* bottom-aligned so the phone lies low on the desk and the headphones stay visible behind it */}
-            <div className="relative grid h-full content-end justify-items-center pb-[6svh]">
-              {/* flat on the desk: barely turned, and lit from the upper left so the shadow is short and tight on the lower right (no blur underneath, so it cannot look like it hovers) */}
-              <div className="relative" style={{ width: "calc(56svh / 2.14)" }}>
-                <div className="relative [transform:rotate(-1.5deg)] [filter:drop-shadow(5px_7px_4px_rgba(0,0,0,0.55))_drop-shadow(14px_20px_18px_rgba(0,0,0,0.35))]">
-                  <PhoneFrame flat>
-                    <div className="relative size-full">
-                      <AnimatePresence initial={false}>
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, scale: 0.96, y: 24 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 1.02, y: -16 }}
-                          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute inset-0"
-                        >
-                          {SCREENS[idx]}
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                  </PhoneFrame>
-                </div>
+            {/* the phone stays put; only the screen inside it changes as you scroll */}
+            <div className="relative grid h-full place-items-center">
+              <div className="relative" style={{ width: "calc(76svh / 2.14)" }}>
+                <PhoneFrame>
+                  <div className="relative size-full">
+                    <AnimatePresence initial={false}>
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.97, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 1.02, y: -14 }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0"
+                      >
+                        {SCREENS[idx]}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </PhoneFrame>
               </div>
             </div>
           </div>
