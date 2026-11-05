@@ -77,7 +77,7 @@ export function MorphNav() {
 
         <Link href="/" aria-label={`${BRAND.name} home`} className="relative flex min-h-11 min-w-8 items-center motion-safe:[animation:rise_.8s_cubic-bezier(.22,1,.36,1)_both]">
           {/* the full logotype at the top of the page; it gives way to the coin tile as the nav condenses into a pill */}
-          <span className="flex items-center overflow-hidden" style={{ opacity: "calc(1 - var(--p) * 2)", maxWidth: "calc((1 - var(--p)) * 96px)" }}>
+          <span className="flex items-center overflow-hidden" style={{ opacity: "calc(1 - var(--p) * 2)", maxWidth: "calc((1 - var(--p)) * 128px)" }}>
             <Logotype />
           </span>
           <span className="absolute left-0 top-1/2 -translate-y-1/2" style={{ opacity: "calc(var(--p) * 2 - 0.6)" }}>

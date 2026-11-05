@@ -87,11 +87,11 @@ function CoinShapes() {
 /** The header logotype: the K glyph, then "red", then the gold coin as the "o". Sized by height; the letters take the text colour. */
 export function Logotype({ className }: { className?: string }) {
   return (
-    <svg viewBox="14 -192 718 196" role="img" aria-label={BRAND.name} className={cn("h-[30px] w-auto shrink-0", className)}>
-      <g transform="translate(14,-172) scale(0.304) translate(-304,-290)">
+    <svg viewBox="14 -192 700 196" role="img" aria-label={BRAND.name} className={cn("h-[30px] w-auto shrink-0", className)}>
+      <g transform="translate(14,-170.2) scale(0.304) translate(-304,-290)">
         <GlyphShapes />
       </g>
-      <g transform="translate(28,0)">
+      <g transform="translate(6,0)">
         <path fill="currentColor" d={LETTERS_RED} />
         <CoinShapes />
       </g>
