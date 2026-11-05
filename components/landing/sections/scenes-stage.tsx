@@ -9,9 +9,6 @@ import { usePrefersReducedMotion } from "@/lib/quality";
 import { cn } from "@/lib/utils";
 import { useGsapScene } from "./use-gsap-scene";
 
-const GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E\")";
-
 const SCREENS = [<LimitUnlockedScreen key="limit" />, <CampusPayScreen key="pay" />, <LockScreenReminders key="remind" />, <DuesListScreen key="dues" />, <PayReceiptScreen key="receipt" />];
 
 function Copy({ i }: { i: number }) {
@@ -56,15 +53,11 @@ export function ScenesStage() {
       {/* wide, motion on: the sticky stage */}
       {!reduce && (
         <div className="sticky top-0 h-svh overflow-hidden">
-          {/* a clean studio backdrop: fine dot grid that fades out toward the edges, and a soft grain so flat areas never band */}
-          <div aria-hidden className="absolute inset-0 opacity-70 [background-image:radial-gradient(color-mix(in_oklab,var(--ink)_16%,transparent)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(75%_70%_at_68%_55%,#000,transparent)]" />
-          <div aria-hidden className="absolute inset-0 opacity-[.07] mix-blend-multiply dark:mix-blend-screen" style={{ backgroundImage: GRAIN }} />
-
           <div className="relative mx-auto flex h-full max-w-[1180px] flex-col px-5 pb-[4svh] pt-[88px] sm:px-6 lg:grid lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-10 lg:p-0 lg:px-6">
             <div key={idx} className="min-h-[200px] shrink-0 animate-[scene-in_0.7s_cubic-bezier(.16,1,.3,1)_both]">
               <Copy i={idx} />
             </div>
-            {/* the phone stands upright on a brand-yellow disc, ringed by thin orbits with one dot circling the first */}
+            {/* the phone stands upright on a brand-yellow disc, ringed by one thin orbit with a dot circling it */}
             <div className="relative grid min-h-0 flex-1 place-items-center lg:h-full [--ph:calc(min(46svh,430px)/2.14)] lg:[--ph:calc(66svh/2.14)]">
               <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="absolute left-1/2 top-1/2 size-[calc(var(--ph)*2.05)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent" />
@@ -73,8 +66,6 @@ export function ScenesStage() {
                     <span className="absolute left-1/2 top-0 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink" />
                   </span>
                 </div>
-                <div className="absolute left-1/2 top-1/2 size-[calc(var(--ph)*3.5)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/[.08]" />
-                <div className="absolute left-1/2 top-1/2 size-[calc(var(--ph)*4.4)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/[.05]" />
               </div>
               <div className="relative" style={{ width: "var(--ph)" }}>
                 <div className="[filter:drop-shadow(0_30px_30px_rgba(11,11,12,0.28))_drop-shadow(0_6px_8px_rgba(11,11,12,0.2))]">

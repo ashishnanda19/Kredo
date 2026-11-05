@@ -21,6 +21,7 @@ export function ScaledScreen({ children, className, bg = "#fff", fill }: { child
       if (fill) {
         // fill: scale to the width and give the screen as much design height as the glass has, so nothing is left empty
         const k = width / SCREEN_W;
+        if (!k) return;
         setS(k);
         setH(height / k);
       } else setS(Math.min(width / SCREEN_W, height / SCREEN_H));
