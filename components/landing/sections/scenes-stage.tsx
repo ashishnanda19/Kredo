@@ -10,6 +10,9 @@ import { usePrefersReducedMotion } from "@/lib/quality";
 import { cn } from "@/lib/utils";
 import { useGsapScene } from "./use-gsap-scene";
 
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
 const SCREENS = [<LimitUnlockedScreen key="limit" />, <CampusPayScreen key="pay" />, <LockScreenReminders key="remind" />, <DuesListScreen key="dues" />, <PayReceiptScreen key="receipt" />];
 
 function Copy({ i }: { i: number }) {
@@ -54,7 +57,11 @@ export function ScenesStage() {
       {/* wide, motion on: the sticky stage */}
       {!reduce && (
         <div className="sticky top-0 h-svh overflow-hidden">
-          <Image src="/hero/desk.jpg" alt="" fill sizes="100vw" quality={70} className="object-cover object-[68%_center] lg:object-center" />
+          {/* the desk, graded like a photo set: slightly soft focus, warm and a touch muted, with a spotlight on the phone, a vignette and fine grain */}
+          <Image src="/hero/desk.jpg" alt="" fill sizes="100vw" quality={70} className="scale-[1.04] object-cover object-[68%_center] blur-[2.5px] saturate-[.9] lg:object-center" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(48%_62%_at_72%_62%,rgba(255,244,226,.55),transparent_72%)] mix-blend-soft-light" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(130%_100%_at_62%_58%,transparent_52%,rgba(24,18,10,.34)_100%)]" />
+          <div aria-hidden className="absolute inset-0 opacity-[.16] mix-blend-multiply" style={{ backgroundImage: GRAIN }} />
           <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,var(--page)_0%,color-mix(in_oklab,var(--page)_92%,transparent)_30%,color-mix(in_oklab,var(--page)_20%,transparent)_58%,transparent_100%)] lg:bg-[linear-gradient(90deg,var(--page)_0%,color-mix(in_oklab,var(--page)_88%,transparent)_34%,color-mix(in_oklab,var(--page)_30%,transparent)_70%,transparent_100%)]" />
           <div aria-hidden className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-page to-transparent" />
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-page to-transparent" />
