@@ -40,7 +40,7 @@ function GlyphShapes() {
 /** The K glyph without a tile. Sized by height; it takes the surrounding text colour. */
 export function Wordmark({ className }: { className?: string }) {
   return (
-    <svg viewBox="239 224 508 691" role="img" aria-label={BRAND.name} className={cn("h-[28px] w-auto shrink-0", className)}>
+    <svg viewBox="300 225 480 630" role="img" aria-label={BRAND.name} className={cn("h-[28px] w-auto shrink-0", className)}>
       <GlyphShapes />
     </svg>
   );
