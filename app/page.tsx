@@ -1,8 +1,8 @@
-import { HeroVideo } from "@/components/landing/hero/hero-video";
 import { HeroScene } from "@/components/landing/hero/hero-scene";
 import { Bento } from "@/components/landing/sections/bento";
 import { CardStrip } from "@/components/landing/sections/card-strip";
 import { ChaosCalm } from "@/components/landing/sections/chaos-calm";
+import { CornerQr } from "@/components/landing/sections/corner-qr";
 import { CurtainFooter } from "@/components/landing/sections/curtain-footer";
 import { DarkFeatures } from "@/components/landing/sections/dark-features";
 import { Ending } from "@/components/landing/sections/ending";
@@ -20,9 +20,9 @@ export default function LandingPage() {
       <SmoothScroll />
       <SectionFx />
       <MorphNav />
+      <CornerQr />
       {/* main sits above the sticky footer so its last section lifts away like a curtain */}
       <main id="main" className="relative z-10">
-        <HeroVideo />
         <HeroScene />
         <DarkFeatures />
         <VerifyPanel />

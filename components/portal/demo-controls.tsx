@@ -110,10 +110,10 @@ export function DemoControls() {
         aria-expanded={s.demo.open}
         aria-controls="demo-panel"
         aria-label={d.open}
-        // phones: a round icon at the right edge, clear of the hero phone, the stage switcher and the dashboard tabs
-        className="glass glass-strong print:hidden fixed bottom-[92px] right-3 z-[85] inline-flex size-11 items-center justify-center gap-2 rounded-full text-xs font-bold sm:size-auto sm:min-h-11 sm:bottom-24 sm:px-4 lg:bottom-4"
+        // a small round icon at the right edge (no label), clear of the hero phone, the stage switcher and the dashboard tabs
+        className="glass glass-strong print:hidden fixed bottom-[92px] right-3 z-[85] inline-flex size-11 items-center justify-center rounded-full sm:bottom-24 lg:bottom-4"
       >
-        <FlaskConical className="size-4 text-ink-2" aria-hidden /> <span className="max-sm:hidden">{d.open}</span>
+        <FlaskConical className="size-[18px] text-ink" aria-hidden />
       </button>
 
       {s.demo.open && (
