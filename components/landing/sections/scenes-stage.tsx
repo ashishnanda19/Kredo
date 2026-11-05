@@ -78,7 +78,7 @@ export function ScenesStage() {
               </div>
               <div className="relative" style={{ width: "var(--ph)" }}>
                 <div className="[filter:drop-shadow(0_30px_30px_rgba(11,11,12,0.28))_drop-shadow(0_6px_8px_rgba(11,11,12,0.2))]">
-                  <PhoneFrame>
+                  <PhoneFrame fill>
                     <div className="relative size-full">
                       <AnimatePresence initial={false}>
                         <motion.div
@@ -115,7 +115,7 @@ export function ScenesStage() {
                 <Copy i={i} />
               </div>
               <div className="mx-auto w-[min(230px,60vw)]">
-                <PhoneFrame>{SCREENS[i]}</PhoneFrame>
+                <PhoneFrame fill>{SCREENS[i]}</PhoneFrame>
               </div>
             </li>
           ))}
