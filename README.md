@@ -1,6 +1,6 @@
 <img src="docs/readme/hero-phones.jpg" alt="Kredo" width="100%" />
 
-## What is Kredo
+## What is Kredoo
 
 Students run out of pocket money long before the month ends, and campus vendors (chai stalls, canteens, xerox shops) mostly run on cash and IOUs. Kredo gives students a small, transparent limit they can spend at those vendors, and gives vendors a reliable way to get paid.
 
