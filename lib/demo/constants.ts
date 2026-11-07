@@ -29,10 +29,10 @@ export interface Persona {
 
 /** The people the Demo Director can jump into. A persona with both ids owns a student and a stall account. */
 export const PERSONAS: Persona[] = [
-  { id: "aarav", kind: "student", label: "Aarav (new)", story: "Just verified. Aura 50, limit ₹1,000, no coin spends.", studentId: "stu-aarav" },
-  { id: "diya", kind: "student", label: "Diya (steady)", story: "Five on-time repayments. One active coin spend.", studentId: "stu-diya" },
+  { id: "aarav", kind: "student", label: "Aarav (new)", story: "Just verified. Aura 50, limit ₹1,000, no loans.", studentId: "stu-aarav" },
+  { id: "diya", kind: "student", label: "Diya (steady)", story: "Five on-time repayments. One active loan.", studentId: "stu-diya" },
   { id: "rohan", kind: "student", label: "Rohan (streak)", story: "A long on-time streak, one step from the next limit.", studentId: "stu-rohan" },
-  { id: "meera", kind: "student", label: "Meera (late once)", story: "Paid 4 days late once. One coin spend 2 days overdue.", studentId: "stu-meera" },
+  { id: "meera", kind: "student", label: "Meera (late once)", story: "Paid 4 days late once. One loan 2 days overdue.", studentId: "stu-meera" },
   { id: "kabir", kind: "student", label: "Kabir (defaulter)", story: "Defaulted 40 days ago and cleared it. The post-default cap applies.", studentId: "stu-kabir" },
   { id: "ishita", kind: "student", label: "Ishita (blocked)", story: "Overdue 35 days. New spends are blocked; the recovery path shows.", studentId: "stu-ishita" },
   { id: "neel", kind: "student", label: "Neel (quest runner)", story: "Rebuilding with capped, risk-reducing quests.", studentId: "stu-neel" },

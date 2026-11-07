@@ -39,7 +39,7 @@ export function OfferView({ offer, onAccept, onDecline }: { offer: Offer; onAcce
           <Row label="Product" value={offer.productName} />
           <Row label={T.rows.amount} value={formatINR(offer.amount)} />
           <Row label={T.rows.interest} value={formatINR(offer.interest)} tip="The cost of borrowing for the whole period, as set by the lender." />
-          <Row label={T.rows.processing} value={formatINR(offer.processing)} tip="A one-time fee charged by the lender for processing this coin spend." />
+          <Row label={T.rows.processing} value={formatINR(offer.processing)} tip="A one-time fee charged by the lender for processing this loan." />
           <Row label={T.rows.other} value={formatINR(offer.other)} tip="Any other applicable charge. None apply to this offer." />
           <Row label={T.rows.total} value={formatINR(offer.total)} strong tip="Everything you will pay back: amount, interest and all fees." />
           <Row label={T.rows.instalments} value={`${offer.tenure} × ${formatINR(offer.perMonth)}`} />

@@ -31,7 +31,7 @@ function Body({ loan, onClose }: { loan: Loan; onClose: () => void }) {
   const [method, setMethod] = useState<"upi" | "netbanking" | "card">("upi");
   const [result, setResult] = useState<PayState | null>(null);
 
-  if (!inst) return <p className="py-6 text-center text-ink-2">Nothing is due on this coin spend.</p>;
+  if (!inst) return <p className="py-6 text-center text-ink-2">Nothing is due on this loan.</p>;
   const amount = inst.amount;
   const label = T.methods.find((m) => m.id === method)!.label;
 

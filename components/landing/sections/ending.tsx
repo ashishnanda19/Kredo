@@ -37,7 +37,7 @@ export function Ending() {
             style={{ left: `${d.l}%`, top: d.t, width: `clamp(150px, ${d.w / 11.8}vw, ${d.w}px)`, transform: `rotate(${d.r}deg)`, perspective: 900 }}
           >
             <div aria-hidden data-pop>
-              <PhoneFrame fill screenBg={d.bg}>{d.s}</PhoneFrame>
+              <PhoneFrame screenBg={d.bg}>{d.s}</PhoneFrame>
             </div>
           </div>
         ))}

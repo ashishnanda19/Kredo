@@ -13,7 +13,7 @@ import { useStore } from "@/lib/store/store";
 import { DataTable, Guarded, OpsPage, Toast, fmtDT, useRole, useToast, type Column } from "./common";
 
 const TABS = [
-  { value: "loans", label: "Applications and coins" },
+  { value: "loans", label: "Applications and loans" },
   { value: "events", label: "Failed events" },
   { value: "recon", label: "Reconciliation" },
 ] as const;
@@ -38,10 +38,10 @@ export function LoanMonitoring() {
   const [escRef, setEscRef] = useState<string | null>(null);
 
   const actionOk = can("loanActions");
-  const why = "Only Support agents and Admins can take coin spend actions.";
+  const why = "Only Support agents and Admins can take loan actions.";
 
   const loanCols: Column<OpsLoan>[] = [
-    { key: "id", header: "Coins", cell: (l) => <span className="font-mono font-bold">{l.id}</span> },
+    { key: "id", header: "Loan", cell: (l) => <span className="font-mono font-bold">{l.id}</span> },
     { key: "a", header: "Application", cell: (l) => <span className="font-mono">{l.applicationId}</span> },
     { key: "s", header: "Student", cell: (l) => l.student },
     { key: "p", header: "Product", cell: (l) => l.product },
@@ -54,7 +54,7 @@ export function LoanMonitoring() {
     { key: "id", header: "Event", cell: (e) => <span className="font-mono font-bold">{e.id}</span> },
     { key: "t", header: "Time", cell: (e) => fmtDT(e.at) },
     { key: "k", header: "Type", cell: (e) => e.kind },
-    { key: "l", header: "Coins", cell: (e) => <span className="font-mono">{e.loanId}</span> },
+    { key: "l", header: "Loan", cell: (e) => <span className="font-mono">{e.loanId}</span> },
     { key: "a", header: "Amount", cell: (e) => formatINR(e.amount), className: "text-right tabular-nums" },
     { key: "s", header: "Status", cell: (e) => <StatusPill kind="event" value={e.status} /> },
     { key: "n", header: "Retry notes", cell: (e) => retries[e.id] ?? e.retryNote ?? <span className="text-ink-2">None</span> },
@@ -97,7 +97,7 @@ export function LoanMonitoring() {
 
   return (
     <OpsPage
-      title="Application and coin monitoring"
+      title="Application and loan monitoring"
       desc="Personal data is masked."
       actions={
         <Guarded allowed={actionOk} why={why}>
@@ -107,7 +107,7 @@ export function LoanMonitoring() {
     >
       <GlassSegmented label="View" options={TABS} value={tab} onChange={setTab} className="mb-4 max-w-full overflow-x-auto" />
 
-      {tab === "loans" && <DataTable caption="Applications and coins" columns={loanCols} rows={OPS_LOANS} rowKey={(l) => l.id} onRow={setView} empty="No applications." />}
+      {tab === "loans" && <DataTable caption="Applications and loans" columns={loanCols} rows={OPS_LOANS} rowKey={(l) => l.id} onRow={setView} empty="No applications." />}
       {tab === "events" && <DataTable caption="Disbursement and repayment events" columns={eventCols} rows={LOAN_EVENTS.filter((e) => e.status !== "success")} rowKey={(e) => e.id} empty="No failed events." />}
       {tab === "recon" && <DataTable caption="Reconciliation of payment events against authoritative records" columns={reconCols} rows={RECON} rowKey={(r) => r.id} empty="Nothing to reconcile." />}
 

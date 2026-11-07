@@ -169,6 +169,7 @@ export const LANDING = {
       { a: "Keep your passport", cap: "Your Credit Passport tells your repayment story on one page." },
       { a: "Stay in control", cap: "Costs, dates and the lender's name are always in front of you." },
     ],
+    hint: "Drag or scroll",
   },
 
   bento: {

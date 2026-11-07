@@ -283,7 +283,7 @@ export function repaymentDrafts(ctx: RepaymentContext, p: Policy = getPolicy()):
       out.push({ kind: "LATE_8_30", delta: p.aura.deltas.late8to30, reasonCode: "LATE_8_30", loanId: loan.id, explanation: `Repaid ${dpd} days after the due date.` });
     }
   } else if (dpd === 0 && open && !had("PARTIAL_PAID")) {
-    out.push({ kind: "PARTIAL_PAID", delta: p.aura.deltas.partialPaid, reasonCode: "PARTIAL_PAID", loanId: loan.id, explanation: "Part of this coin spend was paid before the due date." });
+    out.push({ kind: "PARTIAL_PAID", delta: p.aura.deltas.partialPaid, reasonCode: "PARTIAL_PAID", loanId: loan.id, explanation: "Part of this loan was paid before the due date." });
   }
   return out;
 }
@@ -291,7 +291,7 @@ export function repaymentDrafts(ctx: RepaymentContext, p: Policy = getPolicy()):
 export function defaultDraft(loanId: string, amount: number, daysLate: number, p: Policy = getPolicy()): EventDraft {
   return {
     kind: "DEFAULT", delta: p.aura.deltas.default, reasonCode: "DEFAULT", loanId, meta: { amount },
-    explanation: `A coin spend was more than ${p.repayment.defaultAfterDays} days past due (${daysLate} days). Paying it in full is the first step back.`,
+    explanation: `A loan was more than ${p.repayment.defaultAfterDays} days past due (${daysLate} days). Paying it in full is the first step back.`,
   };
 }
 
@@ -303,7 +303,7 @@ export const defaultClearedDraft = (loanId: string): EventDraft => ({
 export function highUtilDraft(loanId: string, utilisationPercent: number, p: Policy = getPolicy()): EventDraft {
   return {
     kind: "HIGH_UTIL", delta: p.aura.deltas.highUtilisation, reasonCode: "HIGH_UTIL", loanId,
-    explanation: `About ${Math.round(utilisationPercent)}% of your limit was in use when a coin spend fell due.`,
+    explanation: `About ${Math.round(utilisationPercent)}% of your limit was in use when a loan fell due.`,
   };
 }
 

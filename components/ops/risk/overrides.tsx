@@ -10,7 +10,7 @@ import type { AuditEntry, Override } from "@/lib/ops-risk/types";
 import { fmtDT, Guarded, OpsPage, useRole } from "../common";
 import { Id, Loaded, MockBanner, Pill, RevealToggle, Section, Spinner } from "./parts";
 
-const FIELD_LABEL: Record<Override["field"], string> = { ladder_level: "Set ladder level", limit_cap_paise: "Cap the limit", pause_new_loans: "Pause new coins" };
+const FIELD_LABEL: Record<Override["field"], string> = { ladder_level: "Set ladder level", limit_cap_paise: "Cap the limit", pause_new_loans: "Pause new loans" };
 const ERRORS: Record<string, string> = {
   MAKER_CANNOT_DECIDE: "You proposed this override, so a different risk admin must decide it.",
   UNKNOWN_USER: "No student with that id.",
@@ -21,7 +21,7 @@ const ERRORS: Record<string, string> = {
 };
 
 const describe = (o: Pick<Override, "field" | "value">) =>
-  o.field === "ladder_level" ? `Level L${o.value}` : o.field === "limit_cap_paise" ? `Cap at ${rupees(o.value)}` : "Pause new coins";
+  o.field === "ladder_level" ? `Level L${o.value}` : o.field === "limit_cap_paise" ? `Cap at ${rupees(o.value)}` : "Pause new loans";
 
 function Propose({ live }: { live: boolean }) {
   const { can } = useRole();

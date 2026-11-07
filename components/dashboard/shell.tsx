@@ -10,7 +10,6 @@ import {
   LifeBuoy,
   ReceiptText,
   ScanLine,
-  TrendingUp,
   UserRound,
   type LucideIcon,
 } from "lucide-react";
@@ -29,14 +28,13 @@ const PHASE2 = process.env.NEXT_PUBLIC_PHASE2_CREDIT_PROFILE !== "false";
 const NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/dashboard", label: "Home", icon: Home },
   { href: "/dashboard/pay", label: "Pay", icon: ScanLine },
-  { href: "/dashboard/loans", label: "Coins", icon: Landmark },
+  { href: "/dashboard/loans", label: "Loans", icon: Landmark },
   { href: "/dashboard/activity", label: "Activity", icon: ReceiptText },
   { href: "/dashboard/profile", label: "Profile", icon: UserRound },
 ];
 
 /** Extra links shown in the desktop rail only (mobile reaches them from Home and Profile). */
 const RAIL_EXTRA: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/dashboard/limit", label: "Limit", icon: TrendingUp },
   { href: "/dashboard/support", label: "Support", icon: LifeBuoy },
   ...(PHASE2
     ? [

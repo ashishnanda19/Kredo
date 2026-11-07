@@ -291,7 +291,7 @@ const BASE = {
     },
     recent: { title: "Recent activity", seeAll: "See all", emptyTitle: "No spends yet", emptyBody: "Your wallet is on a lowkey break.", emptyCta: "Make your first payment" },
     spend: { title: "Spending by category", emptyTitle: "Nothing to show yet", emptyBody: "Your breakdown appears after your first payment." },
-    loans: { title: "Campus credit spends", tip: "Your campus spends are grouped by week. Each group has its own due date.", emptyTitle: "No active coins", emptyBody: "You don't owe anything right now." },
+    loans: { title: "Campus credit spends", tip: "Your campus spends are grouped by week. Each group has its own due date.", emptyTitle: "No active loans", emptyBody: "You don't owe anything right now." },
     vendors: { title: "Campus vendors near you", badge: "Accepts" },
     nudge: { body: "Pay only for what you need. Struggling to repay? Reach out early, we can help." },
     notifications: "Notifications",

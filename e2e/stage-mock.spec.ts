@@ -51,7 +51,7 @@ test("the two phones are live-linked: a payment on the left appears on the right
   const vendor = page.frameLocator('[data-testid="vendor-frame"]');
   await expect(vendor.getByTestId("live-feed")).toContainText("Aarav", { timeout: 20_000 });
   await expect(page.getByTestId("ledger-strip")).toContainText("Aarav paid 40 coins to Gupta Chai Tapri");
-  await expect(page.getByTestId("ledger-strip")).toContainText("Coin spend created for Aarav");
+  await expect(page.getByTestId("ledger-strip")).toContainText("Loan created for Aarav");
   await expect(page.getByTestId("money-flow")).toHaveAttribute("data-active", "pay");
   await expect(page.getByTestId("flow-pulse")).toContainText("40 coins");
 });
@@ -116,7 +116,7 @@ const EXPECT: Record<number, (string | RegExp)[]> = {
   7: ["PRIOR_DEFAULT_CAP", "Allowed. Total to repay"],
   8: ["Limit 5000 to 7500 coins", "Your credit limit is now 7500 coins"],
   9: ["SELF_PAY", "This stall isn't active right now.", "open flag"],
-  10: ["Same coin spend returned", "Coin spends for Aarav: 1"],
+  10: ["Same loan returned", "Loans for Aarav: 1"],
   11: ["-120", "Taken off the next payout"],
 };
 

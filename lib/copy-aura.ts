@@ -41,10 +41,10 @@ export const AURA = {
 
   /** Positive codes: plain text plus a fun chip. */
   boosts: {
-    ONTIME_STRONG: { text: "You've paid every recent coin spend on time.", chip: "Locked in on repayments" },
+    ONTIME_STRONG: { text: "You've paid every recent loan on time.", chip: "Locked in on repayments" },
     CLEAN_PAYMENTS: { text: "Your recent payments went through first time.", chip: "Smooth payer" },
     EARLY_REPAY: { text: "You repaid early.", chip: "Early bird W" },
-    TRACK_RECORD: { text: "You have a growing record of closed coin spends.", chip: "Lore building" },
+    TRACK_RECORD: { text: "You have a growing record of closed loans.", chip: "Lore building" },
     ID_VERIFIED: { text: "Your identity and college checks are complete.", chip: "Verified" },
     LOW_UTILISATION: { text: "You use less than half your limit.", chip: "Not maxing out" },
     BUREAU_POSITIVE: { text: "Your credit bureau record, shared with your consent, helps.", chip: "Clean record" },
@@ -56,11 +56,11 @@ export const AURA = {
     LATE_RECENT: { text: "A recent repayment was late.", action: "Set a repayment reminder", href: "/dashboard/profile" },
     OVERDUE_NOW: { text: "You have an amount overdue. Paying it helps right away.", action: "Pay now", href: "/dashboard/loans" },
     PAYMENT_FAILURES: { text: "Some recent payment attempts did not go through.", action: "Check your payment method", href: "/dashboard/loans" },
-    ROLLOVER: { text: "You often borrow again right after repaying.", action: "Plan your next coin", href: "/dashboard/loans" },
-    STACKING: { text: "You have several coin spends open at once.", action: "Repay one coin first", href: "/dashboard/loans" },
+    ROLLOVER: { text: "You often borrow again right after repaying.", action: "Plan your next loan", href: "/dashboard/loans" },
+    STACKING: { text: "You have several loans open at once.", action: "Repay one loan first", href: "/dashboard/loans" },
     HIGH_UTILISATION: { text: "You often use almost all of your limit.", action: "Set a spending reminder", href: "/dashboard/profile" },
     CREDIT_HUNGER: { text: "You asked for several limit increases recently.", action: "See how limits grow", href: "/dashboard/aura/level-up" },
-    SETTLED_OR_RESTRUCTURED: { text: "A past coin spend was settled or restructured.", action: "Talk to support", href: "/dashboard/support" },
+    SETTLED_OR_RESTRUCTURED: { text: "A past loan was settled or restructured.", action: "Talk to support", href: "/dashboard/support" },
     PHONE_NEW: { text: "Your phone number was added recently. This fades with time.", action: "Review your profile", href: "/dashboard/profile" },
     BUREAU_NEGATIVE: { text: "Your credit bureau record, shared with your consent, holds this back.", action: "Ask about this", href: "/dashboard/aura/about#dispute" },
   } as Record<string, { text: string; action: string; href: string }>,
@@ -69,18 +69,18 @@ export const AURA = {
   /** Knockouts and holds. Plain and calm; the tier is not shown next to these. */
   notices: {
     KO_OVERDUE_30: {
-      title: "New coins are paused",
-      body: (amount: string) => `New coin spends are paused because ${amount} is overdue. Paying it lifts the pause.`,
+      title: "New loans are paused",
+      body: (amount: string) => `New loans are paused because ${amount} is overdue. Paying it lifts the pause.`,
       action: { label: "Pay now", href: "/dashboard/loans" },
     },
     KO_DPD90_12M: {
-      title: "New coins are paused",
-      body: () => "A coin spend was more than 90 days overdue in the last 12 months. New coin spends resume after 12 months of on-time repayments, or after a review by the lending partner.",
+      title: "New loans are paused",
+      body: () => "A loan was more than 90 days overdue in the last 12 months. New loans resume after 12 months of on-time repayments, or after a review by the lending partner.",
       action: { label: "Contact support", href: "/dashboard/support" },
     },
     KO_WRITTEN_OFF: {
-      title: "New coins are paused",
-      body: () => "A past coin spend was written off. The lending partner can review this with you.",
+      title: "New loans are paused",
+      body: () => "A past loan was written off. The lending partner can review this with you.",
       action: { label: "Contact support", href: "/dashboard/support" },
     },
     KO_FRAUD: {
@@ -100,11 +100,11 @@ export const AURA = {
     },
     KO_CONSENT: {
       title: "Aura is frozen",
-      body: (date: string) => `You withdrew consent for Aura on ${date}. Your Aura is frozen, not deleted. New coin spends are paused until you grant consent again.`,
+      body: (date: string) => `You withdrew consent for Aura on ${date}. Your Aura is frozen, not deleted. New loans are paused until you grant consent again.`,
       action: { label: "Review consent", href: "/dashboard/profile/privacy" },
     },
     HELD: {
-      title: "New coin spends are on hold",
+      title: "New loans are on hold",
       body: () => "Our team is reviewing some recent activity. This usually takes a day. You can still repay as normal.",
       action: { label: "Contact support", href: "/dashboard/support" },
     },
@@ -158,22 +158,22 @@ export const AURA = {
     cyclesTo: (n: number, amount: string) => (n === 1 ? `1 more clean cycle to ${amount}` : `${n} more clean cycles to ${amount}`),
     top: "You're at the top level.",
     noLevel: "Your first level unlocks after verification.",
-    cleanCycle: "A clean cycle is a coin spend of at least 30% of your limit, open at least 7 days, repaid in full on time.",
+    cleanCycle: "A clean cycle is a loan of at least 30% of your limit, open at least 7 days, repaid in full on time.",
     blockers: {
       verification: "Finish verification to unlock the first level.",
       band: "Keep repaying on time to qualify for the next level.",
-      frozen: "Clear the overdue coin spend, then two on-time coin spends restart your climb.",
+      frozen: "Clear the overdue loan, then two on-time loans restart your climb.",
       months_on_kredo: "The next level opens after more time on Kredo.",
       step_up_wait: "Levels go up at most once every 30 days.",
     } as Record<string, string>,
     whatIfTitle: "What if",
-    whatIfBody: (amount: string, due: string) => `Your ${amount} coin spend is due on ${due}. Slide to see how repaying earlier could move your Aura.`,
+    whatIfBody: (amount: string, due: string) => `Your ${amount} loan is due on ${due}. Slide to see how repaying earlier could move your Aura.`,
     whatIfLabel: "Days before the due date",
     whatIfDays: (n: number) => (n === 0 ? "On the due date" : n === 1 ? "1 day early" : `${n} days early`),
     whatIfResult: (aura: number, date: string) => `Estimated Aura by ${date}: ${aura}`,
     whatIfNow: (aura: number) => `Now: ${aura}`,
     whatIfFlat: "No change expected by then. Aura rises at most a set amount each month, so steady repayments keep counting.",
-    whatIfNone: "The what-if appears when you have a coin spend to repay.",
+    whatIfNone: "The what-if appears when you have a loan to repay.",
     whatIfError: "We couldn't work out an estimate just now. Please try again.",
     whatIfBusy: "Too many tries in a short time. Please wait a minute.",
   },
@@ -196,9 +196,9 @@ export const AURA = {
     title: "About Aura",
     sections: [
       { id: "what", title: "What Aura is", body: `Aura is ${B}'s own in-app score, from 0 to 100. It shows how your repayments are going on ${B}. It is not a credit bureau score and does not change your CIBIL or any other bureau score.` },
-      { id: "moves", title: "What moves it", body: "Repaying on time and early, clearing anything overdue, keeping to one coin spend at a time, and building a record of closed coin spends. Late repayments and missed payments lower it. It moves at most a set amount each month, so it stays steady." },
+      { id: "moves", title: "What moves it", body: "Repaying on time and early, clearing anything overdue, keeping to one loan at a time, and building a record of closed loans. Late repayments and missed payments lower it. It moves at most a set amount each month, so it stays steady." },
       { id: "never", title: "What never moves it", body: "Your college name, gender, religion, caste, where you are from, your name or photo, and how much you borrow. Borrowing more never raises Aura." },
-      { id: "partner", title: "Who decides your limit", body: "The lending partner decides every coin spend and limit. Aura and the limit ladder are recommendations, and limits are not guaranteed." },
+      { id: "partner", title: "Who decides your limit", body: "The lending partner decides every loan and limit. Aura and the limit ladder are recommendations, and limits are not guaranteed." },
       { id: "data", title: "Your data", body: "Aura uses your repayment history on Kredo, with your consent. You can withdraw consent in Privacy settings; your Aura is then frozen, not deleted, because lending records must be kept by law." },
     ],
     disputeTitle: "Think something is wrong?",
@@ -209,8 +209,8 @@ export const AURA = {
   widget: {
     title: "Aura",
     open: "See your Aura",
-    paused: "New coin spends are paused. Tap to see why.",
-    held: "New coin spends are on hold. Tap to see why.",
+    paused: "New loans are paused. Tap to see why.",
+    held: "New loans are on hold. Tap to see why.",
   },
 
   demo: {

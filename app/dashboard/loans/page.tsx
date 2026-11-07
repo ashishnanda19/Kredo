@@ -3,7 +3,7 @@ import { LoansOverview } from "@/components/loans/loans-overview";
 import { LoansWorld } from "@/components/student/loans-world";
 import { WorldOr } from "@/components/student/world-or";
 
-export const metadata: Metadata = { title: "My coins" };
+export const metadata: Metadata = { title: "My loans" };
 
 export default function Page() {
   return (

@@ -23,7 +23,7 @@ const NAV = [
   { href: "/ops/limits", label: "Limits", icon: SlidersHorizontal },
   { href: "/ops/audit", label: "Audit log", icon: ScrollText },
   { href: "/ops/fraud", label: "Fraud", icon: ShieldAlert },
-  { href: "/ops/loans", label: "Coins", icon: Landmark },
+  { href: "/ops/loans", label: "Loans", icon: Landmark },
   { href: "/ops/support", label: "Support", icon: LifeBuoy },
   { href: "/ops/risk", label: "Risk", icon: Gauge },
 ];

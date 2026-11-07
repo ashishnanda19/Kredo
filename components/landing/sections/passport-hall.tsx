@@ -79,7 +79,7 @@ export function PassportHall() {
             <p className="mt-8 max-w-lg text-[12.5px] leading-relaxed text-ink/60">{t.disclaimer}</p>
           </div>
           <div className="relative z-10 mx-auto w-[min(300px,78vw)]">
-            <PhoneFrame fill screenBg="#0b0b0c">
+            <PhoneFrame screenBg="#0b0b0c">
               <PassportScreen />
             </PhoneFrame>
           </div>

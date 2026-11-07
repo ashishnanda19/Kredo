@@ -19,7 +19,7 @@ describe("ledger strip", () => {
     const r = payByQr(W, { studentId: "stu-aarav", qr: QR("ven-gupta-chai"), coins: 40, idempotencyKey: "k" });
     if (!r.ok) throw new Error("pay failed");
     const ev = ledgerEvents(r.world);
-    expect(ev.map((e) => e.text)).toEqual([expect.stringMatching(/^Coin spend created for Aarav, due /), "Aarav paid 40 coins to Gupta Chai Tapri"]);
+    expect(ev.map((e) => e.text)).toEqual([expect.stringMatching(/^Loan created for Aarav, due /), "Aarav paid 40 coins to Gupta Chai Tapri"]);
     expect(ev[1].flow).toBe("pay");
   });
   it("covers midnight, repayment, Aura changes, refunds and fraud flags", () => {

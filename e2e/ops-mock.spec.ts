@@ -19,7 +19,7 @@ test("the overview shows bands, roll rates and the v2 readiness counter", async 
   await page.goto("/ops/risk");
   await expect(page.getByRole("img", { name: /Users by band/ })).toBeVisible();
   await expect(page.getByText("Current → 1-7 DPD")).toBeVisible();
-  await expect(page.getByTestId("v2-readiness")).toContainText("of 1,500 labelled coin spends");
+  await expect(page.getByTestId("v2-readiness")).toContainText("of 1,500 labelled loans");
   await page.getByRole("button", { name: "Show as table" }).click();
   await expect(page.getByRole("table").first()).toContainText("Band");
 });

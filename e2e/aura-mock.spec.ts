@@ -36,7 +36,7 @@ test("a knockout is calm and plain: the amount and one action, no number or tier
   await asStudent(page, "knockout_overdue_35");
   await page.goto("/dashboard/aura");
   const notice = page.getByTestId("aura-notice");
-  await expect(notice).toContainText("New coin spends are paused because ₹1,000 is overdue. Paying it lifts the pause.");
+  await expect(notice).toContainText("New loans are paused because ₹1,000 is overdue. Paying it lifts the pause.");
   await expect(notice.getByRole("link", { name: "Pay now" })).toBeVisible();
   await expect(page.getByTestId("aura-hero")).toHaveCount(0);
   for (const tier of ["Reset Arc", "Side Quest", "Locked In", "Main Character", "Aura Farmer"]) await expect(page.getByText(tier)).toHaveCount(0);
