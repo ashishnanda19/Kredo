@@ -20,19 +20,19 @@ export function LoanSummaryCard() {
 
   if (!loan) {
     return (
-      <GlassCard radius="lg" role="region" aria-label="Loans" className="flex flex-wrap items-center justify-between gap-4 p-5">
+      <GlassCard radius="lg" role="region" aria-label="Coins" className="flex flex-wrap items-center justify-between gap-4 p-5">
         <div className="flex items-center gap-3">
           <span className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-ink">
             <Landmark className="size-6" aria-hidden />
           </span>
           <div>
-            <h2 className="font-semibold">Instalment loans</h2>
+            <h2 className="font-semibold">Instalment coins</h2>
             <p className="text-sm text-ink-2">{appStatus === "none" || appStatus === "draft" ? "Offered by our regulated lending partner. Borrow only what you can repay." : "Your application is in progress."}</p>
             {appStatus !== "none" && appStatus !== "draft" && <StatusPill kind="loanApp" value={appStatus} className="mt-1" />}
           </div>
         </div>
         <GlassButton asChild variant="secondary">
-          <Link href="/dashboard/loan/apply">{appStatus === "none" || appStatus === "draft" ? "See loan products" : "View application"}</Link>
+          <Link href="/dashboard/loan/apply">{appStatus === "none" || appStatus === "draft" ? "See coin products" : "View application"}</Link>
         </GlassButton>
       </GlassCard>
     );
@@ -41,7 +41,7 @@ export function LoanSummaryCard() {
   const next = nextInstalment(loan);
   const o = outstandingOf(loan);
   return (
-    <section aria-label="Your loan" className="grid gap-4 md:grid-cols-2">
+    <section aria-label="Your coins" className="grid gap-4 md:grid-cols-2">
       <GlassCard radius="lg" strength="strong" className="flex flex-col justify-between gap-4 p-5">
         <div className="flex items-start justify-between gap-3">
           <div>

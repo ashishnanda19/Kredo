@@ -146,7 +146,7 @@ export function DemoControls() {
               { id: "fresh", label: "Fresh visitor" },
               { id: "new_student", label: "Logged in, unverified" },
               { id: "verified", label: "Verified student" },
-              { id: "verified_loan", label: "Verified + active loan" },
+              { id: "verified_loan", label: "Verified + active coins" },
             ] as const}
           />
 
@@ -176,7 +176,7 @@ export function DemoControls() {
             value={s.kyc.status}
             onPick={(v) => s.setKyc(v, { retries: v === "retry_limit" || v === "escalated" ? KYC_RETRY_LIMIT : v === "not_started" ? 0 : s.kyc.retries, reference: v === "escalated" || v === "retry_limit" ? s.kyc.reference ?? makeRef("KYC") : s.kyc.reference, maskedId: v === "verified" ? "••••••••4821" : s.kyc.maskedId })}
           />
-          <Group label="Loan application status" options={LOAN} value={s.loanApp.status as AppStatus} onPick={(v) => s.setLoanStatus(v)} />
+          <Group label="Coin application status" options={LOAN} value={s.loanApp.status as AppStatus} onPick={(v) => s.setLoanStatus(v)} />
           <Group label="Next repayment outcome" options={PAY} value={s.demo.paymentOutcome} onPick={(v) => s.setPaymentOutcome(v)} />
           <Group label="Auth edge case" options={EDGE} value={s.session.edge} onPick={(v) => s.setEdge(v)} />
           <GlassButton variant="secondary" size="sm" onClick={() => s.setTimeoutWarning(true)}>

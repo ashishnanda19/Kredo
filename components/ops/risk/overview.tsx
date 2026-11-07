@@ -72,7 +72,7 @@ function Roll({ m }: { m: Monitoring }) {
         <li key={s.to} className="rounded-2xl bg-ink/[0.06] p-3">
           <p className="text-xs font-bold text-ink-2">{s.from === "current" ? "Current" : `${s.from} DPD`} → {s.to} DPD</p>
           <p className="mt-1 text-2xl font-extrabold tabular-nums">{pct(s.rate)}</p>
-          <p className="text-xs text-ink-2 tabular-nums">{s.reached} of {s.base} loans</p>
+          <p className="text-xs text-ink-2 tabular-nums">{s.reached} of {s.base} coin spends</p>
         </li>
       ))}
     </ol>
@@ -108,7 +108,7 @@ function ModelHealth({ m }: { m: Monitoring }) {
       </Section>
       <Section title="Calibration" desc={`Predicted PD against the observed bad rate, by band at decision (label v${m.labels.version}: ${m.labels.bad_dpd}+ DPD within ${m.labels.window_days} days of the due date).`}>
         <table className="w-full text-sm" data-testid="calibration">
-          <thead><tr className="text-left text-xs text-ink-2"><th className="py-1">Band</th><th>Loans</th><th>Predicted</th><th>Observed</th></tr></thead>
+          <thead><tr className="text-left text-xs text-ink-2"><th className="py-1">Band</th><th>Coins</th><th>Predicted</th><th>Observed</th></tr></thead>
           <tbody>
             {m.calibration.map((c) => (
               <tr key={c.band} className={cn("border-t border-ink/10", !c.reliable && "text-ink-2")}>
@@ -121,14 +121,14 @@ function ModelHealth({ m }: { m: Monitoring }) {
           </tbody>
         </table>
       </Section>
-      <Section title="Separation" desc="How well KRS ranks good loans above bad ones, on labelled loans.">
+      <Section title="Separation" desc="How well KRS ranks good coin spends above bad ones, on labelled coin spends.">
         <dl className="space-y-2 text-sm" data-testid="separation">
           <div className="flex justify-between"><dt>Gini</dt><dd className="font-bold tabular-nums">{num(x.gini)}</dd></div>
           <div className="flex justify-between"><dt>KS</dt><dd className="font-bold tabular-nums">{num(x.ks)}</dd></div>
           <div className="flex justify-between"><dt>AUC</dt><dd className="font-bold tabular-nums">{num(x.auc)}</dd></div>
-          <div className="flex justify-between text-xs text-ink-2"><dt>Labelled loans</dt><dd className="tabular-nums">{x.loans} ({x.bad} bad)</dd></div>
+          <div className="flex justify-between text-xs text-ink-2"><dt>Labelled coins</dt><dd className="tabular-nums">{x.loans} ({x.bad} bad)</dd></div>
         </dl>
-        <p className="mt-2 text-xs text-ink-2">0 means the score tells good from bad no better than chance, 1 means perfectly. Read it with the number of bad loans, which is small early on.</p>
+        <p className="mt-2 text-xs text-ink-2">0 means the score tells good from bad no better than chance, 1 means perfectly. Read it with the number of bad coin spends, which is small early on.</p>
       </Section>
     </div>
   );
@@ -139,14 +139,14 @@ function Readiness({ m }: { m: Monitoring }) {
   return (
     <div className="space-y-3" data-testid="v2-readiness">
       <div>
-        <p className="text-sm"><span className="text-2xl font-extrabold tabular-nums">{v.labelled_loans.toLocaleString("en-IN")}</span> of {v.target_loans.toLocaleString("en-IN")} labelled loans</p>
-        <Progress value={(v.labelled_loans / v.target_loans) * 100} label="Labelled loans toward the v2 target" className="mt-1.5" />
+        <p className="text-sm"><span className="text-2xl font-extrabold tabular-nums">{v.labelled_loans.toLocaleString("en-IN")}</span> of {v.target_loans.toLocaleString("en-IN")} labelled coin spends</p>
+        <Progress value={(v.labelled_loans / v.target_loans) * 100} label="Labelled coin spends toward the v2 target" className="mt-1.5" />
       </div>
       <div>
-        <p className="text-sm"><span className="font-extrabold tabular-nums">{v.bad_loans}</span> of {v.target_bad} bad loans</p>
-        <Progress value={(v.bad_loans / v.target_bad) * 100} label="Bad loans toward the v2 target" className="mt-1.5" />
+        <p className="text-sm"><span className="font-extrabold tabular-nums">{v.bad_loans}</span> of {v.target_bad} bad coin spends</p>
+        <Progress value={(v.bad_loans / v.target_bad) * 100} label="Bad coin spends toward the v2 target" className="mt-1.5" />
       </div>
-      <p className="text-xs text-ink-2">A loan is labelled 60 days after its due date: bad if it reached 30+ DPD or was settled, restructured or written off. v2 trains only after both targets are met; v1 is recalibrated quarterly until then.</p>
+      <p className="text-xs text-ink-2">A coin spend is labelled 60 days after its due date: bad if it reached 30+ DPD or was settled, restructured or written off. v2 trains only after both targets are met; v1 is recalibrated quarterly until then.</p>
     </div>
   );
 }
@@ -177,7 +177,7 @@ export function RiskOverview() {
 
             <ModelHealth m={m} />
 
-            <Section title="DPD roll rates" desc="Of loans past their due date, the share that rolled from each bucket into the next.">
+            <Section title="DPD roll rates" desc="Of coin spends past their due date, the share that rolled from each bucket into the next.">
               <Roll m={m} />
             </Section>
 

@@ -14,11 +14,11 @@ export function LoansSection({ loans }: { loans: Loan[] }) {
     <section aria-labelledby="loans-h">
       <h2 id="loans-h" className="mb-3 flex items-center gap-1.5 text-[16px] font-semibold tracking-[-0.015em]">
         {COPY.dashboard.loans.title}
-        <InfoTip text="Your spends are grouped into loans. Each one has its own due date." label="What are active loans?" />
+        <InfoTip text="Your spends are grouped into coin spends. Each one has its own due date." label="What are active coin spends?" />
       </h2>
       {loans.length === 0 ? (
         <div className="glass rounded-[24px] ">
-          <EmptyState title="No active loans" body="You don't owe anything right now. Nice." />
+          <EmptyState title="No active coins" body="You don't owe anything right now. Nice." />
         </div>
       ) : (
         <Stagger className="grid gap-3 md:grid-cols-2" role="list">

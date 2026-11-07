@@ -131,7 +131,7 @@ function AlertCard({ a, live, onVendor }: { a: Alert; live: boolean; onVendor: (
         <h3 className="text-base font-extrabold">{RULE_LABEL[a.rule] ?? a.rule}</h3>
         <Pill tone={a.severity === "high" ? "bad" : a.severity === "medium" ? "warn" : "neutral"}>{a.severity}</Pill>
         <Pill tone={a.status === "open" ? "warn" : a.status === "dismissed" ? "neutral" : "bad"}>{a.status.replace("_", " ")}</Pill>
-        {a.hold && a.status === "open" && <Pill tone="warn">new loans held</Pill>}
+        {a.hold && a.status === "open" && <Pill tone="warn">new coin spends held</Pill>}
         {a.flag && <Pill tone="bad">{a.flag}</Pill>}
         <span className="ml-auto text-xs text-ink-2">{a.instances} {a.instances === 1 ? "instance" : "instances"} · last {fmtDT(a.last_seen_at)}</span>
       </div>

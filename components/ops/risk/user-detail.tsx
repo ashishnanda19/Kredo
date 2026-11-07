@@ -151,8 +151,8 @@ function Simulate({ d, live }: { d: UserDetail; live: boolean }) {
   }
 
   return (
-    <Section title="Simulate" desc="Repay an open loan on a chosen day and see the projected score. Nothing is saved.">
-      {loans.length === 0 ? <p className="text-sm text-ink-2">No open loan to simulate.</p> : (
+    <Section title="Simulate" desc="Repay an open coin spend on a chosen day and see the projected score. Nothing is saved.">
+      {loans.length === 0 ? <p className="text-sm text-ink-2">No open coin spend to simulate.</p> : (
         <div className="space-y-3 text-sm">
           {loans.length > 1 && (
             <select aria-label="Loan" value={loanId} onChange={(e) => setLoanId(e.target.value)} className="glass glass-soft min-h-10 rounded-2xl px-3">

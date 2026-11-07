@@ -49,7 +49,7 @@ export function ledgerEvents(w: WorldState, opts: { since?: number; limit?: numb
       case "payment.created": {
         const vendorId = str(d.vendorId);
         out.push({ id: `${a.id}-p`, at: a.at, ord: ord - 0.2, kind: "payment", tone: "info", flow: "pay", amount: num(d.coins), vendorId, studentId: a.actor, text: `${first(a.actor)} paid ${num(d.coins)} coins to ${stall(vendorId)}` });
-        out.push({ id: `${a.id}-l`, at: a.at, ord: ord - 0.1, kind: "loan", tone: "info", text: `Loan created for ${first(a.actor)}, due ${fmtDate(str(d.due))}` });
+        out.push({ id: `${a.id}-l`, at: a.at, ord: ord - 0.1, kind: "loan", tone: "info", text: `Coin spend created for ${first(a.actor)}, due ${fmtDate(str(d.due))}` });
         break;
       }
       case "repayment.recorded": {
@@ -86,7 +86,7 @@ export function ledgerEvents(w: WorldState, opts: { since?: number; limit?: numb
         out.push({ id: a.id, at: a.at, ord, kind: "flag", tone: "bad", studentId: str(d.studentId), vendorId: str(d.vendorId), text: `Fraud flag: ${first(str(d.studentId))} ${FLAG_TEXT[str(d.kind)] ?? "triggered a rule."}` });
         break;
       case "loan.defaulted":
-        out.push({ id: a.id, at: a.at, ord, kind: "default", tone: "bad", studentId: str(d.studentId), text: `A loan of ${first(str(d.studentId))} passed 30 days overdue` });
+        out.push({ id: a.id, at: a.at, ord, kind: "default", tone: "bad", studentId: str(d.studentId), text: `A coin spend of ${first(str(d.studentId))} passed 30 days overdue` });
         break;
       case "vendor.accepted":
         out.push({ id: a.id, at: a.at, ord, kind: "vendor", tone: "good", vendorId: a.target, text: `${stall(a.target)} was accepted and its QR is live` });

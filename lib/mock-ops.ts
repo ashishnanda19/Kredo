@@ -189,12 +189,12 @@ export interface OpsTicket {
   messages: { id: string; at: string; who: "student" | "agent"; text: string }[];
   internal: { id: string; at: string; by: string; text: string }[];
 }
-const SUBJ = ["Selfie step keeps failing", "Payment failed but money left account", "Charges on my loan", "Cannot log in on new phone", "Late charge added by mistake", "Change my college", "KYC stuck in review", "Receipt not downloading"];
+const SUBJ = ["Selfie step keeps failing", "Payment failed but money left account", "Charges on my coins", "Cannot log in on new phone", "Late charge added by mistake", "Change my college", "KYC stuck in review", "Receipt not downloading"];
 export const OPS_TICKETS: OpsTicket[] = Array.from({ length: 12 }, (_, i) => ({
   id: `ot${i + 1}`,
   ref: `CMP-2026-${String(141 - i * 3).padStart(4, "0")}`,
   subject: SUBJ[i % 8],
-  category: ["KYC", "Repayment", "Loan terms", "Account access", "Repayment", "Other", "KYC", "Repayment"][i % 8],
+  category: ["KYC", "Repayment", "Coin terms", "Account access", "Repayment", "Other", "KYC", "Repayment"][i % 8],
   status: (["open", "in_progress", "awaiting", "resolved", "escalated", "open"] as const)[i % 6],
   priority: (["normal", "high", "low", "urgent"] as const)[i % 4],
   assignee: i % 3 === 0 ? null : TEAM[i % 4],

@@ -33,7 +33,7 @@ export function LoansOverview() {
       <PageHeader title={T.title} action={<GlassButton asChild size="sm"><Link href="/dashboard/loan/apply"><FilePlus2 className="size-4" aria-hidden /> Apply</Link></GlassButton>} />
       <div className="space-y-5">
         {!ready ? (
-          <RowsSkeleton rows={3} label="Loading your loans" />
+          <RowsSkeleton rows={3} label="Loading your coins" />
         ) : loans.length === 0 ? (
           <GlassCard radius="lg">
             <EmptyState title={T.emptyTitle} body={T.emptyBody} action={<GlassButton asChild><Link href="/dashboard/loan/apply">{T.emptyCta}</Link></GlassButton>} />

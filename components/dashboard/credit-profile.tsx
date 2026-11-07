@@ -75,7 +75,7 @@ export function CreditProfile() {
 
       {!available ? (
         <GlassCard radius="lg">
-          <EmptyState title={T.notAvailableTitle} body={T.notAvailableBody} action={<GlassButton asChild><Link href="/dashboard/loans">See my loans</Link></GlassButton>} />
+          <EmptyState title={T.notAvailableTitle} body={T.notAvailableBody} action={<GlassButton asChild><Link href="/dashboard/loans">See my coins</Link></GlassButton>} />
         </GlassCard>
       ) : (
         <div className="space-y-5">

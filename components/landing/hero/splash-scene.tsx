@@ -105,7 +105,7 @@ function Phone() {
     <div className="relative">
       {/* body thickness */}
       <span className="absolute inset-0 translate-x-[3.5%] translate-y-[0.6%] rounded-[16%/7.4%] bg-[linear-gradient(90deg,#2a2a31,#121216)]" />
-      <PhoneFrame className="w-full">
+      <PhoneFrame className="w-full" fill>
         <div className="relative h-full">
           <div className="absolute inset-0">
             <CampusPayScreen phase="sheet" />

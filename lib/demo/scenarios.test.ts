@@ -129,7 +129,7 @@ describe("the 11 scenarios", () => {
   it("10. idempotent retry: exactly one loan after the retry", async () => {
     const { h, details } = await play(10);
     expect(loansOfStudent(h.world, "stu-aarav")).toHaveLength(1);
-    expect(details[1]).toContain("Same loan returned");
+    expect(details[1]).toContain("Same coin spend returned");
   });
 
   it("11. refund: pre-settlement drops out of the batch; post-settlement is netted into the next", async () => {

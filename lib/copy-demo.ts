@@ -26,7 +26,7 @@ export const NOTE = {
     body: `₹${amount} was due on ${fmtDate(due)}. New spends are paused until it is paid. Paying it lifts the pause.`,
   }),
   defaulted: (amount: number) => ({
-    title: "A loan is more than 30 days past due",
+    title: "A coin spend is more than 30 days past due",
     body: `₹${amount} is more than 30 days past due. Paying it in full is the first step back. Your next spends are capped while you recover.`,
   }),
   limitUp: (limit: number) => ({ title: "Your limit went up", body: `Your credit limit is now ${limit} coins (₹${limit}). Limits are decided by the lending partner and are not guaranteed.` }),
@@ -360,7 +360,7 @@ export const STUDENT = {
   },
   loans: {
     title: "Your payments",
-    sub: "Each payment you make is one loan, with its own due date.",
+    sub: "Each payment you make is one coin spend, with its own due date.",
     empty: "Nothing here yet. Your payments will show up once you've paid a stall.",
     open: "To repay",
     closed: "Repaid",

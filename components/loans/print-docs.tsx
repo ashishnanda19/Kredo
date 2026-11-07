@@ -20,7 +20,7 @@ export function ReceiptView({ id }: { id: string }) {
   const extra = useStore((s) => s.payments.extra);
   const p = [...extra, ...PAYMENTS].find((x) => x.id === id);
   if (!hydrated) return <p role="status" className="py-10 text-center text-ink-2">Loading…</p>;
-  if (!p) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that receipt. <Link href="/dashboard/loans" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">Back to loans</Link></GlassCard>;
+  if (!p) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that receipt. <Link href="/dashboard/loans" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">Back to coins</Link></GlassCard>;
   return (
     <div className="mx-auto max-w-md">
       <div className="mb-4 flex items-center justify-between gap-3 print:hidden">
@@ -64,7 +64,7 @@ export function StatementView({ id }: { id: string }) {
   const [to, setTo] = useState(MOCK_TODAY.toISOString().slice(0, 10));
 
   if (!hydrated) return <p role="status" className="py-10 text-center text-ink-2">Loading…</p>;
-  if (!loan) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that loan. <Link href="/dashboard/loans" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">Back to loans</Link></GlassCard>;
+  if (!loan) return <GlassCard className="mx-auto max-w-md p-6 text-center">We can&rsquo;t find that coin spend. <Link href="/dashboard/loans" className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">Back to coins</Link></GlassCard>;
 
   const rows = [...extra, ...PAYMENTS].filter((p) => p.loanId === loan.id && p.date.slice(0, 10) >= from && p.date.slice(0, 10) <= to).sort((a, b) => a.date.localeCompare(b.date));
   const paid = rows.filter((r) => r.state === "successful").reduce((s, r) => s + r.amount, 0);
@@ -72,7 +72,7 @@ export function StatementView({ id }: { id: string }) {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-4 space-y-3 print:hidden">
-        <Link href={`/dashboard/loans/${loan.id}`} className="text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">← Back to loan</Link>
+        <Link href={`/dashboard/loans/${loan.id}`} className="text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">← Back to coin spend</Link>
         <GlassCard radius="lg" className="grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
           <Field id="from" label="From"><GlassInput id="from" type="date" value={from} max={to} onChange={(e) => setFrom(e.target.value)} /></Field>
           <Field id="to" label="To"><GlassInput id="to" type="date" value={to} min={from} onChange={(e) => setTo(e.target.value)} /></Field>
@@ -80,7 +80,7 @@ export function StatementView({ id }: { id: string }) {
         </GlassCard>
         <p className="text-xs text-ink-2">{COPY.loans.printHint}</p>
       </div>
-      <GlassCard radius="lg" className="space-y-4 p-6" role="article" aria-label="Loan statement">
+      <GlassCard radius="lg" className="space-y-4 p-6" role="article" aria-label="Coin statement">
         <div>
           <LogoLockup className="mb-4 h-8 text-ink" />
           <h1 className="text-2xl font-semibold tracking-[-0.035em]">{COPY.loans.statement}</h1>

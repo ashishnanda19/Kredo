@@ -172,7 +172,7 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        caption: "The ledger shows the loan. In the diagram, Kredo records and scores. No money touches Kredo.",
+        caption: "The ledger shows the coin spend. In the diagram, Kredo records and scores. No money touches Kredo.",
         run: (ctx) => `Aarav can still spend ${availableLimit(ctx.world(), "stu-aarav")} coins.`,
       },
     ],
@@ -440,13 +440,13 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        caption: "He taps Retry. The same request key is sent, so the server returns the same loan.",
+        caption: "He taps Retry. The same request key is sent, so the server returns the same coin spend.",
         run: (ctx) => {
           const r = payByQr(ctx.world(), { studentId: "stu-aarav", qr: qrOf(ctx, GUPTA), coins: 60, idempotencyKey: "sc-idempotent-retry" });
           ctx.update(() => r.world);
           ctx.student("stu-aarav", "/dashboard/loans");
           const n = loansOfStudent(ctx.world(), "stu-aarav").length;
-          return `${r.ok && r.duplicate ? "Same loan returned." : "A second loan was created."} Loans for Aarav: ${n}. Available: ${availableLimit(ctx.world(), "stu-aarav")} coins.`;
+          return `${r.ok && r.duplicate ? "Same coin spend returned." : "A second coin spend was created."} Coin spends for Aarav: ${n}. Available: ${availableLimit(ctx.world(), "stu-aarav")} coins.`;
         },
       },
     ],
