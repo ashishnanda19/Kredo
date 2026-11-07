@@ -4,6 +4,8 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Design 3: Aura and Credit Passport (Aura, Why it changed, Credit Passport). Home Aura chip now opens Aura. Same canvas. | this commit |
+| 2026-11-07 | Design 4: vendor side (Today, Stall QR, Payment received, Payouts). Same canvas. | this commit |
 | 2026-11-07 | Design 2 in the same canvas: onboarding and verify (Welcome, Verify, Limit unlocked). https://claude.ai/artifact/9yGhw78VmcJ6sLquC7q5FQ | this commit |
 | 2026-11-07 | Design 1 in Claude Design: core student flow (Home, Scan and pay, Paid, Receipt, Dues), minimal and interactive. https://claude.ai/artifact/9yGhw78VmcJ6sLquC7q5FQ | this commit |
 | 2026-11-07 | Branch created from `main`; added `mobile/README.md` (ground rules) and this log | see git log |
@@ -11,5 +13,5 @@ One line per change, newest first. Each entry names the commit that holds it.
 ## Open decisions
 
 - Tech stack for the app (native, React Native or a wrapper around the web app).
-- Next designs: onboarding and verify (done), then Credit Passport and Aura, then the vendor side.
+- Next: review designs 1 to 4 together, then decide the tech stack and start building the app from them.
 - How the app talks to the demo world and, later, a real backend.
