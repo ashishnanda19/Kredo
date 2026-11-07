@@ -38,6 +38,7 @@ Verify, see what you can spend, pay by QR, track what you owe and when, and repa
     <td align="center"><img src="docs/readme/app-receipt.png" width="170" alt="Receipt" /><br /><sub>Receipt</sub></td>
     <td align="center"><img src="docs/readme/app-aura.png" width="170" alt="Aura" /><br /><sub>Aura</sub></td>
     <td align="center"><img src="docs/readme/app-passport.png" width="170" alt="Credit Passport" /><br /><sub>Credit Passport</sub></td>
+    <td align="center"><img src="docs/readme/app-unlocked.png" width="170" alt="Limit unlocked" /><br /><sub>Limit unlocked</sub></td>
   </tr>
 </table>
 </div>
