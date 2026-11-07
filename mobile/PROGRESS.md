@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Splash wordmark fixed again: "redo" now uses a real rounded bold font (Fredoka) beside the K with its dot, so the letters are smooth and even instead of hand-drawn shapes. Letters still pop in one by one. | this commit |
 | 2026-11-07 | Splash wordmark redrawn: K, r, e, d, o are now all drawn with the same rounded stroke as the K (no sharp corners), and they pop in one by one while the big K draws, with a small bounce, and the small K dot drops in with the big one. | this commit |
 | 2026-11-07 | Splash: restored the first K-then-dot draw animation (no rings). The wordmark is now one black logotype, K with its dot plus r, e, d and o, set at one height so everything lines up. | this commit |
 | 2026-11-07 | Splash refinement: the K wipes in first and the dot drops in after it, background rings removed, the wordmark is a black K with its dot followed by a white "redo", and "Tap to continue" is now a black pill with a nudging arrow. | this commit |
