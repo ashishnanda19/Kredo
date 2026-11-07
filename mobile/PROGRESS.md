@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Splash: added a soft light-ray burst that turns slowly behind the K, a thin orbit ring with a dot, a dashed outer ring and twinkling sparkles, on top of the warm glow. | this commit |
 | 2026-11-07 | Splash: a light warm glow now sits right behind the big K, and the bottom wordmark is plain "Kredo" text (no small K with a dot) that eases in from wide letter-spacing and blur, followed by a short underline, the tagline and the tap pill. | this commit |
 | 2026-11-07 | Splash wordmark fixed again: "redo" now uses a real rounded bold font (Fredoka) beside the K with its dot, so the letters are smooth and even instead of hand-drawn shapes. Letters still pop in one by one. | this commit |
 | 2026-11-07 | Splash wordmark redrawn: K, r, e, d, o are now all drawn with the same rounded stroke as the K (no sharp corners), and they pop in one by one while the big K draws, with a small bounce, and the small K dot drops in with the big one. | this commit |
