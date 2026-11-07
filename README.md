@@ -1,4 +1,4 @@
-<img src="docs/readme/hero-phones.jpg" alt="Kredo" width="100%" />
+<img src="docs/readme/hero.png" alt="Kredo" width="100%" />
 
 ## What is Kredo
 
@@ -30,7 +30,28 @@ Verify, see what you can spend, pay by QR, track what you owe and when, and repa
 <img src="docs/readme/dashboard.png" alt="Student dashboard" width="100%" />
 </div>
 
-### On a phone
+### The mobile app
+
+The mobile app has the same flow in a yellow-header, white-sheet look. Student screens first, then the vendor side.
+
+<div align="center">
+<table>
+  <tr>
+    <td align="center"><img src="docs/readme/app-home.png" width="170" alt="Home" /><br /><sub>Home</sub></td>
+    <td align="center"><img src="docs/readme/app-scan.png" width="170" alt="Scan and pay" /><br /><sub>Scan and pay</sub></td>
+    <td align="center"><img src="docs/readme/app-dues.png" width="170" alt="Coins due" /><br /><sub>Coins due</sub></td>
+    <td align="center"><img src="docs/readme/app-receipt.png" width="170" alt="Receipt" /><br /><sub>Receipt</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/readme/app-aura.png" width="170" alt="Aura" /><br /><sub>Aura</sub></td>
+    <td align="center"><img src="docs/readme/app-passport.png" width="170" alt="Credit Passport" /><br /><sub>Credit Passport</sub></td>
+    <td align="center"><img src="docs/readme/app-v-today.png" width="170" alt="Vendor today" /><br /><sub>Vendor today</sub></td>
+    <td align="center"><img src="docs/readme/app-v-settle.png" width="170" alt="Vendor payouts" /><br /><sub>Vendor payouts</sub></td>
+  </tr>
+</table>
+</div>
+
+### On the web, on a phone
 
 Student and vendor screens are built for phones first.
 
