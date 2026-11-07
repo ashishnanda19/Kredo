@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Design refresh of onboarding (animated intro carousel, ID scan tiles with a progress step, new Reviewing screen, limit reveal) and the vendor side (Kredo card style Today with an open/closed switch, animated stall QR, payment received with an equaliser and ripples, live payout countdown). Whole app now shares one style. | this commit |
 | 2026-11-07 | Design refresh of the student flow after reviewing PhonePe, Google Pay, Paytm and Slice patterns: Kredo card hero on Home, floating dock with Aura and Passport, GPS Near you with slide to pay, animated Paid (check draw, ripple, confetti), ticket receipt with a live timeline, count-up numbers and rings. Reasons screen merged into Aura. Onboarding and vendor screens still use the older minimal style. | this commit |
 | 2026-11-07 | Design 1 updated: new Scan screen with a GPS "Near you" list of partner vendors (tap one, type the amount, pay without scanning). Scan button now opens it; the QR confirm screen follows a scan. | this commit |
 | 2026-11-07 | Design 3: Aura and Credit Passport (Aura, Why it changed, Credit Passport). Home Aura chip now opens Aura. Same canvas. | this commit |
