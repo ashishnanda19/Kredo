@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Fix: slide to pay now completes when the thumb reaches the end (not on release) and shows a "Payment sent" pop-up with the amount and vendor before continuing to Paid. Added a tap fallback. Applies to Scan and Confirm. | this commit |
 | 2026-11-07 | Vendor onboarding added (Vendor welcome, Stall details with GPS pin, Verify your stall with document and masked payout bank, Reviewing, You are live), plus a final spacing and detail pass across all 28 screens (text wraps, line lengths, alignment, step timeline). | this commit |
 | 2026-11-07 | Profile screens: student Profile (name, phone, email, course, year editable; college and masked student ID locked as lender-verified) opened from the Home avatar, and vendor Stall profile (owner, stall, hours, map pin, masked payout bank) opened from the stall avatar. Edit, Cancel, Save with a toast. | this commit |
 | 2026-11-07 | Design refresh of onboarding (animated intro carousel, ID scan tiles with a progress step, new Reviewing screen, limit reveal) and the vendor side (Kredo card style Today with an open/closed switch, animated stall QR, payment received with an equaliser and ripples, live payout countdown). Whole app now shares one style. | this commit |
