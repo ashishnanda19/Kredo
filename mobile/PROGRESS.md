@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Profile screens: student Profile (name, phone, email, course, year editable; college and masked student ID locked as lender-verified) opened from the Home avatar, and vendor Stall profile (owner, stall, hours, map pin, masked payout bank) opened from the stall avatar. Edit, Cancel, Save with a toast. | this commit |
 | 2026-11-07 | Design refresh of onboarding (animated intro carousel, ID scan tiles with a progress step, new Reviewing screen, limit reveal) and the vendor side (Kredo card style Today with an open/closed switch, animated stall QR, payment received with an equaliser and ripples, live payout countdown). Whole app now shares one style. | this commit |
 | 2026-11-07 | Design refresh of the student flow after reviewing PhonePe, Google Pay, Paytm and Slice patterns: Kredo card hero on Home, floating dock with Aura and Passport, GPS Near you with slide to pay, animated Paid (check draw, ripple, confetti), ticket receipt with a live timeline, count-up numbers and rings. Reasons screen merged into Aura. Onboarding and vendor screens still use the older minimal style. | this commit |
 | 2026-11-07 | Design 1 updated: new Scan screen with a GPS "Near you" list of partner vendors (tap one, type the amount, pay without scanning). Scan button now opens it; the QR confirm screen follows a scan. | this commit |
@@ -14,6 +15,8 @@ One line per change, newest first. Each entry names the commit that holds it.
 | 2026-11-07 | Branch created from `main`; added `mobile/README.md` (ground rules) and this log | see git log |
 
 ## Open decisions
+
+- Profile edits: which fields the lending partner must re-verify when changed (phone, email) and how "Privacy and data" handles DPDP access and erasure requests.
 
 - Nearby vendors: real GPS needs a vendor location field and a nearby query on the backend, and location permission copy. Location is used only to find vendors and never as an Aura input.
 - Tech stack for the app (native, React Native or a wrapper around the web app).
