@@ -111,7 +111,7 @@ export function VerifyStatus() {
             {kycStatus !== "verified" && (
               <GlassCard radius="lg" className="mt-4 p-4 text-left text-sm">
                 <p className="font-bold">Next step: KYC</p>
-                <p className="text-ink-2">Complete a one-time identity check to apply for loans.</p>
+                <p className="text-ink-2">Complete a one-time identity check to apply for coin spends.</p>
                 <GlassButton asChild variant="soft" size="sm" className="mt-2">
                   <Link href="/verify/kyc">Go to KYC</Link>
                 </GlassButton>

@@ -9,9 +9,9 @@ import {
 } from "framer-motion";
 import { Landmark, ShieldCheck } from "lucide-react";
 import {
+  AppShot,
   CampusPayScreen,
   DuesListScreen,
-  LimitUnlockedScreen,
   LockScreenReminders,
   PassportScreen,
   ScaledScreen,
@@ -89,7 +89,7 @@ function screenFor(s: Step) {
     case "verify":
       return <VerifyScreen phase={s.phase} />;
     case "limit":
-      return <LimitUnlockedScreen />;
+      return <AppShot name="limit" />;
     case "pay":
       return <CampusPayScreen phase={s.phase} />;
     case "dues":

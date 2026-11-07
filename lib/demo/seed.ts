@@ -123,7 +123,7 @@ class Script {
   repay(ref: string, day: number, hour: number) {
     this.add(this.at(day, hour), (w, refs) => {
       const loan = w.loans[refs.get(ref)!];
-      if (!loan) throw new Error(`seed: no loan for ${ref}`);
+      if (!loan) throw new Error(`seed: no coin spend for ${ref}`);
       return repayLoan(w, { loanId: loan.id, amount: amountDue(loan), at: this.at(day, hour), idempotencyKey: `seed:r:${ref}` }).world;
     });
   }

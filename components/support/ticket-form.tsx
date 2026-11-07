@@ -16,7 +16,7 @@ import { useStore } from "@/lib/store/store";
 
 const T = COPY.support;
 const schema = z.object({
-  category: z.enum(["KYC", "Repayment", "Loan terms", "Account access", "Other"], { message: "Choose a category." }),
+  category: z.enum(["KYC", "Repayment", "Coin terms", "Account access", "Other"], { message: "Choose a category." }),
   subject: z.string().trim().min(5, "Add a short subject (at least 5 characters).").max(80, "Keep it under 80 characters."),
   description: z.string().trim().min(15, "Describe what happened (at least 15 characters).").max(1000, "Keep it under 1000 characters."),
 });

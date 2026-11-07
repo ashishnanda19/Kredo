@@ -56,8 +56,8 @@ export function repay(loanIds: string[], key: string, amount?: number): RepayOut
   const s = useWorld.getState();
   let w = s.world;
   const ordered = loanIds.map((id) => w.loans[id]).filter(Boolean).sort((a, b) => a.dueDate.localeCompare(b.dueDate) || a.id.localeCompare(b.id));
-  if (!ordered.length) throw new DomainError("UNKNOWN_LOAN", "That loan does not exist.");
-  if (amount !== undefined && ordered.length !== 1) throw new DomainError("BAD_AMOUNT", "A part payment is for one loan at a time.");
+  if (!ordered.length) throw new DomainError("UNKNOWN_LOAN", "That coin spend does not exist.");
+  if (amount !== undefined && ordered.length !== 1) throw new DomainError("BAD_AMOUNT", "A part payment is for one coin spend at a time.");
   const events: ScoreEvent[] = [];
   let paid = 0;
   for (const l of ordered) {

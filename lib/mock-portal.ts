@@ -244,7 +244,7 @@ export const PAYMENTS: PaymentRecord[] = [
 
 export const PAY_STATE_INFO: Record<PayState, { label: string; why: string; next: string }> = {
   pending: { label: "Pending", why: "The bank has not confirmed this payment yet.", next: "Nothing to do. Most payments confirm within a few minutes, and some take up to a day." },
-  successful: { label: "Successful", why: "The payment went through and was added to your loan.", next: "You can download the receipt." },
+  successful: { label: "Successful", why: "The payment went through and was added to your coin spend.", next: "You can download the receipt." },
   failed: { label: "Failed", why: "The payment did not go through. No money was taken, or any amount taken will be returned by your bank.", next: "Try again, or pick a different payment method." },
   reversed: { label: "Reversed", why: "The bank returned this payment after it was made.", next: "The amount usually reaches your account in 5 to 7 working days. Contact support if it takes longer." },
 };
@@ -253,8 +253,8 @@ export const DISPUTE_CATEGORIES = ["Charged twice", "Amount is wrong", "Payment 
 
 /* ----------------------------------------------------------------- support */
 export type TicketStatus = "open" | "in_progress" | "awaiting" | "resolved" | "escalated";
-export type TicketCategory = "KYC" | "Repayment" | "Loan terms" | "Account access" | "Other";
-export const TICKET_CATEGORIES: TicketCategory[] = ["KYC", "Repayment", "Loan terms", "Account access", "Other"];
+export type TicketCategory = "KYC" | "Repayment" | "Coin terms" | "Account access" | "Other";
+export const TICKET_CATEGORIES: TicketCategory[] = ["KYC", "Repayment", "Coin terms", "Account access", "Other"];
 
 export interface TicketEvent {
   id: string;
@@ -281,7 +281,7 @@ const ev = (id: string, d: number, who: TicketEvent["who"], text: string): Ticke
 export const TICKETS: Ticket[] = [
   { id: "t1", ref: "CMP-2026-0141", subject: "Selfie step keeps failing", category: "KYC", status: "in_progress", createdAt: iso(-3), updatedAt: iso(-1), description: "The selfie step shows an error every time.", events: [ev("e1", -3, "you", "The selfie step shows an error every time."), ev("e2", -3, "system", "Ticket created. Reference CMP-2026-0141."), ev("e3", -1, "support", "Thanks. We have asked our verification partner to check this. We will update you within 2 working days.")] },
   { id: "t2", ref: "CMP-2026-0138", subject: "Payment shown as failed but money left my account", category: "Repayment", status: "awaiting", createdAt: iso(-8), updatedAt: iso(-2), description: "Netbanking payment failed but my balance dropped.", events: [ev("e1", -8, "you", "Netbanking payment failed but my balance dropped."), ev("e2", -2, "support", "Please share the last 4 digits of the bank reference from your SMS so we can match it.")] },
-  { id: "t3", ref: "CMP-2026-0122", subject: "What are the charges on my loan?", category: "Loan terms", status: "resolved", createdAt: iso(-20), updatedAt: iso(-18), description: "I want a breakdown of the charges.", events: [ev("e1", -20, "you", "I want a breakdown of the charges."), ev("e2", -18, "support", "We have emailed the key fact summary. The charges are also listed on your loan page."), ev("e3", -18, "system", "Marked resolved.")] },
+  { id: "t3", ref: "CMP-2026-0122", subject: "What are the charges on my coins?", category: "Coin terms", status: "resolved", createdAt: iso(-20), updatedAt: iso(-18), description: "I want a breakdown of the charges.", events: [ev("e1", -20, "you", "I want a breakdown of the charges."), ev("e2", -18, "support", "We have emailed the key fact summary. The charges are also listed on your coin spend page."), ev("e3", -18, "system", "Marked resolved.")] },
   { id: "t4", ref: "CMP-2026-0150", subject: "Cannot log in on my new phone", category: "Account access", status: "open", createdAt: iso(-1), updatedAt: iso(-1), description: "OTP is not arriving.", events: [ev("e1", -1, "you", "OTP is not arriving."), ev("e2", -1, "system", "Ticket created. Reference CMP-2026-0150.")] },
   { id: "t5", ref: "CMP-2026-0099", subject: "Late charge added by mistake", category: "Repayment", status: "escalated", createdAt: iso(-30), updatedAt: iso(-5), description: "A late charge was added although I paid on time.", events: [ev("e1", -30, "you", "A late charge was added although I paid on time."), ev("e2", -25, "support", "We are checking with the lender."), ev("e3", -5, "support", "This has been escalated to the lender grievance officer. They will respond within the timeline in the lender notice.")] },
   { id: "t6", ref: "CMP-2026-0155", subject: "Other: change my college", category: "Other", status: "open", createdAt: iso(0), updatedAt: iso(0), description: "I moved to a different college.", events: [ev("e1", 0, "you", "I moved to a different college."), ev("e2", 0, "system", "Ticket created. Reference CMP-2026-0155.")] },
@@ -309,7 +309,7 @@ export const CREDIT_PROFILE = {
   ] as { id: string; title: string; effect: "positive" | "neutral" | "negative"; why: string }[],
   history: [
     { id: "h1", date: isoDate(-15), text: "Instalment 1 of 4 repaid on time", ok: true },
-    { id: "h2", date: isoDate(-45), text: "Loan LN-24017 disbursed", ok: true },
+    { id: "h2", date: isoDate(-45), text: "Coin LN-24017 disbursed", ok: true },
     { id: "h3", date: isoDate(-52), text: "Campus spend repaid 2 days late", ok: false },
     { id: "h4", date: isoDate(-60), text: "Account opened", ok: true },
   ],
@@ -319,7 +319,7 @@ export const CREDIT_PROFILE = {
 /* --------------------------------------------------------------- consents */
 export const CONSENT_PURPOSES = [
   { id: "identity", title: "Identity verification", purpose: "So our verification provider can confirm who you are and that you are a student. Needed to open your account.", required: true },
-  { id: "credit", title: "Credit assessment", purpose: "So our lending partner can assess a loan request using the details you give us. Needed to apply for a loan.", required: false },
+  { id: "credit", title: "Credit assessment", purpose: "So our lending partner can assess a coin spend request using the details you give us. Needed to apply for a coin spend.", required: false },
   { id: "comms", title: "Communication", purpose: "So we can send reminders and service messages about your account by SMS, email or app.", required: false },
 ] as const;
 export type ConsentId = (typeof CONSENT_PURPOSES)[number]["id"];

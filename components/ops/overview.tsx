@@ -102,8 +102,8 @@ export function OpsOverview() {
             <Kpi label="Failed integration requests" value={k.failedIntegrations} tone={k.failedIntegrations ? "warn" : undefined} hint="Disbursement and repayment events" />
             <Kpi label="Unresolved support tickets" value={k.unresolved} />
           </section>
-          <section aria-label="Loan applications by status">
-            <h2 className="mb-2 text-sm font-bold">Loan application status</h2>
+          <section aria-label="Coin applications by status">
+            <h2 className="mb-2 text-sm font-bold">Coin application status</h2>
             <div className="flex flex-wrap gap-2">
               {Object.entries(k.loanCounts).map(([s, n]) => (
                 <span key={s} className="glass glass-soft rounded-full px-3 py-1.5 text-xs font-bold">

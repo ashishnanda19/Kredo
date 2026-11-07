@@ -35,8 +35,8 @@ export const RULE_LABEL: Record<string, string> = {
 };
 
 export const SIGNAL_LABEL: Record<string, string> = {
-  quick_repayments: "Loans repaid within 3 days",
-  rollover_chain: "Loans reopened right after repaying",
+  quick_repayments: "Coin spends repaid within 3 days",
+  rollover_chain: "Coin spends reopened right after repaying",
   same_amount_spends: "Near-same spends at one vendor",
   spends_just_under_limit: "Spends just under the remaining limit",
   refund_soon_after_spend: "Refund soon after a spend",

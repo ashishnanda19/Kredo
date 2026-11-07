@@ -62,7 +62,7 @@ export function CardStrip() {
               {/* the phone rises from the bottom of this window, cut off cleanly above the caption */}
               <div aria-hidden className="relative -mx-7 mt-3 flex-1 overflow-hidden">
                 <div className={cn("absolute left-1/2 top-5 w-[190px] -translate-x-1/2 transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-y-3", look.tilt)}>
-                  <PhoneFrame screenBg={look.bezel}>{look.screen}</PhoneFrame>
+                  <PhoneFrame fill screenBg={look.bezel}>{look.screen}</PhoneFrame>
                 </div>
               </div>
               <p className="pt-4 text-[14px] leading-snug opacity-80">{c.cap}</p>
@@ -70,7 +70,6 @@ export function CardStrip() {
           );
         })}
       </ul>
-      <p aria-hidden className="mt-2 text-center font-mono text-[11px] uppercase tracking-[0.22em] text-ink-2/70 max-sm:hidden">{t.hint}</p>
     </section>
   );
 }

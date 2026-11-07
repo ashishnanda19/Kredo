@@ -154,7 +154,7 @@ export interface RepayResult {
 /** Applies a repayment: fees and interest first, then principal. Writes the score events with their reasons. */
 export function repayLoan(world: WorldState, input: RepayInput): RepayResult {
   const loan = world.loans[input.loanId];
-  if (!loan) throw new DomainError("UNKNOWN_LOAN", "That loan does not exist.");
+  if (!loan) throw new DomainError("UNKNOWN_LOAN", "That coin spend does not exist.");
   if (input.idempotencyKey) {
     const dup = world.repayments.find((r) => r.idempotencyKey === input.idempotencyKey);
     if (dup) {
@@ -162,7 +162,7 @@ export function repayLoan(world: WorldState, input: RepayInput): RepayResult {
       return { world, repayment: dup, duplicate: true, events: [] };
     }
   }
-  if (loan.status === "paid" || loan.status === "refunded") throw new DomainError("ALREADY_CLOSED", "That loan is already closed.");
+  if (loan.status === "paid" || loan.status === "refunded") throw new DomainError("ALREADY_CLOSED", "That coin spend is already closed.");
   if (!Number.isInteger(input.amount) || input.amount <= 0) throw new DomainError("BAD_AMOUNT", "A repayment must be a whole number of rupees above zero.");
   const due = amountDue(loan);
   if (input.amount > due) throw new DomainError("OVERPAYMENT", `That is more than the ${due} still owed.`);

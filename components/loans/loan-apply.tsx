@@ -202,7 +202,7 @@ export function LoanApply() {
                     <GlassInput id="amount" type="number" inputMode="numeric" min={min} max={max} step={500} value={amountText} onChange={(e) => { setAmountText(e.target.value); setAmountErr(null); }} invalid={!!amountErr} aria-describedby="amount-msg amount-err" className="text-xl font-semibold tabular-nums" />
                   </div>
                 </Field>
-                <Slider min={min} max={max} step={500} value={[Math.min(max, Math.max(min, Number(amountText) || min))]} onValueChange={(v) => setAmount(v[0])} aria-label="Loan amount" />
+                <Slider min={min} max={max} step={500} value={[Math.min(max, Math.max(min, Number(amountText) || min))]} onValueChange={(v) => setAmount(v[0])} aria-label="Amount in coins" />
                 <div className="flex justify-between text-xs text-ink-2" aria-hidden>
                   <span>{formatINR(min)}</span>
                   <span>{formatINR(max)}</span>
@@ -288,7 +288,7 @@ export function LoanApply() {
                 <div>
                   <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm">
                     <input type="checkbox" checked={consent} onChange={(e) => { setConsent(e.target.checked); setConsentErr(null); }} aria-describedby="consent-err" className="mt-0.5 size-5 shrink-0 accent-[var(--accent)]" disabled={busy} />
-                    <span>I agree to my details being used by the lending partner to assess this loan request.</span>
+                    <span>I agree to my details being used by the lending partner to assess this coin spend request.</span>
                   </label>
                   {consentErr && <p id="consent-err" role="alert" className="mt-1 text-sm font-medium text-bad-text">{consentErr}</p>}
                 </div>
@@ -339,7 +339,7 @@ export function LoanApply() {
               <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">{T.record.offer}</dt><dd className="font-mono font-semibold">{loanApp.acceptance.offerVersion}</dd></div>
               <div className="flex justify-between gap-3 py-2.5"><dt className="text-ink-2">{T.record.terms}</dt><dd className="font-mono font-semibold">{loanApp.acceptance.termsVersion}</dd></div>
             </dl>
-            <ReferenceNumber value={loanApp.acceptance.loanId} label="Loan" />
+            <ReferenceNumber value={loanApp.acceptance.loanId} label="Coins" />
             <GlassButton size="lg" className="w-full" onClick={() => router.push(`/dashboard/loans/${loanApp.acceptance!.loanId}`)}>
               {T.viewLoan}
             </GlassButton>

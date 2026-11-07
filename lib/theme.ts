@@ -27,6 +27,14 @@ export const moods = {
   forest: "linear-gradient(160deg,#06140F 0%,#0C2A1E 55%,#0F3A2A 100%)",
 } as const;
 
+/** Light-theme counterparts of the mood gradients (the tall feature cards use these on a light page). */
+export const moodsLight = {
+  navy: "linear-gradient(160deg,#EEF3FF 0%,#DFE8FB 55%,#CFDCF6 100%)",
+  sunset: "linear-gradient(160deg,#F6EBFB 0%,#F6D0DD 50%,#FBDDBC 100%)",
+  ember: "linear-gradient(160deg,#FFEEE3 0%,#FFD2B4 50%,#FFB188 100%)",
+  forest: "linear-gradient(160deg,#EAF6EE 0%,#D3EDDD 55%,#BCE2CB 100%)",
+} as const;
+
 export const radii = { card: 14, bento: 16, tall: 24 } as const;
 
 export const ease = {
