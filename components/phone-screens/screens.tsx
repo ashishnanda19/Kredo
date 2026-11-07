@@ -33,19 +33,39 @@ export type AppShotName = keyof typeof SHOTS;
 /** Screens that also have a dark-theme capture (public/app-screens/<name>-dark.png). */
 const DARK_SHOTS = new Set<AppShotName>(["dues", "passport", "notifications"]);
 
+/**
+ * The captures are served as pre-sized WebP files (about 50 KB each) straight from /public, so a screen never waits on the
+ * image optimiser when it first appears, and they are loaded eagerly so the scroll story never swaps in an empty screen.
+ */
+const shotUrl = (name: AppShotName, dark = false) => `/app-screens/${name}${dark ? "-dark" : ""}.webp`;
+
+/** Fetch and decode screens ahead of time, so the first time one slides in there is no load or decode hitch. */
+export function preloadAppShots(names: AppShotName[]) {
+  if (typeof window === "undefined") return;
+  for (const n of names) {
+    for (const dark of DARK_SHOTS.has(n) ? [false, true] : [false]) {
+      const img = new window.Image();
+      img.decoding = "async";
+      img.src = shotUrl(n, dark);
+      img.decode?.().catch(() => {});
+    }
+  }
+}
+
 export function AppShot({ name, priority = false, dark = false }: { name: AppShotName; priority?: boolean; dark?: boolean }) {
   const hasDark = DARK_SHOTS.has(name);
   return (
     <div className="relative size-full select-none" aria-hidden>
-      <Image src={`/app-screens/${name}.png`} alt="" fill sizes="390px" quality={90} priority={priority} draggable={false} className="object-fill" />
+      <Image src={shotUrl(name)} alt="" fill unoptimized loading="eager" decoding="async" priority={priority} draggable={false} className="object-fill" />
       {/* the dark capture fades in over the light one when the hero turns dark, so the screen follows the background */}
       {hasDark && (
         <Image
-          src={`/app-screens/${name}-dark.png`}
+          src={shotUrl(name, true)}
           alt=""
           fill
-          sizes="390px"
-          quality={90}
+          unoptimized
+          loading="eager"
+          decoding="async"
           draggable={false}
           className={`object-fill transition-opacity duration-700 ${dark ? "opacity-100" : "opacity-0"}`}
         />

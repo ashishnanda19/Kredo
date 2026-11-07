@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -10,6 +10,7 @@ import {
 import { Landmark, ShieldCheck } from "lucide-react";
 import {
   AppShot,
+  preloadAppShots,
   CampusPayScreen,
   DuesListScreen,
   LockScreenReminders,
@@ -149,6 +150,11 @@ export function HeroScene() {
   const stage = STEPS[state.step].stage;
   const dark = stage >= DARK_FROM;
   const panelId = "hero-stage-panel";
+
+  // every screen the story shows is fetched and decoded up front (not when it first slides in), so scrolling never stalls on an image
+  useEffect(() => {
+    preloadAppShots(["reviewing", "unlocked", "limit", "pay", "paid", "dues", "passport", "notifications"]);
+  }, []);
 
   const apply = useCallback((raw: number) => {
     // during the intro nothing is lit yet; the stages share the rest of the scroll
@@ -722,7 +728,8 @@ export function HeroScene() {
                                         ease: [0.32, 0.72, 0, 1],
                                       }
                                 }
-                                className="absolute inset-0"
+                                className="absolute inset-0 [backface-visibility:hidden] [transform:translateZ(0)]"
+                                style={{ willChange: "transform, opacity" }}
                               >
                                 {screenFor(cur, dark)}
                               </motion.div>
