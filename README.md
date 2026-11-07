@@ -7,7 +7,7 @@ Students run out of pocket money long before the month ends, and campus vendors 
 Kredo is the **app and technology partner**. A licensed lending partner (an NBFC) assesses credit and **moves all the money**. Kredo never holds, pools or transfers funds. The lender pays the vendor, and the student repays the lender.
 
 <div align="center">
-<img src="docs/readme/landing-chaos.png" alt="Pocket money problems, sorted" width="100%" />
+<img src="docs/readme/what-is-kredo.jpg" alt="Kredo: pay on your phone, settle on time" width="100%" />
 </div>
 
 ## How it works
@@ -27,47 +27,17 @@ Kredo is the **app and technology partner**. A licensed lending partner (an NBFC
 Verify, see what you can spend, pay by QR, track what you owe and when, and repay on time. Costs come before consent, every time.
 
 <div align="center">
-<img src="docs/readme/dashboard.png" alt="Student dashboard" width="100%" />
-</div>
-
-### The mobile app
-
-The mobile app has the same flow in a yellow-header, white-sheet look. Student screens first, then the vendor side.
-
-<div align="center">
 <table>
   <tr>
+    <td align="center"><img src="docs/readme/app-splash.png" width="170" alt="Welcome" /><br /><sub>Welcome</sub></td>
     <td align="center"><img src="docs/readme/app-home.png" width="170" alt="Home" /><br /><sub>Home</sub></td>
     <td align="center"><img src="docs/readme/app-scan.png" width="170" alt="Scan and pay" /><br /><sub>Scan and pay</sub></td>
     <td align="center"><img src="docs/readme/app-dues.png" width="170" alt="Coins due" /><br /><sub>Coins due</sub></td>
-    <td align="center"><img src="docs/readme/app-receipt.png" width="170" alt="Receipt" /><br /><sub>Receipt</sub></td>
   </tr>
   <tr>
+    <td align="center"><img src="docs/readme/app-receipt.png" width="170" alt="Receipt" /><br /><sub>Receipt</sub></td>
     <td align="center"><img src="docs/readme/app-aura.png" width="170" alt="Aura" /><br /><sub>Aura</sub></td>
     <td align="center"><img src="docs/readme/app-passport.png" width="170" alt="Credit Passport" /><br /><sub>Credit Passport</sub></td>
-    <td align="center"><img src="docs/readme/app-v-today.png" width="170" alt="Vendor today" /><br /><sub>Vendor today</sub></td>
-    <td align="center"><img src="docs/readme/app-v-settle.png" width="170" alt="Vendor payouts" /><br /><sub>Vendor payouts</sub></td>
-  </tr>
-</table>
-</div>
-
-### On the web, on a phone
-
-Student and vendor screens are built for phones first.
-
-<div align="center">
-<table>
-  <tr>
-    <td align="center"><img src="docs/readme/m-landing.jpg" width="170" alt="Landing" /><br /><sub>Landing</sub></td>
-    <td align="center"><img src="docs/readme/m-student-home.png" width="170" alt="Student home" /><br /><sub>Student home</sub></td>
-    <td align="center"><img src="docs/readme/m-student-pay.png" width="170" alt="Scan and pay" /><br /><sub>Scan and pay</sub></td>
-    <td align="center"><img src="docs/readme/m-student-aura.png" width="170" alt="Aura" /><br /><sub>Aura</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="docs/readme/m-vendor-home.png" width="170" alt="Vendor home" /><br /><sub>Vendor home</sub></td>
-    <td align="center"><img src="docs/readme/m-vendor-qr.png" width="170" alt="Stall QR" /><br /><sub>Stall QR</sub></td>
-    <td align="center"><img src="docs/readme/m-vendor-payments.png" width="170" alt="Payments" /><br /><sub>Payments</sub></td>
-    <td align="center"><img src="docs/readme/m-vendor-settlements.png" width="170" alt="Settlements" /><br /><sub>Settlements</sub></td>
   </tr>
 </table>
 </div>
@@ -76,12 +46,19 @@ Student and vendor screens are built for phones first.
 
 Show a QR, see payments arrive live, and track what is awaiting settlement and what has been paid. Refunds before settlement simply drop the payment out.
 
+<div align="center">
+<table>
+  <tr>
+    <td align="center"><img src="docs/readme/app-splash.png" width="170" alt="Welcome" /><br /><sub>Welcome</sub></td>
+    <td align="center"><img src="docs/readme/app-v-today.png" width="170" alt="Today" /><br /><sub>Today</sub></td>
+    <td align="center"><img src="docs/readme/app-v-qr.png" width="170" alt="Stall QR" /><br /><sub>Stall QR</sub></td>
+    <td align="center"><img src="docs/readme/app-v-settle.png" width="170" alt="Payouts" /><br /><sub>Payouts</sub></td>
+  </tr>
+</table>
+</div>
+
 ### Aura and the Credit Passport
 
 Aura is the student-facing view of a repayment score. It is one deterministic engine with one number, and every change has a reason a student can read. It never uses college, gender, caste, religion or location. The Credit Passport shows a student's repayment story on one page.
-
-<div align="center">
-<img src="docs/readme/landing-passport-phone.png" alt="Credit Passport" width="100%" />
-</div>
 
 <img src="docs/readme/banner.svg" alt="Kredo" width="100%" />
