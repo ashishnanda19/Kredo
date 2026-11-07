@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Feature coverage pass against the web spec: log in and sign up with phone and OTP (Login, Join, two code screens); Activity with filters; limit ladder; repayment detail with breakdown and statement; repay all or part with slide to repay and a Repaid screen with Aura reason; calm Payments paused recovery; notifications; Aura quests with claim; help with FAQs and a ticket form; privacy toggles with data download and delete request; over-limit error in the pay sheet; vendor Payments with refunds before payout and Insights charts; vendor dock now has five tabs. Home links to all of these. 16 new screens, 40 in total. | this commit |
 | 2026-11-07 | Splash: added a soft light-ray burst that turns slowly behind the K, a thin orbit ring with a dot, a dashed outer ring and twinkling sparkles, on top of the warm glow. | this commit |
 | 2026-11-07 | Splash: a light warm glow now sits right behind the big K, and the bottom wordmark is plain "Kredo" text (no small K with a dot) that eases in from wide letter-spacing and blur, followed by a short underline, the tagline and the tap pill. | this commit |
 | 2026-11-07 | Splash wordmark fixed again: "redo" now uses a real rounded bold font (Fredoka) beside the K with its dot, so the letters are smooth and even instead of hand-drawn shapes. Letters still pop in one by one. | this commit |
@@ -23,6 +24,14 @@ One line per change, newest first. Each entry names the commit that holds it.
 | 2026-11-07 | Design 2 in the same canvas: onboarding and verify (Welcome, Verify, Limit unlocked). https://claude.ai/artifact/9yGhw78VmcJ6sLquC7q5FQ | this commit |
 | 2026-11-07 | Design 1 in Claude Design: core student flow (Home, Scan and pay, Paid, Receipt, Dues), minimal and interactive. https://claude.ai/artifact/9yGhw78VmcJ6sLquC7q5FQ | this commit |
 | 2026-11-07 | Branch created from `main`; added `mobile/README.md` (ground rules) and this log | see git log |
+
+## Still web-only or not designed
+
+- Ops console (verification queue, fraud flags, exposure, limits override): stays on the web.
+- Presenter tools (Demo Stage, Director, metrics): web only.
+- Real camera QR scan and the real bank and lender handoff (the screens simulate them).
+- Vendor disputes thread and support, vendor KYC agreement step, student partial-payment schedule beyond the repay sheet.
+- Dark theme and language options.
 
 ## Open decisions
 
