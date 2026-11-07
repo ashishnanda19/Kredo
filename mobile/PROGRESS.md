@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Vendor onboarding added (Vendor welcome, Stall details with GPS pin, Verify your stall with document and masked payout bank, Reviewing, You are live), plus a final spacing and detail pass across all 28 screens (text wraps, line lengths, alignment, step timeline). | this commit |
 | 2026-11-07 | Profile screens: student Profile (name, phone, email, course, year editable; college and masked student ID locked as lender-verified) opened from the Home avatar, and vendor Stall profile (owner, stall, hours, map pin, masked payout bank) opened from the stall avatar. Edit, Cancel, Save with a toast. | this commit |
 | 2026-11-07 | Design refresh of onboarding (animated intro carousel, ID scan tiles with a progress step, new Reviewing screen, limit reveal) and the vendor side (Kredo card style Today with an open/closed switch, animated stall QR, payment received with an equaliser and ripples, live payout countdown). Whole app now shares one style. | this commit |
 | 2026-11-07 | Design refresh of the student flow after reviewing PhonePe, Google Pay, Paytm and Slice patterns: Kredo card hero on Home, floating dock with Aura and Passport, GPS Near you with slide to pay, animated Paid (check draw, ripple, confetti), ticket receipt with a live timeline, count-up numbers and rings. Reasons screen merged into Aura. Onboarding and vendor screens still use the older minimal style. | this commit |
