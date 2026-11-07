@@ -6,6 +6,7 @@ import { useEmbedded } from "@/components/demo/use-embedded";
 import { DemoWorldControls } from "@/components/demo/demo-world-controls";
 import { GlassButton, GlassCard } from "@/components/glass";
 import { COPY } from "@/lib/copy";
+import { DEMO_ENABLED } from "@/lib/demo-flag";
 import { AURA } from "@/lib/copy-aura";
 import { loadAuraPreset } from "@/lib/score/use-aura";
 import { OPS_ROLES, REJECTION, type PayState, type RejectionReason } from "@/lib/mock-data";
@@ -14,7 +15,7 @@ import type { AuthEdge, KycStatus, VerificationStatus } from "@/lib/store/types"
 import type { AppStatus } from "@/lib/mock-portal";
 import { cn } from "@/lib/utils";
 
-export const DEMO_ENABLED = process.env.NEXT_PUBLIC_DEMO_CONTROLS !== "false";
+export { DEMO_ENABLED };
 
 type AuraOption = keyof typeof AURA.demo.presets;
 
@@ -94,7 +95,7 @@ const EDGE: { id: AuthEdge; label: string }[] = [
   { id: "suspicious", label: "Suspicious login" },
 ];
 
-/** Floating demo panel. Shown everywhere (local and deployed) unless NEXT_PUBLIC_DEMO_CONTROLS=false. */
+/** Floating demo panel. Shown in development, and in a production build only when NEXT_PUBLIC_DEMO_CONTROLS=true (see lib/demo-flag.ts). */
 export function DemoControls() {
   const s = useStore();
   const embedded = useEmbedded();
