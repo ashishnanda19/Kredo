@@ -84,7 +84,7 @@ const introFrom = () => {
   };
 };
 
-function screenFor(s: Step) {
+function screenFor(s: Step, dark: boolean) {
   switch (s.screen) {
     case "verify":
       return <VerifyScreen phase={s.phase} />;
@@ -93,11 +93,11 @@ function screenFor(s: Step) {
     case "pay":
       return <CampusPayScreen phase={s.phase} />;
     case "dues":
-      return <DuesListScreen />;
+      return <DuesListScreen dark={dark} />;
     case "passport":
-      return <PassportScreen />;
+      return <PassportScreen dark={dark} />;
     case "lock":
-      return <LockScreenReminders />;
+      return <LockScreenReminders dark={dark} />;
   }
 }
 
@@ -724,7 +724,7 @@ export function HeroScene() {
                                 }
                                 className="absolute inset-0"
                               >
-                                {screenFor(cur)}
+                                {screenFor(cur, dark)}
                               </motion.div>
                             </AnimatePresence>
                           </div>
