@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Design 1 updated: new Scan screen with a GPS "Near you" list of partner vendors (tap one, type the amount, pay without scanning). Scan button now opens it; the QR confirm screen follows a scan. | this commit |
 | 2026-11-07 | Design 3: Aura and Credit Passport (Aura, Why it changed, Credit Passport). Home Aura chip now opens Aura. Same canvas. | this commit |
 | 2026-11-07 | Design 4: vendor side (Today, Stall QR, Payment received, Payouts). Same canvas. | this commit |
 | 2026-11-07 | Design 2 in the same canvas: onboarding and verify (Welcome, Verify, Limit unlocked). https://claude.ai/artifact/9yGhw78VmcJ6sLquC7q5FQ | this commit |
@@ -12,6 +13,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 ## Open decisions
 
+- Nearby vendors: real GPS needs a vendor location field and a nearby query on the backend, and location permission copy. Location is used only to find vendors and never as an Aura input.
 - Tech stack for the app (native, React Native or a wrapper around the web app).
 - Next: review designs 1 to 4 together, then decide the tech stack and start building the app from them.
 - How the app talks to the demo world and, later, a real backend.
