@@ -4,6 +4,7 @@ One line per change, newest first. Each entry names the commit that holds it.
 
 | Date | Change | Commit |
 |---|---|---|
+| 2026-11-07 | Splash refinement: the K wipes in first and the dot drops in after it, background rings removed, the wordmark is a black K with its dot followed by a white "redo", and "Tap to continue" is now a black pill with a nudging arrow. | this commit |
 | 2026-11-07 | Onboarding rework: new yellow Splash (animated K with its dot, "Kredo", "Pay at campus, settle later."), Student / Vendor switch at the top of both welcome screens replacing the bottom vendor and student links, and the intro slides now show only a headline. | this commit |
 | 2026-11-07 | Slide to pay now goes straight to the yellow Paid screen when the thumb reaches the end (the "Payment sent" pop-up is removed). Student Welcome and Verify screens now link to vendor sign-up ("If you are a vendor, please sign up here"). | this commit |
 | 2026-11-07 | Fix: slide to pay now completes when the thumb reaches the end (not on release) and shows a "Payment sent" pop-up with the amount and vendor before continuing to Paid. Added a tap fallback. Applies to Scan and Confirm. | this commit |
