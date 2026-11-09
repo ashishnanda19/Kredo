@@ -12,7 +12,6 @@ import { Landmark, ShieldCheck } from "lucide-react";
 import {
   AppShot,
   preloadAppShots,
-  DuesListScreen,
   ScaledScreen,
   ScrollPayScreen,
 } from "@/components/phone-screens";
@@ -28,16 +27,15 @@ import { StageSegmented } from "./stage-segmented";
 type Step =
   | { stage: 0; screen: "unlocked" }
   | { stage: 1; screen: "pay" }
-  | { stage: 2; screen: "dues" | "repay" }
+  | { stage: 2; screen: "repay" }
   | { stage: 3; screen: "home" };
 
 /** What the phone shows as the scroll moves through each stage. */
 const STEPS: Step[] = [
-  // five screens in all, none repeated: the limit that unlocks, the payment (its slider and the paid pop follow the scroll
-  // inside the one step, see ScrollPayScreen), what is due, the repay screen, then the app's home for "Get access"
+  // four screens in all, none repeated: the limit that unlocks, the payment (its slider and the paid pop follow the scroll
+  // inside the one step, see ScrollPayScreen), the repay screen, then the app's home for "Get access"
   { stage: 0, screen: "unlocked" },
   { stage: 1, screen: "pay" },
-  { stage: 2, screen: "dues" },
   { stage: 2, screen: "repay" },
   { stage: 3, screen: "home" },
 ];
@@ -81,8 +79,6 @@ function screenFor(s: Step, dark: boolean, payProgress: MotionValue<number>) {
       return <AppShot name="unlocked" />;
     case "pay":
       return <ScrollPayScreen progress={payProgress} />;
-    case "dues":
-      return <DuesListScreen />;
     case "repay":
       return <AppShot name="repay" />;
     case "home":
@@ -152,7 +148,7 @@ export function HeroScene() {
 
   // every screen the story shows is fetched and decoded up front (not when it first slides in), so scrolling never stalls on an image
   useEffect(() => {
-    preloadAppShots(["unlocked", "pay", "paid", "dues", "repay", "home"]);
+    preloadAppShots(["unlocked", "pay", "paid", "repay", "home"]);
   }, []);
 
   const apply = useCallback((raw: number) => {
