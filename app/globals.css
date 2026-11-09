@@ -177,6 +177,10 @@
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* motion scale: quick feedback, standard transitions and slow movement */
+  --dur-quick: 180ms;
+  --dur-base: 450ms;
+  --dur-slow: 900ms;
 
   --animate-marquee: marquee 40s linear infinite;
   --animate-scan: scan 2.4s ease-in-out infinite;
@@ -438,6 +442,51 @@
       background: var(--page);
     }
   }
+  /* cursor spotlight: a soft accent glow under the pointer inside a card (SpotlightFx sets --mx and --my) */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 34%, transparent), transparent 65%);
+  }
+  /* a thin accent arc that travels around the card edge on hover */
+  .glow-ring::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+    background: conic-gradient(from var(--ang, 0deg), transparent 0 62%, var(--accent) 82%, transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  @media (hover: hover) {
+    .spotlight:hover::before,
+    .glow-ring:hover::after {
+      opacity: 1;
+    }
+  }
+  /* a line that slides in under footer links on hover */
+  .link-slide {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size var(--dur-base) var(--ease-out), color var(--dur-quick);
+  }
+  .link-slide:hover {
+    background-size: 100% 1px;
+  }
   /* hover light sweep on buttons */
   .sweep {
     overflow: hidden;
@@ -487,7 +536,20 @@
 
 /* hero intro (Apple-style): before the first scroll the headline owns the screen and the phone waits below,
    tilted back. Pre-set here so nothing flashes before GSAP takes over; ignored without JS or with reduced motion. */
+@property --ang {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes ring-turn {
+  to {
+    --ang: 360deg;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
+  .glow-ring:hover::after {
+    animation: ring-turn 3.2s linear infinite;
+  }
   .js [data-intro-title]:not([data-intro-ready]) {
     transform: translate3d(0, 12svh, 0) scale(1.3);
     transform-origin: 50% 0;

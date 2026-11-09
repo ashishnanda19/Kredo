@@ -10,7 +10,9 @@ import { MorphNav } from "@/components/landing/sections/morph-nav";
 import { PassportHall } from "@/components/landing/sections/passport-hall";
 import { SectionFx } from "@/components/landing/sections/section-fx";
 import { ScenesStage } from "@/components/landing/sections/scenes-stage";
+import { ScrollProgress } from "@/components/landing/sections/scroll-progress";
 import { SmoothScroll } from "@/components/landing/sections/smooth-scroll";
+import { SpotlightFx } from "@/components/landing/sections/spotlight-fx";
 import { TrustFaq } from "@/components/landing/sections/trust-faq";
 import { VerifyPanel } from "@/components/landing/sections/verify-panel";
 
@@ -19,6 +21,8 @@ export default function LandingPage() {
     <>
       <SmoothScroll />
       <SectionFx />
+      <ScrollProgress />
+      <SpotlightFx />
       <MorphNav />
       <CornerQr />
       {/* main sits above the sticky footer so its last section lifts away like a curtain */}

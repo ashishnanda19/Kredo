@@ -8,6 +8,7 @@ import { LogoMark, Wordmark } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { BRAND } from "@/lib/config";
 import { COPY } from "@/lib/copy";
+import { APP_ROUTES_ENABLED } from "@/lib/demo-flag";
 import { EmailPill } from "./email-pill";
 
 /**
@@ -124,11 +125,13 @@ export function MorphNav() {
                 </a>
               </li>
             ))}
-            <li>
-              <Link href="/login" className="flex min-h-12 items-center rounded-2xl px-3 text-base font-semibold hover:bg-card">
-                {t.login}
-              </Link>
-            </li>
+            {APP_ROUTES_ENABLED && (
+              <li>
+                <Link href="/login" className="flex min-h-12 items-center rounded-2xl px-3 text-base font-semibold hover:bg-card">
+                  {t.login}
+                </Link>
+              </li>
+            )}
           </ul>
           <EmailPill className="mt-4" compact />
           <div className="mt-3 flex justify-end"><ThemeToggle /></div>

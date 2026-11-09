@@ -20,6 +20,7 @@ const SHOTS = {
   notifications: "Notifications",
   scan: "Scan or pick a nearby vendor",
   aura: "Aura score",
+  repay: "Repay: everything due and the slider to repay",
   limit: "Your limit and the ladder",
 } as const;
 

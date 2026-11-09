@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Disclosure } from "@/components/shared/demo-tag";
 import { LogoLockup } from "@/components/shared/logo";
 import { COPY } from "@/lib/copy";
+import { APP_ROUTES_ENABLED } from "@/lib/demo-flag";
 import { FooterSlogan } from "./footer-slogan";
 
 /** Where each footer label goes. Labels without an entry are placeholders and render as plain text. */
@@ -21,6 +22,9 @@ const HREF: Record<string, string> = {
   Terms: "/legal/terms",
   "Key facts": "/legal/key-facts",
 };
+
+/** Footer labels that open an app screen; on the deployed site (no app screens) they are plain text. */
+const APP_LINKS = new Set(["Credit profile", "Verify", "Support", "Become a partner", "Settlement"]);
 
 /**
  * Curtain footer: on screens wide and tall enough to show all of it (.curtain[data-fit] in globals.css), it is sticky at the
@@ -45,11 +49,11 @@ export function CurtainFooter() {
               <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/60">{c.title}</p>
               <ul className="mt-3 space-y-0.5">
                 {c.links.map((l) => {
-                  const href = HREF[l];
+                  const href = APP_ROUTES_ENABLED || !APP_LINKS.has(l) ? HREF[l] : undefined;
                   return (
                     <li key={l}>
                       {href ? (
-                        <Link href={href} className="inline-flex min-h-8 items-center text-[14.5px] text-white/80 transition-colors hover:text-white">
+                        <Link href={href} className="link-slide inline-flex min-h-8 items-center text-[14.5px] text-white/80 hover:text-white">
                           {l}
                         </Link>
                       ) : (

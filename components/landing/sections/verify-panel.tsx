@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Check, CircleAlert, Sparkles } from "lucide-react";
 import { GlassButton } from "@/components/glass";
 import { COPY } from "@/lib/copy";
+import { APP_ROUTES_ENABLED } from "@/lib/demo-flag";
 import { formatINR } from "@/lib/format";
 import { student } from "@/lib/mock-data";
 import { gsap } from "@/lib/scroll";
@@ -54,7 +55,7 @@ export function VerifyPanel() {
           <TwoTone id="verify-panel-title" a={t.titleA} b={t.titleB} />
           <p className="mt-5 max-w-md text-pretty text-[16px] leading-relaxed text-ink-2 sm:text-[17px]">{t.sub}</p>
           <GlassButton asChild className="mt-7">
-            <Link href="/verify">
+            <Link href={APP_ROUTES_ENABLED ? "/verify" : "#access"}>
               {t.cta} <ArrowRight className="size-4" aria-hidden />
             </Link>
           </GlassButton>

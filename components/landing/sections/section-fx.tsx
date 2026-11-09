@@ -30,6 +30,14 @@ export function SectionFx() {
             { opacity: 1, y: 0, scale: 1, ...(blur && { filter: "blur(0px)" }), ease: "none", scrollTrigger: { trigger: el, start: "top 98%", end: "top 52%", scrub: 0.6 } },
           );
         });
+        // section headings: the words rise out of their masks one after another as the heading comes into view
+        gsap.utils.toArray<HTMLElement>("[data-words]").forEach((h) => {
+          gsap.fromTo(
+            h.querySelectorAll("[data-w]"),
+            { yPercent: 110 },
+            { yPercent: 0, ease: "power4.out", duration: 1, stagger: 0.045, scrollTrigger: { trigger: h, start: "top 88%", toggleActions: "play none none reverse" } },
+          );
+        });
         gsap.utils.toArray<HTMLElement>("[data-stagger]").forEach((list) => {
           gsap.fromTo(
             Array.from(list.children),

@@ -1,22 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
   useMotionValue,
+  type MotionValue,
   useSpring,
 } from "framer-motion";
 import { Landmark, ShieldCheck } from "lucide-react";
 import {
   AppShot,
   preloadAppShots,
-  CampusPayScreen,
   DuesListScreen,
-  LockScreenReminders,
-  PassportScreen,
   ScaledScreen,
-  VerifyScreen,
+  ScrollPayScreen,
 } from "@/components/phone-screens";
 import { COPY } from "@/lib/copy";
 import { usePrefersReducedMotion } from "@/lib/quality";
@@ -25,37 +23,29 @@ import { cn } from "@/lib/utils";
 import { EmailPill } from "../sections/email-pill";
 import { HandPhone } from "./hand-phone";
 import { HeroSplash } from "./hero-splash";
-import {
-  FeedBanner,
-  NotificationFeed,
-  type FeedStage,
-} from "./notification-feed";
 import { StageSegmented } from "./stage-segmented";
 
 type Step =
-  | { stage: 0; screen: "verify"; phase: "pending" | "accepted" }
-  | { stage: 0; screen: "limit" }
-  | { stage: 1; screen: "pay"; phase: "sheet" | "paid" }
-  | { stage: 2; screen: "dues" | "passport" }
-  | { stage: 3; screen: "lock" };
+  | { stage: 0; screen: "unlocked" }
+  | { stage: 1; screen: "pay" }
+  | { stage: 2; screen: "dues" | "repay" }
+  | { stage: 3; screen: "home" };
 
 /** What the phone shows as the scroll moves through each stage. */
 const STEPS: Step[] = [
-  { stage: 0, screen: "verify", phase: "pending" },
-  { stage: 0, screen: "verify", phase: "accepted" },
-  { stage: 0, screen: "limit" },
-  { stage: 1, screen: "pay", phase: "sheet" },
-  { stage: 1, screen: "pay", phase: "paid" },
+  // five screens in all, none repeated: the limit that unlocks, the payment (its slider and the paid pop follow the scroll
+  // inside the one step, see ScrollPayScreen), what is due, the repay screen, then the app's home for "Get access"
+  { stage: 0, screen: "unlocked" },
+  { stage: 1, screen: "pay" },
   { stage: 2, screen: "dues" },
-  { stage: 2, screen: "passport" },
-  { stage: 3, screen: "lock" },
+  { stage: 2, screen: "repay" },
+  { stage: 3, screen: "home" },
 ];
 const STAGE_COUNT = 4;
 const stepsOf = (stage: number) =>
   STEPS.map((s, i) => [s, i] as const)
     .filter(([s]) => s.stage === stage)
     .map(([, i]) => i);
-const FEED: (FeedStage | null)[] = ["verify", "campus", "repay", null];
 const DARK_FROM = 2;
 /** The last stage settles to near-black so the hero runs straight into the dark sections below it. */
 const NIGHT = 3;
@@ -85,37 +75,44 @@ const introFrom = () => {
   };
 };
 
-function screenFor(s: Step, dark: boolean) {
+function screenFor(s: Step, dark: boolean, payProgress: MotionValue<number>) {
   switch (s.screen) {
-    case "verify":
-      return <VerifyScreen phase={s.phase} />;
-    case "limit":
-      return <AppShot name="limit" />;
+    case "unlocked":
+      return <AppShot name="unlocked" />;
     case "pay":
-      return <CampusPayScreen phase={s.phase} />;
+      return <ScrollPayScreen progress={payProgress} />;
     case "dues":
-      return <DuesListScreen dark={dark} />;
-    case "passport":
-      return <PassportScreen dark={dark} />;
-    case "lock":
-      return <LockScreenReminders dark={dark} />;
+      return <DuesListScreen />;
+    case "repay":
+      return <AppShot name="repay" />;
+    case "home":
+      return <AppShot name="home" />;
   }
 }
 
-/** iOS-style push: the new screen slides in from the right over the old one, which drifts left and dims. */
+/**
+ * iOS-style push: the new screen slides in from the right over the old one, which drifts left and dims.
+ * Driven by a critically damped spring (fast start, no overshoot) so a scroll flick feels snappy and a slow
+ * scroll still glides; the dim is a separate opacity tween so it never lags the slide.
+ */
 const push = {
   enter: (d: number) => ({
-    x: d > 0 ? "100%" : "-28%",
-    opacity: d > 0 ? 1 : 0.6,
+    x: d > 0 ? "100%" : "-30%",
+    opacity: d > 0 ? 1 : 0.55,
     zIndex: d > 0 ? 2 : 0,
   }),
   center: { x: "0%", opacity: 1, zIndex: 1 },
   exit: (d: number) => ({
-    x: d > 0 ? "-28%" : "100%",
-    opacity: d > 0 ? 0.6 : 1,
+    x: d > 0 ? "-30%" : "100%",
+    opacity: d > 0 ? 0.55 : 1,
     zIndex: d > 0 ? 0 : 2,
   }),
 };
+const pushTransition = {
+  x: { type: "spring", stiffness: 430, damping: 44, mass: 0.85, restDelta: 0.0005, restSpeed: 0.01 },
+  opacity: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+  zIndex: { duration: 0 },
+} as const;
 
 /** L1: a faint dot grid behind the phone on the dark stages. */
 function GhostFragments({ on }: { on: boolean }) {
@@ -144,23 +141,26 @@ export function HeroScene() {
   const reduce = usePrefersReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const areaRef = useRef<HTMLDivElement>(null);
-  const [state, setState] = useState({ step: 0, lit: 1, dir: 1 });
+  const [state, setState] = useState({ step: 0, dir: 1 });
   const titleRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
+  // how far through the pay stage the scroll is (0 to 1); the phone's slider and the paid pop read it directly
+  const payProgress = useMotionValue(0);
   const stage = STEPS[state.step].stage;
   const dark = stage >= DARK_FROM;
   const panelId = "hero-stage-panel";
 
   // every screen the story shows is fetched and decoded up front (not when it first slides in), so scrolling never stalls on an image
   useEffect(() => {
-    preloadAppShots(["reviewing", "unlocked", "limit", "pay", "paid", "dues", "passport", "notifications"]);
+    preloadAppShots(["unlocked", "pay", "paid", "dues", "repay", "home"]);
   }, []);
 
   const apply = useCallback((raw: number) => {
     // during the intro nothing is lit yet; the stages share the rest of the scroll
     if (raw < OPEN) {
+      payProgress.set(0);
       setState((prev) =>
-        prev.step === 0 && prev.lit === 0 ? prev : { step: 0, lit: 0, dir: -1 },
+        prev.step === 0 && prev.dir === -1 ? prev : { step: 0, dir: -1 },
       );
       return;
     }
@@ -169,13 +169,13 @@ export function HeroScene() {
     const local = Math.min(1, p * STAGE_COUNT - sg);
     const ids = stepsOf(sg);
     const step = ids[Math.min(ids.length - 1, Math.floor(local * ids.length))];
-    const lit = Math.max(1, Math.min(6, Math.ceil(local * 7.2)));
+    payProgress.set(sg < 1 ? 0 : sg > 1 ? 1 : local);
     setState((prev) =>
-      prev.step === step && prev.lit === lit
+      prev.step === step
         ? prev
-        : { step, lit, dir: step >= prev.step ? 1 : -1 },
+        : { step, dir: step >= prev.step ? 1 : -1 },
     );
-  }, []);
+  }, [payProgress]);
 
   // the pin: map scroll progress through the tall section to steps
   useLayoutEffect(() => {
@@ -427,9 +427,9 @@ export function HeroScene() {
     const el = sectionRef.current;
     if (reduce || !el) {
       const ids = stepsOf(i);
+      payProgress.set(i < 1 ? 0 : 1);
       setState((prev) => ({
         step: ids[ids.length - 1],
-        lit: 6,
         dir: ids[0] >= prev.step ? 1 : -1,
       }));
       return;
@@ -470,7 +470,9 @@ export function HeroScene() {
   };
 
   const cur = STEPS[state.step];
-  const feed = FEED[stage];
+  // the feed lights a new card on most scroll updates; keep the phone screen out of those re-renders so a slide
+  // in progress never has to share a frame with React work
+  const screen = useMemo(() => screenFor(cur, dark, payProgress), [cur, dark, payProgress]);
 
   return (
     <>
@@ -670,30 +672,11 @@ export function HeroScene() {
               })}
             </div>
 
-            {/* phones and tablets: the latest card gets its own row, so nothing sits over the phone screen */}
-            <div data-intro-fade className="w-full max-sm:hidden lg:hidden">
-              <FeedBanner
-                stage={feed}
-                lit={reduce ? 6 : state.lit}
-                dark={dark}
-                className="mt-3 sm:mt-4"
-              />
-            </div>
-
-            {/* phone area: feed (L2), hand + phone (L3–L5) */}
+            {/* phone area: hand + phone (L3–L5) */}
             <div
               ref={areaRef}
               className="relative mt-3 w-full flex-1 [--pw:min(560px,calc(100svh-300px))] sm:mt-4 lg:mt-6"
             >
-              <div data-intro-fade className="absolute inset-0">
-                {feed && (
-                  <NotificationFeed
-                    stage={feed}
-                    lit={reduce ? 6 : state.lit}
-                    dark={dark}
-                  />
-                )}
-              </div>
               <div
                 className="absolute left-1/2 top-[calc(var(--pw)*-0.09)] -translate-x-1/2 [perspective:1400px]"
                 style={{ width: "var(--pw)" }}
@@ -720,18 +703,13 @@ export function HeroScene() {
                                 initial="enter"
                                 animate="center"
                                 exit="exit"
-                                transition={
-                                  reduce
-                                    ? { duration: 0 }
-                                    : {
-                                        duration: 0.5,
-                                        ease: [0.32, 0.72, 0, 1],
-                                      }
-                                }
-                                className="absolute inset-0 [backface-visibility:hidden] [transform:translateZ(0)]"
+                                transition={reduce ? { duration: 0 } : pushTransition}
+                                // the soft edge shadow gives the incoming screen depth over the one it covers; at rest it
+                                // falls outside the glass, so it only shows while a screen is sliding
+                                className="absolute inset-0 shadow-[-18px_0_36px_-14px_rgba(0,0,0,0.28)] [backface-visibility:hidden] [transform:translateZ(0)]"
                                 style={{ willChange: "transform, opacity" }}
                               >
-                                {screenFor(cur, dark)}
+                                {screen}
                               </motion.div>
                             </AnimatePresence>
                           </div>

@@ -5,12 +5,13 @@ import { Reveal } from "@/components/shared/reveal";
 import { BRAND } from "@/lib/config";
 import { COPY } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+import { CountUp } from "./count-up";
 import { TwoTone } from "./two-tone";
 
 function Card({ i, className, children }: { i: number; className?: string; children: React.ReactNode }) {
   const c = COPY.landing.bento.cards[i];
   return (
-    <Reveal delay={i * 0.05} className={cn("group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] bg-card p-6 md:min-h-[340px]", className)}>
+    <Reveal delay={i * 0.05} data-spotlight className={cn("spotlight glow-ring group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] bg-card p-6 md:min-h-[340px]", className)}>
       <h3 className="max-w-xs text-[19px] font-semibold leading-snug tracking-[-0.02em]">
         <span className="text-ink">{c.a}</span> <span className="text-ink-2">{c.b}</span>
       </h3>
@@ -76,7 +77,7 @@ export function Bento() {
           <Card i={1} className="md:col-span-2">
             <div className="w-full rounded-[14px] bg-elevated p-4 ring-1 ring-hairline">
               <p className="text-[12px] text-ink-2">Next due · 2 Nov</p>
-              <p className="mt-1 text-[30px] font-semibold leading-none tracking-[-0.03em] text-ink">₹1,150</p>
+              <p className="mt-1 text-[30px] font-semibold leading-none tracking-[-0.03em] text-ink"><CountUp to={1150} prefix="₹" /></p>
               <span className="mt-2 inline-block rounded-[6px] bg-accent px-2 py-0.5 text-[12px] font-bold text-accent-ink">Due in 3 days</span>
               <div className="mt-4 grid h-10 place-items-center rounded-full bg-pill text-[14px] font-semibold text-pill-fg">Repay</div>
             </div>
@@ -90,7 +91,7 @@ export function Bento() {
                 <circle cx="50" cy="50" r="42" fill="none" strokeWidth="9" strokeLinecap="round" className="stroke-ink" strokeDasharray={`${0.72 * 264} 264`} />
               </svg>
               <div>
-                <p className="text-[34px] font-semibold leading-none tracking-[-0.03em] text-ink">72</p>
+                <p className="text-[34px] font-semibold leading-none tracking-[-0.03em] text-ink"><CountUp to={72} /></p>
                 <p className="mt-1 text-[13px] font-semibold text-ink">Building</p>
                 <p className="mt-1 text-[11.5px] leading-snug text-ink-2">Internal score, not a bureau score. Sample.</p>
               </div>

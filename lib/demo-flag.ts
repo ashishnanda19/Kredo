@@ -7,3 +7,6 @@
 export const DEMO_ENABLED =
   process.env.NEXT_PUBLIC_DEMO_CONTROLS === "true" ||
   (process.env.NEXT_PUBLIC_DEMO_CONTROLS !== "false" && process.env.NODE_ENV !== "production");
+
+/** The student, vendor and ops screens, sign-in and verification: the product itself lives in the mobile app, so the deployed site is the landing page only. Same switch as the demo tools. */
+export const APP_ROUTES_ENABLED = DEMO_ENABLED;

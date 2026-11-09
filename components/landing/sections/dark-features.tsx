@@ -67,7 +67,7 @@ export function DarkFeatures() {
         <ul data-stagger className="scrollbar-none -mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
           {t.tall.map((c, i) => (
             <li key={c.mood} className="w-[78vw] max-w-[320px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-              <Reveal delay={i * 0.06} className="group relative h-[540px] overflow-hidden rounded-[24px] bg-[image:var(--mood-l)] ring-1 ring-hairline dark:bg-[image:var(--mood-d)]" style={{ ["--mood-l" as string]: moodsLight[c.mood], ["--mood-d" as string]: moods[c.mood] }}>
+              <Reveal delay={i * 0.06} data-spotlight className="spotlight glow-ring group relative h-[540px] overflow-hidden rounded-[24px] bg-[image:var(--mood-l)] ring-1 ring-hairline dark:bg-[image:var(--mood-d)]" style={{ ["--mood-l" as string]: moodsLight[c.mood], ["--mood-d" as string]: moods[c.mood] }}>
                 <p className="relative z-10 p-6 text-[17px] font-medium leading-snug tracking-[-0.01em]">
                   <span className="text-ink">{c.lead}</span> <span className="text-ink-2">{c.rest}</span>
                 </p>
