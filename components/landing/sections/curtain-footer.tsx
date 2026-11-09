@@ -5,6 +5,7 @@ import { LogoLockup } from "@/components/shared/logo";
 import { COPY } from "@/lib/copy";
 import { APP_ROUTES_ENABLED } from "@/lib/demo-flag";
 import { FooterSlogan } from "./footer-slogan";
+import { GridField } from "./grid-field";
 
 /** Where each footer label goes. Labels without an entry are placeholders and render as plain text. */
 const HREF: Record<string, string> = {
@@ -35,6 +36,7 @@ export function CurtainFooter() {
   const t = COPY.landing.footer;
   return (
     <footer data-nav-theme="dark" className="curtain relative z-0 bg-[#06060a] text-white">
+      <GridField curtain seed={7} className="text-white [mask-image:radial-gradient(70%_95%_at_82%_0%,#000,transparent)]" />
       <div className="mx-auto max-w-[1180px] px-4 pb-0 pt-12 sm:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <p className="max-w-3xl text-balance text-[clamp(2.2rem,4.6vw,3.6rem)] font-semibold leading-[0.98] tracking-[-0.045em]">{t.curtainTitle}</p>

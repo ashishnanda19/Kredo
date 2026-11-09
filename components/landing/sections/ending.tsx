@@ -4,6 +4,7 @@ import { COPY } from "@/lib/copy";
 import { moods } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { EmailPill } from "./email-pill";
+import { GridField } from "./grid-field";
 import { PopInGroup } from "./pop-in-group";
 
 /** Phones lying on the desk: [left %, top px, rotate deg, width px, screen, bg, hide below sm]. */
@@ -19,7 +20,8 @@ const DEVICES = [
 export function Ending() {
   const t = COPY.landing.ending;
   return (
-    <section id="access" aria-labelledby="ending-title" className="scroll-mt-24 overflow-hidden bg-page pt-28 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] sm:pt-36 md:rounded-b-[36px]">
+    <section id="access" aria-labelledby="ending-title" className="relative isolate scroll-mt-24 overflow-hidden bg-page pt-28 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] sm:pt-36 md:rounded-b-[36px]">
+      <GridField seed={6} beams={8} className="h-[700px] [mask-image:radial-gradient(65%_62%_at_50%_32%,#000,transparent)]" />
       <div data-reveal className="mx-auto max-w-[1180px] px-4 text-center sm:px-6">
         <Reveal>
           <h2 id="ending-title" className="text-balance text-[clamp(2.75rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-ink">

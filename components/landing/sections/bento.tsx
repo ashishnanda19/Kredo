@@ -6,6 +6,7 @@ import { BRAND } from "@/lib/config";
 import { COPY } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 import { CountUp } from "./count-up";
+import { GridField, GridRule } from "./grid-field";
 import { TwoTone } from "./two-tone";
 
 function Card({ i, className, children }: { i: number; className?: string; children: React.ReactNode }) {
@@ -32,7 +33,9 @@ const ROWS = [
 export function Bento() {
   const t = COPY.landing.bento;
   return (
-    <section aria-labelledby="bento-title" className="bg-page py-24 sm:py-32">
+    <section aria-labelledby="bento-title" className="relative isolate bg-page py-24 sm:py-32">
+      <GridRule />
+      <GridField seed={3} className="h-[640px] [mask-image:radial-gradient(75%_80%_at_70%_8%,#000,transparent)]" />
       <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <TwoTone id="bento-title" a={t.titleA} b={t.titleB} className="max-w-2xl" />

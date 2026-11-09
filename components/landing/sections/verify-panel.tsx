@@ -9,6 +9,7 @@ import { APP_ROUTES_ENABLED } from "@/lib/demo-flag";
 import { formatINR } from "@/lib/format";
 import { student } from "@/lib/mock-data";
 import { gsap } from "@/lib/scroll";
+import { GridField, GridRule } from "./grid-field";
 import { useGsapScene } from "./use-gsap-scene";
 import { TwoTone } from "./two-tone";
 
@@ -49,7 +50,9 @@ export function VerifyPanel() {
   });
 
   return (
-    <section ref={ref} aria-labelledby="verify-panel-title" className="bg-page py-24 sm:py-32">
+    <section ref={ref} aria-labelledby="verify-panel-title" className="relative isolate bg-page py-24 sm:py-32">
+      <GridRule />
+      <GridField seed={2} beams={4} className="[mask-image:radial-gradient(55%_70%_at_18%_55%,#000,transparent)]" />
       <div data-reveal className="mx-auto grid max-w-[1180px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div>
           <TwoTone id="verify-panel-title" a={t.titleA} b={t.titleB} />

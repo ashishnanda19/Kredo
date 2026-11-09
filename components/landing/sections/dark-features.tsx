@@ -3,6 +3,7 @@ import { DuesListScreen, LockScreenReminders, OfferScreen, PayReceiptScreen, Pho
 import { Reveal } from "@/components/shared/reveal";
 import { COPY } from "@/lib/copy";
 import { moods, moodsLight } from "@/lib/theme";
+import { GridField, MosaicSeam } from "./grid-field";
 import { ScrollWords } from "./scroll-words";
 
 const TALL_SCREENS = {
@@ -20,9 +21,12 @@ const TALL_SCREENS = {
 export function DarkFeatures() {
   const t = COPY.landing.dark;
   return (
-    <section id="features" aria-labelledby="features-title" className="relative scroll-mt-24 bg-page pb-40 pt-24 text-ink sm:pb-52 sm:pt-32">
+    <section id="features" aria-labelledby="features-title" className="relative isolate scroll-mt-24 bg-page pb-40 pt-24 text-ink sm:pb-52 sm:pt-32">
+      <GridField seed={1} className="top-20 h-[640px] [mask-image:radial-gradient(60%_55%_at_50%_40%,#000,transparent)]" />
       {/* the hero's dark edge fades out downward into the page, below the stage control (nothing overlaps the hero) */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-0 h-32 bg-gradient-to-b from-[#06060a] to-transparent sm:h-40" />
+      {/* on top of that fade, the dark edge breaks into squares that dissolve with the scroll */}
+      <MosaicSeam className="z-0 h-44 text-[#06060a] sm:h-60" />
       <div data-reveal className="relative z-10 mx-auto max-w-[1180px] px-4 sm:px-6">
         <Reveal className="mx-auto max-w-3xl text-center">
           <ScrollWords id="features-title" text={t.title} className="text-balance text-[clamp(2rem,4.6vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.04em]" />

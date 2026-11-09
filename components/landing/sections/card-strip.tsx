@@ -5,6 +5,7 @@ import { CampusPayScreen, DuesListScreen, LimitUnlockedScreen, LockScreenReminde
 import { Reveal } from "@/components/shared/reveal";
 import { COPY } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+import { GridField, GridRule } from "./grid-field";
 import { TwoTone } from "./two-tone";
 
 // every card follows the theme (light cards on the light page, dark cards on the dark page)
@@ -24,7 +25,9 @@ export function CardStrip() {
   const drag = useRef<{ x: number; left: number } | null>(null);
 
   return (
-    <section aria-labelledby="strip-title" className="bg-page py-24 sm:py-32">
+    <section aria-labelledby="strip-title" className="relative isolate bg-page py-24 sm:py-32">
+      <GridRule />
+      <GridField seed={4} className="h-[560px] [mask-image:radial-gradient(55%_65%_at_50%_36%,#000,transparent)]" />
       <div className="mx-auto max-w-[1180px] px-4 text-center sm:px-6">
         <Reveal>
           <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.28em] text-ink-2">{t.eyebrow}</p>

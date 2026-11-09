@@ -2,6 +2,7 @@ import { Landmark, MessageSquareWarning, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/shared/reveal";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { COPY } from "@/lib/copy";
+import { GridField, GridRule } from "./grid-field";
 import { TwoTone } from "./two-tone";
 
 const ICONS = [ShieldCheck, Landmark, MessageSquareWarning];
@@ -12,7 +13,8 @@ export function TrustFaq() {
   const faq = COPY.faq;
   return (
     <>
-      <section id="trust" aria-labelledby="trust-title" className="scroll-mt-24 bg-page pt-32 sm:pt-40">
+      <section id="trust" aria-labelledby="trust-title" className="relative isolate scroll-mt-24 bg-page pt-32 sm:pt-40">
+        <GridField seed={5} beams={4} className="top-16 h-[560px] [mask-image:radial-gradient(60%_70%_at_82%_42%,#000,transparent)]" />
         <div data-reveal className="mx-auto max-w-[1180px] px-4 sm:px-6">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-2">{trust.eyebrow}</p>
           <TwoTone id="trust-title" a={trust.title} b={COPY.legal.disclosure} className="mt-3 max-w-3xl" />
@@ -36,7 +38,8 @@ export function TrustFaq() {
         </div>
       </section>
 
-      <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 bg-page py-24 sm:py-32">
+      <section id="faq" aria-labelledby="faq-title" className="relative scroll-mt-24 bg-page py-24 sm:py-32">
+        <GridRule className="top-10 sm:top-14" />
         <div data-reveal className="mx-auto grid max-w-[1180px] gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-2">{faq.eyebrow}</p>
