@@ -8,6 +8,7 @@ import { DarkFeatures } from "@/components/landing/sections/dark-features";
 import { DepthFx } from "@/components/landing/sections/depth-fx";
 import { Ending } from "@/components/landing/sections/ending";
 import { MorphNav } from "@/components/landing/sections/morph-nav";
+import { OffscreenPause } from "@/components/landing/sections/offscreen-pause";
 import { PassportHall } from "@/components/landing/sections/passport-hall";
 import { SectionFx } from "@/components/landing/sections/section-fx";
 import { ScenesStage } from "@/components/landing/sections/scenes-stage";
@@ -25,6 +26,7 @@ export default function LandingPage() {
       <ScrollProgress />
       <SpotlightFx />
       <DepthFx />
+      <OffscreenPause />
       <MorphNav />
       <CornerQr />
       {/* main sits above the sticky footer so its last section lifts away like a curtain */}

@@ -26,8 +26,8 @@ export function SectionFx() {
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
           gsap.fromTo(
             el,
-            { opacity: 0, y: 72, scale: 0.97, ...(blur && { filter: "blur(22px)" }) },
-            { opacity: 1, y: 0, scale: 1, ...(blur && { filter: "blur(0px)" }), ease: "none", scrollTrigger: { trigger: el, start: "top 98%", end: "top 52%", scrub: 0.6 } },
+            { opacity: 0, y: 72, scale: 0.97, ...(blur && { filter: "blur(10px)" }) },
+            { opacity: 1, y: 0, scale: 1, ...(blur && { filter: "blur(0px)" }), ease: "none", clearProps: "filter", scrollTrigger: { trigger: el, start: "top 98%", end: "top 52%", scrub: 0.6 } },
           );
         });
         // section headings: the words rise out of their masks one after another as the heading comes into view
@@ -41,7 +41,7 @@ export function SectionFx() {
         gsap.utils.toArray<HTMLElement>("[data-stagger]").forEach((list) => {
           gsap.fromTo(
             Array.from(list.children),
-            { opacity: 0, y: 48, scale: 0.96, ...(blur && { filter: "blur(10px)" }) },
+            { opacity: 0, y: 48, scale: 0.96, ...(blur && { filter: "blur(6px)" }) },
             {
               opacity: 1,
               y: 0,

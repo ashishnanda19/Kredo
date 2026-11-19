@@ -724,3 +724,10 @@ html:not(.js) [data-splash-overlay] { display: none; }
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* sections scrolled well out of view stop their looping animations (set by OffscreenPause) */
+[data-off] *,
+[data-off] *::before,
+[data-off] *::after {
+  animation-play-state: paused !important;
+}
