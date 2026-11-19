@@ -1,13 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CampusPayScreen, DuesListScreen, LimitUnlockedScreen, LockScreenReminders, PayReceiptScreen, PhoneFrame } from "@/components/phone-screens";
 import { COPY } from "@/lib/copy";
-import { usePrefersReducedMotion } from "@/lib/quality";
+import { useGlTier, usePrefersReducedMotion } from "@/lib/quality";
 import { cn } from "@/lib/utils";
 import { useGsapScene } from "./use-gsap-scene";
+
+// WebGL is lazy and client-only; until it draws (and on low-power devices) the CSS orbit below stands in
+const OrbitScene = dynamic(() => import("./orbit-scene"), { ssr: false });
 
 const SCREENS = [<LimitUnlockedScreen key="limit" />, <CampusPayScreen key="pay" />, <LockScreenReminders key="remind" />, <DuesListScreen key="dues" />, <PayReceiptScreen key="receipt" />];
 
@@ -27,7 +31,8 @@ function Copy({ i }: { i: number }) {
 /**
  * Scene-by-scene storytelling. The section is tall and its stage is sticky on every screen size: one upright phone stays
  * put while five scenes swap beside it (text rises in, the screen pops over the last), and a thin rail on the edge
- * tracks progress. Reduced motion gets a plain stack of the same five scenes.
+ * tracks progress. Around the phone, Kredo coins ride two orbits in real 3D (orbit-scene.tsx), passing behind and in
+ * front of it; scrolling winds them. Reduced motion gets a plain stack of the same five scenes.
  */
 export function ScenesStage() {
   const t = COPY.landing.scenes;
@@ -35,6 +40,19 @@ export function ScenesStage() {
   const ref = useRef<HTMLElement>(null);
   const thumb = useRef<HTMLSpanElement>(null);
   const [idx, setIdx] = useState(0);
+  // the 3D orbit: mounted once the device is known to cope, drawn only while the stage is on screen
+  const gl = useGlTier();
+  const [near, setNear] = useState(false);
+  const [orbitOn, setOrbitOn] = useState(false);
+  const webgl = !reduce && (gl === "high" || gl === "mid");
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setNear(e.isIntersecting), { rootMargin: "25% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useGsapScene(ref, (root) => {
     ScrollTrigger.create({
@@ -61,7 +79,8 @@ export function ScenesStage() {
             <div className="relative grid min-h-0 flex-1 place-items-center lg:h-full [--ph:calc(min(46svh,430px)/2.14)] lg:[--ph:calc(66svh/2.14)]">
               <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="absolute left-1/2 top-1/2 size-[calc(var(--ph)*2.05)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent" />
-                <div className="absolute left-1/2 top-1/2 size-[calc(var(--ph)*2.75)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/12">
+                {/* the flat orbit: shown until the 3D one has drawn its first frame, and kept on low-power devices */}
+                <div className={cn("absolute left-1/2 top-1/2 size-[calc(var(--ph)*2.75)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/12 transition-opacity duration-700", orbitOn && "opacity-0")}>
                   <span className="absolute inset-0 motion-safe:animate-[spin_28s_linear_infinite]">
                     <span className="absolute left-1/2 top-0 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink" />
                   </span>
@@ -87,6 +106,12 @@ export function ScenesStage() {
                   </PhoneFrame>
                 </div>
               </div>
+              {/* the 3D orbit sits over the phone (a square 3.2 phone widths across, centred on it); a depth mask hides the coins that pass behind */}
+              {webgl && (
+                <div aria-hidden className={cn("pointer-events-none absolute left-1/2 top-1/2 z-10 size-[calc(var(--ph)*3.2)] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700", orbitOn ? "opacity-100" : "opacity-0")}>
+                  <OrbitScene idx={idx} active={near} tier={gl} onReady={() => setOrbitOn(true)} />
+                </div>
+              )}
             </div>
           </div>
 

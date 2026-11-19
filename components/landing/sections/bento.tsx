@@ -12,12 +12,15 @@ import { TwoTone } from "./two-tone";
 function Card({ i, className, children }: { i: number; className?: string; children: React.ReactNode }) {
   const c = COPY.landing.bento.cards[i];
   return (
-    <Reveal delay={i * 0.05} data-spotlight className={cn("spotlight glow-ring group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] bg-card p-6 md:min-h-[340px]", className)}>
-      <h3 className="max-w-xs text-[19px] font-semibold leading-snug tracking-[-0.02em]">
-        <span className="text-ink">{c.a}</span> <span className="text-ink-2">{c.b}</span>
-      </h3>
-      <div aria-hidden className="relative mt-6 flex flex-1 items-end">
-        {children}
+    // the outer block is moved by the reveal; the card inside it is the one that leans to the pointer (see depth-fx.tsx)
+    <Reveal delay={i * 0.05} className={cn("flex min-h-[240px] flex-col md:min-h-[340px]", className)}>
+      <div data-tilt data-spotlight className="spotlight glow-ring group relative flex flex-1 flex-col overflow-hidden rounded-[16px] bg-card p-6">
+        <h3 className="max-w-xs text-[19px] font-semibold leading-snug tracking-[-0.02em]">
+          <span className="text-ink">{c.a}</span> <span className="text-ink-2">{c.b}</span>
+        </h3>
+        <div aria-hidden data-lift className="relative mt-6 flex flex-1 items-end">
+          {children}
+        </div>
       </div>
     </Reveal>
   );
@@ -40,20 +43,24 @@ export function Bento() {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <TwoTone id="bento-title" a={t.titleA} b={t.titleB} className="max-w-2xl" />
           <div className="flex flex-wrap gap-3">
-            <GlassButton asChild variant="accent">
-              <a href="#access">{t.primary}</a>
-            </GlassButton>
-            <GlassButton asChild variant="secondary">
-              <a href="#how">
-                {t.secondary} <ArrowRight className="size-4" aria-hidden />
-              </a>
-            </GlassButton>
+            <span data-magnetic className="inline-flex">
+              <GlassButton asChild variant="accent">
+                <a href="#access">{t.primary}</a>
+              </GlassButton>
+            </span>
+            <span data-magnetic className="inline-flex">
+              <GlassButton asChild variant="secondary">
+                <a href="#how">
+                  {t.secondary} <ArrowRight className="size-4" aria-hidden />
+                </a>
+              </GlassButton>
+            </span>
           </div>
         </div>
 
         <div data-stagger className="mt-12 grid gap-3 md:grid-cols-6">
           {/* 1: pay at campus, receipts that file themselves */}
-          <Card i={0} className="md:col-span-4">
+          <Card i={0} className="md:col-span-4 [--tilt:0.6]">
             <div className="relative w-full pt-24 md:pt-0">
               <ul className="max-w-[400px] space-y-2 lg:max-w-[420px]">
                 {ROWS.map((r) => (

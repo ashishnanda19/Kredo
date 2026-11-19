@@ -57,11 +57,13 @@ export function VerifyPanel() {
         <div>
           <TwoTone id="verify-panel-title" a={t.titleA} b={t.titleB} />
           <p className="mt-5 max-w-md text-pretty text-[16px] leading-relaxed text-ink-2 sm:text-[17px]">{t.sub}</p>
-          <GlassButton asChild className="mt-7">
-            <Link href={APP_ROUTES_ENABLED ? "/verify" : "#access"}>
-              {t.cta} <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </GlassButton>
+          <span data-magnetic className="mt-7 inline-flex">
+            <GlassButton asChild>
+              <Link href={APP_ROUTES_ENABLED ? "/verify" : "#access"}>
+                {t.cta} <ArrowRight className="size-4" aria-hidden />
+              </Link>
+            </GlassButton>
+          </span>
         </div>
 
         <div data-panel aria-hidden className="relative overflow-hidden rounded-[20px] bg-soft p-5 ring-1 ring-hairline sm:p-8">

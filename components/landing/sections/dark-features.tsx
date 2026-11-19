@@ -16,7 +16,8 @@ const TALL_SCREENS = {
 /**
  * F11 + F12: the features block (light on the light theme, dark on the dark theme). A wide card with a glowing gradient border and a frosted callout,
  * then four tall "mood" cards (lead line in white, the rest muted) with a phone rising from the bottom.
- * Below lg the tall cards become a horizontal snap row.
+ * Below lg the tall cards become a horizontal snap row. On wide screens every card leans to the pointer and its phone
+ * floats a layer above it (data-tilt and data-lift, see depth-fx.tsx).
  */
 export function DarkFeatures() {
   const t = COPY.landing.dark;
@@ -35,7 +36,7 @@ export function DarkFeatures() {
 
         {/* F11 feature card: hairline edge, a slow light sheen, and a gently floating phone and callout */}
         <Reveal className="group/feature mt-14 sm:mt-16">
-          <div className="relative grid overflow-hidden rounded-[28px] bg-soft ring-1 ring-hairline transition-[box-shadow,transform] duration-500 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-1 hover:shadow-[0_30px_80px_-30px_rgba(11,11,12,0.25)] dark:hover:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] lg:min-h-[460px] lg:grid-cols-[1fr_1.1fr]">
+          <div data-tilt className="relative grid overflow-hidden rounded-[28px] bg-soft ring-1 ring-hairline [--tilt:0.4] transition-[box-shadow,translate] duration-500 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-1 hover:shadow-[0_30px_80px_-30px_rgba(11,11,12,0.25)] dark:hover:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] lg:min-h-[460px] lg:grid-cols-[1fr_1.1fr]">
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-ink/15 to-transparent dark:via-white/40" />
             <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden w-1/3 motion-safe:block">
               <div className="size-full bg-gradient-to-r from-transparent via-ink/[0.04] to-transparent dark:via-white/[0.05] motion-safe:animate-[sweep_9s_ease-in-out_3s_infinite]" />
@@ -52,9 +53,11 @@ export function DarkFeatures() {
               />
               <div className="absolute left-1/2 top-10 w-[230px] -translate-x-1/2 sm:w-[260px] lg:top-14 lg:w-[270px]">
                 <div className="transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover/feature:-translate-y-2 motion-safe:animate-[float-y_7s_ease-in-out_infinite]">
-                  <PhoneFrame fill screenBg="#EAF1E4">
-                    <DuesListScreen />
-                  </PhoneFrame>
+                  <div data-lift className="[--lift:20px]">
+                    <PhoneFrame fill screenBg="#EAF1E4">
+                      <DuesListScreen />
+                    </PhoneFrame>
+                  </div>
                 </div>
               </div>
               <div className="frost absolute left-1/2 top-[38%] flex -translate-x-[88%] items-center gap-2.5 rounded-full border-hairline bg-white/85 py-2 pl-2 pr-4 text-[14px] font-semibold text-ink shadow-[0_12px_40px_-12px_rgba(11,11,12,0.3)] dark:bg-[rgba(20,20,28,0.6)] sm:-translate-x-[95%] motion-safe:animate-[float-y_5.5s_ease-in-out_-2s_infinite]">
@@ -71,12 +74,17 @@ export function DarkFeatures() {
         <ul data-stagger className="scrollbar-none -mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
           {t.tall.map((c, i) => (
             <li key={c.mood} className="w-[78vw] max-w-[320px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-              <Reveal delay={i * 0.06} data-spotlight className="spotlight glow-ring group relative h-[540px] overflow-hidden rounded-[24px] bg-[image:var(--mood-l)] ring-1 ring-hairline dark:bg-[image:var(--mood-d)]" style={{ ["--mood-l" as string]: moodsLight[c.mood], ["--mood-d" as string]: moods[c.mood] }}>
-                <p className="relative z-10 p-6 text-[17px] font-medium leading-snug tracking-[-0.01em]">
-                  <span className="text-ink">{c.lead}</span> <span className="text-ink-2">{c.rest}</span>
-                </p>
-                <div className="absolute inset-x-0 -bottom-[22%] mx-auto w-[74%] transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-y-3">
-                  <PhoneFrame fill>{TALL_SCREENS[c.mood]}</PhoneFrame>
+              <Reveal delay={i * 0.06} className="h-[540px]">
+                {/* the card leans to the pointer on wide screens (in the snap row a lean would be cut off); its phone floats a layer above */}
+                <div data-tilt data-spotlight className="spotlight glow-ring group relative size-full overflow-hidden rounded-[24px] bg-[image:var(--mood-l)] ring-1 ring-hairline dark:bg-[image:var(--mood-d)] max-lg:[transform:none]!" style={{ ["--mood-l" as string]: moodsLight[c.mood], ["--mood-d" as string]: moods[c.mood] }}>
+                  <p className="relative z-10 p-6 text-[17px] font-medium leading-snug tracking-[-0.01em]">
+                    <span className="text-ink">{c.lead}</span> <span className="text-ink-2">{c.rest}</span>
+                  </p>
+                  <div className="absolute inset-x-0 -bottom-[22%] mx-auto w-[74%] transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-y-3">
+                    <div data-lift className="[--lift:16px]">
+                      <PhoneFrame fill>{TALL_SCREENS[c.mood]}</PhoneFrame>
+                    </div>
+                  </div>
                 </div>
               </Reveal>
             </li>

@@ -2,6 +2,7 @@ import { BadgeCheck, CalendarCheck, Repeat, TrendingUp } from "lucide-react";
 import { PassportScreen, PhoneFrame } from "@/components/phone-screens";
 import { COPY } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+import { TurnIn } from "./turn-in";
 import { TwoTone } from "./two-tone";
 
 /** Milestones earned in the app, not awards. */
@@ -18,7 +19,11 @@ const STATS: [string, string][] = [
   ["₹5,000", "limit, up from ₹1,000"],
 ];
 
-/** Credit-passport look-back: a plain section (white in light mode, dark in dark mode) with the stats, the milestones and the passport phone. No pinning, no transition. */
+/**
+ * Credit-passport look-back: a plain section (white in light mode, dark in dark mode) with the stats, the milestones and
+ * the passport phone. No pinning. The phone turns in 3D as the section crosses the screen (turn-in.tsx), the stat cards
+ * lean to the pointer and the ticker behind shears with the scroll speed (depth-fx.tsx).
+ */
 export function PassportHall() {
   const t = COPY.landing.passport;
 
@@ -34,10 +39,12 @@ export function PassportHall() {
       <div className="relative overflow-hidden py-24 sm:py-32">
         {/* a giant outlined ticker drifting behind everything */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[4%] overflow-hidden">
-          <div className="flex w-max whitespace-nowrap text-[clamp(110px,15vw,230px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_color-mix(in_oklab,var(--ink)_7%,transparent)] motion-safe:animate-[passport-ticker_60s_linear_infinite]">
-            {[...t.ticker, ...t.ticker].map((w, i) => (
-              <span key={i} className="px-[0.5em]">{w}</span>
-            ))}
+          <div data-skew>
+            <div className="flex w-max whitespace-nowrap text-[clamp(110px,15vw,230px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_color-mix(in_oklab,var(--ink)_7%,transparent)] motion-safe:animate-[passport-ticker_60s_linear_infinite]">
+              {[...t.ticker, ...t.ticker].map((w, i) => (
+                <span key={i} className="px-[0.5em]">{w}</span>
+              ))}
+            </div>
           </div>
         </div>
         <div aria-hidden className="absolute inset-0 opacity-40 [background-image:radial-gradient(color-mix(in_oklab,var(--ink)_22%,transparent)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:radial-gradient(70%_60%_at_50%_50%,#000,transparent)]" />
@@ -53,6 +60,7 @@ export function PassportHall() {
               {STATS.map(([v, k], i) => (
                 <div
                   key={k}
+                  data-tilt
                   className={cn(
                     "flex flex-col-reverse rounded-[18px] p-5",
                     i === 0 ? "bg-accent text-accent-ink" : "bg-ink/[.05] ring-1 ring-ink/10",
@@ -78,11 +86,11 @@ export function PassportHall() {
             </ul>
             <p className="mt-8 max-w-lg text-[12.5px] leading-relaxed text-ink/60">{t.disclaimer}</p>
           </div>
-          <div className="relative z-10 mx-auto w-[min(300px,78vw)]">
+          <TurnIn className="relative z-10 mx-auto w-[min(300px,78vw)]">
             <PhoneFrame fill screenBg="#0b0b0c">
               <PassportScreen />
             </PhoneFrame>
-          </div>
+          </TurnIn>
         </div>
       </div>
     </section>

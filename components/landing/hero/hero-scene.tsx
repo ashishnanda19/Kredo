@@ -552,10 +552,13 @@ export function HeroScene() {
             />
             {[["top-[16%]", ""], ["bottom-[6%]", "[animation-direction:reverse]"]].map(([pos, dir]) => (
               <div key={pos} className={cn("absolute inset-x-0 overflow-hidden", pos)}>
-                <div className={cn("flex w-max whitespace-nowrap text-[clamp(90px,13vw,200px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.10)] motion-safe:animate-[passport-ticker_70s_linear_infinite]", dir)}>
-                  {[...HERO_WORDS, ...HERO_WORDS].map((w, i) => (
-                    <span key={i} className="px-[0.5em]">{w}</span>
-                  ))}
+                {/* data-skew: the row shears with the scroll speed (depth-fx.tsx) */}
+                <div data-skew>
+                  <div className={cn("flex w-max whitespace-nowrap text-[clamp(90px,13vw,200px)] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.10)] motion-safe:animate-[passport-ticker_70s_linear_infinite]", dir)}>
+                    {[...HERO_WORDS, ...HERO_WORDS].map((w, i) => (
+                      <span key={i} className="px-[0.5em]">{w}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}

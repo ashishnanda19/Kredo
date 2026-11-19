@@ -642,6 +642,42 @@
 /* the splash only overlays the hero when JS can wipe it away */
 html:not(.js) [data-splash-overlay] { display: none; }
 
+/*
+ * Landing depth (components/landing/sections/depth-fx.tsx writes the variables).
+ * A [data-tilt] card leans towards the pointer; [data-lift] layers inside it slide the same way, a little further,
+ * so they read as floating above the card. Only while the card is live, so a resting card has no transform at all.
+ * A [data-magnetic] wrapper drifts towards the pointer. Fine pointers only, and never under reduced motion.
+ */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-tilt][data-live] {
+    /* --tilt scales the lean: wide cards set it below 1 so their far edge does not swing too far */
+    transform: perspective(1100px) rotateX(calc(var(--ty, 0) * var(--tilt, 1) * -5deg)) rotateY(calc(var(--tx, 0) * var(--tilt, 1) * 7deg));
+  }
+  [data-tilt][data-live] [data-lift] {
+    translate: calc(var(--tx, 0) * var(--lift, 12px)) calc(var(--ty, 0) * var(--lift, 12px));
+  }
+  [data-magnetic] {
+    transform: translate3d(var(--gx, 0px), var(--gy, 0px), 0);
+    transition: transform 0.5s var(--ease-out);
+  }
+  /* pointer parallax by depth (pop-in-group.tsx sets --px and --py on the group; each layer has its own --d, in px) */
+  [data-par] {
+    translate: calc(var(--px, 0) * var(--d, 0) * -1px) calc(var(--py, 0) * var(--d, 0) * -0.6px);
+    transition: translate 0.9s var(--ease-out);
+  }
+}
+
+/* card strip (card-strip.tsx): each card turns away from the middle of the row as it slides past, like a carousel in depth */
+@media (prefers-reduced-motion: no-preference) {
+  [data-flow] {
+    transform: perspective(1400px)
+      translate3d(calc(var(--fin, 0) * (60px + var(--fi, 0) * 70px)), calc(var(--fa, 0) * 14px), calc(var(--fa, 0) * -70px - var(--fin, 0) * 120px))
+      rotateY(calc(var(--fo, 0) * -16deg - var(--fin, 0) * 34deg));
+    transform-origin: 50% 60%;
+    opacity: calc(1 - var(--fin, 0) * 0.85);
+  }
+}
+
 /* light sections on warm grey blend into the white sections around them instead of meeting on a hard edge */
 .bg-soft-seam {
   background: linear-gradient(180deg, var(--page) 0, var(--soft) 160px, var(--soft) calc(100% - 160px), var(--page) 100%);

@@ -114,28 +114,33 @@ export function HeroSplash({
 
           <div data-splash-fade className="mt-7 sm:mt-9">
             <div className="hero-fade flex flex-wrap items-center justify-center gap-2.5 [animation-delay:840ms] lg:justify-start">
-              <a
-                href="#access"
-                className="sweep group/cta relative inline-flex min-h-12 items-center gap-2 rounded-full bg-[#0b0b0c] pl-6 pr-5 text-[15px] font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_12px_28px_-12px_rgba(11,11,12,0.7)] transition-[translate,box-shadow] duration-300 hover:-translate-y-px hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_16px_32px_-12px_rgba(11,11,12,0.75)] active:translate-y-0 active:scale-[0.98]"
-              >
-                {t.cta}
-                <ArrowRight
-                  className="size-4 transition-transform duration-300 group-hover/cta:translate-x-0.5"
-                  aria-hidden
-                />
-              </a>
-              {onHow && (
-                <button
-                  type="button"
-                  onClick={onHow}
-                  className="group/how inline-flex min-h-12 items-center gap-1.5 rounded-full bg-white/30 px-5 text-[15px] font-semibold shadow-[inset_0_0_0_1px_rgba(11,11,12,0.1)] backdrop-blur-sm transition-colors duration-300 hover:bg-white/50"
+              {/* data-magnetic: the button drifts a little towards the pointer (depth-fx.tsx) */}
+              <span data-magnetic className="inline-flex">
+                <a
+                  href="#access"
+                  className="sweep group/cta relative inline-flex min-h-12 items-center gap-2 rounded-full bg-[#0b0b0c] pl-6 pr-5 text-[15px] font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_12px_28px_-12px_rgba(11,11,12,0.7)] transition-[translate,box-shadow] duration-300 hover:-translate-y-px hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_16px_32px_-12px_rgba(11,11,12,0.75)] active:translate-y-0 active:scale-[0.98]"
                 >
-                  {t.how}
-                  <ArrowDown
-                    className="size-4 transition-transform duration-300 group-hover/how:translate-y-0.5"
+                  {t.cta}
+                  <ArrowRight
+                    className="size-4 transition-transform duration-300 group-hover/cta:translate-x-0.5"
                     aria-hidden
                   />
-                </button>
+                </a>
+              </span>
+              {onHow && (
+                <span data-magnetic className="inline-flex">
+                  <button
+                    type="button"
+                    onClick={onHow}
+                    className="group/how inline-flex min-h-12 items-center gap-1.5 rounded-full bg-white/30 px-5 text-[15px] font-semibold shadow-[inset_0_0_0_1px_rgba(11,11,12,0.1)] backdrop-blur-sm transition-colors duration-300 hover:bg-white/50"
+                  >
+                    {t.how}
+                    <ArrowDown
+                      className="size-4 transition-transform duration-300 group-hover/how:translate-y-0.5"
+                      aria-hidden
+                    />
+                  </button>
+                </span>
               )}
             </div>
           </div>

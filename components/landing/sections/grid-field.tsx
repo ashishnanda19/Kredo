@@ -589,7 +589,8 @@ export function GridRule({ className }: { className?: string }) {
   });
 
   return (
-    <div ref={ref} aria-hidden className={cn("pointer-events-none absolute inset-x-0 top-0 mx-auto max-w-[1180px] px-4 sm:px-6", className)}>
+    // clipped sideways: the spark carriers start half a rule's width off to the side, and must not widen the page while they wait
+    <div ref={ref} aria-hidden className={cn("pointer-events-none absolute inset-x-0 top-0 mx-auto max-w-[1180px] px-4 [overflow-x:clip] sm:px-6", className)}>
       <div className="relative h-px">
         <span data-rule-line className="absolute inset-0 bg-ink/15" />
         <span data-rule-l className="absolute inset-0">

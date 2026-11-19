@@ -23,12 +23,14 @@ export function TrustFaq() {
               const Icon = ICONS[i];
               return (
                 <li key={c.title}>
-                  <Reveal delay={i * 0.05} data-spotlight className="spotlight glow-ring flex h-full flex-col rounded-[16px] bg-card p-6">
-                    <span className="grid size-10 place-items-center rounded-[12px] bg-elevated ring-1 ring-hairline">
-                      <Icon className="size-5 text-ink" aria-hidden />
-                    </span>
-                    <h3 className="mt-5 text-[18px] font-semibold tracking-[-0.02em] text-ink">{c.title}</h3>
+                  <Reveal delay={i * 0.05} className="flex h-full flex-col">
+                    <div data-tilt data-spotlight className="spotlight glow-ring flex flex-1 flex-col rounded-[16px] bg-card p-6">
+                      <span data-lift className="grid size-10 place-items-center rounded-[12px] bg-elevated ring-1 ring-hairline [--lift:8px]">
+                        <Icon className="size-5 text-ink" aria-hidden />
+                      </span>
+                      <h3 className="mt-5 text-[18px] font-semibold tracking-[-0.02em] text-ink">{c.title}</h3>
                       <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{c.body}</p>
+                    </div>
                   </Reveal>
                 </li>
               );

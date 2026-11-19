@@ -40,9 +40,11 @@ export function CurtainFooter() {
       <div className="mx-auto max-w-[1180px] px-4 pb-0 pt-12 sm:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <p className="max-w-3xl text-balance text-[clamp(2.2rem,4.6vw,3.6rem)] font-semibold leading-[0.98] tracking-[-0.045em]">{t.curtainTitle}</p>
-          <a href="#access" className="inline-flex min-h-12 shrink-0 items-center gap-1.5 self-start rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-ink transition-[filter] hover:brightness-95 lg:self-auto">
-            {COPY.landing.nav.access} <ArrowUpRight className="size-4" aria-hidden />
-          </a>
+          <span data-magnetic className="inline-flex shrink-0 self-start lg:self-auto">
+            <a href="#access" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-ink transition-[filter] hover:brightness-95">
+              {COPY.landing.nav.access} <ArrowUpRight className="size-4" aria-hidden />
+            </a>
+          </span>
         </div>
 
         <nav aria-label="Footer" className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/10 pt-6 sm:grid-cols-3 lg:grid-cols-5">

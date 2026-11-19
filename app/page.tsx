@@ -5,6 +5,7 @@ import { ChaosCalm } from "@/components/landing/sections/chaos-calm";
 import { CornerQr } from "@/components/landing/sections/corner-qr";
 import { CurtainFooter } from "@/components/landing/sections/curtain-footer";
 import { DarkFeatures } from "@/components/landing/sections/dark-features";
+import { DepthFx } from "@/components/landing/sections/depth-fx";
 import { Ending } from "@/components/landing/sections/ending";
 import { MorphNav } from "@/components/landing/sections/morph-nav";
 import { PassportHall } from "@/components/landing/sections/passport-hall";
@@ -23,6 +24,7 @@ export default function LandingPage() {
       <SectionFx />
       <ScrollProgress />
       <SpotlightFx />
+      <DepthFx />
       <MorphNav />
       <CornerQr />
       {/* main sits above the sticky footer so its last section lifts away like a curtain */}
