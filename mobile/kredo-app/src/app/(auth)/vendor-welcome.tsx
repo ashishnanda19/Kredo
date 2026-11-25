@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Rect, Circle } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
+import { FadeSlide } from "@/components/motion";
+import { Shine } from "@/components/shine";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -16,14 +19,14 @@ export default function VendorWelcome() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSlide((prev) => (prev + 1) % 3);
-    }, 3600);
+    }, 3400);
     return () => clearInterval(timer);
   }, []);
 
   return (
     <View style={styles.container}>
       {/* Background Yellow Glow */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
 
       {/* Top Background Sheet */}
       <View style={styles.sheetBg} />
@@ -45,10 +48,10 @@ export default function VendorWelcome() {
 
       {/* Carousel Showcase */}
       <View style={styles.carouselContainer}>
-        {slide === 0 && (
-          <View style={styles.slideWrap}>
+        <FadeSlide index={0} active={slide}>
+          <View style={[styles.slideWrap, { paddingTop: 30 }]}>
             {/* Stall Card */}
-            <View style={[styles.vendorCard, { transform: [{ rotate: "-3deg" }] }]}>
+            <View style={styles.vendorCard}>
               <View style={styles.cardHeader}>
                 <View style={styles.avatarC}>
                   <Text style={styles.avatarText}>C</Text>
@@ -76,10 +79,10 @@ export default function VendorWelcome() {
               <Text style={styles.pillTextWhite}>+₹125 received</Text>
             </View>
           </View>
-        )}
+        </FadeSlide>
 
-        {slide === 1 && (
-          <View style={styles.slideWrap}>
+        <FadeSlide index={1} active={slide}>
+          <View style={[styles.slideWrap, { paddingTop: 36 }]}>
             {/* Payout Timer Card */}
             <View style={styles.payoutCard}>
               <View style={styles.payoutTop}>
@@ -115,10 +118,10 @@ export default function VendorWelcome() {
               <Text style={styles.pillTextGreen}>Straight to your bank</Text>
             </View>
           </View>
-        )}
+        </FadeSlide>
 
-        {slide === 2 && (
-          <View style={styles.slideWrap}>
+        <FadeSlide index={2} active={slide}>
+          <View style={[styles.slideWrap, { paddingTop: 36 }]}>
             {/* Total Today Card */}
             <View style={styles.totalCard}>
               <Text style={styles.totalMeta}>Received today</Text>
@@ -137,30 +140,30 @@ export default function VendorWelcome() {
               <Text style={styles.pillTextDark}>Aarav  +₹125</Text>
             </View>
           </View>
-        )}
+        </FadeSlide>
       </View>
 
       {/* Headings per slide */}
       <View style={styles.headingWrap}>
-        <View style={{ height: 86 }}>
-          {slide === 0 && (
+        <View style={{ height: 92 }}>
+          <FadeSlide index={0} active={slide}>
             <Text style={styles.heroHeading}>
               <Text>Get paid by{"\n"}</Text>
               <Text>students, easily.</Text>
             </Text>
-          )}
-          {slide === 1 && (
+          </FadeSlide>
+          <FadeSlide index={1} active={slide}>
             <Text style={styles.heroHeading}>
               <Text>Paid out{"\n"}</Text>
               <Text>12 hours later.</Text>
             </Text>
-          )}
-          {slide === 2 && (
+          </FadeSlide>
+          <FadeSlide index={2} active={slide}>
             <Text style={styles.heroHeading}>
               <Text>See every{"\n"}</Text>
               <Text>payment live.</Text>
             </Text>
-          )}
+          </FadeSlide>
         </View>
 
         {/* Carousel Dots */}
@@ -168,7 +171,7 @@ export default function VendorWelcome() {
           {[0, 1, 2].map((i) => (
             <Pressable
               key={i}
-              onPress={() => setSlide(i)}
+              onPress={() => setSlide(i)} accessibilityLabel={`Slide ${i + 1}`}
               style={[
                 styles.dot,
                 slide === i ? styles.dotActive : styles.dotInactive,
@@ -184,6 +187,7 @@ export default function VendorWelcome() {
           onPress={() => router.push("/(vendor)/details")}
           style={styles.primaryBtn}
         >
+          <Shine width={50} height={60} strength={0.18} period={5500} delay={1200} sweep={0.35} />
           <Text style={styles.primaryBtnText}>Become a partner</Text>
           <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#F1DD6A" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
             <Path d="M5 12h14M13 6l6 6-6 6" />
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   topBar: {
-    paddingTop: 36,
+    paddingTop: 30,
     paddingHorizontal: 24,
     alignItems: "center",
   },
@@ -277,8 +281,8 @@ const styles = StyleSheet.create({
     color: "rgba(11,11,12,0.62)",
   },
   carouselContainer: {
-    marginTop: 26,
-    height: 340,
+    marginTop: 36,
+    height: 372,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -286,7 +290,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignItems: "center",
-    justifyContent: "center",
   },
   vendorCard: {
     width: 232,
@@ -414,9 +417,10 @@ const styles = StyleSheet.create({
   timerDisplay: {
     marginTop: 8,
     fontSize: 48,
+    lineHeight: 50,
+    letterSpacing: -1.92,
     fontWeight: "800",
     color: INK,
-    letterSpacing: -1,
   },
   timelineRows: {
     marginTop: 18,
@@ -493,9 +497,10 @@ const styles = StyleSheet.create({
   totalAmount: {
     marginTop: 8,
     fontSize: 46,
+    lineHeight: 48,
+    letterSpacing: -2.3,
     fontWeight: "800",
     color: INK,
-    letterSpacing: -1,
   },
   sparkSvg: {
     position: "absolute",
@@ -541,12 +546,12 @@ const styles = StyleSheet.create({
   },
   headingWrap: {
     paddingHorizontal: 24,
-    marginTop: 10,
+    paddingTop: 4,
   },
   heroHeading: {
     fontSize: 38,
     fontWeight: "800",
-    letterSpacing: -1,
+    letterSpacing: -1.9,
     lineHeight: 40,
     color: INK,
   },
@@ -569,12 +574,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#D9D6CC",
   },
   bottomContainer: {
-    marginTop: "auto",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 32,
     paddingHorizontal: 24,
-    paddingBottom: 28,
-    gap: 8,
+    gap: 12,
   },
   primaryBtn: {
+    overflow: "hidden",
     height: 60,
     borderRadius: 30,
     backgroundColor: INK,

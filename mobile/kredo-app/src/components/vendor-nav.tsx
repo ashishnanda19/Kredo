@@ -1,6 +1,7 @@
 import { View, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { Text } from "./ui/text";
+import { Pulse } from "./motion";
 import Svg, { Path, Rect, Circle } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -11,25 +12,24 @@ export function VendorNav({ active = "today" }: { active?: "today" | "payments" 
   return (
     <View style={s.navBar}>
       {/* Today */}
-      <Pressable onPress={() => router.push("/(vendor)/today")} style={s.tab}>
+      <Pressable accessibilityRole="tab" onPress={() => router.push("/(vendor)/today")} style={s.tab}>
         <Svg width={23} height={23} viewBox="0 0 24 24" fill="none" stroke={active === "today" ? INK : MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-          <Circle cx="12" cy="12" r="4" />
-          <Path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+          <Path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" />
         </Svg>
         <Text style={[s.label, active === "today" ? s.labelActive : s.labelInactive]}>Today</Text>
       </Pressable>
 
       {/* Payments */}
-      <Pressable onPress={() => router.push("/(vendor)/payments")} style={s.tab}>
+      <Pressable accessibilityRole="tab" onPress={() => router.push("/(vendor)/payments")} style={s.tab}>
         <Svg width={23} height={23} viewBox="0 0 24 24" fill="none" stroke={active === "payments" ? INK : MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-          <Rect x="2" y="5" width="20" height="14" rx="3" />
-          <Path d="M2 10h20" />
+          <Path d="M4 6h16M4 12h16M4 18h10" />
         </Svg>
         <Text style={[s.label, active === "payments" ? s.labelActive : s.labelInactive]}>Payments</Text>
       </Pressable>
 
       {/* Center QR Button */}
-      <Pressable onPress={() => router.push("/(vendor)/qr")} style={s.centerBtnWrap}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Show stall QR" onPress={() => router.push("/(vendor)/qr")} style={s.centerBtnWrap}>
+        <Pulse style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: "#F1DD6A" }} />
         <View style={s.centerBtn}>
           <Svg width={26} height={26} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2.1} strokeLinecap="round" strokeLinejoin="round">
             <Rect x={4} y={4} width={6} height={6} rx={1} />
@@ -41,17 +41,17 @@ export function VendorNav({ active = "today" }: { active?: "today" | "payments" 
       </Pressable>
 
       {/* Payouts */}
-      <Pressable onPress={() => router.push("/(vendor)/settle")} style={s.tab}>
+      <Pressable accessibilityRole="tab" onPress={() => router.push("/(vendor)/settle")} style={s.tab}>
         <Svg width={23} height={23} viewBox="0 0 24 24" fill="none" stroke={active === "settle" ? INK : MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-          <Path d="M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18" />
+          <Path d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 8v4l3 2" />
         </Svg>
         <Text style={[s.label, active === "settle" ? s.labelActive : s.labelInactive]}>Payouts</Text>
       </Pressable>
 
       {/* Insights */}
-      <Pressable onPress={() => router.push("/(vendor)/insights")} style={s.tab}>
+      <Pressable accessibilityRole="tab" onPress={() => router.push("/(vendor)/insights")} style={s.tab}>
         <Svg width={23} height={23} viewBox="0 0 24 24" fill="none" stroke={active === "insights" ? INK : MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-          <Path d="M18 20V10M12 20V4M6 20v-6" />
+          <Path d="M5 20V10M12 20V4M19 20v-7" />
         </Svg>
         <Text style={[s.label, active === "insights" ? s.labelActive : s.labelInactive]}>Insights</Text>
       </Pressable>

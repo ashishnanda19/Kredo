@@ -2,6 +2,8 @@ import { View, Pressable, TextInput, StyleSheet, KeyboardAvoidingView, Platform,
 import { useState } from "react";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
+import { sendOtp } from "@/services/auth.service";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -20,8 +22,9 @@ export default function Join() {
       : cleanDigits;
   const isValid = cleanDigits.length === 10 && name.trim().length > 1;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!isValid) return;
+    await sendOtp(cleanDigits, "signup");
     router.push({
       pathname: "/(auth)/otp-join",
       params: { name, phone: cleanDigits },
@@ -31,7 +34,7 @@ export default function Join() {
   return (
     <View style={s.root}>
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}

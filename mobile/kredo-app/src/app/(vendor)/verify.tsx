@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Rect, Circle } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -39,7 +40,7 @@ export default function VendorVerify() {
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Top Header & Progress */}

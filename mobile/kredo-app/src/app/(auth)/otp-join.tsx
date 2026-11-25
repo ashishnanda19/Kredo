@@ -2,6 +2,7 @@ import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 import { verifyOtp } from "@/services/auth.service";
 
@@ -82,7 +83,7 @@ export default function OtpJoin() {
   return (
     <View style={s.root}>
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Step Progress Bar */}
       <View style={s.topBar}>
@@ -91,15 +92,6 @@ export default function OtpJoin() {
             <Path d="M15 6l-6 6 6 6" />
           </Svg>
         </Pressable>
-        <View style={s.stepWrap}>
-          <View style={s.stepRow}>
-            <Text style={s.stepLabel}>Step 2 of 3</Text>
-            <Text style={s.stepLabel}>Verify</Text>
-          </View>
-          <View style={s.stepTrack}>
-            <View style={s.stepFill} />
-          </View>
-        </View>
       </View>
 
       {/* Heading */}

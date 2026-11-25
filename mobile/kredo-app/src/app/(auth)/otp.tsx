@@ -2,8 +2,9 @@ import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
-import { verifyOtp } from "@/services/auth.service";
+import { verifyOtp, login } from "@/services/auth.service";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F8DE45";
@@ -33,6 +34,7 @@ export default function Otp() {
     setBusy(true);
     try {
       await verifyOtp(phone.replace(/\D/g, ""), c);
+      await login(phone.replace(/\D/g, ""));
       setTimeout(() => {
         router.replace("/(student)/home");
       }, 700);
@@ -78,7 +80,7 @@ export default function Otp() {
   return (
     <View style={s.root}>
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Back Button */}
       <View style={s.topBar}>

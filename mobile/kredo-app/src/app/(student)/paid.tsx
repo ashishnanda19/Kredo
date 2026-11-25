@@ -1,29 +1,40 @@
 import { View, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Confetti, Ripple, type Piece } from "@/components/celebrate";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
 
+// Same pieces and timings as the Claude Design artboard.
+const CONFETTI: Piece[] = [
+  { color: "#0B0B0C", x: -120, y: -150, r: 260 },
+  { color: "#FFFFFF", x: 110, y: -170, r: -300, delay: 0.5 },
+  { color: "#0B0B0C", x: 150, y: -70, r: 200, delay: 0.55 },
+  { color: "#FFFFFF", x: -160, y: -60, r: -240, delay: 0.5 },
+  { color: "#0B0B0C", x: 60, y: -200, r: 320, delay: 0.6 },
+  { color: "#FFFFFF", x: -70, y: -190, r: -180, delay: 0.55 },
+  { color: "#0B0B0C", x: -40, y: 120, r: 220, delay: 0.6 },
+  { color: "#FFFFFF", x: 90, y: 110, r: -260, delay: 0.6 },
+  { color: "#0B0B0C", x: 170, y: 30, r: 180, delay: 0.65 },
+  { color: "#FFFFFF", x: -175, y: 40, r: -200, delay: 0.65 },
+];
+
 export default function Paid() {
   return (
     <View style={s.root}>
       {/* Background radial glow */}
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Confetti pieces */}
-      <View style={[s.confetti, { top: 120, left: 60, transform: [{ rotate: "25deg" }] }]} />
-      <View style={[s.confettiWhite, { top: 100, right: 70, transform: [{ rotate: "-40deg" }] }]} />
-      <View style={[s.confetti, { top: 180, right: 40, transform: [{ rotate: "15deg" }] }]} />
-      <View style={[s.confettiWhite, { top: 190, left: 40, transform: [{ rotate: "-20deg" }] }]} />
-      <View style={[s.confetti, { top: 290, left: 80, transform: [{ rotate: "45deg" }] }]} />
-      <View style={[s.confettiWhite, { top: 300, right: 80, transform: [{ rotate: "-15deg" }] }]} />
+      <Confetti pieces={CONFETTI} y={238} delay={0.45} />
 
       {/* Center Success Badge & Text */}
       <View style={s.centerSection}>
         <View style={s.badgeWrap}>
-          <View style={s.rippleRing} />
+          <Ripple size={112} duration={1.8} delay={0.4} />
           <View style={s.checkCircle}>
             <Svg width={54} height={54} viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
               <Path d="M5 12.5l4.5 4.5L19 7" />
@@ -81,9 +92,8 @@ const s = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   centerSection: {
-    marginTop: 120,
+    marginTop: 150,
     alignItems: "center",
-    textAlign: "center",
   },
   badgeWrap: {
     width: 112,
@@ -117,13 +127,13 @@ const s = StyleSheet.create({
     marginTop: 24,
     fontSize: 46,
     fontWeight: "800",
-    letterSpacing: -2,
-    lineHeight: 48,
+    letterSpacing: -2.3,
+    lineHeight: 47,
     textAlign: "center",
     color: INK,
   },
   sub: {
-    marginTop: 14,
+    marginTop: 24,
     fontSize: 16,
     lineHeight: 24,
     color: "rgba(11,11,12,0.72)",

@@ -2,7 +2,7 @@
 module.exports = {
   // "media" avoids react-native-css-interop race condition on web
   // (the app is light-only — no dark mode toggle)
-  darkMode: "media",
+  darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {

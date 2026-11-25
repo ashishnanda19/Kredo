@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import { VendorNav } from "@/components/vendor-nav";
 
 const INK = "#0B0B0C";
@@ -32,7 +33,7 @@ export default function VendorToday() {
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Header Bar */}
@@ -333,8 +334,9 @@ const styles = StyleSheet.create({
   heroAmount: {
     marginTop: 14,
     fontSize: 56,
+    lineHeight: 58,
+    letterSpacing: -2.8,
     fontWeight: "800",
-    letterSpacing: -2,
     color: INK,
   },
   heroSub: {

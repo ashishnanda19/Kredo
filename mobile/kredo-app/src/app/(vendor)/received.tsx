@@ -3,9 +3,23 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Confetti, Ripple, type Piece } from "@/components/celebrate";
+import { Glow } from "@/components/glow";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
+
+// Same pieces and timings as the Claude Design artboard.
+const CONFETTI: Piece[] = [
+  { color: "#0B0B0C", x: -130, y: -120, r: 260 },
+  { color: "#FFFFFF", x: 120, y: -140, r: -300, delay: 0.45 },
+  { color: "#0B0B0C", x: 160, y: -30, r: 200, delay: 0.5 },
+  { color: "#FFFFFF", x: -165, y: -20, r: -240, delay: 0.45 },
+  { color: "#0B0B0C", x: 70, y: -170, r: 320, delay: 0.55 },
+  { color: "#FFFFFF", x: -80, y: -165, r: -180, delay: 0.5 },
+  { color: "#0B0B0C", x: -50, y: 110, r: 220, delay: 0.55 },
+  { color: "#FFFFFF", x: 100, y: 100, r: -260, delay: 0.55 },
+];
 
 export default function VendorReceived() {
   const router = useRouter();
@@ -28,13 +42,10 @@ export default function VendorReceived() {
   return (
     <View style={styles.container}>
       {/* Background radial glow */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
 
       {/* Confetti particles */}
-      <View style={[styles.confetti, { top: 180, left: 60, backgroundColor: INK, transform: [{ rotate: "25deg" }] }]} />
-      <View style={[styles.confetti, { top: 160, right: 70, backgroundColor: "#FFFFFF", transform: [{ rotate: "-40deg" }] }]} />
-      <View style={[styles.confetti, { top: 270, right: 40, backgroundColor: INK, transform: [{ rotate: "15deg" }] }]} />
-      <View style={[styles.confetti, { top: 280, left: 30, backgroundColor: "#FFFFFF", transform: [{ rotate: "-20deg" }] }]} />
+      <Confetti pieces={CONFETTI} y={300} delay={0.4} />
 
       {/* Center Content */}
       <View style={styles.centerSection}>
@@ -52,7 +63,7 @@ export default function VendorReceived() {
 
         {/* Ripple Icon Circle */}
         <View style={styles.rippleWrap}>
-          <View style={styles.rippleOuter} />
+          <Ripple size={112} duration={2} delay={0.3} />
           <View style={styles.rippleCenter}>
             <Svg width={54} height={54} viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
               <Path d="M5 12.5l4.5 4.5L19 7" />
@@ -175,8 +186,9 @@ const styles = StyleSheet.create({
   amountDisplay: {
     marginTop: 36,
     fontSize: 84,
+    lineHeight: 87,
+    letterSpacing: -5.04,
     fontWeight: "800",
-    letterSpacing: -3,
     color: INK,
   },
   senderText: {

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "kredo-app",
+    "name": "Kredo",
     "slug": "kredo-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,15 +12,15 @@
       "web"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.kredo.app"
     },
     "android": {
       "package": "com.kredo.app",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#F5D832",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-monochrome.png"
+        "monochromeImage": "./assets/android-icon-monochrome.png"
       }
     },
     "web": {
@@ -29,7 +29,17 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
-    ]
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "backgroundColor": "#F5D832"
+        }
+      ]
+    ],
+    "scheme": "kredo",
+    "backgroundColor": "#F5D832"
   }
 }

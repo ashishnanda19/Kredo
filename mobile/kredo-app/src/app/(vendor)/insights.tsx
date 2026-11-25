@@ -2,6 +2,7 @@ import { View, ScrollView, Pressable, StyleSheet } from "react-native";
 import { useState } from "react";
 import Svg, { Path } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import { VendorNav } from "@/components/vendor-nav";
 
 const INK = "#0B0B0C";
@@ -41,7 +42,7 @@ export default function VendorInsights() {
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Header */}
@@ -185,6 +186,8 @@ const styles = StyleSheet.create({
   headerBar: {
     paddingTop: 32,
     paddingHorizontal: 24,
+    minHeight: 76,
+    justifyContent: "center",
   },
   headerTitle: {
     fontSize: 26,
@@ -259,8 +262,9 @@ const styles = StyleSheet.create({
   },
   totalAmount: {
     fontSize: 44,
+    lineHeight: 46,
+    letterSpacing: -2.2,
     fontWeight: "800",
-    letterSpacing: -1.5,
     color: INK,
   },
   deltaBadge: {

@@ -58,7 +58,7 @@ export function SlideToPay({ onConfirm, label = "Slide to pay", total, disabled,
             { opacity: labelOpacity, paddingLeft: 40 },
           ]}
         >
-          <Text className={cn("text-[16px] font-[800]", disabled ? "text-[#9A9AA0]" : "text-white")}>
+          <Text style={{ fontSize: 16, fontWeight: "800", color: disabled ? "#9A9AA0" : "#FFFFFF" }}>
             {label}{total ? ` ${total}` : ""}
           </Text>
           <ArrowRight size={18} color={disabled ? "#9A9AA0" : "#F1DD6A"} strokeWidth={2.4} />
@@ -74,7 +74,7 @@ export function SlideToPay({ onConfirm, label = "Slide to pay", total, disabled,
         </Animated.View>
       </Animated.View>
       {!disabled && (
-        <Text className="text-[12px] font-[700] text-muted text-center mt-2">
+        <Text style={{ fontSize: 12, fontWeight: "700", color: "#6B6B70", textAlign: "center", marginTop: 8 }}>
           You repay our lending partner, not Kredo.
         </Text>
       )}

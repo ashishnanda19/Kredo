@@ -1,210 +1,110 @@
-import { View, Pressable, StyleSheet, ScrollView } from "react-native";
-import { router } from "expo-router";
+import { useState } from "react";
+import { View, Pressable, ScrollView, StyleSheet } from "react-native";
+import { router, type Href } from "expo-router";
+import Svg, { Path } from "react-native-svg";
 import { Text } from "@/components/ui/text";
-import Svg, { Path, Circle } from "react-native-svg";
+import { Rise, Pop } from "@/components/motion";
+import { Screen, TopBar, SectionLabel, Card, C, k } from "@/components/kit";
 
-const INK = "#0B0B0C";
-const YELLOW = "#F8DE45";
-const SHEET = "#FAF9F6";
-const BORDER = "#ECEAE4";
+// Matches the Claude Design artboard "Notifications" (Notifications.dc.html).
+
+const clock = "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z";
+const check = "M5 12.5l4.5 4.5L19 7";
+const spark = "M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z";
+const doc = "M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6";
+
+type Note = { title: string; body: string; time: string; icon: string; tile?: string; href: Href; unread?: boolean };
+
+const TODAY: Note[] = [
+  { title: "Repayment due in 5 days", body: "₹1,150 to the lending partner by 12 Nov.", time: "9:00 am", icon: clock, tile: "#FBF3C4", href: "/(student)/loan", unread: true },
+  { title: "Paid ₹120 at Campus Cafe", body: "Receipt saved. Total to repay ₹125.", time: "1:42 pm", icon: check, tile: "#F1EFE9", href: "/(student)/receipt", unread: true },
+  { title: "Aura went up by 4", body: "You repaid on time, 3 in a row.", time: "8:15 am", icon: spark, tile: "#F1DD6A", href: "/(student)/aura" },
+];
+const EARLIER: Note[] = [
+  { title: "Statement ready", body: "Your October statement is ready to download.", time: "Yesterday", icon: doc, href: "/(student)/loan" },
+  { title: "Limit raised to ₹3,000", body: "Two on-time repayments in a row.", time: "Mon", icon: spark, href: "/(student)/limit" },
+  { title: "Welcome to Kredo", body: "Your ID was verified by the lending partner.", time: "12 Oct", icon: check, href: "/(student)/passport" },
+];
+
+function Row({ n, first, delay, read }: { n: Note; first: boolean; delay: number; read: boolean }) {
+  return (
+    <Rise delay={delay}>
+      <Pressable onPress={() => router.push(n.href)} style={[s.row, !first && k.line]}>
+        <View style={[s.tile, { backgroundColor: n.tile ?? C.line }]}>
+          <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+            <Path d={n.icon} />
+          </Svg>
+        </View>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text style={s.title}>{n.title}</Text>
+          <Text style={s.body}>{n.body}</Text>
+        </View>
+        <View style={s.meta}>
+          <Text style={s.time}>{n.time}</Text>
+          {n.unread && !read && <Pop style={s.dot} />}
+        </View>
+      </Pressable>
+    </Rise>
+  );
+}
 
 export default function Notifications() {
-  const notifs = [
-    {
-      id: "1",
-      title: "Repayment due in 5 days",
-      body: "₹1,150 due 12 Nov. Tap to pay now and keep your Aura high.",
-      time: "2 hours ago",
-      unread: true,
-      route: "/(student)/repay",
-    },
-    {
-      id: "2",
-      title: "Limit increased to ₹3,000",
-      body: "You unlocked Level 3! Thanks for repaying on time 2 times in a row.",
-      time: "Yesterday",
-      unread: false,
-      route: "/(student)/limit",
-    },
-    {
-      id: "3",
-      title: "Paid ₹120 at Campus Cafe",
-      body: "Lending partner paid the vendor. Repay by 7 Dec.",
-      time: "2 days ago",
-      unread: false,
-      route: "/(student)/receipt",
-    },
-    {
-      id: "4",
-      title: "Quest completed: Email verified",
-      body: "+2 Aura added to your score. You reached Main Character tier.",
-      time: "4 days ago",
-      unread: false,
-      route: "/(student)/aura",
-    },
-  ];
-
+  const [read, setRead] = useState(false);
   return (
-    <View style={s.root}>
-      {/* Backgrounds */}
-      <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
-
-      {/* Top Bar */}
-      <View style={s.topBar}>
-        <Pressable onPress={() => router.back()} style={s.backBtn}>
-          <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <Path d="M15 6l-6 6 6 6" />
-          </Svg>
-        </Pressable>
-        <Text style={s.topTitle}>Notifications</Text>
-        <View style={s.spacer44} />
-      </View>
-
-      <ScrollView contentContainerStyle={s.scrollContent} showsVerticalScrollIndicator={false}>
-        <View style={s.notifCard}>
-          {notifs.map((n, idx) => (
-            <View key={n.id}>
-              <Pressable
-                onPress={() => router.push(n.route as any)}
-                style={s.notifRow}
-              >
-                <View style={s.iconBox}>
-                  <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                    <Path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8" />
-                    <Path d="M10.3 21a1.9 1.9 0 0 0 3.4 0" />
-                  </Svg>
-                  {n.unread && <View style={s.unreadDot} />}
-                </View>
-                <View style={s.notifInfo}>
-                  <Text style={s.notifTitle}>{n.title}</Text>
-                  <Text style={s.notifBody}>{n.body}</Text>
-                  <Text style={s.notifTime}>{n.time}</Text>
-                </View>
-              </Pressable>
-              {idx < notifs.length - 1 && <View style={s.divider} />}
-            </View>
+    <Screen sheetTop={92}>
+      <TopBar
+        title="Notifications"
+        right={
+          <Pressable onPress={() => setRead(true)} style={s.readAll}>
+            <Text style={s.readAllText}>{read ? "All read" : "Mark all read"}</Text>
+          </Pressable>
+        }
+      />
+      <ScrollView style={s.scroll} contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+        <SectionLabel>Today</SectionLabel>
+        <Card>
+          {TODAY.map((n, i) => (
+            <Row key={n.title} n={n} first={i === 0} delay={i * 0.06} read={read} />
           ))}
-        </View>
+        </Card>
+        <SectionLabel style={{ paddingTop: 22 }}>Earlier</SectionLabel>
+        <Card>
+          {EARLIER.map((n, i) => (
+            <Row key={n.title} n={n} first={i === 0} delay={0.2 + i * 0.06} read={read} />
+          ))}
+        </Card>
       </ScrollView>
-    </View>
+    </Screen>
   );
 }
 
 const s = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: YELLOW,
-  },
-  sheetBg: {
+  scroll: {
     position: "absolute",
     left: 0,
     right: 0,
-    top: 92,
+    top: 94,
     bottom: 0,
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
-    backgroundColor: SHEET,
+    overflow: "hidden",
   },
-  radialGlow: {
-    position: "absolute",
-    left: "50%",
-    top: -60,
-    width: 460,
-    height: 300,
-    marginLeft: -230,
-    borderRadius: 230,
-    backgroundColor: "rgba(255,246,205,0.75)",
-  },
-  topBar: {
-    paddingTop: 32,
-    paddingHorizontal: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  backBtn: {
-    width: 44,
+  content: { paddingTop: 4, paddingHorizontal: 24, paddingBottom: 28 },
+  readAll: {
     height: 44,
+    paddingHorizontal: 14,
     borderRadius: 22,
     backgroundColor: "#FFFFFF",
     borderWidth: 1,
-    borderColor: BORDER,
-    alignItems: "center",
+    borderColor: C.border,
     justifyContent: "center",
   },
-  topTitle: {
-    fontSize: 17,
-    fontWeight: "800",
-    letterSpacing: -0.4,
-    color: INK,
-  },
-  spacer44: {
-    width: 44,
-  },
-  scrollContent: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
-    paddingBottom: 36,
-  },
-  notifCard: {
-    borderRadius: 24,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: BORDER,
-    paddingHorizontal: 16,
-    shadowColor: INK,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.1,
-    shadowRadius: 14,
-  },
-  notifRow: {
-    flexDirection: "row",
-    gap: 14,
-    paddingVertical: 16,
-  },
-  iconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 14,
-    backgroundColor: "#F1EFE9",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-  },
-  unreadDot: {
-    position: "absolute",
-    top: 8,
-    right: 8,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#E3CB4A",
-    borderWidth: 1.5,
-    borderColor: "#FFFFFF",
-  },
-  notifInfo: {
-    flex: 1,
-  },
-  notifTitle: {
-    fontSize: 15,
-    fontWeight: "800",
-    color: INK,
-  },
-  notifBody: {
-    marginTop: 4,
-    fontSize: 13,
-    lineHeight: 18,
-    color: "#6B6B70",
-  },
-  notifTime: {
-    marginTop: 6,
-    fontSize: 11,
-    fontWeight: "600",
-    color: "rgba(11,11,12,0.45)",
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#F1EFE9",
-  },
+  readAllText: { fontSize: 13, fontWeight: "800" },
+  row: { flexDirection: "row", alignItems: "flex-start", gap: 12, paddingVertical: 14 },
+  tile: { width: 40, height: 40, borderRadius: 14, alignItems: "center", justifyContent: "center" },
+  title: { fontSize: 14, fontWeight: "700", lineHeight: 19 },
+  body: { fontSize: 12, fontWeight: "500", color: C.muted, marginTop: 3, lineHeight: 17 },
+  meta: { alignItems: "flex-end", gap: 8 },
+  time: { fontSize: 11, fontWeight: "600", color: C.mutedSoft },
+  dot: { width: 9, height: 9, borderRadius: 5, backgroundColor: "#E3CB4A" },
 });

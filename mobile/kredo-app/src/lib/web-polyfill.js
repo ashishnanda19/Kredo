@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Web polyfills — injected via metro.config.js getPolyfills before any module
 if (typeof window !== "undefined") {
   window.process = window.process || {};

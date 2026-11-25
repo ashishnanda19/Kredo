@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -18,9 +19,9 @@ type VendorNearby = {
 };
 
 const NEARBY_LIST: VendorNearby[] = [
-  { id: "cafe", name: "Campus Cafe", kind: "Canteen", dist: "35 m", iconType: "cafe" },
-  { id: "print", name: "Xerox Corner", kind: "Print and copy", dist: "80 m", iconType: "print" },
-  { id: "shop", name: "Daily Needs", kind: "Stationery", dist: "140 m", iconType: "shop" },
+  { id: "cafe", name: "Campus Cafe", kind: "Canteen", dist: "60 m", iconType: "cafe" },
+  { id: "print", name: "Xerox Corner", kind: "Print and copy", dist: "90 m", iconType: "print" },
+  { id: "shop", name: "Stationery Hub", kind: "Stationery", dist: "140 m", iconType: "shop" },
 ];
 
 export default function Scan() {
@@ -75,7 +76,7 @@ export default function Scan() {
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Top Header */}
@@ -149,7 +150,7 @@ export default function Scan() {
               )}
               {vendor.iconType === "shop" && (
                 <Svg width={21} height={21} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
-                  <Path d="M4 7h16M4 7l2 12h12l2-12M9 11v4M15 11v4" />
+                  <Path d="M5 19l1-4L16 5l3 3L9 18zM14 7l3 3" />
                 </Svg>
               )}
             </View>
@@ -550,8 +551,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
     textAlign: "center",
     fontSize: 56,
+    lineHeight: 58,
+    letterSpacing: -2.8,
     fontWeight: "800",
-    letterSpacing: -2,
     color: INK,
   },
   sheetCostLine: {

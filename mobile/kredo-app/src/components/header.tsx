@@ -20,7 +20,7 @@ export function Header({ title, left, right, onBack, className }: HeaderProps) {
           <ArrowLeft size={20} strokeWidth={2} color="#0B0B0C" />
         </Pressable>
       ) : left}
-      <Text className="text-[17px] font-[800] tracking-[-0.02em] flex-1 text-center">{title}</Text>
+      <Text style={{ fontSize: 17, fontWeight: "800", letterSpacing: -0.3, flex: 1, textAlign: "center" }}>{title}</Text>
       <View className="flex-row items-center gap-2">{right ?? <></>}</View>
     </View>
   );

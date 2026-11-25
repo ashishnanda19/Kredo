@@ -2,6 +2,7 @@ import { View, ScrollView, Pressable, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 import Svg, { Path } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import { VendorNav } from "@/components/vendor-nav";
 
 const INK = "#0B0B0C";
@@ -44,7 +45,7 @@ export default function VendorSettle() {
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Header */}
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
   headerBar: {
     paddingTop: 32,
     paddingHorizontal: 24,
+    minHeight: 76,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -248,9 +250,11 @@ const styles = StyleSheet.create({
   clockDisplay: {
     marginTop: 16,
     fontSize: 54,
+    lineHeight: 56,
+    letterSpacing: -2.16,
     fontWeight: "800",
-    letterSpacing: -1,
     color: INK,
+    fontVariant: ["tabular-nums"],
   },
   heroSub: {
     marginTop: 14,

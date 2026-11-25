@@ -2,6 +2,7 @@ import { View, Pressable, StyleSheet, PanResponder, Animated, Dimensions } from 
 import { useState, useRef } from "react";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -57,7 +58,7 @@ export default function Repay() {
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Bar */}
       <View style={s.topBar}>
@@ -267,8 +268,8 @@ const s = StyleSheet.create({
   },
   heroSection: {
     paddingHorizontal: 24,
-    paddingTop: 22,
-    paddingBottom: 16,
+    paddingTop: 24,
+    paddingBottom: 0,
   },
   heroLabel: {
     fontSize: 14,
@@ -279,12 +280,14 @@ const s = StyleSheet.create({
     marginTop: 6,
     fontSize: 76,
     fontWeight: "800",
-    letterSpacing: -4,
+    letterSpacing: -4.18,
     lineHeight: 78,
+    marginLeft: -4,
+    marginBottom: 20,
     color: INK,
   },
   chipRow: {
-    marginTop: 18,
+    marginTop: 16,
     flexDirection: "row",
     gap: 8,
   },
@@ -316,19 +319,20 @@ const s = StyleSheet.create({
     color: INK,
   },
   heroNote: {
-    marginTop: 14,
+    marginTop: 16,
     fontSize: 15,
     color: "rgba(11,11,12,0.62)",
   },
   heroSubNote: {
-    marginTop: 8,
+    marginTop: 10,
     fontSize: 14,
     color: "rgba(11,11,12,0.62)",
   },
   noticeCard: {
     marginHorizontal: 24,
-    marginTop: 18,
-    padding: 16,
+    marginTop: 26,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
     borderRadius: 24,
     backgroundColor: "#FFFFFF",
     borderWidth: 1,

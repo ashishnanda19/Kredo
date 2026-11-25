@@ -9,6 +9,8 @@ const originalGetPolyfills = config.serializer?.getPolyfills;
 config.serializer = config.serializer || {};
 config.serializer.getPolyfills = (options) => {
   const polyfills = originalGetPolyfills ? originalGetPolyfills(options) : [];
+  // Web only: on iOS and Android this would tell libraries they run in a browser.
+  if (options?.platform !== "web") return polyfills;
   return [path.resolve(__dirname, "src/lib/web-polyfill.js"), ...polyfills];
 };
 

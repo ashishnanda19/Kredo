@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
+import { LinearGradient } from "expo-linear-gradient";
 import { useAuthStore } from "@/store/auth";
+import { startStudentSession } from "@/services/auth.service";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -29,6 +32,7 @@ export default function Unlocked() {
   }, []);
 
   const handleStart = () => {
+    startStudentSession();
     verifyUser();
     router.replace("/(student)/home");
   };
@@ -36,7 +40,7 @@ export default function Unlocked() {
   return (
     <View style={styles.container}>
       {/* Background glow */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
 
       {/* ID Verified Pill */}
       <View style={styles.verifiedBadge}>
@@ -55,10 +59,10 @@ export default function Unlocked() {
         </Svg>
 
         {/* Center Bloom Circle */}
-        <View style={styles.bloomCircle}>
+        <LinearGradient colors={["#FFFFFF", "#FFF6CC", "#FBE98A"]} locations={[0, 0.55, 1]} start={{ x: 0.15, y: 0 }} end={{ x: 0.85, y: 1 }} style={styles.bloomCircle}>
           <Text style={styles.bloomMeta}>Limit unlocked</Text>
           <Text style={styles.bloomAmount}>₹{amount.toLocaleString("en-IN")}</Text>
-        </View>
+        </LinearGradient>
 
         {/* Twinkle Stars */}
         <View style={[styles.twinkle, { left: 14, top: 56, width: 14, height: 14, backgroundColor: INK }]} />
@@ -156,8 +160,9 @@ const styles = StyleSheet.create({
   bloomAmount: {
     marginTop: 10,
     fontSize: 68,
+    lineHeight: 71,
+    letterSpacing: -4.08,
     fontWeight: "800",
-    letterSpacing: -2,
     color: INK,
   },
   twinkle: {

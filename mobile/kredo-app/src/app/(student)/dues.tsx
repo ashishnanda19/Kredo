@@ -1,6 +1,7 @@
 import { View, Pressable, StyleSheet, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path, Rect, Circle } from "react-native-svg";
 import { BottomNav } from "@/components/bottom-nav";
 
@@ -11,16 +12,15 @@ const BORDER = "#ECEAE4";
 
 export default function Dues() {
   const items = [
-    { title: "Campus Cafe", sub: "Repay by 7 Dec", amt: "₹125" },
-    { title: "Library Xerox", sub: "Repay by 12 Nov", amt: "₹60" },
-    { title: "Nescafe Kiosk", sub: "Repay by 12 Nov", amt: "₹90" },
+    { title: "To the lending partner", sub: "6 payments, 12 Nov", amt: "₹1,150", to: "/(student)/loan" as const, lender: true },
+    { title: "Campus Cafe", sub: "Repay by 7 Dec", amt: "₹125", to: "/(student)/receipt" as const, lender: false },
   ];
 
   return (
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Header */}
       <View style={s.topBar}>
@@ -47,8 +47,7 @@ export default function Dues() {
                 strokeLinecap="round"
                 strokeDasharray="377"
                 strokeDashoffset="64"
-                rotation="-90"
-                origin="66, 66"
+                transform="rotate(-90 66 66)"
               />
             </Svg>
             <View style={s.ringCenter}>
@@ -76,11 +75,18 @@ export default function Dues() {
           <View style={s.itemsCard}>
             {items.map((it, idx) => (
               <View key={idx}>
-                <Pressable onPress={() => router.push("/(student)/receipt")} style={s.itemRow}>
-                  <View style={s.itemIcon}>
-                    <Svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                      <Path d="M5 9h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM16 10h1.5a2 2 0 0 1 0 4H16M8 4v2M12 4v2" />
-                    </Svg>
+                <Pressable onPress={() => router.push(it.to)} style={s.itemRow}>
+                  <View style={[s.itemIcon, it.lender && { backgroundColor: "#F1DD6A" }]}>
+                    {it.lender ? (
+                      <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                        <Rect x="4" y="5" width="16" height="15" rx="3" />
+                        <Path d="M8 3v4M16 3v4M4 10h16" />
+                      </Svg>
+                    ) : (
+                      <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+                        <Path d="M5 9h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM16 10h1.5a2 2 0 0 1 0 4H16M8 4v2M12 4v2" />
+                      </Svg>
+                    )}
                   </View>
                   <View style={s.itemInfo}>
                     <Text style={s.itemTitle}>{it.title}</Text>
@@ -143,7 +149,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    minHeight: 44,
+    minHeight: 76,
   },
   topTitle: {
     fontSize: 26,
@@ -276,9 +282,9 @@ const s = StyleSheet.create({
     minHeight: 64,
   },
   itemIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 13,
+    width: 40,
+    height: 40,
+    borderRadius: 14,
     backgroundColor: "#F1EFE9",
     alignItems: "center",
     justifyContent: "center",

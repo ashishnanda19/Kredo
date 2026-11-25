@@ -1,7 +1,9 @@
 import { View, Pressable, StyleSheet, ScrollView } from "react-native";
 import { useState, useRef } from "react";
 import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -32,7 +34,7 @@ export default function Loan() {
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Bar */}
       <View style={s.topBar}>
@@ -127,13 +129,18 @@ export default function Loan() {
           You repay our lending partner, not Kredo. Late repayments can lower your Aura and limit.
         </Text>
 
-        <Pressable onPress={() => router.push("/(student)/repay")} style={s.repayBtn}>
-          <Text style={s.repayBtnText}>Repay ₹1,150</Text>
-          <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#F1DD6A" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
-            <Path d="M5 12h14M13 6l6 6-6 6" />
-          </Svg>
-        </Pressable>
       </ScrollView>
+
+      {/* Pinned like the design: fades the list out under the button */}
+      <View style={s.bottomBar}>
+        <LinearGradient colors={["rgba(250,249,246,0)", "#FAF9F6", "#FAF9F6"]} locations={[0, 0.36, 1]} style={StyleSheet.absoluteFill} pointerEvents="none" />
+      <Pressable onPress={() => router.push("/(student)/repay")} style={s.repayBtn}>
+        <Text style={s.repayBtnText}>Repay ₹1,150</Text>
+        <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#F1DD6A" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+          <Path d="M5 12h14M13 6l6 6-6 6" />
+        </Svg>
+      </Pressable>
+      </View>
     </View>
   );
 }
@@ -210,11 +217,22 @@ const s = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 18,
-    paddingBottom: 40,
+    paddingTop: 20,
+    paddingBottom: 130,
+  },
+  bottomBar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingTop: 26,
+    paddingHorizontal: 24,
+    paddingBottom: 28,
   },
   heroCard: {
-    paddingVertical: 14,
+    paddingTop: 22,
+    paddingHorizontal: 24,
+    paddingBottom: 26,
   },
   heroTop: {
     flexDirection: "row",
@@ -242,11 +260,13 @@ const s = StyleSheet.create({
     marginTop: 8,
     fontSize: 52,
     fontWeight: "800",
-    letterSpacing: -2,
+    letterSpacing: -2.86,
+    lineHeight: 54,
+    marginLeft: -2,
     color: INK,
   },
   trackBar: {
-    marginTop: 14,
+    marginTop: 16,
     height: 6,
     borderRadius: 3,
     backgroundColor: "rgba(11,11,12,0.14)",
@@ -258,7 +278,7 @@ const s = StyleSheet.create({
     backgroundColor: INK,
   },
   metaRow: {
-    marginTop: 8,
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -351,7 +371,6 @@ const s = StyleSheet.create({
     textAlign: "center",
   },
   repayBtn: {
-    marginTop: 20,
     height: 60,
     borderRadius: 30,
     backgroundColor: INK,

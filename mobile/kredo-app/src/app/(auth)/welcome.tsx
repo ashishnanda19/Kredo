@@ -2,6 +2,11 @@ import { View, Pressable, StyleSheet, Dimensions } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
+import { FadeSlide, Breathe } from "@/components/motion";
+import { Shine } from "@/components/shine";
+import { GrowBar } from "@/components/grow-bar";
+import { LinearGradient } from "expo-linear-gradient";
 import Svg, { Path, Circle } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -17,7 +22,7 @@ export default function Welcome() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSlide((prev) => (prev + 1) % 3);
-    }, 3600);
+    }, 3400);
     return () => clearInterval(timer);
   }, []);
 
@@ -40,7 +45,7 @@ export default function Welcome() {
     <View style={s.root}>
       {/* Top radial & sheet backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Role Segment Toggle */}
       <View style={s.segmentWrap}>
@@ -71,31 +76,42 @@ export default function Welcome() {
       {/* Slide Illustration Area */}
       <View style={s.illusContainer}>
         {/* Slide 0: Tilted Card */}
-        {slide === 0 && (
-          <View style={s.slide0Wrap}>
-            <View style={s.creditCard}>
-              <View style={s.cardTopRow}>
-                <Text style={s.cardBrand}>Kredo card</Text>
-                <Text style={s.cardNumber}>•••• 0042</Text>
-              </View>
-              <Text style={s.cardLabel}>Available to spend</Text>
-              <Text style={s.cardBalance}>₹3,000</Text>
-            </View>
+        <FadeSlide index={0} active={slide}>
+          <View style={s.slideFill}>
+            <Breathe scale={1} lift={10} duration={5000} style={s.cardFloat}>
+              <LinearGradient
+                colors={["#F8E782", "#F1DD6A", "#E6C93C"]}
+                locations={[0, 0.45, 1]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={s.creditCard}
+              >
+                <Shine width={60} height={240} top={-20} />
+                <View style={s.cardTopRow}>
+                  <Text style={s.cardBrand}>Kredo card</Text>
+                  <Text style={s.cardNumber}>•••• 0042</Text>
+                </View>
+                <Text style={s.cardLabel}>Available to spend</Text>
+                <Text style={s.cardBalance}>₹3,000</Text>
+              </LinearGradient>
+            </Breathe>
 
             {/* Floating vendor badge */}
-            <View style={s.floatBadge}>
-              <View style={s.badgeIcon}>
-                <Svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <Path d="M5 9h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM16 10h1.5a2 2 0 0 1 0 4H16M8 4v2M12 4v2" />
-                </Svg>
+            <Breathe scale={1} lift={10} duration={6500} style={s.floatBadgePos}>
+              <View style={s.floatBadge}>
+                <View style={s.badgeIcon}>
+                  <Svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <Path d="M5 9h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM16 10h1.5a2 2 0 0 1 0 4H16M8 4v2M12 4v2" />
+                  </Svg>
+                </View>
+                <Text style={s.badgeText}>Campus Cafe  ₹120</Text>
               </View>
-              <Text style={s.badgeText}>Campus Cafe  ₹120</Text>
-            </View>
+            </Breathe>
           </View>
-        )}
+        </FadeSlide>
 
         {/* Slide 1: Receipt breakdown */}
-        {slide === 1 && (
+        <FadeSlide index={1} active={slide} style={s.slideTop36}>
           <View style={s.slide1Wrap}>
             <View style={s.receiptCard}>
               <View style={s.receiptTopRow}>
@@ -116,18 +132,26 @@ export default function Welcome() {
                   <Text style={s.receiptRowVal}>₹5</Text>
                 </View>
               </View>
-              <View style={s.receiptBar}>
-                <View style={s.receiptBarFill} />
+              <View style={{ marginTop: 18 }}>
+                <GrowBar pct={100} height={6} track="transparent" fill="#E3CB4A" delay={0.4} />
               </View>
             </View>
+            <Breathe scale={1} lift={10} duration={6500} style={s.noHiddenPos}>
+              <View style={s.noHidden}>
+                <Svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#1B6B3A" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
+                  <Path d="M5 12.5l4.5 4.5L19 7" />
+                </Svg>
+                <Text style={s.noHiddenText}>No hidden charges</Text>
+              </View>
+            </Breathe>
           </View>
-        )}
+        </FadeSlide>
 
         {/* Slide 2: Aura Ring */}
-        {slide === 2 && (
+        <FadeSlide index={2} active={slide} style={s.slideTop24}>
           <View style={s.slide2Wrap}>
             <View style={s.auraRingBox}>
-              <Svg width={200} height={200} viewBox="0 0 220 220">
+              <Svg width={220} height={220} viewBox="0 0 220 220">
                 <Circle cx="110" cy="110" r="54" fill="none" stroke="#F1EFE9" strokeWidth="12" />
                 <Circle
                   cx="110"
@@ -139,8 +163,7 @@ export default function Welcome() {
                   strokeLinecap="round"
                   strokeDasharray="339"
                   strokeDashoffset="61"
-                  rotation="-90"
-                  origin="110, 110"
+                  transform="rotate(-90 110 110)"
                 />
               </Svg>
               <View style={s.auraScoreCenter}>
@@ -167,14 +190,17 @@ export default function Welcome() {
               </View>
             </View>
           </View>
-        )}
+        </FadeSlide>
       </View>
 
       {/* Copy / Headings */}
       <View style={s.copySection}>
         <View style={s.copyBox}>
-          <Text style={s.copyTitle}>{copy[slide].title}</Text>
-          <Text style={s.copySub}>{copy[slide].sub}</Text>
+          {copy.map((c, i) => (
+            <FadeSlide key={i} index={i} active={slide}>
+              <Text style={s.copyTitle}>{c.title}</Text>
+            </FadeSlide>
+          ))}
         </View>
 
         {/* Carousel Dots */}
@@ -182,7 +208,7 @@ export default function Welcome() {
           {[0, 1, 2].map((idx) => (
             <Pressable
               key={idx}
-              onPress={() => setSlide(idx)}
+              onPress={() => setSlide(idx)} accessibilityLabel={`Slide ${idx + 1}`}
               style={[s.dot, slide === idx ? s.dotActive : s.dotInactive]}
             />
           ))}
@@ -195,6 +221,7 @@ export default function Welcome() {
           onPress={() => (role === "student" ? router.push("/(auth)/join") : router.push("/(auth)/vendor-welcome"))}
           style={s.ctaBtn}
         >
+          <Shine width={50} height={60} strength={0.18} period={5500} delay={1200} sweep={0.35} />
           <Text style={s.ctaBtnText}>Get started</Text>
           <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#F1DD6A" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
             <Path d="M5 12h14M13 6l6 6-6 6" />
@@ -282,9 +309,11 @@ const s = StyleSheet.create({
   segTextInactive: {
     color: "rgba(11,11,12,0.62)",
   },
+  slideTop36: { alignItems: "center", paddingTop: 36 },
+  slideTop24: { alignItems: "center", paddingTop: 24 },
   illusContainer: {
-    marginTop: 20,
-    height: 330,
+    marginTop: 36,
+    height: 372,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -293,13 +322,32 @@ const s = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
+  slideFill: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0 },
+  noHiddenPos: { position: "absolute", right: 26, top: 270 },
+  noHidden: {
+    height: 44,
+    paddingLeft: 10,
+    paddingRight: 16,
+    borderRadius: 22,
+    backgroundColor: "#E3F2E8",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    shadowColor: "rgb(27,107,58)",
+    shadowOffset: { width: 0, height: 14 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  noHiddenText: { fontSize: 13, fontWeight: "800", color: "#1B6B3A" },
+  cardFloat: { position: "absolute", left: 49, top: 40 },
+  floatBadgePos: { position: "absolute", left: 30, top: 236 },
   creditCard: {
     width: 292,
-    height: 180,
+    height: 184,
     borderRadius: 28,
-    backgroundColor: "#F1DD6A",
+    overflow: "hidden",
     padding: 20,
-    transform: [{ rotate: "-7deg" }],
     shadowColor: "rgba(150,115,0,0.7)",
     shadowOffset: { width: 0, height: 16 },
     shadowOpacity: 0.5,
@@ -335,9 +383,9 @@ const s = StyleSheet.create({
     color: INK,
   },
   floatBadge: {
-    marginTop: 20,
     height: 48,
-    paddingHorizontal: 16,
+    paddingLeft: 10,
+    paddingRight: 16,
     borderRadius: 24,
     backgroundColor: "#FFFFFF",
     borderWidth: 1,
@@ -405,8 +453,9 @@ const s = StyleSheet.create({
   receiptAmount: {
     marginTop: 8,
     fontSize: 54,
+    lineHeight: 56,
+    letterSpacing: -2.97,
     fontWeight: "800",
-    letterSpacing: -2,
     color: INK,
   },
   receiptRows: {
@@ -451,8 +500,8 @@ const s = StyleSheet.create({
     width: "100%",
   },
   auraRingBox: {
-    width: 200,
-    height: 200,
+    width: 220,
+    height: 220,
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
@@ -464,8 +513,9 @@ const s = StyleSheet.create({
   },
   auraScoreNum: {
     fontSize: 44,
+    lineHeight: 46,
+    letterSpacing: -2.64,
     fontWeight: "800",
-    letterSpacing: -2,
     color: INK,
   },
   auraScoreLabel: {
@@ -515,16 +565,17 @@ const s = StyleSheet.create({
   },
   copySection: {
     paddingHorizontal: 24,
-    marginTop: 10,
+    paddingTop: 4,
   },
   copyBox: {
-    minHeight: 110,
+    height: 92,
   },
   copyTitle: {
-    fontSize: 36,
+    fontSize: 38,
     fontWeight: "800",
-    letterSpacing: -1.2,
+    letterSpacing: -1.9,
     lineHeight: 40,
+    marginLeft: -1,
     color: INK,
   },
   copySub: {
@@ -538,7 +589,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 18,
   },
   dot: {
     height: 8,
@@ -553,11 +604,14 @@ const s = StyleSheet.create({
     backgroundColor: "#D9D6CC",
   },
   bottomCta: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 32,
     paddingHorizontal: 24,
-    paddingBottom: 24,
-    marginTop: "auto",
   },
   ctaBtn: {
+    overflow: "hidden",
     height: 60,
     borderRadius: 30,
     backgroundColor: INK,
@@ -576,8 +630,10 @@ const s = StyleSheet.create({
     color: "#FFFFFF",
   },
   loginLink: {
-    marginTop: 14,
+    marginTop: 12,
+    height: 36,
     alignItems: "center",
+    justifyContent: "center",
   },
   loginText: {
     fontSize: 14,

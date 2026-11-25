@@ -2,8 +2,9 @@ import { View, Pressable, TextInput, StyleSheet, KeyboardAvoidingView, Platform 
 import { useState } from "react";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path, Rect } from "react-native-svg";
-import { login } from "@/services/auth.service";
+import { sendOtp } from "@/services/auth.service";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F8DE45";
@@ -11,7 +12,7 @@ const SHEET = "#FAF9F6";
 const BORDER = "#ECEAE4";
 
 export default function Login() {
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("9876543210");
   const [loading, setLoading] = useState(false);
 
   const cleanDigits = phone.replace(/\D/g, "").slice(0, 10);
@@ -25,7 +26,7 @@ export default function Login() {
     if (!isValid || loading) return;
     setLoading(true);
     try {
-      await login(cleanDigits);
+      await sendOtp(cleanDigits, "login");
       router.push({
         pathname: "/(auth)/otp",
         params: { phone: cleanDigits },
@@ -41,7 +42,7 @@ export default function Login() {
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}

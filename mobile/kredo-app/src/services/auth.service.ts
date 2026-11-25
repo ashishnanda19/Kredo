@@ -22,9 +22,9 @@ export async function verifyOtp(phone: string, otp: string) {
   });
 }
 
+/** Signs the student in. Call only after verifyOtp has passed on the code screen. */
 export async function login(phone: string) {
   return apiCall(async () => {
-    await verifyOtp(phone, DEMO_OTP);
     const student = { ...STUDENT_SEED };
     useAuthStore.getState().setSession("student", student, undefined, "tok_demo_" + Date.now());
     return { role: "student", student, token: "tok_demo_" + Date.now() };
@@ -45,6 +45,16 @@ export async function vendorSignup(payload: { stallName: string; ownerName: stri
     useAuthStore.getState().setSession("vendor", undefined, vendor, "tok_vendor_demo_" + Date.now());
     return { role: "vendor", vendor, token: "tok_vendor_demo_" + Date.now() };
   });
+}
+
+/** Demo: finish student onboarding as the seeded student (no network, no wait). */
+export function startStudentSession() {
+  useAuthStore.getState().setSession("student", { ...STUDENT_SEED }, undefined, "tok_demo_" + Date.now());
+}
+
+/** Demo: finish vendor onboarding as the seeded stall (no network, no wait). */
+export function startVendorSession() {
+  useAuthStore.getState().setSession("vendor", undefined, { ...VENDOR_SEED, status: "accepted" }, "tok_vendor_demo_" + Date.now());
 }
 
 export async function logout() {

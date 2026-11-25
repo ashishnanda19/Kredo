@@ -1,7 +1,8 @@
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet, Share } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Path, Rect, Circle } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -9,12 +10,15 @@ const SHEET_BG = "#FAF9F6";
 const BORDER = "#ECEAE4";
 
 export default function VendorQr() {
+  // The system sheet offers Print on iPhone and share targets everywhere.
+  const shareQr = () =>
+    Share.share({ title: "Campus Cafe stall QR", message: "Pay Campus Cafe with Kredo: scan the stall QR in the Kredo app (demo, simulated)." });
   const router = useRouter();
 
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Top Header Bar */}
@@ -88,14 +92,14 @@ export default function VendorQr() {
 
       {/* Bottom Action Buttons */}
       <View style={styles.bottomWrap}>
-        <Pressable style={styles.printBtn}>
+        <Pressable onPress={shareQr} style={styles.printBtn} accessibilityLabel="Print stall QR">
           <Svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <Path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5a1 1 0 0 1-1 1h-2M7 14h10v6H7z" />
           </Svg>
           <Text style={styles.printBtnText}>Print</Text>
         </Pressable>
 
-        <Pressable style={styles.shareBtn}>
+        <Pressable onPress={shareQr} style={styles.shareBtn} accessibilityLabel="Share stall QR">
           <Svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#F1DD6A" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <Path d="M12 15V4M8 8l4-4 4 4M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" />
           </Svg>

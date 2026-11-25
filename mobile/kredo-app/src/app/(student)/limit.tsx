@@ -1,6 +1,7 @@
 import { View, Pressable, StyleSheet, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -22,7 +23,7 @@ export default function Limit() {
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Bar */}
       <View style={s.topBar}>

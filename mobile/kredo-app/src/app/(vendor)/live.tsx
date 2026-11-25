@@ -2,7 +2,10 @@ import { View, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
+import { LinearGradient } from "expo-linear-gradient";
 import { useAuthStore } from "@/store/auth";
+import { startVendorSession } from "@/services/auth.service";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -12,11 +15,13 @@ export default function VendorLive() {
   const { verifyUser } = useAuthStore();
 
   const handleShowQr = () => {
+    startVendorSession();
     verifyUser();
     router.push("/(vendor)/qr");
   };
 
   const handleGoToday = () => {
+    startVendorSession();
     verifyUser();
     router.replace("/(vendor)/today");
   };
@@ -24,7 +29,7 @@ export default function VendorLive() {
   return (
     <View style={styles.container}>
       {/* Background glow */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
 
       {/* Approved Pill */}
       <View style={styles.approvedBadge}>
@@ -41,7 +46,7 @@ export default function VendorLive() {
         </Svg>
 
         {/* Center Bloom Circle */}
-        <View style={styles.bloomCircle}>
+        <LinearGradient colors={["#FFFFFF", "#FFF6CC", "#FBE98A"]} locations={[0, 0.55, 1]} start={{ x: 0.15, y: 0 }} end={{ x: 0.85, y: 1 }} style={styles.bloomCircle}>
           <View style={styles.qrBadge}>
             <Svg width={46} height={46} viewBox="0 0 24 24" fill="none" stroke="#F1DD6A" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <Rect x="3.5" y="3.5" width="7" height="7" rx="1.2" />
@@ -57,7 +62,7 @@ export default function VendorLive() {
             </Svg>
             <Text style={styles.subStallText}>Campus Cafe, Block B</Text>
           </View>
-        </View>
+        </LinearGradient>
 
         {/* Twinkle Stars */}
         <View style={[styles.twinkle, { left: 14, top: 56, width: 14, height: 14, backgroundColor: INK }]} />
@@ -170,8 +175,9 @@ const styles = StyleSheet.create({
   bloomTitle: {
     marginTop: 18,
     fontSize: 30,
+    lineHeight: 31,
+    letterSpacing: -1.2,
     fontWeight: "800",
-    letterSpacing: -1,
     color: INK,
   },
   subStallRow: {

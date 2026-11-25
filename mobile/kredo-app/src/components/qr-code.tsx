@@ -20,7 +20,7 @@ export function VendorQr({ value, size = 260, logo }: QrProps) {
         logoBackgroundColor="#FFFFFF"
         logoBorderRadius={12}
       />
-      <Text className="mt-3 text-[12px] font-[700] text-muted">Tap the code to see a payment arrive</Text>
+      <Text style={{ marginTop: 12, fontSize: 12, fontWeight: "700", color: "#6B6B70" }}>Tap the code to see a payment arrive</Text>
     </View>
   );
 }
@@ -32,7 +32,7 @@ interface ScannerViewProps {
 export function QrScannerPlaceholder({}: ScannerViewProps) {
   return (
     <View className="w-full h-[256px] rounded-[36px] border border-borderSoft bg-[#F4F2EB] items-center justify-center">
-      <Text className="text-[12px] font-[700] text-muted">Camera access coming in next build — tap a vendor below to pay instead.</Text>
+      <Text style={{ fontSize: 12, fontWeight: "700", color: "#6B6B70" }}>Camera access coming in next build — tap a vendor below to pay instead.</Text>
     </View>
   );
 }

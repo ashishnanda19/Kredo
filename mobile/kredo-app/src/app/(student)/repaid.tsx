@@ -1,27 +1,36 @@
 import { View, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Confetti, Ripple, type Piece } from "@/components/celebrate";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
 
+// Same pieces and timings as the Claude Design artboard.
+const CONFETTI: Piece[] = [
+  { color: "#0B0B0C", x: -120, y: -140, r: 260 },
+  { color: "#FFFFFF", x: 110, y: -160, r: -300, delay: 0.5 },
+  { color: "#0B0B0C", x: 150, y: -60, r: 200, delay: 0.55 },
+  { color: "#FFFFFF", x: -160, y: -50, r: -240, delay: 0.5 },
+  { color: "#0B0B0C", x: 60, y: -190, r: 320, delay: 0.6 },
+  { color: "#FFFFFF", x: -70, y: -180, r: -180, delay: 0.55 },
+];
+
 export default function Repaid() {
   return (
     <View style={s.root}>
       {/* Background radial glow */}
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Confetti */}
-      <View style={[s.confetti, { top: 90, left: 70, transform: [{ rotate: "25deg" }] }]} />
-      <View style={[s.confettiWhite, { top: 80, right: 80, transform: [{ rotate: "-40deg" }] }]} />
-      <View style={[s.confetti, { top: 160, right: 40, transform: [{ rotate: "15deg" }] }]} />
-      <View style={[s.confettiWhite, { top: 170, left: 40, transform: [{ rotate: "-20deg" }] }]} />
+      <Confetti pieces={CONFETTI} y={230} delay={0.45} />
 
       {/* Center Section */}
       <View style={s.centerSection}>
         <View style={s.badgeWrap}>
-          <View style={s.rippleRing} />
+          <Ripple size={104} duration={1.8} delay={0.4} />
           <View style={s.checkCircle}>
             <Svg width={50} height={50} viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
               <Path d="M5 12.5l4.5 4.5L19 7" />
@@ -101,7 +110,7 @@ const s = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   centerSection: {
-    marginTop: 70,
+    marginTop: 90,
     alignItems: "center",
   },
   badgeWrap: {
@@ -133,24 +142,25 @@ const s = StyleSheet.create({
     elevation: 8,
   },
   title: {
-    marginTop: 20,
+    marginTop: 22,
     fontSize: 44,
     fontWeight: "800",
-    letterSpacing: -2,
-    lineHeight: 46,
+    letterSpacing: -2.2,
+    lineHeight: 45,
     textAlign: "center",
     color: INK,
   },
   sub: {
-    marginTop: 12,
+    marginTop: 22,
     fontSize: 16,
     lineHeight: 24,
     color: "rgba(11,11,12,0.72)",
     textAlign: "center",
   },
   auraCard: {
-    marginTop: 28,
-    padding: 18,
+    marginTop: 30,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
     borderRadius: 26,
     backgroundColor: "rgba(255,255,255,0.7)",
   },

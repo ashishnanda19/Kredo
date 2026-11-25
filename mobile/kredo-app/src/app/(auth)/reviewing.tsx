@@ -2,6 +2,7 @@ import { View, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 
 const INK = "#0B0B0C";
 const YELLOW = "#F5D832";
@@ -14,7 +15,7 @@ export default function Reviewing() {
   return (
     <View style={styles.container}>
       {/* Background glow and sheet */}
-      <View style={styles.glow} />
+      <Glow style={styles.glow} />
       <View style={styles.sheetBg} />
 
       {/* Central Animation and Heading */}

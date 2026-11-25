@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import { BottomNav } from "@/components/bottom-nav";
 import { useAuthStore } from "@/store/auth";
 
@@ -11,14 +12,14 @@ const YELLOW = "#F5D832";
 const SHEET_BG = "#FAF9F6";
 const BORDER = "#ECEAE4";
 
-const SPENT_BARS = [
-  { day: "M", h: 36, bg: "#EAE7DF" },
-  { day: "T", h: 54, bg: "#EAE7DF" },
-  { day: "W", h: 28, bg: "#EAE7DF" },
-  { day: "T", h: 68, bg: "#EAE7DF" },
-  { day: "F", h: 88, bg: "#E3CB4A" }, // Peak day
-  { day: "S", h: 42, bg: "#EAE7DF" },
-];
+// Same figures as the Claude Design artboard (Main): spend per day this week, Saturday is today.
+const SPENT_BARS = (
+  [["M", 320], ["T", 210], ["W", 175], ["T", 275], ["F", 170], ["S", 125]] as const
+).map(([day, v], i) => ({
+  day,
+  h: Math.max(14, Math.round((v / 320) * 80)),
+  bg: i === 5 ? "#0B0B0C" : "#F1DD6A",
+}))
 
 export default function Home() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
 
   const s = student ?? { name: "Aarav", limit: 3000, used: 1150, aura: 82 };
-  const targetBalance = s.limit - s.used;
+  const targetBalance = 2880; // design figure: available to spend this week
 
   useEffect(() => {
     const start = Date.now();
@@ -45,7 +46,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       {/* Background yellow header & glow */}
-      <View style={styles.headerGlow} />
+      <Glow style={styles.headerGlow} />
 
       {/* Top Bar */}
       <View style={styles.topBar}>
@@ -347,7 +348,7 @@ const styles = StyleSheet.create({
     color: INK,
   },
   spendSection: {
-    paddingTop: 24,
+    paddingTop: 30,
     paddingHorizontal: 24,
   },
   spendMeta: {
@@ -361,13 +362,13 @@ const styles = StyleSheet.create({
   amountDisplay: {
     fontSize: 60,
     fontWeight: "800",
-    letterSpacing: -2.5,
+    letterSpacing: -3.3,
     lineHeight: 62,
     color: INK,
     marginLeft: -2,
   },
   limitBarWrap: {
-    marginTop: 14,
+    marginTop: 16,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
@@ -472,8 +473,9 @@ const styles = StyleSheet.create({
   spentAmount: {
     marginTop: 4,
     fontSize: 28,
+    lineHeight: 29,
+    letterSpacing: -1.12,
     fontWeight: "800",
-    letterSpacing: -0.6,
     color: INK,
   },
   spentBadge: {

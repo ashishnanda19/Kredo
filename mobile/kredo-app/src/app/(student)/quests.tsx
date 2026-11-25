@@ -2,6 +2,7 @@ import { View, Pressable, StyleSheet, ScrollView } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -15,6 +16,8 @@ export default function Quests() {
   const defs = [
     {
       id: "email",
+      icon: "M4 6h16v12H4zM4 7l8 6 8-6",
+      tile: "#F1EFE9",
       title: "Verify your email",
       body: "Confirm the college email on your profile.",
       reward: 2,
@@ -23,6 +26,8 @@ export default function Quests() {
     },
     {
       id: "three",
+      icon: "M5 9h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM16 10h1.5a2 2 0 0 1 0 4H16M8 4v2M12 4v2",
+      tile: "#F1EFE9",
       title: "Pay at 3 different vendors",
       body: "Spread the love around campus.",
       reward: 1,
@@ -31,6 +36,8 @@ export default function Quests() {
     },
     {
       id: "early",
+      icon: "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z",
+      tile: "#FBF3C4",
       title: "Repay 2 days early",
       body: "Repay before the due date once.",
       reward: 3,
@@ -48,7 +55,7 @@ export default function Quests() {
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Bar */}
       <View style={s.topBar}>
@@ -86,9 +93,9 @@ export default function Quests() {
                 ]}
               >
                 <View style={s.questTop}>
-                  <View style={s.questIconBox}>
+                  <View style={[s.questIconBox, { backgroundColor: q.tile }]}>
                     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
-                      <Path d="M5 9h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM16 10h1.5a2 2 0 0 1 0 4H16M8 4v2M12 4v2" />
+                      <Path d={q.icon} />
                     </Svg>
                   </View>
                   <View style={s.questInfo}>

@@ -1,6 +1,7 @@
-import { View, Pressable, StyleSheet, ScrollView } from "react-native";
+import { View, Pressable, StyleSheet, ScrollView, Share } from "react-native";
 import { router } from "expo-router";
 import { Text } from "@/components/ui/text";
+import { Glow } from "@/components/glow";
 import Svg, { Path, Circle } from "react-native-svg";
 
 const INK = "#0B0B0C";
@@ -9,11 +10,13 @@ const SHEET = "#FAF9F6";
 const BORDER = "#ECEAE4";
 
 export default function Receipt() {
+  const shareReceipt = () =>
+    Share.share({ message: "Kredo receipt (demo, simulated): ₹120 at Campus Cafe, Sat 7 Nov, 1:42 pm. Fee ₹5. Repay ₹125 by 7 Dec." });
   return (
     <View style={s.root}>
       {/* Backgrounds */}
       <View style={s.sheetBg} />
-      <View style={s.radialGlow} />
+      <Glow style={s.radialGlow} />
 
       {/* Top Bar */}
       <View style={s.topBar}>
@@ -23,7 +26,7 @@ export default function Receipt() {
           </Svg>
         </Pressable>
         <Text style={s.topTitle}>Receipt</Text>
-        <Pressable style={s.circleBtn}>
+        <Pressable onPress={shareReceipt} style={s.circleBtn} accessibilityLabel="Share receipt">
           <Svg width={19} height={19} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <Path d="M12 15V4M8 8l4-4 4 4M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" />
           </Svg>
@@ -119,13 +122,14 @@ export default function Receipt() {
           </View>
         </View>
 
-        {/* Bottom CTA */}
-        <View style={s.bottomCta}>
-          <Pressable style={s.shareBtn}>
-            <Text style={s.shareBtnText}>Share receipt</Text>
-          </Pressable>
-        </View>
       </ScrollView>
+
+      {/* Bottom CTA, pinned like the design */}
+      <View style={s.bottomCta}>
+        <Pressable onPress={shareReceipt} style={s.shareBtn}>
+          <Text style={s.shareBtnText}>Share receipt</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -179,7 +183,7 @@ const s = StyleSheet.create({
     color: INK,
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 24,
   },
   headerCard: {
     paddingHorizontal: 24,
@@ -351,7 +355,8 @@ const s = StyleSheet.create({
   },
   bottomCta: {
     paddingHorizontal: 24,
-    paddingTop: 24,
+    paddingTop: 12,
+    paddingBottom: 28,
   },
   shareBtn: {
     height: 60,
